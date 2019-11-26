@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import './checkboxes.dart';
 
 class SmartSelectPage extends StatefulWidget {
-
   final String title;
   final List<dynamic> value;
-  final List<Map<String,dynamic>> options;
+  final List<Map<String, dynamic>> options;
   final bool searchable;
 
   SmartSelectPage({
@@ -21,8 +20,8 @@ class SmartSelectPage extends StatefulWidget {
 }
 
 class _SmartSelectPageState extends State<SmartSelectPage> {
-
-  GlobalKey<SmartSelectCheckboxesState> _checkerKey = GlobalKey<SmartSelectCheckboxesState>();
+  GlobalKey<SmartSelectCheckboxesState> _checkerKey =
+      GlobalKey<SmartSelectCheckboxesState>();
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +32,8 @@ class _SmartSelectPageState extends State<SmartSelectPage> {
           IconButton(
             tooltip: 'Done',
             icon: const Icon(Icons.check),
-            onPressed: () => Navigator.pop(context, _checkerKey.currentState.selectedList),
+            onPressed: () =>
+                Navigator.pop(context, _checkerKey.currentState.selectedList),
           ),
         ],
       ),

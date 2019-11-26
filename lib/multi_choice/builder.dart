@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import '../utils.dart';
 
-typedef Widget SmartMultiSelectBuilder(BuildContext context, SmartMultiSelectBuilderInfo info);
+typedef Widget SmartMultiSelectBuilder(
+    BuildContext context, SmartMultiSelectBuilderInfo info);
 
 class SmartMultiSelectBuilderInfo {
-
   final String title;
   final String placeholder;
   final dynamic selected;
@@ -31,10 +31,7 @@ class SmartMultiSelectBuilderInfo {
 class SmartMultiSelectBuilderDefault extends StatelessWidget {
   final SmartMultiSelectBuilderInfo info;
 
-  SmartMultiSelectBuilderDefault({
-    Key key,
-    this.info
-  }) : super(key: key);
+  SmartMultiSelectBuilderDefault({Key key, this.info}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -47,20 +44,17 @@ class SmartMultiSelectBuilderDefault extends StatelessWidget {
             Container(
               constraints: BoxConstraints(maxWidth: 100),
               child: Text(
-                info.selected != null ? info.selectedLabel.join(', ') : info.placeholder,
+                info.selected != null
+                    ? info.selectedLabel.join(', ')
+                    : info.placeholder,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
-                style: TextStyle(
-                  color: Colors.grey
-                ),
+                style: TextStyle(color: Colors.grey),
               ),
             ),
             Padding(
               padding: EdgeInsets.only(left: 5),
-              child: Icon(
-                Icons.keyboard_arrow_right,
-                color: Colors.grey
-              ),
+              child: Icon(Icons.keyboard_arrow_right, color: Colors.grey),
             ),
           ],
         ),

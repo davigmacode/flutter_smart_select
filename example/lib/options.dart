@@ -128,7 +128,7 @@ class _OptionsListState extends State<OptionsList> {
               { 'value': 'flu', 'label': 'Flutter' },
               { 'value': 'rea', 'label': 'React Native' },
             ],
-            onChange: (val) => setState(() => _car = val),
+            onChange: (val) => setState(() => _framework = val),
           ),
           Divider(),
         ],

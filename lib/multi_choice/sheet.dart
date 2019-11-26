@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import './checkboxes.dart';
 
 class SmartSelectSheet extends StatefulWidget {
-
   final String title;
   final List<dynamic> value;
-  final List<Map<String,dynamic>> options;
+  final List<Map<String, dynamic>> options;
 
   SmartSelectSheet({
     Key key,
@@ -15,17 +14,17 @@ class SmartSelectSheet extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _SmartSelectSheetState createState() => _SmartSelectSheetState();
+  SmartSelectSheetState createState() => SmartSelectSheetState();
 }
 
-class _SmartSelectSheetState extends State<SmartSelectSheet> {
-
-  GlobalKey<SmartSelectCheckboxesState> _checkerKey = GlobalKey<SmartSelectCheckboxesState>();
+class SmartSelectSheetState extends State<SmartSelectSheet> {
+  GlobalKey<SmartSelectCheckboxesState> checkboxesController =
+      GlobalKey<SmartSelectCheckboxesState>();
 
   @override
   Widget build(BuildContext context) {
     return SmartSelectCheckboxes(
-      key: _checkerKey,
+      key: checkboxesController,
       value: widget.value,
       options: widget.options,
     );

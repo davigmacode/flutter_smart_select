@@ -5,12 +5,11 @@ import './page.dart';
 import './sheet.dart';
 import './popup.dart';
 
-class SmartMultiSelect extends StatelessWidget {
-
+class SmartMultiSelect extends StatefulWidget {
   final String title;
   final String placeholder;
   final List<dynamic> value;
-  final List<Map<String,dynamic>> options;
+  final List<Map<String, dynamic>> options;
   final bool searchable;
   final SmartSelectTarget target;
   final SmartSelectChange onChange;
@@ -36,9 +35,9 @@ class SmartMultiSelect extends StatelessWidget {
     this.options,
     this.onChange,
     this.builder,
-  }) : this.target = SmartSelectTarget.popup,
-    this.searchable = false,
-    super(key: key);
+  })  : this.target = SmartSelectTarget.popup,
+        this.searchable = false,
+        super(key: key);
 
   SmartMultiSelect.sheet({
     Key key,
@@ -48,35 +47,46 @@ class SmartMultiSelect extends StatelessWidget {
     this.options,
     this.onChange,
     this.builder,
-  }) : this.target = SmartSelectTarget.sheet,
-    this.searchable = false,
-    super(key: key);
+  })  : this.target = SmartSelectTarget.sheet,
+        this.searchable = false,
+        super(key: key);
+
+  @override
+  _SmartMultiSelectState createState() => _SmartMultiSelectState();
+}
+
+class _SmartMultiSelectState extends State<SmartMultiSelect> {
+  GlobalKey<SmartSelectSheetState> _sheetController =
+      GlobalKey<SmartSelectSheetState>();
+  GlobalKey<SmartSelectPopupState> _popupController =
+      GlobalKey<SmartSelectPopupState>();
 
   @override
   Widget build(BuildContext context) {
-    var selected = options.where((x) => value.contains(x['value']));
+    var selected =
+        widget.options.where((x) => widget.value.contains(x['value']));
     final SmartMultiSelectBuilderInfo info = SmartMultiSelectBuilderInfo(
-      title: title,
-      placeholder: placeholder,
+      title: widget.title,
+      placeholder: widget.placeholder,
       selected: selected,
       showOptions: this._showOptions,
-      target: target,
+      target: widget.target,
     );
-    return builder != null
-      ? builder(context, info)
-      : SmartMultiSelectBuilderDefault(info: info);
+    return widget.builder != null
+        ? widget.builder(context, info)
+        : SmartMultiSelectBuilderDefault(info: info);
   }
 
-  void _showOptions (BuildContext context) async {
+  void _showOptions(BuildContext context) async {
     var result;
-    switch (target) {
+    switch (widget.target) {
       case SmartSelectTarget.page:
         result = await Navigator.push(context, MaterialPageRoute(builder: (_) {
           return SmartSelectPage(
-            title: title,
-            value: value,
-            options: options,
-            searchable: searchable,
+            title: widget.title,
+            value: widget.value,
+            options: widget.options,
+            searchable: widget.searchable,
           );
         }));
         break;
@@ -84,25 +94,31 @@ class SmartMultiSelect extends StatelessWidget {
         result = await showModalBottomSheet(
           context: context,
           builder: (BuildContext context) => SmartSelectSheet(
-            title: title,
-            value: value,
-            options: options,
+            key: _sheetController,
+            title: widget.title,
+            value: widget.value,
+            options: widget.options,
           ),
         );
+        result = _sheetController
+            .currentState.checkboxesController.currentState.selectedList;
         break;
       case SmartSelectTarget.popup:
         result = await showDialog(
           context: context,
           builder: (BuildContext context) => SmartSelectPopup(
-            title: title,
-            value: value,
-            options: options,
+            key: _popupController,
+            title: widget.title,
+            value: widget.value,
+            options: widget.options,
           ),
         );
+        result = _popupController
+            .currentState.checkboxesController.currentState.selectedList;
         break;
     }
 
     // return value
-    if (onChange != null && result != null) onChange(result);
+    if (widget.onChange != null && result != null) widget.onChange(result);
   }
 }
