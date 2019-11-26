@@ -85,6 +85,7 @@ class _OptionsListState extends State<OptionsList> {
           Divider(indent: 15),
           SmartMultiSelect(
             title: 'Cars',
+            placeholder: 'Choose one or more',
             value: _car,
             options: [
               { 'value': 'hon', 'label': 'Honda' },
@@ -103,6 +104,19 @@ class _OptionsListState extends State<OptionsList> {
               { 'value': 'for', 'label': 'Ford' },
               { 'value': 'fer', 'label': 'Ferrari' },
             ],
+            builder: (context, info) {
+              return ListTile(
+                title: Text(info.title),
+                subtitle: Text(
+                  info.values,
+                  style: TextStyle(color: Colors.grey),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
+                trailing: Icon(Icons.keyboard_arrow_right, color: Colors.grey),
+                onTap: () => info.showOptions(context),
+              );
+            },
             onChange: (val) => setState(() => _car = val),
           ),
           Divider(indent: 15),

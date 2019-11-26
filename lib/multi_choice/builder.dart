@@ -26,6 +26,10 @@ class SmartMultiSelectBuilderInfo {
   List get selectedValue {
     return selected != null ? selected.map((x) => x['label']).toList() : null;
   }
+
+  String get values {
+    return selected != null && selected.length > 0 ? selectedLabel.join(', ') : placeholder;
+  }
 }
 
 class SmartMultiSelectBuilderDefault extends StatelessWidget {
@@ -44,12 +48,10 @@ class SmartMultiSelectBuilderDefault extends StatelessWidget {
             Container(
               constraints: BoxConstraints(maxWidth: 100),
               child: Text(
-                info.selected != null
-                    ? info.selectedLabel.join(', ')
-                    : info.placeholder,
+                info.values,
+                style: TextStyle(color: Colors.grey),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
-                style: TextStyle(color: Colors.grey),
               ),
             ),
             Padding(

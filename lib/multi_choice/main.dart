@@ -30,7 +30,7 @@ class SmartMultiSelect extends StatefulWidget {
   SmartMultiSelect.popup({
     Key key,
     this.title,
-    this.placeholder = 'Select one',
+    this.placeholder = 'Select one or more',
     this.value,
     this.options,
     this.onChange,
