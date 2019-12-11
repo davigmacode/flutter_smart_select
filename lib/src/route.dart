@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import './smart_select_route_header.dart';
-import './smart_select_option.dart';
-import './smart_select_choices.dart';
-import './smart_select_state.dart';
+import './route_header.dart';
+import './option.dart';
+import './choices.dart';
+import './state.dart';
 
 class SmartSelectRoute extends StatefulWidget {
   final String title;

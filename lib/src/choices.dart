@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import './smart_select_option.dart';
+import './option.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 
 class SmartSelectChoices extends StatefulWidget {

@@ -52,8 +52,10 @@ Widget build(BuildContext context) {
   return SmartSelect(
     title: 'Frameworks',
     value: value,
-    option: SmartSelectOption(options),
-    isMultiChoice: true,
+    option: SmartSelectOption(
+      options,
+      isMultiChoice: true,
+    ),
     onChange: (val) => setState(() => value = val),
   );
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import './smart_select_option.dart';
+import './option.dart';
 
 enum SmartSelectTarget { page, popup, sheet }
 typedef void SmartSelectOnChange(dynamic value);

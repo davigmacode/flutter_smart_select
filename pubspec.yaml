@@ -2,7 +2,7 @@ name: smart_select
 description: Smart select allows you to easily convert your usual form selects to dynamic pages with grouped radio or checkbox inputs.
 author: Irfan Vigma Taufik<davigmacode@gmail.com>
 homepage: https://github.com/davigmacode/flutter_smart_select
-version: 1.0.1
+version: 1.0.2
 
 environment:
   sdk: ">=2.1.0 <3.0.0"

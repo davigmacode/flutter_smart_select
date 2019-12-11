@@ -1,3 +1,7 @@
+## [1.0.2] - 2019-12-12
+
+* Move and rename files for better documentation
+
 ## [1.0.1] - 2019-12-11
 
 * Fully rewrite code

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import './smart_select_option.dart';
-import './smart_select_state.dart';
-import './smart_select_route.dart';
-import './smart_select_tile.dart';
+import './option.dart';
+import './state.dart';
+import './route.dart';
+import './tile.dart';
 
 class SmartSelect extends StatefulWidget {
   final String title;
