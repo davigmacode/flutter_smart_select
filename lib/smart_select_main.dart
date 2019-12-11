@@ -5,7 +5,6 @@ import './smart_select_route.dart';
 import './smart_select_tile.dart';
 
 class SmartSelect extends StatefulWidget {
-
   final String title;
   final String placeholder;
   final Widget leading;
@@ -60,8 +59,8 @@ class SmartSelect extends StatefulWidget {
     this.padding,
     this.onChange,
     this.builder,
-  }) : this.target = SmartSelectTarget.popup,
-    super(key: key);
+  })  : this.target = SmartSelectTarget.popup,
+        super(key: key);
 
   SmartSelect.sheet({
     Key key,
@@ -80,36 +79,35 @@ class SmartSelect extends StatefulWidget {
     this.padding,
     this.onChange,
     this.builder,
-  }) : this.target = SmartSelectTarget.sheet,
-    super(key: key);
+  })  : this.target = SmartSelectTarget.sheet,
+        super(key: key);
 
   @override
   _SmartSelectState createState() => _SmartSelectState();
 }
 
 class _SmartSelectState extends State<SmartSelect> {
-
   final GlobalKey<SmartSelectRouteState> _routeCtrl =
       GlobalKey<SmartSelectRouteState>();
 
   @override
   Widget build(BuildContext context) {
     return widget.builder != null
-      ? widget.builder(context, _state, this._showOptions)
-      : SmartSelectTile(
-          title: widget.title,
-          value: _state.valueDisplay,
-          leading: widget.leading,
-          trailing: widget.trailing,
-          loadingText: widget.loadingText,
-          isLoading: widget.isLoading,
-          isTwoLine: widget.isTwoLine,
-          enabled: widget.enabled,
-          selected: widget.selected,
-          dense: widget.dense,
-          padding: widget.padding,
-          onTap: () => this._showOptions(context),
-        );
+        ? widget.builder(context, _state, this._showOptions)
+        : SmartSelectTile(
+            title: widget.title,
+            value: _state.valueDisplay,
+            leading: widget.leading,
+            trailing: widget.trailing,
+            loadingText: widget.loadingText,
+            isLoading: widget.isLoading,
+            isTwoLine: widget.isTwoLine,
+            enabled: widget.enabled,
+            selected: widget.selected,
+            dense: widget.dense,
+            padding: widget.padding,
+            onTap: () => this._showOptions(context),
+          );
   }
 
   SmartSelectState get _state {

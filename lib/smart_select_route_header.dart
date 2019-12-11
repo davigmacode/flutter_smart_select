@@ -3,7 +3,6 @@ import './smart_select_state.dart';
 import './smart_select_option.dart';
 
 class RouteHeader extends StatefulWidget implements PreferredSizeWidget {
-
   final String title;
   final bool filterable;
   final Widget confirmButton;
@@ -31,7 +30,6 @@ class RouteHeader extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _RouteHeaderState extends State<RouteHeader> {
-
   // Create a filter controller and use it to
   // retrieve the current value of the Filter TextField.
   TextEditingController _filterCtrl = TextEditingController();
@@ -74,9 +72,7 @@ class _RouteHeaderState extends State<RouteHeader> {
   }
 
   Widget get _titleBar {
-    return _isFiltering == true
-      ? _searchWidget
-      : _titleWidget;
+    return _isFiltering == true ? _searchWidget : _titleWidget;
   }
 
   Widget get _titleWidget {
@@ -114,23 +110,23 @@ class _RouteHeaderState extends State<RouteHeader> {
 
   Widget get _filterButton {
     return widget.filterable && !_isFiltering
-      ? IconButton(
-          icon: Icon(Icons.search),
-          onPressed: () => _startFilter(),
-        )
-      : null;
+        ? IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () => _startFilter(),
+          )
+        : null;
   }
 
   Widget get _clearButton {
     return _isFiltering
-      ? IconButton(
-          icon: Icon(Icons.clear),
-          onPressed: () {
-            _stopFilter();
-            Navigator.pop(context);
-          },
-        )
-      : null;
+        ? IconButton(
+            icon: Icon(Icons.clear),
+            onPressed: () {
+              _stopFilter();
+              Navigator.pop(context);
+            },
+          )
+        : null;
   }
 
   Widget get _confirmButton {
@@ -138,9 +134,8 @@ class _RouteHeaderState extends State<RouteHeader> {
   }
 
   void _startFilter() {
-    ModalRoute
-      .of(context)
-      .addLocalHistoryEntry(LocalHistoryEntry(onRemove: _stopFilter));
+    ModalRoute.of(context)
+        .addLocalHistoryEntry(LocalHistoryEntry(onRemove: _stopFilter));
 
     _updateFilterStatus(true);
   }

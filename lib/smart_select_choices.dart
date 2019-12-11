@@ -28,7 +28,8 @@ class SmartSelectChoicesState extends State<SmartSelectChoices> {
     super.initState();
 
     // initial load value
-    _selected = widget.option.isMultiChoice ? List.from(widget.value) : widget.value;
+    _selected =
+        widget.option.isMultiChoice ? List.from(widget.value) : widget.value;
   }
 
   dynamic get selected => _selected;
@@ -37,8 +38,7 @@ class SmartSelectChoicesState extends State<SmartSelectChoices> {
   Widget build(BuildContext context) {
     return ListTileTheme(
       contentPadding: EdgeInsets.symmetric(
-        horizontal: widget.option.isMultiChoice ? 25.0 : 10
-      ),
+          horizontal: widget.option.isMultiChoice ? 25.0 : 10),
       child: Theme(
         data: ThemeData(
           unselectedWidgetColor: widget.option.itemTheme.unselectedColor,
@@ -60,10 +60,10 @@ class SmartSelectChoicesState extends State<SmartSelectChoices> {
   Widget _listBuilder() {
     List _options = widget.option.filteredList(widget.filterQuery);
     return _options.length > 0
-      ? widget.option.groupBy != null
-        ? _listGroupedBuilder(widget.option.groupKeys(_options), _options)
-        : _listDefaultBuilder(_options)
-      : _listEmpty();
+        ? widget.option.groupBy != null
+            ? _listGroupedBuilder(widget.option.groupKeys(_options), _options)
+            : _listDefaultBuilder(_options)
+        : _listEmpty();
   }
 
   Widget _listEmpty() {
@@ -72,25 +72,30 @@ class SmartSelectChoicesState extends State<SmartSelectChoices> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Icon(
-              Icons.search,
-              size: 120.0,
-              color: Colors.black12
-            ),
+            Icon(Icons.search, size: 120.0, color: Colors.black12),
             Container(height: 25),
             Text(
               'Whoops, no matches',
-              style: Theme.of(context).textTheme.headline.merge(TextStyle(color: Colors.black54)),
+              style: Theme.of(context)
+                  .textTheme
+                  .headline
+                  .merge(TextStyle(color: Colors.black54)),
             ),
             Container(height: 7),
             Text(
               "We couldn't find any search result",
-              style: Theme.of(context).textTheme.subhead.merge(TextStyle(color: Colors.black45)),
+              style: Theme.of(context)
+                  .textTheme
+                  .subhead
+                  .merge(TextStyle(color: Colors.black45)),
             ),
             Container(height: 7),
             Text(
               "Give it another go",
-              style: Theme.of(context).textTheme.subhead.merge(TextStyle(color: Colors.black45)),
+              style: Theme.of(context)
+                  .textTheme
+                  .subhead
+                  .merge(TextStyle(color: Colors.black45)),
             )
           ],
         ),
@@ -100,8 +105,8 @@ class SmartSelectChoicesState extends State<SmartSelectChoices> {
 
   Widget _listDefaultBuilder(List _items) {
     return widget.option.useDivider
-      ? _listSeparatedBuilder(_items)
-      : _listSimpleBuilder(_items);
+        ? _listSeparatedBuilder(_items)
+        : _listSimpleBuilder(_items);
   }
 
   Widget _listSimpleBuilder(List _items) {
@@ -134,8 +139,8 @@ class SmartSelectChoicesState extends State<SmartSelectChoices> {
         return StickyHeader(
           content: _listDefaultBuilder(_groupItems),
           header: widget.option.groupHeaderBuilder != null
-            ? widget.option.groupHeaderBuilder(_groupKey, _groupItems.length)
-            : _listGroupedHeaderBuilder(_groupKey, _groupItems.length),
+              ? widget.option.groupHeaderBuilder(_groupKey, _groupItems.length)
+              : _listGroupedHeaderBuilder(_groupKey, _groupItems.length),
         );
       },
     );
@@ -152,11 +157,17 @@ class SmartSelectChoicesState extends State<SmartSelectChoices> {
         children: <Widget>[
           Text(
             _group,
-            style: Theme.of(context).textTheme.body2.merge(widget.option.groupHeaderTheme.titleStyle),
+            style: Theme.of(context)
+                .textTheme
+                .body2
+                .merge(widget.option.groupHeaderTheme.titleStyle),
           ),
           Text(
             _count.toString(),
-            style: Theme.of(context).textTheme.body2.merge(widget.option.groupHeaderTheme.titleStyle),
+            style: Theme.of(context)
+                .textTheme
+                .body2
+                .merge(widget.option.groupHeaderTheme.titleStyle),
           ),
         ],
       ),
@@ -175,10 +186,10 @@ class SmartSelectChoicesState extends State<SmartSelectChoices> {
       bool _checked = _selected.contains(_value);
 
       return widget.option.itemBuilder != null
-        ? widget.option.itemBuilder(_item, _checked, _itemOnChange)
-        : widget.option.isMultiChoice
-          ? _checkboxBuilder(_label, _value)
-          : _radioBuilder(_label, _value);
+          ? widget.option.itemBuilder(_item, _checked, _itemOnChange)
+          : widget.option.isMultiChoice
+              ? _checkboxBuilder(_label, _value)
+              : _radioBuilder(_label, _value);
     };
   }
 

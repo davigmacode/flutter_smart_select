@@ -5,7 +5,6 @@ import './smart_select_choices.dart';
 import './smart_select_state.dart';
 
 class SmartSelectRoute extends StatefulWidget {
-
   final String title;
   final dynamic value;
   final SmartSelectOption option;
@@ -24,7 +23,6 @@ class SmartSelectRoute extends StatefulWidget {
 }
 
 class SmartSelectRouteState extends State<SmartSelectRoute> {
-
   final GlobalKey<SmartSelectChoicesState> choicesCtrl =
       GlobalKey<SmartSelectChoicesState>();
 
@@ -58,27 +56,28 @@ class SmartSelectRouteState extends State<SmartSelectRoute> {
 
   Widget get _routeHeader {
     return widget.option.useHeader
-      ? RouteHeader(
-          title: widget.title,
-          target: widget.target,
-          filterable: widget.option.useFilter,
-          confirmButton: _confirmWidget,
-          theme: widget.option.headerTheme,
-          onFilterStatus: (val) => setState(() => _isFiltering = val),
-          onFilterQuery: (val) => setState(() => _filterQuery = val),
-        )
-      : null;
+        ? RouteHeader(
+            title: widget.title,
+            target: widget.target,
+            filterable: widget.option.useFilter,
+            confirmButton: _confirmWidget,
+            theme: widget.option.headerTheme,
+            onFilterStatus: (val) => setState(() => _isFiltering = val),
+            onFilterQuery: (val) => setState(() => _filterQuery = val),
+          )
+        : null;
   }
 
   Widget get _confirmWidget {
     return widget.option.useConfirmation
-      ? widget.option.confirmationBuilder != null
-        ? widget.option.confirmationBuilder(context, () => Navigator.pop(context, true))
-        : IconButton(
-            icon: Icon(Icons.check_circle_outline),
-            onPressed: () => Navigator.pop(context, true),
-          )
-      : null;
+        ? widget.option.confirmationBuilder != null
+            ? widget.option.confirmationBuilder(
+                context, () => Navigator.pop(context, true))
+            : IconButton(
+                icon: Icon(Icons.check_circle_outline),
+                onPressed: () => Navigator.pop(context, true),
+              )
+        : null;
   }
 
   Widget get _choicesWidget {

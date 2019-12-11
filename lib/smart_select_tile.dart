@@ -98,40 +98,37 @@ class SmartSelectTile extends StatelessWidget {
 
   Widget get _trailingWidget {
     return isTwoLine != true
-      ? Container(
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Container(
-                constraints: BoxConstraints(maxWidth: 100),
-                child: _valueWidget,
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: 5),
-                child: _trailingIconWidget,
-              ),
-            ],
-          ),
-        )
-      : _trailingIconWidget;
+        ? Container(
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Container(
+                  constraints: BoxConstraints(maxWidth: 100),
+                  child: _valueWidget,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 5),
+                  child: _trailingIconWidget,
+                ),
+              ],
+            ),
+          )
+        : _trailingIconWidget;
   }
 
   Widget get _trailingIconWidget {
     return isLoading != true
-      ? trailing != null
-        ? trailing
-        : Icon(
-          Icons.keyboard_arrow_right,
-          color: Colors.grey
-        )
-      : SizedBox(
-          child: CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(Colors.black45),
-            strokeWidth: 1.5,
-          ),
-          height: 16.0,
-          width: 16.0,
-        );
+        ? trailing != null
+            ? trailing
+            : Icon(Icons.keyboard_arrow_right, color: Colors.grey)
+        : SizedBox(
+            child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.black45),
+              strokeWidth: 1.5,
+            ),
+            height: 16.0,
+            width: 16.0,
+          );
   }
 
   Widget get _valueWidget {

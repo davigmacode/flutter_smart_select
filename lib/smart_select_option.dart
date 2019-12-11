@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
-typedef Widget SmartSelectOptionConfirmationBuilder(BuildContext context, Function onConfirm);
+typedef Widget SmartSelectOptionConfirmationBuilder(
+    BuildContext context, Function onConfirm);
 typedef Widget SmartSelectOptionGroupHeaderBuilder(String _group, int _count);
 typedef Widget SmartSelectOptionDividerBuilder(BuildContext context, int index);
-typedef Widget SmartSelectOptionItemBuilder(Map item, bool checked, SmartSelectOptionItemOnChange onChange);
+typedef Widget SmartSelectOptionItemBuilder(
+    Map item, bool checked, SmartSelectOptionItemOnChange onChange);
 typedef void SmartSelectOptionItemOnChange(dynamic value, bool checked);
 
 class SmartSelectOption {
@@ -30,36 +32,36 @@ class SmartSelectOption {
 
   SmartSelectOption(
     this.items, {
-      this.label = 'label',
-      this.value = 'value',
-      this.groupBy,
-      this.isMultiChoice = false,
-      this.useHeader = true,
-      this.useFilter = false,
-      this.useDivider = false,
-      this.useConfirmation = false,
-      this.shape,
-      this.elevation,
-      this.backgroundColor,
-      this.glowingOverscrollIndicatorColor = Colors.blueGrey,
-      this.headerTheme = const SmartSelectOptionHeaderTheme(),
-      this.itemTheme = const SmartSelectOptionItemTheme(),
-      this.groupHeaderTheme = const SmartSelectOptionGroupHeaderTheme(),
-      this.itemBuilder,
-      this.dividerBuilder,
-      this.confirmationBuilder,
-      this.groupHeaderBuilder,
-    }
-  );
+    this.label = 'label',
+    this.value = 'value',
+    this.groupBy,
+    this.isMultiChoice = false,
+    this.useHeader = true,
+    this.useFilter = false,
+    this.useDivider = false,
+    this.useConfirmation = false,
+    this.shape,
+    this.elevation,
+    this.backgroundColor,
+    this.glowingOverscrollIndicatorColor = Colors.blueGrey,
+    this.headerTheme = const SmartSelectOptionHeaderTheme(),
+    this.itemTheme = const SmartSelectOptionItemTheme(),
+    this.groupHeaderTheme = const SmartSelectOptionGroupHeaderTheme(),
+    this.itemBuilder,
+    this.dividerBuilder,
+    this.confirmationBuilder,
+    this.groupHeaderBuilder,
+  });
 
   List filteredList(String _query) {
     return _query != null
-      ? items.where((_item) => _filterTest(_item, _query)).toList()
-      : items;
+        ? items.where((_item) => _filterTest(_item, _query)).toList()
+        : items;
   }
 
   bool _filterTest(Map _item, String _query) {
-    return _filterTestByLabel(_item, _query) || _filterTestByGroup(_item, _query);
+    return _filterTestByLabel(_item, _query) ||
+        _filterTestByGroup(_item, _query);
   }
 
   bool _filterTestByLabel(Map _item, String _query) {
@@ -67,7 +69,9 @@ class SmartSelectOption {
   }
 
   bool _filterTestByGroup(Map _item, String _query) {
-    return groupBy != null ? _item[groupBy].toLowerCase().contains(_query.toLowerCase()) : false;
+    return groupBy != null
+        ? _item[groupBy].toLowerCase().contains(_query.toLowerCase())
+        : false;
   }
 
   List groupKeys(List _items) {
