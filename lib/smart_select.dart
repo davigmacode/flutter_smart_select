@@ -1,5 +1,6 @@
 library smart_select;
 
-export './single_choice/main.dart';
-export './multi_choice/main.dart';
-export './utils.dart';
+export './smart_select_main.dart';
+export './smart_select_state.dart';
+export './smart_select_option.dart';
+export './smart_select_tile.dart';

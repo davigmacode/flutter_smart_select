@@ -1,3 +1,15 @@
+## [1.0.1] - 2019-12-11
+
+* Fully rewrite code
+* Support filterable option item
+* Support grouping options with sticky header
+* Support stats loading
+* More customizable trigger widget
+* Support customize option header widget (theme or builder)
+* Support customize option item widget (theme or builder)
+* Support customize option item divider widget
+* Support customizable label, value, and group field
+
 ## [0.1.1] - 2019-11-26
 
 * Add values field to SmartMultiSelectBuilderInfo class
