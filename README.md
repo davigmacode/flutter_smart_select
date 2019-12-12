@@ -2,8 +2,6 @@
 
 Smart select allows you to easily convert your usual form selects to dynamic pages with grouped radio or checkbox inputs. This widget is inspired by Smart Select component from [Framework7](https://framework7.io/).
 
-To read more about `smart_select`, see the [documentation](https://pub.dev/documentation/smart_select/latest/).
-
 # Features
 
 * Select single or multiple choice
@@ -14,7 +12,16 @@ To read more about `smart_select`, see the [documentation](https://pub.dev/docum
 * Customizable label, value, and group field
 * Filterable option item
 
+# TODO
+
+* Use chip as option item
+* Support dark mode
+
 # Usage
+
+For a complete usage, please see the [example](https://pub.dev/packages/smart_select#-example-tab-).
+
+To read more about classes and other references used by `smart_select`, see the [documentation](https://pub.dev/documentation/smart_select/latest/).
 
 ## Single Choice
 
@@ -193,37 +200,13 @@ Widget build(BuildContext context) {
 }
 ```
 
-# Reference
-
-| Name | Type | Description |
-|------|------|-------------|
-| SmartSelect | Class | General usage |
-| SmartSelectTile | Class | Default trigger widget |
-| SmartSelectOption | Class | Configure option |
-| SmartSelectState | Class | Current state |
-| SmartSelectTarget | Enum | Modal type to open option |
-| SmartSelectOnChange | Typedef | Callback to handle change of value widget |
-| SmartSelectBuilder | Typedef | Builder for custom trigger widget |
-| SmartSelectOptionItemBuilder | Typedef | Builder for custom option item |
-| SmartSelectOptionItemOnChange | Typedef | Callback to handle stats of each custom option item |
-| SmartSelectOptionDividerBuilder | Typedef | Builder for custom option divider |
-| SmartSelectOptionGroupHeaderBuilder | Typedef | Builder for custom option group header |
-| SmartSelectOptionConfirmationBuilder | Typedef | Builder for custom confirmation widget |
-| SmartSelectOptionHeaderTheme | Class | Configure option header theme |
-| SmartSelectOptionItemTheme | Class | Configure option item theme |
-| SmartSelectOptionGroupHeaderTheme | Class | Configure option group header theme |
-
 # Thanks
 
 * [Framework7](https://framework7.io/)
 
-# TODO
-
-* Use chip as option item
-* Support dark mode
-
 # License
 
+```
 Copyright (c) 2019 Irfan Vigma Taufik
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -243,3 +226,4 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+```

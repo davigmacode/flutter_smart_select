@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+/// Default trigger widget
 class SmartSelectTile extends StatelessWidget {
+
   /// The value of the selected option.
   final String value;
 
@@ -65,6 +67,7 @@ class SmartSelectTile extends StatelessWidget {
   /// Inoperative if [enabled] is false.
   final GestureTapCallback onTap;
 
+  /// Create a default trigger widget
   SmartSelectTile({
     Key key,
     this.value,

@@ -59,7 +59,7 @@ class _FeaturesOptionEverythingState extends State<FeaturesOptionEverything> {
             ),
             groupHeaderTheme: SmartSelectOptionGroupHeaderTheme(
               backgroundColor: Colors.blueGrey[600],
-              titleStyle: TextStyle(color: Colors.white)
+              textStyle: TextStyle(color: Colors.white)
             )
           ),
           onChange: (val) => setState(() => _smartphones = val)

@@ -1,3 +1,8 @@
+## [1.0.3] - 2019-12-12
+
+* Change SmartSelectOptionGroupHeaderTheme titleStyle to textStyle
+* Better documentation
+
 ## [1.0.2] - 2019-12-12
 
 * Move and rename files for better documentation

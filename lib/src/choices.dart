@@ -160,14 +160,14 @@ class SmartSelectChoicesState extends State<SmartSelectChoices> {
             style: Theme.of(context)
                 .textTheme
                 .body2
-                .merge(widget.option.groupHeaderTheme.titleStyle),
+                .merge(widget.option.groupHeaderTheme.textStyle),
           ),
           Text(
             _count.toString(),
             style: Theme.of(context)
                 .textTheme
                 .body2
-                .merge(widget.option.groupHeaderTheme.titleStyle),
+                .merge(widget.option.groupHeaderTheme.textStyle),
           ),
         ],
       ),
