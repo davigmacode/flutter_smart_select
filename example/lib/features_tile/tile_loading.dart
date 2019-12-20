@@ -21,7 +21,7 @@ class _FeaturesTileLoadingState extends State<FeaturesTileLoading> {
           title: 'Days',
           value: _day,
           isLoading: true,
-          option: SmartSelectOption(options.days),
+          option: SmartSelectOptionConfig(options.days),
           onChange: (val) => setState(() => _day = val)
         ),
         Divider(indent: 20),
@@ -30,10 +30,8 @@ class _FeaturesTileLoadingState extends State<FeaturesTileLoading> {
           value: _month,
           isLoading: true,
           isTwoLine: true,
-          option: SmartSelectOption(
-            options.months,
-            isMultiChoice: true
-          ),
+          isMultiChoice: true,
+          option: SmartSelectOptionConfig(options.months),
           onChange: (val) => setState(() => _month = val)
         ),
         Container(height: 7),

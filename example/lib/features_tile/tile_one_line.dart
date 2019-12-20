@@ -20,17 +20,15 @@ class _FeaturesTileOneLineState extends State<FeaturesTileOneLine> {
         SmartSelect(
           title: 'Days',
           value: _day,
-          option: SmartSelectOption(options.days),
+          option: SmartSelectOptionConfig(options.days),
           onChange: (val) => setState(() => _day = val)
         ),
         Divider(indent: 20),
         SmartSelect(
           title: 'Month',
           value: _month,
-          option: SmartSelectOption(
-            options.months,
-            isMultiChoice: true
-          ),
+          isMultiChoice: true,
+          option: SmartSelectOptionConfig(options.months),
           onChange: (val) => setState(() => _month = val)
         ),
         Container(height: 7),

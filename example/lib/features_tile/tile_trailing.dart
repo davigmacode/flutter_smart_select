@@ -21,7 +21,7 @@ class _FeaturesTileTrailingState extends State<FeaturesTileTrailing> {
           title: 'Days',
           value: _day,
           trailing: Icon(Icons.keyboard_arrow_down),
-          option: SmartSelectOption(options.days),
+          option: SmartSelectOptionConfig(options.days),
           onChange: (val) => setState(() => _day = val)
         ),
         Divider(indent: 20),
@@ -29,11 +29,9 @@ class _FeaturesTileTrailingState extends State<FeaturesTileTrailing> {
           title: 'Month',
           value: _month,
           isTwoLine: true,
+          isMultiChoice: true,
           trailing: Icon(Icons.arrow_drop_down_circle),
-          option: SmartSelectOption(
-            options.months,
-            isMultiChoice: true
-          ),
+          option: SmartSelectOptionConfig(options.months),
           onChange: (val) => setState(() => _month = val)
         ),
         Container(height: 7),

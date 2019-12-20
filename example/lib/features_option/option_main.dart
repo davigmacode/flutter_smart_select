@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:sticky_headers/sticky_headers.dart';
-import './option_filter.dart';
-import './option_divider.dart';
-import './option_modal.dart';
-import './option_header.dart';
-import './option_everything.dart';
+import './option_list_of_map.dart';
+import './option_list_of_string.dart';
+import './option_list_of_list.dart';
+import './option_async.dart';
 import '../features_header.dart';
 
 class FeaturesOption extends StatelessWidget {
@@ -14,24 +13,20 @@ class FeaturesOption extends StatelessWidget {
       child:ListView(
         children: <Widget>[
           StickyHeader(
-            header: FeaturesHeader('Filter Item'),
-            content: FeaturesOptionFilter(),
+            header: FeaturesHeader('List of Map'),
+            content: FeaturesOptionListOfMap(),
           ),
           StickyHeader(
-            header: FeaturesHeader('Use Divider Between Item'),
-            content: FeaturesOptionDivider(),
+            header: FeaturesHeader('List of String'),
+            content: FeaturesOptionListOfString(),
           ),
           StickyHeader(
-            header: FeaturesHeader('Customize Modal'),
-            content: FeaturesOptionModal(),
+            header: FeaturesHeader('List of List of String'),
+            content: FeaturesOptionListOfList(),
           ),
           StickyHeader(
-            header: FeaturesHeader('Customize Header'),
-            content: FeaturesOptionHeader(),
-          ),
-          StickyHeader(
-            header: FeaturesHeader('Customize Almost Everything'),
-            content: FeaturesOptionEverything(),
+            header: FeaturesHeader('Async Option & Custom Properties'),
+            content: FeaturesOptionAsync(),
           ),
         ],
       ),

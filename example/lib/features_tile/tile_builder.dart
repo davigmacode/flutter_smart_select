@@ -11,7 +11,6 @@ class FeaturesTileBuilder extends StatefulWidget {
 class _FeaturesTileBuilderState extends State<FeaturesTileBuilder> {
 
   List _car = [];
-  List _hero = ['bat', 'spi'];
   List _categories = [];
   String _sort = 'popular';
 
@@ -29,17 +28,20 @@ class _FeaturesTileBuilderState extends State<FeaturesTileBuilder> {
           child: Row(
             children: <Widget>[
               Expanded(
-                child: SmartSelect.sheet(
+                child: SmartSelect(
                   title: 'Categories',
                   value: _categories,
                   isTwoLine: true,
+                  isMultiChoice: true,
                   trailing: Icon(Icons.arrow_drop_down),
-                  option: SmartSelectOption(
+                  option: SmartSelectOptionConfig(
                     options.categories,
-                    isMultiChoice: true,
-                    useHeader: false,
                     value: 'slug',
-                    label: 'caption',
+                    title: 'caption',
+                  ),
+                  modal: SmartSelectModalConfig(
+                    type: SmartSelectModalType.bottomSheet,
+                    useHeader: false,
                   ),
                   onChange: (val) => setState(() => _categories = val),
                 ),
@@ -49,16 +51,19 @@ class _FeaturesTileBuilderState extends State<FeaturesTileBuilder> {
                 child: VerticalDivider(),
               ),
               Expanded(
-                child: SmartSelect.popup(
+                child: SmartSelect(
                   title: 'Sort By',
                   value: _sort,
                   isTwoLine: true,
                   trailing: Icon(Icons.arrow_drop_down),
-                  option: SmartSelectOption(
+                  option: SmartSelectOptionConfig(
                     options.sorts,
-                    useHeader: false,
                     value: 'id',
-                    label: 'name',
+                    title: 'name',
+                  ),
+                  modal: SmartSelectModalConfig(
+                    type: SmartSelectModalType.popupDialog,
+                    useHeader: false,
                   ),
                   onChange: (val) => setState(() => _sort = val),
                 ),
@@ -69,10 +74,12 @@ class _FeaturesTileBuilderState extends State<FeaturesTileBuilder> {
         SmartSelect(
           title: 'Cars',
           value: _car,
-          option: SmartSelectOption(
+          isMultiChoice: true,
+          option: SmartSelectOptionConfig(
             options.cars,
             groupBy: 'body',
-            isMultiChoice: true,
+          ),
+          modal: SmartSelectModalConfig(
             useConfirmation: true,
             useFilter: true,
           ),

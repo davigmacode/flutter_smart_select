@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:sticky_headers/sticky_headers.dart';
-import './multi_basic.dart';
+import './multi_page.dart';
 import './multi_sheet.dart';
 import './multi_popup.dart';
-import './multi_confirm.dart';
-import './multi_grouped.dart';
-import './multi_headerless.dart';
+import './multi_chips.dart';
+import './multi_switches.dart';
 import '../features_header.dart';
 
 class FeaturesMulti extends StatelessWidget {
@@ -15,8 +14,8 @@ class FeaturesMulti extends StatelessWidget {
       child:ListView(
         children: <Widget>[
           StickyHeader(
-            header: FeaturesHeader('Basic Usage'),
-            content: FeaturesMultiBasic(),
+            header: FeaturesHeader('Open in Full Page'),
+            content: FeaturesMultiPage(),
           ),
           StickyHeader(
             header: FeaturesHeader('Open in Bottom Sheet'),
@@ -27,16 +26,12 @@ class FeaturesMulti extends StatelessWidget {
             content: FeaturesMultiPopup(),
           ),
           StickyHeader(
-            header: FeaturesHeader('Need to Confirm'),
-            content: FeaturesMultiConfirm(),
+            header: FeaturesHeader('Use Chips'),
+            content: FeaturesMultiChips(),
           ),
           StickyHeader(
-            header: FeaturesHeader('Grouped Options'),
-            content: FeaturesMultiGrouped(),
-          ),
-          StickyHeader(
-            header: FeaturesHeader('Without Options Header'),
-            content: FeaturesMultiHeaderless(),
+            header: FeaturesHeader('Use Switches'),
+            content: FeaturesMultiSwitches(),
           ),
         ],
       ),

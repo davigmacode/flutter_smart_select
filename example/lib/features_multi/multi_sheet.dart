@@ -17,27 +17,33 @@ class _FeaturesMultiSheetState extends State<FeaturesMultiSheet> {
     return Column(
       children: <Widget>[
         Container(height: 7),
-        SmartSelect.sheet(
+        SmartSelect(
           title: 'OS',
           value: _os,
           isTwoLine: true,
-          option: SmartSelectOption(
+          isMultiChoice: true,
+          option: SmartSelectOptionConfig(
             options.os,
-            isMultiChoice: true,
+          ),
+          modal: SmartSelectModalConfig(
+            type: SmartSelectModalType.bottomSheet,
           ),
           leading: CircleAvatar(
             backgroundImage: NetworkImage('https://source.unsplash.com/xsGxhtAsfSA/100x100'),
           ),
-          onChange: (val) => setState(() => _os = val)
+          onChange: (val) => setState(() => _os = val),
         ),
         Divider(indent: 20),
-        SmartSelect.sheet(
+        SmartSelect(
           title: 'Super Hero',
           value: _hero,
           isTwoLine: true,
-          option: SmartSelectOption(
+          isMultiChoice: true,
+          option: SmartSelectOptionConfig(
             options.heroes,
-            isMultiChoice: true,
+          ),
+          modal: SmartSelectModalConfig(
+            type: SmartSelectModalType.bottomSheet,
           ),
           leading: CircleAvatar(
             backgroundImage: NetworkImage('https://source.unsplash.com/8I-ht65iRww/100x100'),

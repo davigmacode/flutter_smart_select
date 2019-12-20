@@ -17,24 +17,27 @@ class _FeaturesSingleSheetState extends State<FeaturesSingleSheet> {
     return Column(
       children: <Widget>[
         Container(height: 7),
-        SmartSelect.sheet(
+        SmartSelect(
           title: 'OS',
           value: _os,
-          option: SmartSelectOption(options.os),
+          option: SmartSelectOptionConfig(options.os),
           isTwoLine: true,
           leading: CircleAvatar(
             backgroundImage: NetworkImage('https://source.unsplash.com/xsGxhtAsfSA/100x100'),
           ),
-          onChange: (val) => setState(() => _os = val)
+          onChange: (val) => setState(() => _os = val),
+          modal: SmartSelectModalConfig(
+            type: SmartSelectModalType.bottomSheet,
+          ),
         ),
         Divider(indent: 20),
-        SmartSelect.sheet(
+        SmartSelect(
           title: 'Super Hero',
           value: _hero,
           isTwoLine: true,
-          option: SmartSelectOption(
-            options.heroes,
-            useFilter: true
+          option: SmartSelectOptionConfig(options.heroes),
+          modal: SmartSelectModalConfig(
+            type: SmartSelectModalType.bottomSheet,
           ),
           leading: CircleAvatar(
             backgroundImage: NetworkImage('https://source.unsplash.com/8I-ht65iRww/100x100'),

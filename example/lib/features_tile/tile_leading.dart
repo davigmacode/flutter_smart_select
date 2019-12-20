@@ -24,7 +24,7 @@ class _FeaturesTileLeadingState extends State<FeaturesTileLeading> {
           title: 'Days',
           value: _day,
           leading: const Icon(Icons.calendar_today),
-          option: SmartSelectOption(options.days),
+          option: SmartSelectOptionConfig(options.days),
           onChange: (val) => setState(() => _day = val)
         ),
         Divider(indent: 20),
@@ -32,21 +32,21 @@ class _FeaturesTileLeadingState extends State<FeaturesTileLeading> {
           title: 'Month',
           value: _month,
           isTwoLine: true,
+          isMultiChoice: true,
           leading: IconBadge(
             icon: const Icon(Icons.calendar_today),
             counter: _month.length,
           ),
-          option: SmartSelectOption(
+          option: SmartSelectOptionConfig(
             options.months,
-            isMultiChoice: true
           ),
           onChange: (val) => setState(() => _month = val)
         ),
         Divider(indent: 20),
-        SmartSelect.popup(
+        SmartSelect(
           title: 'Frameworks',
           value: _framework,
-          option: SmartSelectOption(options.frameworks),
+          option: SmartSelectOptionConfig(options.frameworks),
           leading: CircleAvatar(
             backgroundColor: Colors.blue,
             child: Text(
@@ -54,16 +54,20 @@ class _FeaturesTileLeadingState extends State<FeaturesTileLeading> {
               style: TextStyle(color: Colors.white)
             ),
           ),
+          modal: SmartSelectModalConfig(
+            type: SmartSelectModalType.popupDialog,
+          ),
           onChange: (val) => setState(() => _framework = val),
         ),
         Divider(indent: 20),
-        SmartSelect.sheet(
+        SmartSelect(
           title: 'Super Hero',
           value: _hero,
           isTwoLine: true,
-          option: SmartSelectOption(
-            options.heroes,
-            isMultiChoice: true,
+          isMultiChoice: true,
+          option: SmartSelectOptionConfig(options.heroes),
+          modal: SmartSelectModalConfig(
+            type: SmartSelectModalType.bottomSheet,
             useFilter: true
           ),
           leading: CircleAvatar(

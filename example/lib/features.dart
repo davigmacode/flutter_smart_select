@@ -3,6 +3,8 @@ import './features_single/single_main.dart';
 import './features_multi/multi_main.dart';
 import './features_tile/tile_main.dart';
 import './features_option/option_main.dart';
+import './features_modal/modal_main.dart';
+import './features_choices/choices_main.dart';
 
 class Features extends StatefulWidget {
   @override
@@ -18,10 +20,10 @@ class _FeaturesState extends State<Features> with AutomaticKeepAliveClientMixin<
   Widget build(BuildContext context) {
     super.build(context);
     return DefaultTabController(
-      length: 4,
+      length: 6,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Smart Select Example'),
+          title: Text('Smart Select'),
           bottom: TabBar(
             isScrollable: true,
             indicatorSize: TabBarIndicatorSize.label,
@@ -30,6 +32,8 @@ class _FeaturesState extends State<Features> with AutomaticKeepAliveClientMixin<
               Tab(text: 'Multiple Choice'),
               Tab(text: 'Customize Tile'),
               Tab(text: 'Customize Option'),
+              Tab(text: 'Customize Modal'),
+              Tab(text: 'Customize Choices'),
             ],
           ),
           actions: <Widget>[
@@ -45,6 +49,8 @@ class _FeaturesState extends State<Features> with AutomaticKeepAliveClientMixin<
             FeaturesMulti(),
             FeaturesTile(),
             FeaturesOption(),
+            FeaturesModal(),
+            FeaturesChoices(),
           ],
         ),
       ),
@@ -63,7 +69,7 @@ class _FeaturesState extends State<Features> with AutomaticKeepAliveClientMixin<
                 'smart_select',
                 style: Theme.of(context).textTheme.headline.merge(TextStyle(color: Colors.black87)),
               ),
-              subtitle: Text('version 1.0.1'),
+              subtitle: Text('by davigmacode'),
               trailing: IconButton(
                 icon: Icon(Icons.close),
                 onPressed: () => Navigator.pop(context),

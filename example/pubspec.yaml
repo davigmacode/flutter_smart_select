@@ -1,4 +1,4 @@
-name: smart_select_example
+name: smartselect
 description: Few example for Smart Select package.
 
 # The following defines the version and build number for your application.
@@ -21,6 +21,9 @@ dependencies:
     sdk: flutter
   smart_select:
     path: ../
+  dio: ^3.0.7
+  provider: ^3.2.0
+  sticky_headers: ^0.1.8+1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

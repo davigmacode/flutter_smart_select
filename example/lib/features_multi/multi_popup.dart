@@ -17,13 +17,16 @@ class _FeaturesMultiPopupState extends State<FeaturesMultiPopup> {
     return Column(
       children: <Widget>[
         Container(height: 7),
-        SmartSelect.popup(
+        SmartSelect(
           title: 'Fruit',
           value: _fruit,
           isTwoLine: true,
-          option: SmartSelectOption(
+          isMultiChoice: true,
+          option: SmartSelectOptionConfig(
             options.fruits,
-            isMultiChoice: true,
+          ),
+          modal: SmartSelectModalConfig(
+            type: SmartSelectModalType.popupDialog,
           ),
           leading: Container(
             width: 40,
@@ -33,12 +36,15 @@ class _FeaturesMultiPopupState extends State<FeaturesMultiPopup> {
           onChange: (val) => setState(() => _fruit = val),
         ),
         Divider(indent: 20),
-        SmartSelect.popup(
+        SmartSelect(
           title: 'Frameworks',
           value: _framework,
-          option: SmartSelectOption(
+          isMultiChoice: true,
+          option: SmartSelectOptionConfig(
             options.frameworks,
-            isMultiChoice: true,
+          ),
+          modal: SmartSelectModalConfig(
+            type: SmartSelectModalType.popupDialog,
           ),
           builder: (context, state, showOptions) {
             return ListTile(
