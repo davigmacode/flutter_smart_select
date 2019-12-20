@@ -1,3 +1,12 @@
+## [2.0.0] - 2019-12-20
+
+* Use Provider as state management
+* Remove SmartSelect.popup and SmartSelect.sheet constructor
+* Split option configuration into option, modal, and choices
+* Support Chips and Switches as choices widget
+* Add more configurable parameter and remove some option
+* Fix some bugs
+
 ## [1.0.3] - 2019-12-12
 
 * Change SmartSelectOptionGroupHeaderTheme titleStyle to textStyle

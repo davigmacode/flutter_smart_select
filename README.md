@@ -1,21 +1,29 @@
 # smart_select
 
-Smart select allows you to easily convert your usual form selects to dynamic pages with grouped radio or checkbox inputs. This widget is inspired by Smart Select component from [Framework7](https://framework7.io/).
+Smart select allows you to easily convert your usual form selects into dynamic pages with various choices input. This widget is inspired by Smart Select component from [Framework7](https://framework7.io/).
+
+# Demo
+
+[![Demo App](https://github.com/davigmacode/flutter_smart_select/tree/master/example/art/qr/apk.png "Demo App")](https://github.com/davigmacode/flutter_smart_select/tree/master/example/art/demo/SmartSelect.apk)
 
 # Features
 
 * Select single or multiple choice
-* Open options in page, bottom sheet, or popup dialog
-* Grouping options with sticky header
-* Customizable trigger widget
-* Customizable options item widget
-* Customizable label, value, and group field
-* Filterable option item
+* Open choices modal in full page, bottom sheet, or popup dialog
+* Various choices input (radio, checkbox, switch, chips)
+* Grouping choices with sticky header
+* Customizable trigger widget (tile)
+* Customizable modal style
+* Customizable modal header style
+* Customizable choices style
+* Customizable option input
+* Filterable option
+* Async option
+* and many more
 
 # TODO
 
-* Use chip as option item
-* Support dark mode
+* Full support async option using Future
 
 # Usage
 
@@ -28,9 +36,9 @@ To read more about classes and other references used by `smart_select`, see the 
 ```
 String value = 'flutter';
 List options = [
-  { 'value': 'ionic', 'label': 'Ionic' },
-  { 'value': 'flutter', 'label': 'Flutter' },
-  { 'value': 'react', 'label': 'React Native' },
+  { 'value': 'ionic', 'title': 'Ionic' },
+  { 'value': 'flutter', 'title': 'Flutter' },
+  { 'value': 'react', 'title': 'React Native' },
 ];
 
 @override
@@ -38,7 +46,7 @@ Widget build(BuildContext context) {
   return SmartSelect(
     title: 'Frameworks',
     value: value,
-    option: SmartSelectOption(options),
+    option: SmartSelectOptionConfig(options),
     onChange: (val) => setState(() => value = val),
   );
 }
@@ -49,9 +57,9 @@ Widget build(BuildContext context) {
 ```
 List value = ['flutter'];
 List options = [
-  { 'value': 'ionic', 'label': 'Ionic' },
-  { 'value': 'flutter', 'label': 'Flutter' },
-  { 'value': 'react', 'label': 'React Native' },
+  { 'value': 'ionic', 'title': 'Ionic' },
+  { 'value': 'flutter', 'title': 'Flutter' },
+  { 'value': 'react', 'title': 'React Native' },
 ];
 
 @override
@@ -59,25 +67,23 @@ Widget build(BuildContext context) {
   return SmartSelect(
     title: 'Frameworks',
     value: value,
-    option: SmartSelectOption(
-      options,
-      isMultiChoice: true,
-    ),
+    isMultiChoice: true,
+    option: SmartSelectOptionConfig(options),
     onChange: (val) => setState(() => value = val),
   );
 }
 ```
 
-## Open in Page
+## Open in Full Page
 
-By default SmartSelect open options in page.
+By default SmartSelect open choices modal in full page.
 
 ```
 String value = 'flutter';
 List options = [
-  { 'value': 'ionic', 'label': 'Ionic' },
-  { 'value': 'flutter', 'label': 'Flutter' },
-  { 'value': 'react', 'label': 'React Native' },
+  { 'value': 'ionic', 'title': 'Ionic' },
+  { 'value': 'flutter', 'title': 'Flutter' },
+  { 'value': 'react', 'title': 'React Native' },
 ];
 
 @override
@@ -85,8 +91,10 @@ Widget build(BuildContext context) {
   return SmartSelect(
     title: 'Frameworks',
     value: value,
-    option: SmartSelectOption(options),
-    target: SmartSelectTarget.page,
+    option: SmartSelectOptionConfig(options),
+    modal: SmartSelectModalConfig(
+      type: SmartSelectModalType.fullPage,
+    ),
     onChange: (val) => setState(() => value = val),
   );
 }
@@ -97,17 +105,20 @@ Widget build(BuildContext context) {
 ```
 String value = 'flutter';
 List options = [
-  { 'value': 'ionic', 'label': 'Ionic' },
-  { 'value': 'flutter', 'label': 'Flutter' },
-  { 'value': 'react', 'label': 'React Native' },
+  { 'value': 'ionic', 'title': 'Ionic' },
+  { 'value': 'flutter', 'title': 'Flutter' },
+  { 'value': 'react', 'title': 'React Native' },
 ];
 
 @override
 Widget build(BuildContext context) {
-  return SmartSelect.sheet(
+  return SmartSelect(
     title: 'Frameworks',
     value: value,
-    option: SmartSelectOption(options),
+    option: SmartSelectOptionConfig(options),
+    modal: SmartSelectModalConfig(
+      type: SmartSelectModalType.bottomSheet,
+    ),
     onChange: (val) => setState(() => value = val),
   );
 }
@@ -118,17 +129,20 @@ Widget build(BuildContext context) {
 ```
 String value = 'flutter';
 List options = [
-  { 'value': 'ionic', 'label': 'Ionic' },
-  { 'value': 'flutter', 'label': 'Flutter' },
-  { 'value': 'react', 'label': 'React Native' },
+  { 'value': 'ionic', 'title': 'Ionic' },
+  { 'value': 'flutter', 'title': 'Flutter' },
+  { 'value': 'react', 'title': 'React Native' },
 ];
 
 @override
 Widget build(BuildContext context) {
-  return SmartSelect.popup(
+  return SmartSelect(
     title: 'Frameworks',
     value: value,
-    option: SmartSelectOption(options),
+    option: SmartSelectOptionConfig(options),
+    modal: SmartSelectModalConfig(
+      type: SmartSelectModalType.popupDialog,
+    ),
     onChange: (val) => setState(() => value = val),
   );
 }
@@ -146,11 +160,11 @@ List options = [
 
 @override
 Widget build(BuildContext context) {
-  return SmartSelect.popup(
+  return SmartSelect(
     title: 'Frameworks',
     value: value,
-    option: SmartSelectOption(options),
-    builder: (context, state) {
+    option: SmartSelectOptionConfig(options),
+    builder: (context, state, showChoices) {
       return ListTile(
         title: Text(state.title),
         subtitle: Text(
@@ -167,7 +181,7 @@ Widget build(BuildContext context) {
           ),
         ),
         trailing: Icon(Icons.keyboard_arrow_right, color: Colors.grey),
-        onTap: () => state.showOptions(context),
+        onTap: () => showChoices(context),
       );
     },
     onChange: (val) => setState(() => value = val),
@@ -187,15 +201,29 @@ List options = [
 
 @override
 Widget build(BuildContext context) {
-  return SmartSelect.popup(
-    title: 'Frameworks',
-    value: value,
-    option: SmartSelectOption(
-      options,
-      label: 'id',
-      value: 'text',
-    ),
-    onChange: (val) => setState(() => value = val),
+  return Column(
+    children: [
+      SmartSelect(
+        title: 'Frameworks',
+        value: value,
+        option: SmartSelectOption(
+          options,
+          value: 'id',
+          title: 'text',
+        ),
+        onChange: (val) => setState(() => value = val),
+      ),
+      SmartSelect(
+        title: 'Frameworks',
+        value: value,
+        option: SmartSelectOption(
+          options,
+          value: (item) => item['id'],
+          title: (item) => item['text'],
+        ),
+        onChange: (val) => setState(() => value = val),
+      )
+    ]
   );
 }
 ```

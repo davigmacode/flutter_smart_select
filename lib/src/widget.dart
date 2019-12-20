@@ -1,12 +1,32 @@
 import 'package:flutter/material.dart';
-import './option.dart';
-import './state.dart';
-import './route.dart';
+import 'package:provider/provider.dart';
+import './model/option_config.dart';
+import './model/choice_config.dart';
+import './model/modal_config.dart';
+import './model/state.dart';
+import './model/state_filter.dart';
+import './model/state_selected.dart';
+import './choices.dart';
+import './modal.dart';
 import './tile.dart';
+import './utils.dart' as utils;
+
+/// A function that called when the widget value changed
+typedef void SmartSelectOnChange(dynamic value);
+
+/// A function that used to show choices modal
+typedef void SmartSelectShowModal(BuildContext context);
+
+/// Builder for custom trigger widget
+typedef Widget SmartSelectBuilder(
+  BuildContext context,
+  SmartSelectState state,
+  SmartSelectShowModal showChoices
+);
 
 /// SmartSelect that allows you to easily convert your usual form selects
 /// to dynamic pages with grouped radio or checkbox inputs.
-class SmartSelect extends StatefulWidget {
+class SmartSelect extends StatelessWidget {
 
   /// The primary content of the widget.
   /// Used in trigger widget and header option
@@ -31,14 +51,18 @@ class SmartSelect extends StatefulWidget {
   /// property.
   final Widget trailing;
 
+  /// Whether show the options list
+  /// as single choice or multiple choice
+  final bool isMultiChoice;
+
+  /// Whether this list tile is intended to display two lines of text.
+  final bool isTwoLine;
+
   /// Whether the is intended to display loading stats.
   final bool isLoading;
 
   // String text used as loading text
   final String loadingText;
-
-  /// Whether this list tile is intended to display two lines of text.
-  final bool isTwoLine;
 
   /// Whether this list tile is interactive.
   ///
@@ -72,10 +96,13 @@ class SmartSelect extends StatefulWidget {
   final EdgeInsetsGeometry padding;
 
   /// List of option along with its configuration
-  final SmartSelectOption option;
+  final SmartSelectOptionConfig option;
 
-  /// Target to open option list
-  final SmartSelectTarget target;
+  /// Choice configuration
+  final SmartSelectChoiceConfig choice;
+
+  /// Modal configuration
+  final SmartSelectModalConfig modal;
 
   /// Called when the widget value changed
   final SmartSelectOnChange onChange;
@@ -93,148 +120,125 @@ class SmartSelect extends StatefulWidget {
     this.placeholder,
     this.leading,
     this.trailing,
-    this.loadingText = 'Loading..',
-    this.isLoading = false,
+    this.isMultiChoice = false,
     this.isTwoLine = false,
+    this.isLoading = false,
+    this.loadingText = 'Loading..',
     this.enabled = true,
     this.selected = false,
     this.dense = false,
     this.padding,
-    this.target = SmartSelectTarget.page,
+    this.choice = const SmartSelectChoiceConfig(),
+    this.modal = const SmartSelectModalConfig(),
     this.onChange,
     this.builder,
   }) : super(key: key);
 
-  /// Custom constructor
-  /// Open option in popup dialog
-  SmartSelect.popup({
-    Key key,
-    @required this.title,
-    @required this.value,
-    @required this.option,
-    this.placeholder,
-    this.leading,
-    this.trailing,
-    this.loadingText = 'Loading..',
-    this.isLoading = false,
-    this.isTwoLine = false,
-    this.enabled = true,
-    this.selected = false,
-    this.dense = false,
-    this.padding,
-    this.onChange,
-    this.builder,
-  })  : this.target = SmartSelectTarget.popup,
-        super(key: key);
-
-  /// Custom constructor
-  /// Open option in bottom sheet
-  SmartSelect.sheet({
-    Key key,
-    @required this.title,
-    @required this.value,
-    @required this.option,
-    this.placeholder,
-    this.leading,
-    this.trailing,
-    this.loadingText = 'Loading..',
-    this.isLoading = false,
-    this.isTwoLine = false,
-    this.enabled = true,
-    this.selected = false,
-    this.dense = false,
-    this.padding,
-    this.onChange,
-    this.builder,
-  })  : this.target = SmartSelectTarget.sheet,
-        super(key: key);
-
-  @override
-  _SmartSelectState createState() => _SmartSelectState();
-}
-
-class _SmartSelectState extends State<SmartSelect> {
-  final GlobalKey<SmartSelectRouteState> _routeCtrl =
-      GlobalKey<SmartSelectRouteState>();
-
   @override
   Widget build(BuildContext context) {
-    return widget.builder != null
-        ? widget.builder(context, _state, this._showOptions)
-        : SmartSelectTile(
-            title: widget.title,
-            value: _state.valueDisplay,
-            leading: widget.leading,
-            trailing: widget.trailing,
-            loadingText: widget.loadingText,
-            isLoading: widget.isLoading,
-            isTwoLine: widget.isTwoLine,
-            enabled: widget.enabled,
-            selected: widget.selected,
-            dense: widget.dense,
-            padding: widget.padding,
-            onTap: () => this._showOptions(context),
+    return builder != null
+      ? builder(context, _state, this._showModal)
+      : SmartSelectTile(
+          title: title,
+          value: _state.valueDisplay,
+          leading: leading,
+          trailing: trailing,
+          loadingText: loadingText,
+          isLoading: isLoading,
+          isTwoLine: isTwoLine,
+          enabled: enabled,
+          selected: selected,
+          dense: dense,
+          padding: padding,
+          onTap: () => this._showModal(context),
+        );
+  }
+
+  SmartSelectState get _state => SmartSelectState(
+    title: title,
+    value: value,
+    option: option.items,
+    placeholder: placeholder,
+    isMultiChoice: isMultiChoice,
+  );
+
+  void _showModal(BuildContext context) async {
+    bool confirmed = false;
+    BuildContext _context;
+
+    Widget _routeWidget = MultiProvider(
+      providers: [
+        ChangeNotifierProvider<SmartSelectStateSelected>(
+          create: (_) => SmartSelectStateSelected(
+            isMultiChoice,
+            isMultiChoice ? List.from(value) : value,
+          ),
+        ),
+        ChangeNotifierProvider<SmartSelectStateFilter>(
+          create: (_) => SmartSelectStateFilter(),
+        ),
+        // Provider<SmartSelectModal>.value(value: modal),
+        // Provider<SmartSelectChoice>.value(value: choice),
+      ],
+      child: Builder(
+        builder: (_) {
+          _context = _;
+          return SmartSelectModal(
+            title: title,
+            config: modal,
+            choices: Consumer<SmartSelectStateFilter>(
+              builder: (context, state, _) {
+                return SmartSelectChoices(
+                  config: choice,
+                  query: state.query,
+                  items: option.filteredItems(state.query),
+                  useConfirmation: modal.useConfirmation,
+                  isMultiChoice: isMultiChoice,
+                  isGrouped: option.groupBy != null,
+                );
+              }
+            ),
           );
-  }
-
-  SmartSelectState get _state {
-    return SmartSelectState(
-      title: widget.title,
-      value: widget.value,
-      option: widget.option,
-      placeholder: widget.placeholder,
+        },
+      ),
     );
-  }
 
-  Widget get _routeWidget {
-    return SmartSelectRoute(
-      key: _routeCtrl,
-      title: widget.title,
-      value: widget.value,
-      option: widget.option,
-      target: widget.target,
-    );
-  }
-
-  void _showOptions(BuildContext context) async {
-    var confirmed = true;
-
-    switch (widget.target) {
-      case SmartSelectTarget.page:
+    switch (modal.type) {
+      case SmartSelectModalType.fullPage:
         confirmed = await Navigator.push(
           context,
           MaterialPageRoute(builder: (_) => _routeWidget),
         );
         break;
-      case SmartSelectTarget.sheet:
+      case SmartSelectModalType.bottomSheet:
         confirmed = await showModalBottomSheet(
           context: context,
-          shape: widget.option.shape,
-          backgroundColor: widget.option.backgroundColor,
-          elevation: widget.option.elevation,
+          shape: modal.style.shape,
+          backgroundColor: modal.style.backgroundColor,
+          elevation: modal.style.elevation,
           builder: (_) => _routeWidget,
         );
         break;
-      case SmartSelectTarget.popup:
+      case SmartSelectModalType.popupDialog:
         confirmed = await showDialog(
           context: context,
           builder: (_) => Dialog(
-            shape: widget.option.shape,
-            backgroundColor: widget.option.backgroundColor,
-            elevation: widget.option.elevation,
+            shape: modal.style.shape,
+            backgroundColor: modal.style.backgroundColor,
+            elevation: modal.style.elevation,
             child: _routeWidget,
           ),
         );
         break;
     }
 
-    // selected
-    var selected = _routeCtrl.currentState.choicesCtrl.currentState.selected;
+    // get selected value(s)
+    dynamic selected = utils.getStateSelected(_context).value;
 
     // return value
-    if (widget.onChange != null && selected != null) {
-      if (widget.option.useConfirmation == true && confirmed != true) return;
-      widget.onChange(selected);
+    if (onChange != null && selected != null) {
+      if (modal.useConfirmation == true && confirmed != true) return;
+      onChange(selected);
     }
   }
 }
