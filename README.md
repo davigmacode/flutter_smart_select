@@ -4,6 +4,12 @@ Smart select allows you to easily convert your usual form selects into dynamic p
 
 # Demo
 
+## Preview
+
+[![Watch the demo](https://img.youtube.com/vi/bcHELDM8hWg/maxresdefault.jpg)](https://youtu.be/bcHELDM8hWg)
+
+## Download
+
 [![Demo App](https://github.com/davigmacode/flutter_smart_select/raw/master/example/art/qr/apk.png "Demo App")](https://github.com/davigmacode/flutter_smart_select/blob/master/example/art/demo/SmartSelect.apk?raw=true)
 
 # Features

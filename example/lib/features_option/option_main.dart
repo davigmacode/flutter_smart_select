@@ -6,9 +6,19 @@ import './option_list_of_list.dart';
 import './option_async.dart';
 import '../features_header.dart';
 
-class FeaturesOption extends StatelessWidget {
+class FeaturesOption extends StatefulWidget {
+  @override
+  _FeaturesOptionState createState() => _FeaturesOptionState();
+}
+
+class _FeaturesOptionState extends State<FeaturesOption> with AutomaticKeepAliveClientMixin<FeaturesOption> {
+
+  @override
+  bool get wantKeepAlive => true;
+
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scrollbar(
       child:ListView(
         children: <Widget>[

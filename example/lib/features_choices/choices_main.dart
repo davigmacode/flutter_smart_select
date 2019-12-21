@@ -5,9 +5,19 @@ import './choices_divider.dart';
 import './choices_theme.dart';
 import '../features_header.dart';
 
-class FeaturesChoices extends StatelessWidget {
+class FeaturesChoices extends StatefulWidget {
+  @override
+  _FeaturesChoicesState createState() => _FeaturesChoicesState();
+}
+
+class _FeaturesChoicesState extends State<FeaturesChoices> with AutomaticKeepAliveClientMixin<FeaturesChoices> {
+
+  @override
+  bool get wantKeepAlive => true;
+
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scrollbar(
       child:ListView(
         children: <Widget>[

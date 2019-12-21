@@ -33,7 +33,7 @@ class SmartSelectState {
   /// that represent the value
   dynamic get valueObject {
     return isMultiChoice == true
-      ? option.where((SmartSelectOptionItem item) => value.contains(item.value))
+      ? option.where((SmartSelectOptionItem item) => value?.contains(item.value) ?? false)
       : option.firstWhere((SmartSelectOptionItem item) => item.value == value, orElse: () => null);
   }
 

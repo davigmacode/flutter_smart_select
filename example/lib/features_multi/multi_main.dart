@@ -7,9 +7,19 @@ import './multi_chips.dart';
 import './multi_switches.dart';
 import '../features_header.dart';
 
-class FeaturesMulti extends StatelessWidget {
+class FeaturesMulti extends StatefulWidget {
+  @override
+  _FeaturesMultiState createState() => _FeaturesMultiState();
+}
+
+class _FeaturesMultiState extends State<FeaturesMulti> with AutomaticKeepAliveClientMixin<FeaturesMulti> {
+
+  @override
+  bool get wantKeepAlive => true;
+
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scrollbar(
       child:ListView(
         children: <Widget>[

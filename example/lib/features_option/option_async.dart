@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smart_select/smart_select.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class FeaturesOptionAsync extends StatefulWidget {
   @override
@@ -11,7 +12,11 @@ class _FeaturesOptionAsyncState extends State<FeaturesOptionAsync> {
 
   String _user;
   List _users = [];
-  bool _isLoading;
+  bool _usersIsLoading;
+
+  List _country;
+  List _countries = [];
+  bool _countriesIsLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +28,9 @@ class _FeaturesOptionAsyncState extends State<FeaturesOptionAsync> {
           value: _user,
           option: SmartSelectOptionConfig(
             _users,
-            value: (_item) => _item['email'],
-            title: (_item) => _item['name']['first'] + ' ' + _item['name']['last'],
-            subtitle: (_item) => _item['email'],
+            value: (data) => data['email'],
+            title: (data) => data['name']['first'] + ' ' + data['name']['last'],
+            subtitle: (data) => data['email'],
             groupBy: 'gender',
           ),
           modal: SmartSelectModalConfig(useFilter: true),
@@ -40,7 +45,7 @@ class _FeaturesOptionAsyncState extends State<FeaturesOptionAsync> {
               title: state.title,
               value: state.valueDisplay,
               isTwoLine: true,
-              isLoading: _isLoading,
+              isLoading: _usersIsLoading,
               leading: Builder(
                 builder: (context) {
                   String avatarUrl = state.valueObject != null
@@ -56,6 +61,30 @@ class _FeaturesOptionAsyncState extends State<FeaturesOptionAsync> {
           },
           onChange: (val) => setState(() => _user = val),
         ),
+        Divider(indent: 20),
+        SmartSelect(
+          title: 'Country',
+          value: _country,
+          isTwoLine: true,
+          isMultiChoice: true,
+          option: SmartSelectOptionConfig(
+            _countries,
+            value: (data) => data['subregion'] + ' - ' + data['name'],
+            title: (data) => data['name'],
+            subtitle: ['capital'],
+            groupBy: 'region',
+          ),
+          modal: SmartSelectModalConfig(useFilter: true),
+          choice: SmartSelectChoiceConfig(
+            type: SmartSelectChoiceType.checkboxes,
+          ),
+          leading: Container(
+            width: 40,
+            height: 40,
+            child: Icon(Icons.flag),
+          ),
+          onChange: (val) => setState(() => _country = val),
+        ),
         Container(height: 7),
       ],
     );
@@ -66,19 +95,32 @@ class _FeaturesOptionAsyncState extends State<FeaturesOptionAsync> {
     super.initState();
 
     _getUsers();
+    _getCountries();
   }
 
   void _getUsers() async {
     try {
-      setState(() => _isLoading = true);
+      setState(() => _usersIsLoading = true);
       String url = "https://randomuser.me/api/?inc=gender,name,nat,picture,email&results=25";
       Response res = await Dio().get(url);
-      setState(() {
-        _users = res.data['results'];
-        _isLoading = false;
-      });
+      setState(() =>_users = res.data['results'].cast<Map>());
     } catch (e) {
       print(e);
+    } finally {
+      setState(() => _usersIsLoading = false);
+    }
+  }
+
+  void _getCountries() async {
+    try {
+      setState(() => _countriesIsLoading = true);
+      String url = "http://restcountries.eu/rest/v2/all?fields=name;capital;flag;region;subregion";
+      Response res = await Dio().get(url);
+      setState(() => _countries = res.data.cast<Map>());
+    } catch (e) {
+      print(e);
+    } finally {
+      setState(() => _countriesIsLoading = false);
     }
   }
 }

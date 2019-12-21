@@ -6,9 +6,19 @@ import './single_popup.dart';
 import './single_chips.dart';
 import '../features_header.dart';
 
-class FeaturesSingle extends StatelessWidget {
+class FeaturesSingle extends StatefulWidget {
+  @override
+  _FeaturesSingleState createState() => _FeaturesSingleState();
+}
+
+class _FeaturesSingleState extends State<FeaturesSingle> with AutomaticKeepAliveClientMixin<FeaturesSingle> {
+
+  @override
+  bool get wantKeepAlive => true;
+
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scrollbar(
       child:ListView(
         children: <Widget>[

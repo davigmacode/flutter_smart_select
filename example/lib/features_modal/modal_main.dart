@@ -7,9 +7,19 @@ import './modal_header.dart';
 import './modal_headerless.dart';
 import '../features_header.dart';
 
-class FeaturesModal extends StatelessWidget {
+class FeaturesModal extends StatefulWidget {
+  @override
+  _FeaturesModalState createState() => _FeaturesModalState();
+}
+
+class _FeaturesModalState extends State<FeaturesModal> with AutomaticKeepAliveClientMixin<FeaturesModal> {
+
+  @override
+  bool get wantKeepAlive => true;
+
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scrollbar(
       child:ListView(
         children: <Widget>[

@@ -154,9 +154,11 @@ class SmartSelect extends StatelessWidget {
         );
   }
 
+  dynamic get _defaultValue => isMultiChoice ? [] : null;
+
   SmartSelectState get _state => SmartSelectState(
     title: title,
-    value: value,
+    value: value ?? _defaultValue,
     option: option.items,
     placeholder: placeholder,
     isMultiChoice: isMultiChoice,
@@ -171,7 +173,7 @@ class SmartSelect extends StatelessWidget {
         ChangeNotifierProvider<SmartSelectStateSelected>(
           create: (_) => SmartSelectStateSelected(
             isMultiChoice,
-            isMultiChoice ? List.from(value) : value,
+            isMultiChoice ? List.from(value ?? _defaultValue) : value,
           ),
         ),
         ChangeNotifierProvider<SmartSelectStateFilter>(

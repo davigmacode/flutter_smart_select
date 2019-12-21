@@ -8,9 +8,19 @@ import './tile_trailing.dart';
 import './tile_builder.dart';
 import '../features_header.dart';
 
-class FeaturesTile extends StatelessWidget {
+class FeaturesTile extends StatefulWidget {
+  @override
+  _FeaturesTileState createState() => _FeaturesTileState();
+}
+
+class _FeaturesTileState extends State<FeaturesTile> with AutomaticKeepAliveClientMixin<FeaturesTile> {
+
+  @override
+  bool get wantKeepAlive => true;
+
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scrollbar(
       child:ListView(
         children: <Widget>[

@@ -1,3 +1,8 @@
+## [2.0.1] - 2019-12-21
+
+* fix bug when value is null for multiple choice
+* update demo and add video preview example
+
 ## [2.0.0] - 2019-12-20
 
 * Use Provider as state management

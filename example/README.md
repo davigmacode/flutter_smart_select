@@ -1,5 +1,11 @@
 # Demo App
 
+## Preview
+
+[![Watch the demo](https://img.youtube.com/vi/bcHELDM8hWg/maxresdefault.jpg)](https://youtu.be/bcHELDM8hWg)
+
+## Download
+
 [![Demo App](https://github.com/davigmacode/flutter_smart_select/raw/master/example/art/qr/apk.png "Demo App")](https://github.com/davigmacode/flutter_smart_select/blob/master/example/art/demo/SmartSelect.apk?raw=true)
 
 # Source Code
@@ -26,7 +32,7 @@
 * [Leading Widget](https://github.com/davigmacode/flutter_smart_select/blob/master/example/lib/features_tile/tile_leading.dart)
 * [Custom Trailing Widget](https://github.com/davigmacode/flutter_smart_select/blob/master/example/lib/features_tile/tile_trailing.dart)
 * [Loading Stats](https://github.com/davigmacode/flutter_smart_select/blob/master/example/lib/features_tile/tile_loading.dart)
-* [Custom Tile Builder]((https://github.com/davigmacode/flutter_smart_select/blob/master/example/lib/features_tile/tile_builder.dart))
+* [Custom Tile Builder](https://github.com/davigmacode/flutter_smart_select/blob/master/example/lib/features_tile/tile_builder.dart)
 
 
 ## Customize Option

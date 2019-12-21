@@ -6,19 +6,9 @@ import './features_option/option_main.dart';
 import './features_modal/modal_main.dart';
 import './features_choices/choices_main.dart';
 
-class Features extends StatefulWidget {
-  @override
-  _FeaturesState createState() => _FeaturesState();
-}
-
-class _FeaturesState extends State<Features> with AutomaticKeepAliveClientMixin<Features> {
-
-  @override
-  bool get wantKeepAlive => true;
-
+class Features extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     return DefaultTabController(
       length: 6,
       child: Scaffold(
@@ -39,7 +29,7 @@ class _FeaturesState extends State<Features> with AutomaticKeepAliveClientMixin<
           actions: <Widget>[
             IconButton(
               icon: Icon(Icons.help_outline),
-              onPressed: () => _about(),
+              onPressed: () => _about(context),
             )
           ],
         ),
@@ -57,7 +47,7 @@ class _FeaturesState extends State<Features> with AutomaticKeepAliveClientMixin<
     );
   }
 
-  void _about() {
+  void _about(BuildContext context) {
     showDialog(
       context: context,
       builder: (_) => Dialog(

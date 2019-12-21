@@ -12,7 +12,7 @@ class SmartSelectStateSelected extends ChangeNotifier {
 
   bool contains(dynamic val, [isMultiChoice = false]) {
     return _isMultiChoice == true
-      ? _value.contains(val)
+      ? _value?.contains(val) ?? false
       : _value == val;
   }
 

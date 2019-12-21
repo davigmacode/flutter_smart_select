@@ -2,7 +2,7 @@ name: smart_select
 description: Smart select allows you to easily convert your usual form selects into dynamic pages with various choices input.
 author: Irfan Vigma Taufik<davigmacode@gmail.com>
 homepage: https://github.com/davigmacode/flutter_smart_select
-version: 2.0.0
+version: 2.0.1
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
