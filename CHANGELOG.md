@@ -1,3 +1,7 @@
+## [2.0.2] - 2019-12-25
+
+* Upgrade Provider package to 4.0.0
+
 ## [2.0.1] - 2019-12-21
 
 * fix bug when value is null for multiple choice

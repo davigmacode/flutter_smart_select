@@ -22,7 +22,7 @@ dependencies:
   smart_select:
     path: ../
   dio: ^3.0.7
-  provider: ^3.2.0
+  provider: ^4.0.0
   sticky_headers: ^0.1.8+1
   flutter_svg: ^0.15.0
 
