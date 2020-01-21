@@ -10,8 +10,8 @@ class FeaturesTileBuilder extends StatefulWidget {
 
 class _FeaturesTileBuilderState extends State<FeaturesTileBuilder> {
 
-  List _car = [];
-  List _categories = [];
+  List<String> _car = [];
+  List<String> _categories = [];
   String _sort = 'popular';
 
   @override
@@ -28,22 +28,17 @@ class _FeaturesTileBuilderState extends State<FeaturesTileBuilder> {
           child: Row(
             children: <Widget>[
               Expanded(
-                child: SmartSelect(
+                child: SmartSelect<String>.multiple(
                   title: 'Categories',
                   value: _categories,
+                  options: options.categories,
+                  onChange: (val) => setState(() => _categories = val),
                   isTwoLine: true,
-                  isMultiChoice: true,
                   trailing: Icon(Icons.arrow_drop_down),
-                  option: SmartSelectOptionConfig(
-                    options.categories,
-                    value: 'slug',
-                    title: 'caption',
-                  ),
-                  modal: SmartSelectModalConfig(
-                    type: SmartSelectModalType.bottomSheet,
+                  modalType: SmartSelectModalType.bottomSheet,
+                  modalConfig: SmartSelectModalConfig(
                     useHeader: false,
                   ),
-                  onChange: (val) => setState(() => _categories = val),
                 ),
               ),
               Container(
@@ -51,39 +46,39 @@ class _FeaturesTileBuilderState extends State<FeaturesTileBuilder> {
                 child: VerticalDivider(),
               ),
               Expanded(
-                child: SmartSelect(
+                child: SmartSelect<String>.single(
                   title: 'Sort By',
                   value: _sort,
+                  options: options.sorts,
+                  onChange: (val) => setState(() => _sort = val),
                   isTwoLine: true,
                   trailing: Icon(Icons.arrow_drop_down),
-                  option: SmartSelectOptionConfig(
-                    options.sorts,
-                    value: 'id',
-                    title: 'name',
-                  ),
-                  modal: SmartSelectModalConfig(
-                    type: SmartSelectModalType.popupDialog,
+                  modalType: SmartSelectModalType.popupDialog,
+                  modalConfig: SmartSelectModalConfig(
                     useHeader: false,
                   ),
-                  onChange: (val) => setState(() => _sort = val),
                 ),
               ),
             ],
           ),
         ),
-        SmartSelect(
+        SmartSelect<String>.multiple(
           title: 'Cars',
           value: _car,
-          isMultiChoice: true,
-          option: SmartSelectOptionConfig(
-            options.cars,
-            groupBy: 'body',
+          options: SmartSelectOption.listFrom<Map, String>(
+            source: options.cars,
+            value: (index, item) => item['value'],
+            title: (index, item) => item['title'],
+            group: (index, item) => item['body'],
           ),
-          modal: SmartSelectModalConfig(
+          onChange: (val) => setState(() => _car = val),
+          modalConfig: SmartSelectModalConfig(
             useConfirmation: true,
             useFilter: true,
           ),
-          onChange: (val) => setState(() => _car = val),
+          choiceConfig: SmartSelectChoiceConfig(
+            isGrouped: true,
+          ),
           builder: (context, state, showOptions) {
             return CardTile(
               title: state.title,

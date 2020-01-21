@@ -36,16 +36,19 @@ class _FeaturesOptionListOfStringState extends State<FeaturesOptionListOfString>
           child: Row(
             children: <Widget>[
               Expanded(
-                child: SmartSelect(
+                child: SmartSelect.multiple(
                   title: 'Categories',
                   value: _categories,
                   isTwoLine: true,
-                  isMultiChoice: true,
                   trailing: Icon(Icons.arrow_drop_down),
-                  option: SmartSelectOptionConfig(_categoriesOption),
-                  choice: SmartSelectChoiceConfig(type: SmartSelectChoiceType.switches),
-                  modal: SmartSelectModalConfig(
-                    type: SmartSelectModalType.popupDialog,
+                  options: SmartSelectOption.listFrom<String, int>(
+                    source: _categoriesOption,
+                    value: (index, item) => index,
+                    title: (index, item) => item,
+                  ),
+                  choiceType: SmartSelectChoiceType.switches,
+                  modalType: SmartSelectModalType.popupDialog,
+                  modalConfig: SmartSelectModalConfig(
                     useHeader: false,
                   ),
                   onChange: (val) => setState(() => _categories = val),
@@ -56,14 +59,18 @@ class _FeaturesOptionListOfStringState extends State<FeaturesOptionListOfString>
                 child: VerticalDivider(),
               ),
               Expanded(
-                child: SmartSelect(
+                child: SmartSelect.single(
                   title: 'Sort By',
                   value: _sort,
                   isTwoLine: true,
                   trailing: Icon(Icons.arrow_drop_down),
-                  option: SmartSelectOptionConfig(_sortOption),
-                  modal: SmartSelectModalConfig(
-                    type: SmartSelectModalType.popupDialog,
+                  options: SmartSelectOption.listFrom<String, int>(
+                    source: _sortOption,
+                    value: (index, item) => index,
+                    title: (index, item) => item,
+                  ),
+                  modalType: SmartSelectModalType.popupDialog,
+                  modalConfig: SmartSelectModalConfig(
                     useHeader: false,
                   ),
                   onChange: (val) => setState(() => _sort = val),

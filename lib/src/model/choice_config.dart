@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
-import './option_item.dart';
+import 'package:flutter/widgets.dart';
+import './option.dart';
 import './choice_theme.dart';
 
 /// Target to open choices list
@@ -14,53 +14,54 @@ typedef Widget SmartSelectChoiceGroupHeaderBuilder(
   int count
 );
 
-/// A builder for custom divider widget between choices item
-typedef Widget SmartSelectChoiceDividerBuilder(
-  BuildContext context,
-  int index
-);
+// /// A builder for custom divider widget between choices item
+// typedef Widget SmartSelectChoiceDividerBuilder(
+//   BuildContext context,
+//   int index
+// );
 
 /// A builder for custom choices item title
-typedef Widget SmartSelectChoiceTitleBuilder(
+typedef Widget SmartSelectChoiceWidgetBuilder<T>(
   BuildContext context,
-  SmartSelectOptionItem item
+  SmartSelectOption<T> item
 );
 
-/// A builder for custom choices item subtitle
-typedef Widget SmartSelectChoiceSubtitleBuilder(
-  BuildContext context,
-  SmartSelectOptionItem item
-);
+// /// A builder for custom choices item title
+// typedef Widget SmartSelectChoiceTitleBuilder<T>(
+//   BuildContext context,
+//   SmartSelectOption<T> item
+// );
 
-/// A builder for custom choices item secondary
-typedef Widget SmartSelectChoiceSecondaryBuilder(
-  BuildContext context,
-  SmartSelectOptionItem item
-);
+// /// A builder for custom choices item subtitle
+// typedef Widget SmartSelectChoiceSubtitleBuilder<T>(
+//   BuildContext context,
+//   SmartSelectOption<T> item
+// );
+
+// /// A builder for custom choices item secondary
+// typedef Widget SmartSelectChoiceSecondaryBuilder<T>(
+//   BuildContext context,
+//   SmartSelectOption<T> item
+// );
 
 /// A builder for custom each choices item widget
-typedef Widget SmartSelectChoiceBuilder(
-  SmartSelectOptionItem item,
+typedef Widget SmartSelectChoiceBuilder<T>(
+  SmartSelectOption<T> item,
   bool checked,
-  SmartSelectChoiceOnSelect onChange
+  SmartSelectChoiceOnSelect<T> onChange
 );
 
 /// Callback to handle change of each custom choices item
-typedef void SmartSelectChoiceOnSelect(
-  dynamic value,
+typedef void SmartSelectChoiceOnSelect<T>(
+  T value,
   bool checked
 );
 
 /// Choices configuration
-class SmartSelectChoiceConfig {
+class SmartSelectChoiceConfig<T> {
 
-  /// When [SmartSelect.isMultiChoice] is true
-  /// [choice] can use [SmartSelectChoiceConfig.checkboxes]
-  /// or [SmartSelectChoiceConfig.switches] or [SmartSelectChoiceConfig.chips]
-  /// and when [SmartSelect.isMultiChoice] is false
-  /// [choice] can use [SmartSelectChoiceConfig.radios]
-  /// or [SmartSelectChoiceConfig.chips]
-  final SmartSelectChoiceType type;
+  /// Whether the choices list is grouped
+  final bool isGrouped;
 
   /// Whether the choices list use [Wrap] instead of [ListView]
   final bool useWrap;
@@ -79,19 +80,19 @@ class SmartSelectChoiceConfig {
   final SmartSelectChoiceGroupHeaderStyle groupHeaderStyle;
 
   /// Builder for each custom choices item
-  final SmartSelectChoiceBuilder builder;
+  final SmartSelectChoiceBuilder<T> builder;
 
   /// Builder for each custom choices item subtitle
-  final SmartSelectChoiceTitleBuilder titleBuilder;
+  final SmartSelectChoiceWidgetBuilder<T> titleBuilder;
 
   /// Builder for each custom choices item subtitle
-  final SmartSelectChoiceSubtitleBuilder subtitleBuilder;
+  final SmartSelectChoiceWidgetBuilder<T> subtitleBuilder;
 
   /// Builder for each custom choices item secondary
-  final SmartSelectChoiceSecondaryBuilder secondaryBuilder;
+  final SmartSelectChoiceWidgetBuilder<T> secondaryBuilder;
 
   /// Builder for custom divider widget between choices item
-  final SmartSelectChoiceDividerBuilder dividerBuilder;
+  final IndexedWidgetBuilder dividerBuilder;
 
   /// Builder for custom choices group header widget
   final SmartSelectChoiceGroupHeaderBuilder groupHeaderBuilder;
@@ -101,10 +102,10 @@ class SmartSelectChoiceConfig {
 
   /// Create choices configuration
   const SmartSelectChoiceConfig({
-    this.type,
+    this.isGrouped = false,
     this.useDivider = false,
     this.useWrap = false,
-    this.glowingOverscrollIndicatorColor = Colors.blueGrey,
+    this.glowingOverscrollIndicatorColor = const Color(0xFF607D8B),
     this.groupHeaderStyle = const SmartSelectChoiceGroupHeaderStyle(),
     this.style = const SmartSelectChoiceStyle(),
     this.builder,

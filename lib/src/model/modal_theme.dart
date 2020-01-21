@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'dart:ui';
 
 /// Configure modal style
 class SmartSelectModalStyle {
@@ -55,10 +56,10 @@ class SmartSelectModalHeaderStyle {
     this.shape,
     this.elevation = 0.5,
     this.centerTitle = false,
-    this.textStyle = const TextStyle(color: Colors.black54),
-    this.iconTheme = const IconThemeData(color: Colors.black54),
-    this.actionsIconTheme = const IconThemeData(color: Colors.black54),
-    this.backgroundColor = Colors.white,
+    this.textStyle = const TextStyle(color: Color(0x8A000000)),
+    this.iconTheme = const IconThemeData(color: Color(0x8A000000)),
+    this.actionsIconTheme = const IconThemeData(color: Color(0x8A000000)),
+    this.backgroundColor = const Color(0xFFFFFFFF),
     this.brightness,
   });
 }

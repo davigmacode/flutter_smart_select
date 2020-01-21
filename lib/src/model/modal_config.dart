@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import './modal_theme.dart';
 
 /// Target to open choices list
@@ -16,14 +16,14 @@ class SmartSelectModalConfig {
   /// Use different title with the trigger widget title
   final String title;
 
+  /// Use different title with the trigger widget title
+  final String searchBarHint;
+
   /// A widget to display before the choices.
   final Widget leading;
 
   /// A widget to display after the choices.
   final Widget trailing;
-
-  /// Target to open choices list
-  final SmartSelectModalType type;
 
   /// Whether the options list modal use header or not
   final bool useHeader;
@@ -47,9 +47,9 @@ class SmartSelectModalConfig {
   /// Create modal configuration
   const SmartSelectModalConfig({
     this.title,
+    this.searchBarHint,
     this.leading,
     this.trailing,
-    this.type = SmartSelectModalType.fullPage,
     this.useHeader = true,
     this.useFilter = false,
     this.useConfirmation = false,

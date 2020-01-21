@@ -9,34 +9,26 @@ class FeaturesMultiPage extends StatefulWidget {
 
 class _FeaturesMultiPageState extends State<FeaturesMultiPage> {
 
-  List _day = ['fri'];
-  List _month = ['apr'];
+  List<String> _day = ['fri'];
+  List<String> _month = ['apr'];
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
         Container(height: 7),
-        SmartSelect(
+        SmartSelect<String>.multiple(
           title: 'Days',
           value: _day,
-          isMultiChoice: true,
-          option: SmartSelectOptionConfig(
-            options.days,
-          ),
+          options: options.days,
           onChange: (val) => setState(() => _day = val)
         ),
         Divider(indent: 20),
-        SmartSelect(
+        SmartSelect<String>.multiple(
           title: 'Month',
           value: _month,
-          isMultiChoice: true,
-          option: SmartSelectOptionConfig(
-            options.months,
-          ),
-          modal: SmartSelectModalConfig(
-            type: SmartSelectModalType.fullPage,
-          ),
+          options: options.months,
+          modalType: SmartSelectModalType.fullPage,
           onChange: (val) => setState(() => _month = val)
         ),
         Container(height: 7),

@@ -17,41 +17,42 @@ class _FeaturesChoicesGroupedState extends State<FeaturesChoicesGrouped> {
     return Column(
       children: <Widget>[
         Container(height: 7),
-        SmartSelect(
+        SmartSelect.single(
           title: 'Smartphones',
           placeholder: 'Choose one',
           isTwoLine: true,
           value: _smartphone,
-          option: SmartSelectOptionConfig(
-            options.smartphones,
-            value: 'id',
-            title: 'name',
-            groupBy: 'brand',
+          options: SmartSelectOption.listFrom<Map, String>(
+            source: options.smartphones,
+            value: (index, item) => item['id'],
+            title: (index, item) => item['name'],
+            group: (index, item) => item['brand'],
           ),
-          modal: SmartSelectModalConfig(
-            type: SmartSelectModalType.bottomSheet,
-          ),
+          modalType: SmartSelectModalType.bottomSheet,
+          choiceConfig: SmartSelectChoiceConfig(isGrouped: true),
           leading: CircleAvatar(
             backgroundImage: NetworkImage('https://source.unsplash.com/xsGxhtAsfSA/100x100'),
           ),
           onChange: (val) => setState(() => _smartphone = val),
         ),
         Divider(indent: 20),
-        SmartSelect(
+        SmartSelect.multiple(
           title: 'Cars',
           placeholder: 'Choose one or more',
           isTwoLine: true,
           value: _car,
-          isMultiChoice: true,
-          option: SmartSelectOptionConfig(
-            options.cars,
-            groupBy: 'body',
+          options: SmartSelectOption.listFrom<Map, String>(
+            source: options.cars,
+            value: (index, item) => item['value'],
+            title: (index, item) => item['title'],
+            group: (index, item) => item['body'],
           ),
-          modal: SmartSelectModalConfig(
-            type: SmartSelectModalType.bottomSheet,
+          modalType: SmartSelectModalType.bottomSheet,
+          modalConfig: SmartSelectModalConfig(
             useConfirmation: true,
             useFilter: true,
           ),
+          choiceConfig: SmartSelectChoiceConfig(isGrouped: true),
           leading: CircleAvatar(
             backgroundImage: NetworkImage('https://source.unsplash.com/yeVtxxPxzbw/100x100'),
           ),

@@ -10,46 +10,53 @@ class FeaturesChoicesDivider extends StatefulWidget {
 class _FeaturesChoicesDividerState extends State<FeaturesChoicesDivider> {
 
   String _car = '';
-  List _smartphone = [];
+  List<String> _smartphone = [];
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
         Container(height: 7),
-        SmartSelect(
+        SmartSelect<String>.single(
           title: 'Car',
           placeholder: 'Choose one',
           isTwoLine: true,
           value: _car,
-          option: SmartSelectOptionConfig(
-            options.cars,
-            groupBy: 'body',
+          options: SmartSelectOption.listFrom<Map, String>(
+            source: options.cars,
+            value: (index, item) => item['value'],
+            title: (index, item) => item['title'],
+            group: (index, item) => item['body'],
           ),
-          choice: SmartSelectChoiceConfig(useDivider: true),
+          choiceConfig: SmartSelectChoiceConfig(
+            isGrouped: true,
+            useDivider: true
+          ),
           leading: CircleAvatar(
             backgroundImage: NetworkImage('https://source.unsplash.com/yeVtxxPxzbw/100x100'),
           ),
           onChange: (val) => setState(() => _car = val),
         ),
         Divider(indent: 20),
-        SmartSelect(
+        SmartSelect<String>.multiple(
           title: 'Smartphones',
           placeholder: 'Choose one',
           value: _smartphone,
           isTwoLine: true,
-          isMultiChoice: true,
-          option: SmartSelectOptionConfig(
-            options.smartphones,
-            value: 'id',
-            title: 'name',
-            groupBy: 'brand',
+          options: SmartSelectOption.listFrom<Map, String>(
+            source: options.smartphones,
+            value: (index, item) => item['id'],
+            title: (index, item) => item['name'],
+            group: (index, item) => item['brand'],
           ),
-          modal: SmartSelectModalConfig(
-            type: SmartSelectModalType.bottomSheet,
-            useFilter: true
+          modalType: SmartSelectModalType.bottomSheet,
+          modalConfig: SmartSelectModalConfig(
+            useFilter: true,
           ),
-          choice: SmartSelectChoiceConfig(useDivider: true),
+          choiceConfig: SmartSelectChoiceConfig(
+            isGrouped: true,
+            useDivider: true,
+          ),
           leading: CircleAvatar(
             backgroundImage: NetworkImage('https://source.unsplash.com/xsGxhtAsfSA/100x100'),
           ),

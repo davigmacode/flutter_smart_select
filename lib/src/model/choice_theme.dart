@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 /// Configure choices group header style
 class SmartSelectChoiceGroupHeaderStyle {
@@ -18,7 +18,7 @@ class SmartSelectChoiceGroupHeaderStyle {
   /// Create a configuration of choices group header style
   const SmartSelectChoiceGroupHeaderStyle({
     this.backgroundColor = const Color(0xFFECEFF1),
-    this.textStyle = const TextStyle(color: Colors.black54),
+    this.textStyle = const TextStyle(color: Color(0x8A000000)),
     this.padding = const EdgeInsets.symmetric(horizontal: 16.0),
     this.height = 45.0,
   });

@@ -18,16 +18,13 @@ class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
     return Column(
       children: <Widget>[
         Container(height: 7),
-        SmartSelect(
+        SmartSelect.multiple(
           title: 'Days',
           value: _day,
           isTwoLine: true,
-          isMultiChoice: true,
-          option: SmartSelectOptionConfig(
-            options.days,
-          ),
-          modal: SmartSelectModalConfig(
-            type: SmartSelectModalType.fullPage,
+          options: options.days,
+          modalType: SmartSelectModalType.fullPage,
+          modalConfig: SmartSelectModalConfig(
             useConfirmation: true,
           ),
           leading: CircleAvatar(
@@ -36,16 +33,13 @@ class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
           onChange: (val) => setState(() => _day = val)
         ),
         Divider(indent: 20),
-        SmartSelect(
+        SmartSelect.multiple(
           title: 'Fruit',
           value: _fruit,
           isTwoLine: true,
-          isMultiChoice: true,
-          option: SmartSelectOptionConfig(
-            options.fruits,
-          ),
-          modal: SmartSelectModalConfig(
-            type: SmartSelectModalType.popupDialog,
+          options: options.fruits,
+          modalType: SmartSelectModalType.popupDialog,
+          modalConfig: SmartSelectModalConfig(
             useConfirmation: true,
           ),
           leading: Container(
@@ -56,14 +50,14 @@ class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
           onChange: (val) => setState(() => _fruit = val),
         ),
         Divider(indent: 20),
-        SmartSelect(
+        SmartSelect.single(
           title: 'Super Hero',
           value: _hero,
           isTwoLine: true,
-          option: SmartSelectOptionConfig(options.heroes),
-          modal: SmartSelectModalConfig(
+          options: options.heroes,
+          modalType: SmartSelectModalType.bottomSheet,
+          modalConfig: SmartSelectModalConfig(
             useConfirmation: true,
-            type: SmartSelectModalType.bottomSheet
           ),
           leading: CircleAvatar(
             backgroundImage: NetworkImage('https://source.unsplash.com/8I-ht65iRww/100x100'),

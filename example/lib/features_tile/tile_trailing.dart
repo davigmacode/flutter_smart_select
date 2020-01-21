@@ -10,29 +10,28 @@ class FeaturesTileTrailing extends StatefulWidget {
 class _FeaturesTileTrailingState extends State<FeaturesTileTrailing> {
 
   String _day = 'fri';
-  List _month = ['apr'];
+  List<String> _month = ['apr'];
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
         Container(height: 7),
-        SmartSelect(
+        SmartSelect<String>.single(
           title: 'Days',
           value: _day,
+          options: options.days,
+          onChange: (val) => setState(() => _day = val),
           trailing: Icon(Icons.keyboard_arrow_down),
-          option: SmartSelectOptionConfig(options.days),
-          onChange: (val) => setState(() => _day = val)
         ),
         Divider(indent: 20),
-        SmartSelect(
+        SmartSelect<String>.multiple(
           title: 'Month',
           value: _month,
-          isTwoLine: true,
-          isMultiChoice: true,
+          options: options.months,
+          onChange: (val) => setState(() => _month = val),
           trailing: Icon(Icons.arrow_drop_down_circle),
-          option: SmartSelectOptionConfig(options.months),
-          onChange: (val) => setState(() => _month = val)
+          isTwoLine: true,
         ),
         Container(height: 7),
       ],

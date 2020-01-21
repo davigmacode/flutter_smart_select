@@ -1,57 +1,76 @@
-library smart_select_example.options;
+import 'package:smart_select/smart_select.dart' show SmartSelectOption;
 
-List<Map<String,dynamic>> days = [
-  { 'value': 'mon', 'title': 'Monday' },
-  { 'value': 'tue', 'title': 'Tuesday' },
-  { 'value': 'wed', 'title': 'Wednesday' },
-  { 'value': 'thu', 'title': 'Thursday' },
-  { 'value': 'fri', 'title': 'Friday' },
-  { 'value': 'sat', 'title': 'Saturday' },
-  { 'value': 'sun', 'title': 'Sunday' },
+List<SmartSelectOption<String>> days = [
+  SmartSelectOption<String>(value: 'mon', title: 'Monday'),
+  SmartSelectOption<String>(value: 'tue', title: 'Tuesday'),
+  SmartSelectOption<String>(value: 'wed', title: 'Wednesday'),
+  SmartSelectOption<String>(value: 'thu', title: 'Thursday'),
+  SmartSelectOption<String>(value: 'fri', title: 'Friday'),
+  SmartSelectOption<String>(value: 'sat', title: 'Saturday'),
+  SmartSelectOption<String>(value: 'sun', title: 'Sunday'),
 ];
 
-List<Map<String,dynamic>> months = [
-  { 'value': 'jan', 'title': 'January' },
-  { 'value': 'feb', 'title': 'February' },
-  { 'value': 'mar', 'title': 'March' },
-  { 'value': 'apr', 'title': 'April' },
-  { 'value': 'may', 'title': 'May' },
-  { 'value': 'jun', 'title': 'June' },
-  { 'value': 'jul', 'title': 'July' },
-  { 'value': 'aug', 'title': 'August' },
-  { 'value': 'sep', 'title': 'September' },
-  { 'value': 'oct', 'title': 'October' },
-  { 'value': 'nov', 'title': 'November' },
-  { 'value': 'dec', 'title': 'December' },
+List<SmartSelectOption<String>> months = [
+  SmartSelectOption<String>(value: 'jan', title: 'January'),
+  SmartSelectOption<String>(value: 'feb', title: 'February'),
+  SmartSelectOption<String>(value: 'mar', title: 'March'),
+  SmartSelectOption<String>(value: 'apr', title: 'April'),
+  SmartSelectOption<String>(value: 'may', title: 'May'),
+  SmartSelectOption<String>(value: 'jun', title: 'June'),
+  SmartSelectOption<String>(value: 'jul', title: 'July'),
+  SmartSelectOption<String>(value: 'aug', title: 'August'),
+  SmartSelectOption<String>(value: 'sep', title: 'September'),
+  SmartSelectOption<String>(value: 'oct', title: 'October'),
+  SmartSelectOption<String>(value: 'nov', title: 'November'),
+  SmartSelectOption<String>(value: 'dec', title: 'December'),
 ];
 
-List<Map<String,dynamic>> os = [
-  { 'value': 'and', 'title': 'Android' },
-  { 'value': 'ios', 'title': 'IOS' },
-  { 'value': 'mac', 'title': 'Macintos' },
-  { 'value': 'tux', 'title': 'Linux' },
-  { 'value': 'win', 'title': 'Windows' },
+List<SmartSelectOption<String>> os = [
+  SmartSelectOption<String>(value: 'and', title: 'Android'),
+  SmartSelectOption<String>(value: 'ios', title: 'IOS'),
+  SmartSelectOption<String>(value: 'mac', title: 'Macintos'),
+  SmartSelectOption<String>(value: 'tux', title: 'Linux'),
+  SmartSelectOption<String>(value: 'win', title: 'Windows'),
 ];
 
-List<Map<String,dynamic>> heroes = [
-  { 'value': 'bat', 'title': 'Batman' },
-  { 'value': 'sup', 'title': 'Superman' },
-  { 'value': 'hul', 'title': 'Hulk' },
-  { 'value': 'spi', 'title': 'Spiderman' },
-  { 'value': 'iro', 'title': 'Ironman' },
-  { 'value': 'won', 'title': 'Wonder Woman' },
+List<SmartSelectOption<String>> heroes = [
+  SmartSelectOption<String>(value: 'bat', title: 'Batman'),
+  SmartSelectOption<String>(value: 'sup', title: 'Superman'),
+  SmartSelectOption<String>(value: 'hul', title: 'Hulk'),
+  SmartSelectOption<String>(value: 'spi', title: 'Spiderman'),
+  SmartSelectOption<String>(value: 'iro', title: 'Ironman'),
+  SmartSelectOption<String>(value: 'won', title: 'Wonder Woman'),
 ];
 
-List<Map<String,dynamic>> fruits = [
-  { 'value': 'app', 'title': 'Apple' },
-  { 'value': 'ore', 'title': 'Orange' },
-  { 'value': 'mel', 'title': 'Melon' },
+List<SmartSelectOption<String>> fruits = [
+  SmartSelectOption<String>(value: 'app', title: 'Apple'),
+  SmartSelectOption<String>(value: 'ore', title: 'Orange'),
+  SmartSelectOption<String>(value: 'mel', title: 'Melon'),
 ];
 
-List<Map<String,dynamic>> frameworks = [
-  { 'value': 'ion', 'title': 'Ionic' },
-  { 'value': 'flu', 'title': 'Flutter' },
-  { 'value': 'rea', 'title': 'React Native' },
+List<SmartSelectOption<String>> frameworks = [
+  SmartSelectOption<String>(value: 'ion', title: 'Ionic'),
+  SmartSelectOption<String>(value: 'flu', title: 'Flutter'),
+  SmartSelectOption<String>(value: 'rea', title: 'React Native'),
+];
+
+List<SmartSelectOption<String>> categories = [
+  SmartSelectOption<String>(value: 'ele', title: 'Electronics'),
+  SmartSelectOption<String>(value: 'aud', title: 'Audio & Video'),
+  SmartSelectOption<String>(value: 'acc', title: 'Accessories'),
+  SmartSelectOption<String>(value: 'ind', title: 'Industrial'),
+  SmartSelectOption<String>(value: 'wat', title: 'Smartwatch'),
+  SmartSelectOption<String>(value: 'sci', title: 'Scientific'),
+  SmartSelectOption<String>(value: 'mea', title: 'Measurement'),
+  SmartSelectOption<String>(value: 'pho', title: 'Smartphone'),
+];
+
+List<SmartSelectOption<String>> sorts = [
+  SmartSelectOption<String>(value: 'popular', title: 'Popular'),
+  SmartSelectOption<String>(value: 'review', title: 'Most Reviews'),
+  SmartSelectOption<String>(value: 'latest', title: 'Newest'),
+  SmartSelectOption<String>(value: 'cheaper', title: 'Low Price'),
+  SmartSelectOption<String>(value: 'pricey', title: 'High Price'),
 ];
 
 List<Map<String,dynamic>> cars = [
@@ -83,25 +102,6 @@ List<Map<String,dynamic>> cars = [
   { 'value': 'mclaren-570gt', 'title': 'Mclaren 570GT', 'brand': 'Mclaren', 'body': 'Coupe' },
   { 'value': 'mclaren-570s', 'title': 'Mclaren 570S Spider', 'brand': 'Mclaren', 'body': 'Coupe' },
   { 'value': 'mclaren-720s', 'title': 'Mclaren 720S', 'brand': 'Mclaren', 'body': 'Coupe' },
-];
-
-List<Map<String,dynamic>> categories = [
-  { 'slug': 'ele', 'caption': 'Electronics' },
-  { 'slug': 'aud', 'caption': 'Audio & Video' },
-  { 'slug': 'acc', 'caption': 'Accessories' },
-  { 'slug': 'ind', 'caption': 'Industrial' },
-  { 'slug': 'wat', 'caption': 'Smartwatch' },
-  { 'slug': 'sci', 'caption': 'Scientific' },
-  { 'slug': 'mea', 'caption': 'Measurement' },
-  { 'slug': 'pho', 'caption': 'Smartphone' },
-];
-
-List<Map<String,dynamic>> sorts = [
-  { 'id': 'popular', 'name': 'Popular' },
-  { 'id': 'review', 'name': 'Most Reviews' },
-  { 'id': 'latest', 'name': 'Newest' },
-  { 'id': 'cheaper', 'name': 'Low Price' },
-  { 'id': 'pricey', 'name': 'High Price' },
 ];
 
 List<Map<String,dynamic>> smartphones = [

@@ -17,12 +17,12 @@ class _FeaturesModalShapeState extends State<FeaturesModalShape> {
     return Column(
       children: <Widget>[
         Container(height: 7),
-        SmartSelect(
+        SmartSelect.single(
           title: 'Frameworks',
           value: _framework,
-          option: SmartSelectOptionConfig(options.frameworks),
-          modal: SmartSelectModalConfig(
-            type: SmartSelectModalType.popupDialog,
+          options: options.frameworks,
+          modalType: SmartSelectModalType.popupDialog,
+          modalConfig: SmartSelectModalConfig(
             useHeader: false,
             style: SmartSelectModalStyle(
               elevation: 3,
@@ -31,9 +31,7 @@ class _FeaturesModalShapeState extends State<FeaturesModalShape> {
               ),
             ),
           ),
-          choice: SmartSelectChoiceConfig(
-            type: SmartSelectChoiceType.radios,
-          ),
+          choiceType: SmartSelectChoiceType.radios,
           leading: CircleAvatar(
             backgroundColor: Colors.blue,
             child: Text(
@@ -44,17 +42,14 @@ class _FeaturesModalShapeState extends State<FeaturesModalShape> {
           onChange: (val) => setState(() => _framework = val),
         ),
         Divider(indent: 20),
-        SmartSelect(
+        SmartSelect.multiple(
           title: 'Super Hero',
           value: _hero,
           isTwoLine: true,
-          isMultiChoice: true,
-          option: SmartSelectOptionConfig(options.heroes),
-          choice: SmartSelectChoiceConfig(
-            type: SmartSelectChoiceType.switches,
-          ),
-          modal: SmartSelectModalConfig(
-            type: SmartSelectModalType.bottomSheet,
+          options: options.heroes,
+          choiceType: SmartSelectChoiceType.switches,
+          modalType: SmartSelectModalType.bottomSheet,
+          modalConfig: SmartSelectModalConfig(
             style: SmartSelectModalStyle(
               backgroundColor: Colors.white,
               shape: RoundedRectangleBorder(

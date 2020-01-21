@@ -17,24 +17,20 @@ class _FeaturesSinglePopupState extends State<FeaturesSinglePopup> {
     return Column(
       children: <Widget>[
         Container(height: 7),
-        SmartSelect(
+        SmartSelect<String>.single(
           title: 'Fruit',
           value: _fruit,
-          option: SmartSelectOptionConfig(options.fruits),
+          options: options.fruits,
           leading: const Icon(Icons.shopping_cart),
           onChange: (val) => setState(() => _fruit = val),
-          modal: SmartSelectModalConfig(
-            type: SmartSelectModalType.popupDialog
-          ),
+          modalType: SmartSelectModalType.popupDialog,
         ),
         Divider(indent: 20),
-        SmartSelect(
+        SmartSelect<String>.single(
           title: 'Frameworks',
           value: _framework,
-          option: SmartSelectOptionConfig(options.frameworks),
-          modal: SmartSelectModalConfig(
-            type: SmartSelectModalType.popupDialog,
-          ),
+          options: options.frameworks,
+          modalType: SmartSelectModalType.popupDialog,
           builder: (context, state, showOption) {
             return ListTile(
               title: Text(state.title),

@@ -17,38 +17,39 @@ class _FeaturesModalFilterState extends State<FeaturesModalFilter> {
     return Column(
       children: <Widget>[
         Container(height: 7),
-        SmartSelect(
+        SmartSelect.single(
           title: 'Car',
           placeholder: 'Choose one',
           value: _car,
           isTwoLine: true,
-          option: SmartSelectOptionConfig(
-            options.cars,
-            groupBy: 'brand',
+          options: SmartSelectOption.listFrom<Map, String>(
+            source: options.cars,
+            value: (index, item) => item['value'],
+            title: (index, item) => item['title'],
+            group: (index, item) => item['brand'],
           ),
-          modal: SmartSelectModalConfig(
-            useFilter: true,
-          ),
+          choiceConfig: SmartSelectChoiceConfig(isGrouped: true),
+          modalConfig: SmartSelectModalConfig(useFilter: true),
           leading: CircleAvatar(
             backgroundImage: NetworkImage('https://source.unsplash.com/yeVtxxPxzbw/100x100'),
           ),
           onChange: (val) => setState(() => _car = val),
         ),
         Divider(indent: 20),
-        SmartSelect(
+        SmartSelect.multiple(
           title: 'Smartphones',
           placeholder: 'Choose one',
           value: _smartphone,
           isTwoLine: true,
-          isMultiChoice: true,
-          option: SmartSelectOptionConfig(
-            options.smartphones,
-            value: 'id',
-            title: 'name',
-            groupBy: 'category',
+          options: SmartSelectOption.listFrom<Map, String>(
+            source: options.smartphones,
+            value: (index, item) => item['id'],
+            title: (index, item) => item['name'],
+            group: (index, item) => item['category'],
           ),
-          modal: SmartSelectModalConfig(
-            type: SmartSelectModalType.bottomSheet,
+          choiceConfig: SmartSelectChoiceConfig(isGrouped: true),
+          modalType: SmartSelectModalType.bottomSheet,
+          modalConfig: SmartSelectModalConfig(
             useFilter: true,
           ),
           leading: CircleAvatar(

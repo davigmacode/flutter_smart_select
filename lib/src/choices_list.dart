@@ -1,26 +1,24 @@
 import 'package:flutter/material.dart';
-import './model/option_item.dart';
+import './model/option.dart';
 import './model/choice_config.dart';
 import './choices_item.dart';
 
-class SmartSelectChoicesList extends StatelessWidget {
+class SmartSelectChoicesList<T> extends StatelessWidget {
 
-  final bool useConfirmation;
-  final bool isMultiChoice;
-  final List<SmartSelectOptionItem> items;
-  final SmartSelectChoiceConfig config;
+  final List<SmartSelectOption<T>> items;
+  final SmartSelectChoiceType type;
+  final SmartSelectChoiceConfig<T> config;
 
   SmartSelectChoicesList(
-    this.useConfirmation,
-    this.isMultiChoice,
     this.items,
+    this.type,
     this.config,
     { Key key }
   ) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return config.useWrap || config.type == SmartSelectChoiceType.chips
+    return config.useWrap || type == SmartSelectChoiceType.chips
       ? _listWrap()
       : config.useDivider
         ? _listSeparated()
@@ -41,7 +39,7 @@ class SmartSelectChoicesList extends StatelessWidget {
           runSpacing: 0.0, // gap between lines
           children: List<Widget>.generate(
             items.length,
-            (i) => ChoicesItem(useConfirmation, isMultiChoice, items[i], config),
+            (i) => ChoicesItem<T>(items[i], type, config),
           ).toList(),
         ),
       ),
@@ -54,7 +52,7 @@ class SmartSelectChoicesList extends StatelessWidget {
       physics: ScrollPhysics(),
       padding: EdgeInsets.symmetric(vertical: 10.0),
       itemCount: items.length,
-      itemBuilder: (context, i) => ChoicesItem(useConfirmation, isMultiChoice, items[i], config),
+      itemBuilder: (context, i) => ChoicesItem<T>(items[i], type, config),
     );
   }
 
@@ -64,7 +62,7 @@ class SmartSelectChoicesList extends StatelessWidget {
       physics: ScrollPhysics(),
       padding: EdgeInsets.symmetric(vertical: 10.0),
       itemCount: items.length,
-      itemBuilder: (context, i) => ChoicesItem(useConfirmation, isMultiChoice, items[i], config),
+      itemBuilder: (context, i) => ChoicesItem<T>(items[i], type, config),
       separatorBuilder: config.dividerBuilder ?? _dividerBuilderDefault,
     );
   }

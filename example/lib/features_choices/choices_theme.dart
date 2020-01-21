@@ -17,24 +17,23 @@ class _FeaturesChoicesThemeState extends State<FeaturesChoicesTheme> {
     return Column(
       children: <Widget>[
         Container(height: 7),
-        SmartSelect(
+        SmartSelect.multiple(
           title: 'Smartphones',
           value: _smartphones,
           isTwoLine: true,
-          isMultiChoice: true,
           leading: IconBadge(
             icon: const Icon(Icons.shopping_cart),
             counter: _smartphones.length,
           ),
-          option: SmartSelectOptionConfig(
-            options.smartphones,
-            value: 'id',
-            title: 'name',
-            groupBy: 'brand',
+          options: SmartSelectOption.listFrom<Map, String>(
+            source: options.smartphones,
+            value: (index, item) => item['id'],
+            title: (index, item) => item['name'],
+            group: (index, item) => item['brand'],
           ),
-          modal: SmartSelectModalConfig(
+          modalType: SmartSelectModalType.fullPage,
+          modalConfig: SmartSelectModalConfig(
             useFilter: true,
-            type: SmartSelectModalType.fullPage,
             style: SmartSelectModalStyle(
               backgroundColor: Colors.blueGrey[800],
             ),
@@ -47,9 +46,10 @@ class _FeaturesChoicesThemeState extends State<FeaturesChoicesTheme> {
               actionsIconTheme: IconThemeData(color: Colors.white),
             ),
           ),
-          choice: SmartSelectChoiceConfig(
+          choiceType: SmartSelectChoiceType.switches,
+          choiceConfig: SmartSelectChoiceConfig(
+            isGrouped: true,
             useDivider: true,
-            type: SmartSelectChoiceType.switches,
             glowingOverscrollIndicatorColor: Colors.green,
             style: SmartSelectChoiceStyle(
               titleStyle: TextStyle(

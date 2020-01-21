@@ -9,25 +9,20 @@ class FeaturesMultiPopup extends StatefulWidget {
 
 class _FeaturesMultiPopupState extends State<FeaturesMultiPopup> {
 
-  List _fruit = ['mel'];
-  List _framework = ['flu'];
+  List<String> _fruit = ['mel'];
+  List<String> _framework = ['flu'];
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
         Container(height: 7),
-        SmartSelect(
+        SmartSelect<String>.multiple(
           title: 'Fruit',
           value: _fruit,
           isTwoLine: true,
-          isMultiChoice: true,
-          option: SmartSelectOptionConfig(
-            options.fruits,
-          ),
-          modal: SmartSelectModalConfig(
-            type: SmartSelectModalType.popupDialog,
-          ),
+          options: options.fruits,
+          modalType: SmartSelectModalType.popupDialog,
           leading: Container(
             width: 40,
             alignment: Alignment.center,
@@ -36,16 +31,11 @@ class _FeaturesMultiPopupState extends State<FeaturesMultiPopup> {
           onChange: (val) => setState(() => _fruit = val),
         ),
         Divider(indent: 20),
-        SmartSelect(
+        SmartSelect<String>.multiple(
           title: 'Frameworks',
           value: _framework,
-          isMultiChoice: true,
-          option: SmartSelectOptionConfig(
-            options.frameworks,
-          ),
-          modal: SmartSelectModalConfig(
-            type: SmartSelectModalType.popupDialog,
-          ),
+          options: options.frameworks,
+          modalType: SmartSelectModalType.popupDialog,
           builder: (context, state, showOptions) {
             return ListTile(
               title: Text(state.title),

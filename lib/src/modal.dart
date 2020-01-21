@@ -5,19 +5,21 @@ import './modal_header.dart';
 class SmartSelectModal extends StatelessWidget {
 
   final String title;
+  final SmartSelectModalType type;
   final SmartSelectModalConfig config;
   final Widget choices;
 
   SmartSelectModal({
     Key key,
     @required this.title,
+    @required this.type,
     @required this.config,
     @required this.choices,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    if (config.type == SmartSelectModalType.fullPage) {
+    if (type == SmartSelectModalType.fullPage) {
       return Scaffold(
         backgroundColor: config.style.backgroundColor,
         appBar: _routeHeader,
@@ -29,13 +31,14 @@ class SmartSelectModal extends StatelessWidget {
   }
 
   bool get _isFullPage {
-    return config.type == SmartSelectModalType.fullPage;
+    return type == SmartSelectModalType.fullPage;
   }
 
   Widget get _routeHeader {
     return config.useHeader
       ? SmartSelectModalHeader(
           title: config?.title ?? title,
+          type: type,
           config: config,
         )
       : null;
@@ -55,7 +58,7 @@ class SmartSelectModal extends StatelessWidget {
           ),
           config.trailing,
         ].where((child) => child != null).toList(),
-      )
+      ),
     );
   }
 }

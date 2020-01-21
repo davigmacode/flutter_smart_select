@@ -1,35 +1,28 @@
 import 'package:flutter/material.dart';
 import './model/choice_config.dart';
-import './model/option_item.dart';
+import './model/option.dart';
 import './choices_grouped.dart';
 import './choices_list.dart';
 import './choices_empty.dart';
 
-class SmartSelectChoices extends StatelessWidget {
+class SmartSelectChoices<T> extends StatelessWidget {
 
-  final List<SmartSelectOptionItem> items;
-  final SmartSelectChoiceConfig config;
-  final bool useConfirmation;
-  final bool isMultiChoice;
-  final bool isGrouped;
+  final List<SmartSelectOption<T>> items;
+  final SmartSelectChoiceType type;
+  final SmartSelectChoiceConfig<T> config;
   final String query;
 
   SmartSelectChoices({
     Key key,
     @required this.items,
+    @required this.type,
     @required this.config,
-    @required this.useConfirmation,
-    @required this.isMultiChoice,
-    @required this.isGrouped,
-    this.query,
+    @required this.query,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ListTileTheme(
-      // contentPadding: EdgeInsets.symmetric(
-      //   horizontal: isMultiChoice ? 25.0 : 10
-      // ),
       contentPadding: config.style.padding,
       child: Theme(
         data: ThemeData(
@@ -44,9 +37,9 @@ class SmartSelectChoices extends StatelessWidget {
               child: Builder(
                 builder: (context) {
                   return items.length > 0
-                    ? isGrouped == true
-                      ? SmartSelectChoicesGrouped(useConfirmation, isMultiChoice, items, config)
-                      : SmartSelectChoicesList(useConfirmation, isMultiChoice, items, config)
+                    ? _isGrouped == true
+                      ? SmartSelectChoicesGrouped<T>(_groupKeys, items, type, config)
+                      : SmartSelectChoicesList<T>(items, type, config)
                     : config.emptyBuilder?.call(query) ?? SmartSelectChoicesEmpty();
                 },
               )
@@ -55,5 +48,16 @@ class SmartSelectChoices extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  // return a list of group keys
+  List<String> get _groupKeys {
+    Set groups = Set();
+    items.forEach((SmartSelectOption<T> item) => groups.add(item.group));
+    return groups.toList().cast<String>();
+  }
+
+  bool get _isGrouped {
+    return config.isGrouped && _groupKeys != null && _groupKeys.isNotEmpty;
   }
 }

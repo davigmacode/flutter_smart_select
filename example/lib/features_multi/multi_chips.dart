@@ -9,68 +9,65 @@ class FeaturesMultiChips extends StatefulWidget {
 
 class _FeaturesMultiChipsState extends State<FeaturesMultiChips> {
 
-  List _car = [];
-  List _smartphone = [];
-  List _day = ['fri'];
+  List<String> _car = [];
+  List<String> _smartphone = [];
+  List<String> _day = ['fri'];
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
         Container(height: 7),
-        SmartSelect(
+        SmartSelect<String>.multiple(
           title: 'Car',
           value: _car,
           isTwoLine: true,
-          isMultiChoice: true,
-          option: SmartSelectOptionConfig(
-            options.cars,
-            groupBy: 'brand',
+          options: SmartSelectOption.listFrom<Map, String>(
+            source: options.cars,
+            value: (index, item) => item['value'],
+            title: (index, item) => item['title'],
+            group: (index, item) => item['brand'],
           ),
-          modal: SmartSelectModalConfig(useFilter: true),
-          choice: SmartSelectChoiceConfig(type: SmartSelectChoiceType.chips),
+          choiceType: SmartSelectChoiceType.chips,
+          choiceConfig: SmartSelectChoiceConfig(isGrouped: true),
+          modalConfig: SmartSelectModalConfig(useFilter: true),
           leading: CircleAvatar(
             backgroundImage: NetworkImage('https://source.unsplash.com/yeVtxxPxzbw/100x100'),
           ),
           onChange: (val) => setState(() => _car = val),
         ),
         Divider(indent: 20),
-        SmartSelect(
+        SmartSelect<String>.multiple(
           title: 'Smartphones',
           value: _smartphone,
           isTwoLine: true,
-          isMultiChoice: true,
-          option: SmartSelectOptionConfig(
-            options.smartphones,
-            value: 'id',
-            title: 'name',
+          options: SmartSelectOption.listFrom<Map, String>(
+            source: options.smartphones,
+            value: (index, item) => item['id'],
+            title: (index, item) => item['name'],
           ),
-          modal: SmartSelectModalConfig(
-            type: SmartSelectModalType.bottomSheet,
+          modalType: SmartSelectModalType.bottomSheet,
+          modalConfig: SmartSelectModalConfig(
             useFilter: true
           ),
-          choice: SmartSelectChoiceConfig(type: SmartSelectChoiceType.chips),
+          choiceType: SmartSelectChoiceType.chips,
           leading: CircleAvatar(
             backgroundImage: NetworkImage('https://source.unsplash.com/xsGxhtAsfSA/100x100'),
           ),
           onChange: (val) => setState(() => _smartphone = val),
         ),
         Divider(indent: 20),
-        SmartSelect(
+        SmartSelect<String>.multiple(
           title: 'Days',
           value: _day,
-          isMultiChoice: true,
           leading: Container(
             width: 40,
             alignment: Alignment.center,
             child: const Icon(Icons.calendar_today),
           ),
-          option: SmartSelectOptionConfig(options.days),
-          choice: SmartSelectChoiceConfig(type: SmartSelectChoiceType.chips),
-          modal: SmartSelectModalConfig(
-            type: SmartSelectModalType.popupDialog,
-            // useFilter: true
-          ),
+          options: options.days,
+          choiceType: SmartSelectChoiceType.chips,
+          modalType: SmartSelectModalType.popupDialog,
           onChange: (val) => setState(() => _day = val)
         ),
         Container(height: 7),

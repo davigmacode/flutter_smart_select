@@ -20,22 +20,22 @@ class _FeaturesOptionState extends State<FeaturesOption> with AutomaticKeepAlive
   Widget build(BuildContext context) {
     super.build(context);
     return Scrollbar(
-      child:ListView(
+      child: ListView(
         children: <Widget>[
           StickyHeader(
-            header: FeaturesHeader('List of Map'),
+            header: FeaturesHeader('Build Options from List of Map'),
             content: FeaturesOptionListOfMap(),
           ),
           StickyHeader(
-            header: FeaturesHeader('List of String'),
+            header: FeaturesHeader('Build Options from List of String'),
             content: FeaturesOptionListOfString(),
           ),
           StickyHeader(
-            header: FeaturesHeader('List of List of String'),
+            header: FeaturesHeader('Build Options from List of List'),
             content: FeaturesOptionListOfList(),
           ),
           StickyHeader(
-            header: FeaturesHeader('Async Option & Custom Properties'),
+            header: FeaturesHeader('Async Options & Custom Properties'),
             content: FeaturesOptionAsync(),
           ),
         ],

@@ -10,29 +10,28 @@ class FeaturesTileLoading extends StatefulWidget {
 class _FeaturesTileLoadingState extends State<FeaturesTileLoading> {
 
   String _day = 'fri';
-  List _month = ['apr'];
+  List<String> _month = ['apr'];
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
         Container(height: 7),
-        SmartSelect(
+        SmartSelect<String>.single(
           title: 'Days',
           value: _day,
+          options: options.days,
+          onChange: (val) => setState(() => _day = val),
           isLoading: true,
-          option: SmartSelectOptionConfig(options.days),
-          onChange: (val) => setState(() => _day = val)
         ),
         Divider(indent: 20),
-        SmartSelect(
+        SmartSelect<String>.multiple(
           title: 'Month',
           value: _month,
+          options: options.months,
+          onChange: (val) => setState(() => _month = val),
           isLoading: true,
           isTwoLine: true,
-          isMultiChoice: true,
-          option: SmartSelectOptionConfig(options.months),
-          onChange: (val) => setState(() => _month = val)
         ),
         Container(height: 7),
       ],

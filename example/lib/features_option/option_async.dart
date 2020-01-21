@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_select/smart_select.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class FeaturesOptionAsync extends StatefulWidget {
   @override
@@ -11,11 +10,11 @@ class FeaturesOptionAsync extends StatefulWidget {
 class _FeaturesOptionAsyncState extends State<FeaturesOptionAsync> {
 
   String _user;
-  List _users = [];
+  List<SmartSelectOption<String>> _users = [];
   bool _usersIsLoading;
 
-  List _country;
-  List _countries = [];
+  List<String> _country;
+  List<SmartSelectOption<String>> _countries = [];
   bool _countriesIsLoading;
 
   @override
@@ -23,21 +22,16 @@ class _FeaturesOptionAsyncState extends State<FeaturesOptionAsync> {
     return Column(
       children: <Widget>[
         Container(height: 7),
-        SmartSelect(
+        SmartSelect<String>.single(
           title: 'Admin',
           value: _user,
-          option: SmartSelectOptionConfig(
-            _users,
-            value: (data) => data['email'],
-            title: (data) => data['name']['first'] + ' ' + data['name']['last'],
-            subtitle: (data) => data['email'],
-            groupBy: 'gender',
-          ),
-          modal: SmartSelectModalConfig(useFilter: true),
-          choice: SmartSelectChoiceConfig(
-            type: SmartSelectChoiceType.chips,
+          options: _users,
+          modalConfig: SmartSelectModalConfig(useFilter: true),
+          choiceType: SmartSelectChoiceType.chips,
+          choiceConfig: SmartSelectChoiceConfig<String>(
+            isGrouped: true,
             secondaryBuilder: (context, item) => CircleAvatar(
-              backgroundImage: NetworkImage(item.data['picture']['thumbnail']),
+              backgroundImage: NetworkImage(item.meta['picture']['thumbnail']),
             ),
           ),
           builder: (context, state, showChoices) {
@@ -49,7 +43,7 @@ class _FeaturesOptionAsyncState extends State<FeaturesOptionAsync> {
               leading: Builder(
                 builder: (context) {
                   String avatarUrl = state.valueObject != null
-                    ? state.valueObject.data['picture']['thumbnail']
+                    ? state.valueObject.meta['picture']['thumbnail']
                     : 'https://source.unsplash.com/8I-ht65iRww/100x100';
                   return CircleAvatar(
                     backgroundImage: NetworkImage(avatarUrl),
@@ -62,22 +56,15 @@ class _FeaturesOptionAsyncState extends State<FeaturesOptionAsync> {
           onChange: (val) => setState(() => _user = val),
         ),
         Divider(indent: 20),
-        SmartSelect(
+        SmartSelect<String>.multiple(
           title: 'Country',
           value: _country,
           isTwoLine: true,
-          isMultiChoice: true,
-          option: SmartSelectOptionConfig(
-            _countries,
-            value: (data) => data['subregion'] + ' - ' + data['name'],
-            title: (data) => data['name'],
-            subtitle: ['capital'],
-            groupBy: 'region',
-          ),
-          modal: SmartSelectModalConfig(useFilter: true),
-          choice: SmartSelectChoiceConfig(
-            type: SmartSelectChoiceType.checkboxes,
-          ),
+          isLoading: _countriesIsLoading,
+          options: _countries,
+          modalConfig: SmartSelectModalConfig(useFilter: true),
+          choiceConfig: SmartSelectChoiceConfig(isGrouped: true),
+          choiceType: SmartSelectChoiceType.checkboxes,
           leading: Container(
             width: 40,
             height: 40,
@@ -103,7 +90,15 @@ class _FeaturesOptionAsyncState extends State<FeaturesOptionAsync> {
       setState(() => _usersIsLoading = true);
       String url = "https://randomuser.me/api/?inc=gender,name,nat,picture,email&results=25";
       Response res = await Dio().get(url);
-      setState(() =>_users = res.data['results'].cast<Map>());
+      List<SmartSelectOption> options = SmartSelectOption.listFrom<dynamic, String>(
+        source: res.data['results'],
+        value: (index, item) => item['email'],
+        title: (index, item) => item['name']['first'] + ' ' + item['name']['last'],
+        subtitle: (index, item) => item['email'],
+        group: (index, item) => item['gender'],
+        meta: (index, item) => item,
+      );
+      setState(() => _users = options);
     } catch (e) {
       print(e);
     } finally {
@@ -116,7 +111,15 @@ class _FeaturesOptionAsyncState extends State<FeaturesOptionAsync> {
       setState(() => _countriesIsLoading = true);
       String url = "http://restcountries.eu/rest/v2/all?fields=name;capital;flag;region;subregion";
       Response res = await Dio().get(url);
-      setState(() => _countries = res.data.cast<Map>());
+      setState(() {
+        _countries = SmartSelectOption.listFrom<dynamic, String>(
+          source: res.data,
+          value: (index, item) => item['subregion'] + ' - ' + item['name'],
+          title: (index, item) => item['name'],
+          subtitle: (index, item) => item['capital'],
+          group: (index, item) => item['region'],
+        );
+      });
     } catch (e) {
       print(e);
     } finally {

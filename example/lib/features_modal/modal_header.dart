@@ -19,17 +19,16 @@ class _FeaturesModalHeaderState extends State<FeaturesModalHeader> {
     return Column(
       children: <Widget>[
         Container(height: 7),
-        SmartSelect(
+        SmartSelect.multiple(
           title: 'Month',
           value: _month,
           isTwoLine: true,
-          isMultiChoice: true,
           leading: IconBadge(
             icon: const Icon(Icons.calendar_today),
             counter: _month.length,
           ),
-          option: SmartSelectOptionConfig(options.months),
-          modal: SmartSelectModalConfig(
+          options: options.months,
+          modalConfig: SmartSelectModalConfig(
             useFilter: true,
             headerStyle: SmartSelectModalHeaderStyle(
               elevation: 4,
@@ -43,12 +42,12 @@ class _FeaturesModalHeaderState extends State<FeaturesModalHeader> {
           onChange: (val) => setState(() => _month = val)
         ),
         Divider(indent: 20),
-        SmartSelect(
+        SmartSelect.single(
           title: 'Frameworks',
           value: _framework,
-          option: SmartSelectOptionConfig(options.frameworks),
-          modal: SmartSelectModalConfig(
-            type: SmartSelectModalType.popupDialog,
+          options: options.frameworks,
+          modalType: SmartSelectModalType.popupDialog,
+          modalConfig: SmartSelectModalConfig(
             headerStyle: SmartSelectModalHeaderStyle(
               backgroundColor: Colors.blueGrey[50],
               centerTitle: true,
@@ -65,15 +64,14 @@ class _FeaturesModalHeaderState extends State<FeaturesModalHeader> {
           onChange: (val) => setState(() => _framework = val),
         ),
         Divider(indent: 20),
-        SmartSelect(
+        SmartSelect.multiple(
           title: 'Super Hero',
           value: _hero,
           isTwoLine: true,
-          isMultiChoice: true,
-          option: SmartSelectOptionConfig(options.heroes),
-          modal: SmartSelectModalConfig(
+          options: options.heroes,
+          modalType: SmartSelectModalType.bottomSheet,
+          modalConfig: SmartSelectModalConfig(
             useFilter: true,
-            type: SmartSelectModalType.bottomSheet,
             headerStyle: SmartSelectModalHeaderStyle(
               centerTitle: true,
             ),

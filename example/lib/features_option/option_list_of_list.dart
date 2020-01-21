@@ -30,10 +30,14 @@ class _FeaturesOptionListOfListState extends State<FeaturesOptionListOfList> {
     return Column(
       children: <Widget>[
         Container(height: 7),
-        SmartSelect(
+        SmartSelect.single(
           title: 'Month',
           value: _month,
-          option: SmartSelectOptionConfig(monthsOption),
+          options: SmartSelectOption.listFrom<List<String>, String>(
+            source: monthsOption,
+            value: (index, item) => item[0],
+            title: (index, item) => item[1],
+          ),
           onChange: (val) => setState(() => _month = val)
         ),
         Container(height: 7),

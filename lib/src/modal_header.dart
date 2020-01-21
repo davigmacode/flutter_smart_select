@@ -7,11 +7,13 @@ import './model/modal_config.dart';
 class SmartSelectModalHeader extends StatelessWidget implements PreferredSizeWidget {
 
   final String title;
+  final SmartSelectModalType type;
   final SmartSelectModalConfig config;
 
   SmartSelectModalHeader({
     Key key,
     @required this.title,
+    @required this.type,
     @required this.config,
   }) : super(key: key);
 
@@ -21,11 +23,13 @@ class SmartSelectModalHeader extends StatelessWidget implements PreferredSizeWid
     SmartSelectStateFilter filter = Provider.of<SmartSelectStateFilter>(context);
     bool isFiltering = filter.activated;
 
+    String modalTitle = config.title ?? title;
+
     // define text style
     TextStyle textStyle = Theme.of(context).textTheme.title.merge(theme.textStyle);
 
     // build title widget
-    Widget titleWidget = Text(title, style: textStyle);
+    Widget titleWidget = Text(modalTitle, style: textStyle);
 
     // build search widget
     Widget searchWidget = TextField(
@@ -33,7 +37,7 @@ class SmartSelectModalHeader extends StatelessWidget implements PreferredSizeWid
       style: textStyle,
       autofocus: true,
       decoration: InputDecoration.collapsed(
-        hintText: 'Search on $title',
+        hintText: config.searchBarHint ?? 'Search on $title',
         hintStyle: textStyle,
       ),
       onSubmitted: filter.setQuery,
@@ -81,7 +85,7 @@ class SmartSelectModalHeader extends StatelessWidget implements PreferredSizeWid
       actionsIconTheme: theme.actionsIconTheme,
       iconTheme: theme.iconTheme,
       centerTitle: theme.centerTitle,
-      automaticallyImplyLeading: config.type == SmartSelectModalType.fullPage || isFiltering == true,
+      automaticallyImplyLeading: type == SmartSelectModalType.fullPage || isFiltering == true,
       title: isFiltering == true ? searchWidget : titleWidget,
       actions: <Widget>[
         filterButton,

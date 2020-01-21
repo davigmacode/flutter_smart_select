@@ -9,42 +9,32 @@ class FeaturesMultiSheet extends StatefulWidget {
 
 class _FeaturesMultiSheetState extends State<FeaturesMultiSheet> {
 
-  List _os = ['and', 'tux'];
-  List _hero = ['bat', 'spi'];
+  List<String> _os = ['and', 'tux'];
+  List<String> _hero = ['bat', 'spi'];
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
         Container(height: 7),
-        SmartSelect(
+        SmartSelect<String>.multiple(
           title: 'OS',
           value: _os,
           isTwoLine: true,
-          isMultiChoice: true,
-          option: SmartSelectOptionConfig(
-            options.os,
-          ),
-          modal: SmartSelectModalConfig(
-            type: SmartSelectModalType.bottomSheet,
-          ),
+          options: options.os,
+          modalType: SmartSelectModalType.bottomSheet,
           leading: CircleAvatar(
             backgroundImage: NetworkImage('https://source.unsplash.com/xsGxhtAsfSA/100x100'),
           ),
           onChange: (val) => setState(() => _os = val),
         ),
         Divider(indent: 20),
-        SmartSelect(
+        SmartSelect<String>.multiple(
           title: 'Super Hero',
           value: _hero,
           isTwoLine: true,
-          isMultiChoice: true,
-          option: SmartSelectOptionConfig(
-            options.heroes,
-          ),
-          modal: SmartSelectModalConfig(
-            type: SmartSelectModalType.bottomSheet,
-          ),
+          options: options.heroes,
+          modalType: SmartSelectModalType.bottomSheet,
           leading: CircleAvatar(
             backgroundImage: NetworkImage('https://source.unsplash.com/8I-ht65iRww/100x100'),
           ),

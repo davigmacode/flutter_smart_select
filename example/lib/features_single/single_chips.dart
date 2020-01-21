@@ -18,14 +18,19 @@ class _FeaturesSingleChipsState extends State<FeaturesSingleChips> {
     return Column(
       children: <Widget>[
         Container(height: 7),
-        SmartSelect(
+        SmartSelect<String>.single(
           title: 'Car',
           value: _car,
           isTwoLine: true,
-          option: SmartSelectOptionConfig(options.cars),
-          modal: SmartSelectModalConfig(
+          options: SmartSelectOption.listFrom<Map, String>(
+            source: options.cars,
+            value: (index, item) => item['value'],
+            title: (index, item) => item['title'],
+            group: (index, item) => item['brand'],
+          ),
+          modalType: SmartSelectModalType.fullPage,
+          modalConfig: SmartSelectModalConfig(
             title: 'Cars Option',
-            type: SmartSelectModalType.fullPage,
             // leading: Container(
             //   padding: EdgeInsets.all(10.0),
             //   child: Text('To hot reload changes while running, press "r". To hot restart (and rebuild state), press "R"'),
@@ -35,28 +40,21 @@ class _FeaturesSingleChipsState extends State<FeaturesSingleChips> {
             //   child: Text('To hot reload changes while running, press "r". To hot restart (and rebuild state), press "R"'),
             // ),
           ),
-          choice: SmartSelectChoiceConfig(type: SmartSelectChoiceType.chips),
+          choiceType: SmartSelectChoiceType.chips,
+          choiceConfig: SmartSelectChoiceConfig(isGrouped: true),
           leading: CircleAvatar(
             backgroundImage: NetworkImage('https://source.unsplash.com/yeVtxxPxzbw/100x100'),
           ),
           onChange: (val) => setState(() => _car = val),
         ),
         Divider(indent: 20),
-        SmartSelect(
+        SmartSelect<String>.single(
           title: 'Category',
           isTwoLine: true,
           value: _category,
-          option: SmartSelectOptionConfig(
-            options.categories,
-            value: 'slug',
-            title: 'caption',
-            // groupBy: 'category',
-          ),
-          modal: SmartSelectModalConfig(
-            type: SmartSelectModalType.bottomSheet,
-            // useFilter: true
-          ),
-          choice: SmartSelectChoiceConfig(type: SmartSelectChoiceType.chips),
+          options: options.categories,
+          modalType: SmartSelectModalType.bottomSheet,
+          choiceType: SmartSelectChoiceType.chips,
           leading: Container(
             width: 40,
             alignment: Alignment.center,
@@ -65,7 +63,7 @@ class _FeaturesSingleChipsState extends State<FeaturesSingleChips> {
           onChange: (val) => setState(() => _category = val),
         ),
         Divider(indent: 20),
-        SmartSelect(
+        SmartSelect<String>.single(
           title: 'Days',
           value: _day,
           isTwoLine: true,
@@ -74,12 +72,9 @@ class _FeaturesSingleChipsState extends State<FeaturesSingleChips> {
             alignment: Alignment.center,
             child: const Icon(Icons.calendar_today),
           ),
-          option: SmartSelectOptionConfig(options.days),
-          choice: SmartSelectChoiceConfig(type: SmartSelectChoiceType.chips),
-          modal: SmartSelectModalConfig(
-            type: SmartSelectModalType.popupDialog,
-            // useFilter: true
-          ),
+          options: options.days,
+          choiceType: SmartSelectChoiceType.chips,
+          modalType: SmartSelectModalType.popupDialog,
           onChange: (val) => setState(() => _day = val)
         ),
         Container(height: 7),

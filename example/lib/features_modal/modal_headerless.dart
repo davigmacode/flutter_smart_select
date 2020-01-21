@@ -17,16 +17,13 @@ class _FeaturesModalHeaderlessState extends State<FeaturesModalHeaderless> {
     return Column(
       children: <Widget>[
         Container(height: 7),
-        SmartSelect(
+        SmartSelect.multiple(
           title: 'Fruit',
           value: _fruit,
           isTwoLine: true,
-          isMultiChoice: true,
-          option: SmartSelectOptionConfig(
-            options.fruits,
-          ),
-          modal: SmartSelectModalConfig(
-            type: SmartSelectModalType.popupDialog,
+          options: options.fruits,
+          modalType: SmartSelectModalType.popupDialog,
+          modalConfig: SmartSelectModalConfig(
             useHeader: false,
           ),
           leading: Container(
@@ -37,16 +34,13 @@ class _FeaturesModalHeaderlessState extends State<FeaturesModalHeaderless> {
           onChange: (val) => setState(() => _fruit = val),
         ),
         Divider(indent: 20),
-        SmartSelect(
+        SmartSelect.multiple(
           title: 'Super Hero',
           value: _hero,
           isTwoLine: true,
-          isMultiChoice: true,
-          option: SmartSelectOptionConfig(
-            options.heroes,
-          ),
-          modal: SmartSelectModalConfig(
-            type: SmartSelectModalType.bottomSheet,
+          options: options.heroes,
+          modalType: SmartSelectModalType.bottomSheet,
+          modalConfig: SmartSelectModalConfig(
             useHeader: false,
           ),
           leading: CircleAvatar(

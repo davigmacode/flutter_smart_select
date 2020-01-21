@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 import './model/choice_config.dart';
 import './model/choice_theme.dart';
-import './model/option_item.dart';
+import './model/option.dart';
 import './choices_list.dart';
 
-class SmartSelectChoicesGrouped extends StatelessWidget {
+class SmartSelectChoicesGrouped<T> extends StatelessWidget {
 
-  final bool useConfirmation;
-  final bool isMultiChoice;
-  final List<SmartSelectOptionItem> items;
-  final SmartSelectChoiceConfig config;
+  final List<String> groupKeys;
+  final List<SmartSelectOption<T>> items;
+  final SmartSelectChoiceType type;
+  final SmartSelectChoiceConfig<T> config;
 
   SmartSelectChoicesGrouped(
-    this.useConfirmation,
-    this.isMultiChoice,
+    this.groupKeys,
     this.items,
+    this.type,
     this.config,
     { Key key }
   ) : super(key: key);
@@ -23,12 +23,12 @@ class SmartSelectChoicesGrouped extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: _groupKeys.length,
+      itemCount: groupKeys.length,
       itemBuilder: (BuildContext context, int i) {
-        String groupKey = _groupKeys[i];
-        List<SmartSelectOptionItem> groupItems = _groupItems(groupKey);
+        String groupKey = groupKeys[i];
+        List<SmartSelectOption<T>> groupItems = _groupItems(groupKey);
         return StickyHeader(
-          content: SmartSelectChoicesList(useConfirmation, isMultiChoice, groupItems, config),
+          content: SmartSelectChoicesList<T>(groupItems, type, config),
           header: config.groupHeaderBuilder?.call(groupKey, groupItems.length)
             ?? SmartSelectChoicesGroupedHeader(
                 title: groupKey,
@@ -40,16 +40,9 @@ class SmartSelectChoicesGrouped extends StatelessWidget {
     );
   }
 
-  /// return a list of group keys
-  List<String> get _groupKeys {
-    Set groups = Set();
-    items.forEach((SmartSelectOptionItem item) => groups.add(item.groupBy));
-    return groups.toList().cast<String>();
-  }
-
   /// return a list of group items
-  List<SmartSelectOptionItem> _groupItems(String key) {
-    return items.where((SmartSelectOptionItem item) => item.groupBy == key).toList();
+  List<SmartSelectOption<T>> _groupItems(String key) {
+    return items.where((SmartSelectOption<T> item) => item.group == key).toList();
   }
 }
 

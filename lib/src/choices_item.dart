@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:provider/provider.dart' show Provider, Consumer;
 import './model/state_selected.dart';
-import './model/option_item.dart';
+import './model/state_filter.dart';
+import './model/option.dart';
 import './model/choice_theme.dart';
 import './model/choice_config.dart';
-import './utils.dart' as utils;
 
-class ChoicesItem extends StatelessWidget {
+class ChoicesItem<T> extends StatelessWidget {
 
-  final bool useConfirmation;
-  final bool isMultiChoice;
-  final SmartSelectOptionItem data;
-  final SmartSelectChoiceConfig config;
+  final SmartSelectOption<T> data;
+  final SmartSelectChoiceType type;
+  final SmartSelectChoiceConfig<T> config;
 
   ChoicesItem(
-    this.useConfirmation,
-    this.isMultiChoice,
     this.data,
+    this.type,
     this.config,
     { Key key }
   ) : super(key: key);
@@ -47,33 +45,33 @@ class ChoicesItem extends StatelessWidget {
     final Widget secondary = config.secondaryBuilder?.call(context, data);
 
     // return widget
-    return Consumer<SmartSelectStateSelected>(
+    return Consumer<SmartSelectStateSelected<T>>(
       builder: (context, state, _) {
-        final bool isSelected = state.contains(data.value, isMultiChoice);
+        final bool isSelected = state.contains(data.value);
 
         // build onSelect callback
-        final SmartSelectChoiceOnSelect onSelect = (dynamic value, [bool checked = true]) {
+        final SmartSelectChoiceOnSelect<T> onSelect = (T value, [bool checked = true]) {
           state.select(value, checked, () {
-            if (isMultiChoice != true) {
+            if (state.isMultiChoice != true) {
               // Pop filtering status
-              bool isFiltering = utils.getStateFilter(context).activated;
+              bool isFiltering = Provider.of<SmartSelectStateFilter>(context, listen: false).activated;
               if (isFiltering) Navigator.pop(context);
               // Pop navigator with confirmed return value
-              if (!useConfirmation) Navigator.pop(context, true);
+              if (!state.useConfirmation) Navigator.pop(context, true);
             }
           });
         };
 
         // when null, get the default choice type
-        SmartSelectChoiceType choiceType = config.type == null
-          ? isMultiChoice
+        SmartSelectChoiceType choiceType = type == null
+          ? state.isMultiChoice
             ? SmartSelectChoiceType.checkboxes
             : SmartSelectChoiceType.radios
-          : config.type;
+          : type;
 
         if (config.builder == null) {
-          if (isMultiChoice == true) {
-            return MultiChoicesItem(
+          if (state.isMultiChoice == true) {
+            return MultiChoicesItem<T>(
               title: title,
               subtitle: subtitle,
               secondary: secondary,
@@ -84,7 +82,7 @@ class ChoicesItem extends StatelessWidget {
               value: data.value
             );
           } else {
-            return SingleChoicesItem(
+            return SingleChoicesItem<T>(
               title: title,
               subtitle: subtitle,
               secondary: secondary,
@@ -104,19 +102,19 @@ class ChoicesItem extends StatelessWidget {
   }
 }
 
-class SingleChoicesItem extends StatelessWidget {
+class SingleChoicesItem<T> extends StatelessWidget {
 
   final Widget title;
   final Widget subtitle;
   final Widget secondary;
   final SmartSelectChoiceType choiceType;
   final SmartSelectChoiceStyle theme;
-  final SmartSelectChoiceOnSelect onSelect;
+  final SmartSelectChoiceOnSelect<T> onSelect;
   final bool checked;
-  final dynamic groupValue;
-  final dynamic value;
+  final T groupValue;
+  final T value;
 
-   SingleChoicesItem({
+  SingleChoicesItem({
     Key key,
     this.title,
     this.subtitle,
@@ -145,12 +143,12 @@ class SingleChoicesItem extends StatelessWidget {
       return ChoiceChip(
         label: title,
         avatar: secondary,
-        backgroundColor: theme.activeTrackColor ?? Colors.transparent,
         shape: StadiumBorder(
           side: BorderSide(
             color: theme.inactiveColor ?? Colors.black12,
           ),
         ),
+        backgroundColor: theme.activeTrackColor ?? Colors.transparent,
         selectedColor: theme.activeColor ?? Colors.blueGrey[50],
         onSelected: (_) => onSelect(value, true),
         selected: checked,
@@ -170,16 +168,16 @@ class SingleChoicesItem extends StatelessWidget {
   }
 }
 
-class MultiChoicesItem extends StatelessWidget {
+class MultiChoicesItem<T> extends StatelessWidget {
 
   final Widget title;
   final Widget subtitle;
   final Widget secondary;
   final SmartSelectChoiceType choiceType;
   final SmartSelectChoiceStyle theme;
-  final SmartSelectChoiceOnSelect onSelect;
+  final SmartSelectChoiceOnSelect<T> onSelect;
   final bool checked;
-  final dynamic value;
+  final T value;
 
    MultiChoicesItem({
     Key key,

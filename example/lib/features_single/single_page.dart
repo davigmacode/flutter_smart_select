@@ -17,17 +17,17 @@ class _FeaturesSinglePageState extends State<FeaturesSinglePage> {
     return Column(
       children: <Widget>[
         Container(height: 7),
-        SmartSelect(
+        SmartSelect<String>.single(
           title: 'Days',
           value: _day,
-          option: SmartSelectOptionConfig(options.days),
+          options: options.days,
           onChange: (val) => setState(() => _day = val)
         ),
         Divider(indent: 20),
-        SmartSelect(
+        SmartSelect<String>.single(
           title: 'Month',
           value: _month,
-          option: SmartSelectOptionConfig(options.months),
+          options: options.months,
           onChange: (val) => setState(() => _month = val)
         ),
         Container(height: 7),
