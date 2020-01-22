@@ -1,3 +1,13 @@
+## [3.0.0] - 2020-01-22
+
+* Breaking changes, more type safety, add more features, and simplify few properties
+* Remove `isMultiChoice` property, instead use `SmartSelect<T>.single()` or `SmartSelect<T>.multiple()`
+* Remove `option` property, instead use `options` property and change its value from `SmartSelectOptionConfig` to `List<SmartSelectOption<T>>`
+* Remove `modal` property, instead use `modalType` to change how to open modal and `modalConfig` to configure modal header, modal style, etc
+* Remove `choice` property, instead use `choiceType` to change choice widget and `choiceConfig` to configure choice style, etc
+* Choice modal can have different title with trigger/tile widget by configuring `modalConfig.title`
+* Choice modal can have leading and trailing widget by configuring `modalConfig.leading` and `modalConfig.trailing`
+
 ## [2.0.2] - 2019-12-25
 
 * Upgrade Provider package to 4.0.0

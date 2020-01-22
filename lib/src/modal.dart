@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart' show Scaffold;
 import './model/modal_config.dart';
 import './modal_header.dart';
 

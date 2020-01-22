@@ -18,11 +18,11 @@ Smart select allows you to easily convert your usual form selects into dynamic p
 * Open choices modal in full page, bottom sheet, or popup dialog
 * Various choices input (radio, checkbox, switch, chips)
 * Grouping choices with sticky header
-* Customizable trigger widget (tile)
+* Customizable trigger/tile widget
 * Customizable modal style
 * Customizable modal header style
 * Customizable choices style
-* Customizable option input
+* Flexible option input
 * Filterable option
 * Async option
 * and many more
@@ -39,204 +39,139 @@ To read more about classes and other references used by `smart_select`, see the 
 
 ## Single Choice
 
+`SmartSelect<T>.single()`
+
 ```
 String value = 'flutter';
-List options = [
-  { 'value': 'ionic', 'title': 'Ionic' },
-  { 'value': 'flutter', 'title': 'Flutter' },
-  { 'value': 'react', 'title': 'React Native' },
+List<SmartSelectOption<String>> options = [
+  SmartSelectOption<String>(value: 'ion', title: 'Ionic'),
+  SmartSelectOption<String>(value: 'flu', title: 'Flutter'),
+  SmartSelectOption<String>(value: 'rea', title: 'React Native'),
 ];
 
 @override
 Widget build(BuildContext context) {
-  return SmartSelect(
+  return SmartSelect<String>.single(
     title: 'Frameworks',
     value: value,
-    option: SmartSelectOptionConfig(options),
-    onChange: (val) => setState(() => value = val),
+    options: options,
+    onChange: (val) => setState(() => value = val)
   );
 }
 ```
 
 ## Multiple Choice
 
+`SmartSelect<T>.multiple()`
+
 ```
-List value = ['flutter'];
-List options = [
-  { 'value': 'ionic', 'title': 'Ionic' },
-  { 'value': 'flutter', 'title': 'Flutter' },
-  { 'value': 'react', 'title': 'React Native' },
+List<int> value = [2];
+List<SmartSelectOption<int>> frameworks = [
+  SmartSelectOption<int>(value: 1, title: 'Ionic'),
+  SmartSelectOption<int>(value: 2, title: 'Flutter'),
+  SmartSelectOption<int>(value: 3, title: 'React Native'),
 ];
 
 @override
 Widget build(BuildContext context) {
-  return SmartSelect(
+  return SmartSelect<int>.multiple(
     title: 'Frameworks',
     value: value,
-    isMultiChoice: true,
-    option: SmartSelectOptionConfig(options),
+    options: options,
     onChange: (val) => setState(() => value = val),
   );
 }
 ```
 
-## Open in Full Page
+## Build Option List
 
-By default SmartSelect open choices modal in full page.
+`options` property is `List<SmartSelectOption<T>>`, it can be input directly as in the example below
 
 ```
-String value = 'flutter';
-List options = [
-  { 'value': 'ionic', 'title': 'Ionic' },
-  { 'value': 'flutter', 'title': 'Flutter' },
-  { 'value': 'react', 'title': 'React Native' },
+SmartSelect.single/multiple(
+  ...,
+  ...,
+  options: <SmartSelectOption<int>>[
+    SmartSelectOption<int>(value: 1, title: 'Ionic'),
+    SmartSelectOption<int>(value: 2, title: 'Flutter'),
+    SmartSelectOption<int>(value: 3, title: 'React Native'),
+  ],
+);
+```
+
+or it can be created from any list using helper provided by this package, like the example below
+
+```
+List<Map<String, String>> days = [
+  { 'value': 'mon', 'title': 'Monday' },
+  { 'value': 'tue', 'title': 'Tuesday' },
+  { 'value': 'wed', 'title': 'Wednesday' },
+  { 'value': 'thu', 'title': 'Thursday' },
+  { 'value': 'fri', 'title': 'Friday' },
+  { 'value': 'sat', 'title': 'Saturday' },
+  { 'value': 'sun', 'title': 'Sunday' },
 ];
 
-@override
-Widget build(BuildContext context) {
-  return SmartSelect(
-    title: 'Frameworks',
-    value: value,
-    option: SmartSelectOptionConfig(options),
-    modal: SmartSelectModalConfig(
-      type: SmartSelectModalType.fullPage,
-    ),
-    onChange: (val) => setState(() => value = val),
-  );
-}
+SmartSelect.single/multiple(
+  ...,
+  ...,
+  options: SmartSelectOption.listFrom<Map<String, String>, String>(
+    source: days,
+    value: (index, item) => item['value'],
+    title: (index, item) => item['title'],
+  ),
+);
 ```
 
-## Open in Bottom Sheet
+## Modal Type
+
+By default SmartSelect will open choices modal in full page. You can change it by changing the `modalType` property with this value:
 
 ```
-String value = 'flutter';
-List options = [
-  { 'value': 'ionic', 'title': 'Ionic' },
-  { 'value': 'flutter', 'title': 'Flutter' },
-  { 'value': 'react', 'title': 'React Native' },
-];
-
-@override
-Widget build(BuildContext context) {
-  return SmartSelect(
-    title: 'Frameworks',
-    value: value,
-    option: SmartSelectOptionConfig(options),
-    modal: SmartSelectModalConfig(
-      type: SmartSelectModalType.bottomSheet,
-    ),
-    onChange: (val) => setState(() => value = val),
-  );
-}
+SmartSelect.single/multiple(
+  ...,
+  ...,
+  // open in full page
+  modalType: SmartSelectModalType.fullPage,
+  // open in popup dialog
+  modalType: SmartSelectModalType.popupDialog,
+  // open in bottom sheet
+  modalType: SmartSelectModalType.bottomSheet,
+);
 ```
 
-## Open in Popup Dialog
+## Choice Type
+
+By default SmartSelect will use radio for single choice and checkbox for multiple choice, but it can change by changing the `choiceType` with this value:
 
 ```
-String value = 'flutter';
-List options = [
-  { 'value': 'ionic', 'title': 'Ionic' },
-  { 'value': 'flutter', 'title': 'Flutter' },
-  { 'value': 'react', 'title': 'React Native' },
-];
-
-@override
-Widget build(BuildContext context) {
-  return SmartSelect(
-    title: 'Frameworks',
-    value: value,
-    option: SmartSelectOptionConfig(options),
-    modal: SmartSelectModalConfig(
-      type: SmartSelectModalType.popupDialog,
-    ),
-    onChange: (val) => setState(() => value = val),
-  );
-}
+SmartSelect.single(
+  ...,
+  ...,
+  // default use radio
+  choiceType: SmartSelectChoiceType.radios,
+  // use chips
+  choiceType: SmartSelectChoiceType.chips,
+);
 ```
-
-## Custom Trigger Widget
-
 ```
-String value = 'flutter';
-List options = [
-  { 'value': 'ionic', 'label': 'Ionic' },
-  { 'value': 'flutter', 'label': 'Flutter' },
-  { 'value': 'react', 'label': 'React Native' },
-];
-
-@override
-Widget build(BuildContext context) {
-  return SmartSelect(
-    title: 'Frameworks',
-    value: value,
-    option: SmartSelectOptionConfig(options),
-    builder: (context, state, showChoices) {
-      return ListTile(
-        title: Text(state.title),
-        subtitle: Text(
-          state.valueDisplay,
-          style: TextStyle(color: Colors.grey),
-          overflow: TextOverflow.ellipsis,
-          maxLines: 1,
-        ),
-        leading: CircleAvatar(
-          backgroundColor: Colors.blue,
-          child: Text(
-            '${state.valueDisplay[0]}',
-            style: TextStyle(color: Colors.white)
-          ),
-        ),
-        trailing: Icon(Icons.keyboard_arrow_right, color: Colors.grey),
-        onTap: () => showChoices(context),
-      );
-    },
-    onChange: (val) => setState(() => value = val),
-  );
-}
-```
-
-## Custom Key Label and Value
-
-```
-String value = 'flutter';
-List options = [
-  { 'id': 'ionic', 'text': 'Ionic' },
-  { 'id': 'flutter', 'text': 'Flutter' },
-  { 'id': 'react', 'text': 'React Native' },
-];
-
-@override
-Widget build(BuildContext context) {
-  return Column(
-    children: [
-      SmartSelect(
-        title: 'Frameworks',
-        value: value,
-        option: SmartSelectOption(
-          options,
-          value: 'id',
-          title: 'text',
-        ),
-        onChange: (val) => setState(() => value = val),
-      ),
-      SmartSelect(
-        title: 'Frameworks',
-        value: value,
-        option: SmartSelectOption(
-          options,
-          value: (item) => item['id'],
-          title: (item) => item['text'],
-        ),
-        onChange: (val) => setState(() => value = val),
-      )
-    ]
-  );
-}
+SmartSelect.multiple(
+  ...,
+  ...,
+  // default use checkbox
+  choiceType: SmartSelectChoiceType.checkboxes,
+  // use chips
+  choiceType: SmartSelectChoiceType.chips,
+  // use switch
+  choiceType: SmartSelectChoiceType.switches,
+);
 ```
 
 # Thanks
 
 * [Framework7](https://framework7.io/)
+* [provider](https://pub.dev/packages/provider)
+* [sticky_headers](https://pub.dev/packages/sticky_headers)
 
 # License
 
