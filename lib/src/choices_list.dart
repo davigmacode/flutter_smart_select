@@ -30,13 +30,13 @@ class SmartSelectChoicesList<T> extends StatelessWidget {
       physics: ScrollPhysics(),
       child: Container(
         width: double.infinity,
-        padding: EdgeInsets.symmetric(
+        padding: config.padding ?? EdgeInsets.symmetric(
           vertical: 10.0,
           horizontal: 15.0,
         ),
         child: Wrap(
-          spacing: 12.0, // gap between adjacent chips
-          runSpacing: 0.0, // gap between lines
+          spacing: config.spacing ?? 12.0, // gap between adjacent chips
+          runSpacing: config.runSpacing ?? 0.0, // gap between lines
           children: List<Widget>.generate(
             items.length,
             (i) => ChoicesItem<T>(items[i], type, config),
@@ -50,7 +50,7 @@ class SmartSelectChoicesList<T> extends StatelessWidget {
     return ListView.builder(
       shrinkWrap: true,
       physics: ScrollPhysics(),
-      padding: EdgeInsets.symmetric(vertical: 10.0),
+      padding: config.padding ?? EdgeInsets.symmetric(vertical: 10.0),
       itemCount: items.length,
       itemBuilder: (context, i) => ChoicesItem<T>(items[i], type, config),
     );
@@ -60,7 +60,7 @@ class SmartSelectChoicesList<T> extends StatelessWidget {
     return ListView.separated(
       shrinkWrap: true,
       physics: ScrollPhysics(),
-      padding: EdgeInsets.symmetric(vertical: 10.0),
+      padding: config.padding ?? EdgeInsets.symmetric(vertical: 10.0),
       itemCount: items.length,
       itemBuilder: (context, i) => ChoicesItem<T>(items[i], type, config),
       separatorBuilder: config.dividerBuilder ?? _dividerBuilderDefault,

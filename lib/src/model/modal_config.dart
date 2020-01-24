@@ -16,7 +16,7 @@ class SmartSelectModalConfig {
   /// Use different title with the trigger widget title
   final String title;
 
-  /// Use different title with the trigger widget title
+  /// Custom searchbar hint
   final String searchBarHint;
 
   /// A widget to display before the choices.

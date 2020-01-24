@@ -1,14 +1,30 @@
 import 'package:flutter/foundation.dart';
 
+/// Choice option configuration
 class SmartSelectOption<T> {
-  final T value;
-  final String title;
-  final String subtitle;
-  final String group;
-  final bool disabled;
-  final bool hidden;
-  final meta;
 
+  /// Value to return
+  final T value;
+
+  /// Represent as primary text
+  final String title;
+
+  /// Represent as secondary text
+  final String subtitle;
+
+  /// The option will grouped by this property value
+  final String group;
+
+  /// Whether the option is disabled or enabled
+  final bool disabled;
+
+  /// Whether the option is displayed or not
+  final bool hidden;
+
+  /// This prop is useful for choice builder
+  final dynamic meta;
+
+  /// Default constructor
   SmartSelectOption({
     @required this.value,
     @required this.title,
@@ -19,15 +35,16 @@ class SmartSelectOption<T> {
     this.meta,
   });
 
-  static List<SmartSelectOption<R>> listFrom<T, R>({
-    @required List<T> source,
-    @required SmartSelectOptionProp<T, R> value,
-    @required SmartSelectOptionProp<T, String> title,
-    SmartSelectOptionProp<T, String> subtitle,
-    SmartSelectOptionProp<T, String> group,
-    SmartSelectOptionProp<T, bool> disabled,
-    SmartSelectOptionProp<T, bool> hidden,
-    SmartSelectOptionProp<T, dynamic> meta,
+  /// Helper to create option list from any list
+  static List<SmartSelectOption<R>> listFrom<E, R>({
+    @required List<E> source,
+    @required _SmartSelectOptionProp<E, R> value,
+    @required _SmartSelectOptionProp<E, String> title,
+    _SmartSelectOptionProp<E, String> subtitle,
+    _SmartSelectOptionProp<E, String> group,
+    _SmartSelectOptionProp<E, bool> disabled,
+    _SmartSelectOptionProp<E, bool> hidden,
+    _SmartSelectOptionProp<E, dynamic> meta,
   }) => source
       .asMap()
       .map((index, item) => MapEntry(index, SmartSelectOption<R>(
@@ -48,12 +65,12 @@ class SmartSelectOption<T> {
       || _testPropBy(subtitle, query)
       || _testPropBy(group, query);
   }
+
+  bool _testPropBy(String prop, String query) {
+    return prop != null
+      ? prop.toLowerCase().contains(query.toLowerCase())
+      : false;
+  }
 }
 
-typedef R SmartSelectOptionProp<T, R>(int index, T item);
-
-bool _testPropBy(String prop, String query) {
-  return prop != null
-    ? prop.toLowerCase().contains(query.toLowerCase())
-    : false;
-}
+typedef R _SmartSelectOptionProp<E, R>(int index, E item);

@@ -1,3 +1,11 @@
+## [3.0.2] - 2020-01-22
+
+* Support disabled and hidden option
+* Customizable choices wrapper padding
+* Single choice chips now use checkmark by default, can be configure by `choiceConfig.useCheckmark`
+* Improve documentation
+* Update example
+
 ## [3.0.0] - 2020-01-22
 
 * Breaking changes, more type safety, add more features, and simplify few properties

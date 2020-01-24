@@ -35,7 +35,7 @@ Smart select allows you to easily convert your usual form selects into dynamic p
 
 For a complete usage, please see the [example](https://pub.dev/packages/smart_select#-example-tab-).
 
-To read more about classes and other references used by `smart_select`, see the [documentation](https://pub.dev/documentation/smart_select/latest/).
+To read more about classes and other references used by `smart_select`, see the [API Reference](https://pub.dev/documentation/smart_select/latest/).
 
 ## Single Choice
 
@@ -85,10 +85,10 @@ Widget build(BuildContext context) {
 
 ## Build Option List
 
-`options` property is `List<SmartSelectOption<T>>`, it can be input directly as in the example below
+`options` property is `List<SmartSelectOption<T>>`, it can be input directly as in the example below, more info about `SmartSelectOption` can be found on the [API Reference](https://pub.dev/documentation/smart_select/latest/smart_select/SmartSelectOption-class.html)
 
 ```
-SmartSelect.single/multiple(
+SmartSelect<T>.single/multiple(
   ...,
   ...,
   options: <SmartSelectOption<int>>[
@@ -99,7 +99,7 @@ SmartSelect.single/multiple(
 );
 ```
 
-or it can be created from any list using helper provided by this package, like the example below
+`options` also can be created from any list using helper provided by this package, like the example below
 
 ```
 List<Map<String, String>> days = [
@@ -112,7 +112,7 @@ List<Map<String, String>> days = [
   { 'value': 'sun', 'title': 'Sunday' },
 ];
 
-SmartSelect.single/multiple(
+SmartSelect<T>.single/multiple(
   ...,
   ...,
   options: SmartSelectOption.listFrom<Map<String, String>, String>(
@@ -128,7 +128,7 @@ SmartSelect.single/multiple(
 By default SmartSelect will open choices modal in full page. You can change it by changing the `modalType` property with this value:
 
 ```
-SmartSelect.single/multiple(
+SmartSelect<T>.single/multiple(
   ...,
   ...,
   // open in full page
@@ -145,7 +145,7 @@ SmartSelect.single/multiple(
 By default SmartSelect will use radio for single choice and checkbox for multiple choice, but it can change by changing the `choiceType` with this value:
 
 ```
-SmartSelect.single(
+SmartSelect<T>.single(
   ...,
   ...,
   // default use radio
@@ -155,7 +155,7 @@ SmartSelect.single(
 );
 ```
 ```
-SmartSelect.multiple(
+SmartSelect<T>.multiple(
   ...,
   ...,
   // default use checkbox

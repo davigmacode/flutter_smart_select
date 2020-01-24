@@ -69,6 +69,21 @@ class SmartSelectChoiceConfig<T> {
   /// Whether the choices item use divider or not
   final bool useDivider;
 
+  /// Whether the choices item use checkmark or not
+  /// When use [SmartSelectChoiceType.chips]
+  final bool useCheckmark;
+
+  /// How much space to place between children in a run in the main axis.
+  /// When use [SmartSelectChoiceType.chips] or [useWrap] is [true]
+  final double spacing;
+
+  /// How much space to place between the runs themselves in the cross axis.
+  /// When use [SmartSelectChoiceType.chips] or [useWrap] is [true]
+  final double runSpacing;
+
+  /// choices wrapper padding
+  final EdgeInsetsGeometry padding;
+
   /// Custom color of the glowing indicator
   /// when overscroll the choices list
   final Color glowingOverscrollIndicatorColor;
@@ -103,8 +118,12 @@ class SmartSelectChoiceConfig<T> {
   /// Create choices configuration
   const SmartSelectChoiceConfig({
     this.isGrouped = false,
-    this.useDivider = false,
     this.useWrap = false,
+    this.useDivider = false,
+    this.useCheckmark = true,
+    this.spacing,
+    this.runSpacing,
+    this.padding,
     this.glowingOverscrollIndicatorColor = const Color(0xFF607D8B),
     this.groupHeaderStyle = const SmartSelectChoiceGroupHeaderStyle(),
     this.style = const SmartSelectChoiceStyle(),

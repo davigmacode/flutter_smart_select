@@ -113,10 +113,10 @@ class SmartSelect<T> extends StatelessWidget {
   /// Modal configuration
   final SmartSelectModalConfig modalConfig;
 
-  /// Called when the widget value changed
+  /// Called when single choice value changed
   final SmartSelectOnChange<T> _onChangeSingle;
 
-  /// Called when the widget value changed
+  /// Called when multiple choice value changed
   final SmartSelectOnChange<List<T>> _onChangeMultiple;
 
   /// Builder for custom trigger widget
@@ -126,12 +126,10 @@ class SmartSelect<T> extends StatelessWidget {
   /// as single choice or multiple choice
   final bool isMultiChoice;
 
-  /// Whether show the options list
-  /// as single choice or multiple choice
+  /// state used internally
   final SmartSelectState<T> _state;
 
-  /// Default constructor
-  /// Open option in a new page
+  /// Constructor for single choice
   SmartSelect.single({
     Key key,
     @required T value,
@@ -165,6 +163,7 @@ class SmartSelect<T> extends StatelessWidget {
     ),
     super(key: key);
 
+  /// Constructor for multiple choice
   SmartSelect.multiple({
     Key key,
     @required List<T> value,
@@ -216,13 +215,6 @@ class SmartSelect<T> extends StatelessWidget {
           padding: padding,
           onTap: () => this._showModal(context),
         );
-  }
-
-  /// return a filtered list of options
-  List<SmartSelectOption<T>> _filteredOptions(String query) {
-    return query != null
-        ? options.where((SmartSelectOption<T> item) => item.contains(query)).toList().cast<SmartSelectOption<T>>()
-        : options;
   }
 
   void _showModal(BuildContext context) async {
@@ -286,7 +278,7 @@ class SmartSelect<T> extends StatelessWidget {
                   type: choiceType,
                   config: choiceConfig,
                   query: state.query,
-                  items: _filteredOptions(state.query),
+                  items: options,
                 );
               },
             ),

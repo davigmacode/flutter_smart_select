@@ -37,10 +37,12 @@
 
 ## Customize Option
 
-* [List of Map](https://github.com/davigmacode/flutter_smart_select/blob/master/example/lib/features_option/option_list_of_map.dart)
-* [List of String](https://github.com/davigmacode/flutter_smart_select/blob/master/example/lib/features_option/option_list_of_string.dart)
-* [List of List Of String](https://github.com/davigmacode/flutter_smart_select/blob/master/example/lib/features_option/option_list_of_list.dart)
-* [Async Option & Custom Properties](https://github.com/davigmacode/flutter_smart_select/blob/master/example/lib/features_option/option_async.dart)
+* [Disabled Options](https://github.com/davigmacode/flutter_smart_select/blob/master/example/lib/features_option/option_disabled.dart)
+* [Hidden Options](https://github.com/davigmacode/flutter_smart_select/blob/master/example/lib/features_option/option_hidden.dart)
+* [Build Options from List of String](https://github.com/davigmacode/flutter_smart_select/blob/master/example/lib/features_option/option_list_of_string.dart)
+* [Build Options from List of Map](https://github.com/davigmacode/flutter_smart_select/blob/master/example/lib/features_option/option_list_of_map.dart)
+* [Build Options from List of List Of String](https://github.com/davigmacode/flutter_smart_select/blob/master/example/lib/features_option/option_list_of_list.dart)
+* [Async Option](https://github.com/davigmacode/flutter_smart_select/blob/master/example/lib/features_option/option_async.dart)
 
 ## Customize Modal
 

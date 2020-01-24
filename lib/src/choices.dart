@@ -36,10 +36,10 @@ class SmartSelectChoices<T> extends StatelessWidget {
               color: config.glowingOverscrollIndicatorColor,
               child: Builder(
                 builder: (context) {
-                  return items.length > 0
+                  return _filteredItems.length > 0
                     ? _isGrouped == true
-                      ? SmartSelectChoicesGrouped<T>(_groupKeys, items, type, config)
-                      : SmartSelectChoicesList<T>(items, type, config)
+                      ? SmartSelectChoicesGrouped<T>(_groupKeys, _filteredItems, type, config)
+                      : SmartSelectChoicesList<T>(_filteredItems, type, config)
                     : config.emptyBuilder?.call(query) ?? SmartSelectChoicesEmpty();
                 },
               )
@@ -50,10 +50,26 @@ class SmartSelectChoices<T> extends StatelessWidget {
     );
   }
 
+  /// return a filtered list of options
+  List<SmartSelectOption<T>> get _filteredItems {
+    return query != null
+      ? _nonHiddenItems
+        .where((SmartSelectOption<T> item) => item.contains(query))
+        .toList().cast<SmartSelectOption<T>>()
+      : _nonHiddenItems;
+  }
+
+  // return a non hidden option item
+  List<SmartSelectOption<T>> get _nonHiddenItems {
+    return items
+      .where((SmartSelectOption<T> item) => item.hidden != true)
+      .toList().cast<SmartSelectOption<T>>();
+  }
+
   // return a list of group keys
   List<String> get _groupKeys {
     Set groups = Set();
-    items.forEach((SmartSelectOption<T> item) => groups.add(item.group));
+    _filteredItems.forEach((SmartSelectOption<T> item) => groups.add(item.group));
     return groups.toList().cast<String>();
   }
 

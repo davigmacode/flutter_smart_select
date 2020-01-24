@@ -22,7 +22,7 @@ class _FeaturesTileState extends State<FeaturesTile> with AutomaticKeepAliveClie
   Widget build(BuildContext context) {
     super.build(context);
     return Scrollbar(
-      child:ListView(
+      child: ListView(
         children: <Widget>[
           StickyHeader(
             header: FeaturesHeader('One Line'),
