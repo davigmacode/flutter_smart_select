@@ -90,7 +90,7 @@ class _FeaturesOptionAsyncState extends State<FeaturesOptionAsync> {
       setState(() => _usersIsLoading = true);
       String url = "https://randomuser.me/api/?inc=gender,name,nat,picture,email&results=25";
       Response res = await Dio().get(url);
-      List<SmartSelectOption> options = SmartSelectOption.listFrom<dynamic, String>(
+      List<SmartSelectOption> options = SmartSelectOption.listFrom<String, dynamic>(
         source: res.data['results'],
         value: (index, item) => item['email'],
         title: (index, item) => item['name']['first'] + ' ' + item['name']['last'],
@@ -112,7 +112,7 @@ class _FeaturesOptionAsyncState extends State<FeaturesOptionAsync> {
       String url = "http://restcountries.eu/rest/v2/all?fields=name;capital;flag;region;subregion";
       Response res = await Dio().get(url);
       setState(() {
-        _countries = SmartSelectOption.listFrom<dynamic, String>(
+        _countries = SmartSelectOption.listFrom<String, dynamic>(
           source: res.data,
           value: (index, item) => item['subregion'] + ' - ' + item['name'],
           title: (index, item) => item['name'],

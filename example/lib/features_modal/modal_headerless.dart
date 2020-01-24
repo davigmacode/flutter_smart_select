@@ -9,15 +9,15 @@ class FeaturesModalHeaderless extends StatefulWidget {
 
 class _FeaturesModalHeaderlessState extends State<FeaturesModalHeaderless> {
 
-  List _fruit = ['mel'];
-  List _hero = ['bat', 'spi'];
+  List<String> _fruit = ['mel'];
+  List<String> _hero = ['bat', 'spi'];
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
         Container(height: 7),
-        SmartSelect.multiple(
+        SmartSelect<String>.multiple(
           title: 'Fruit',
           value: _fruit,
           isTwoLine: true,
@@ -34,7 +34,7 @@ class _FeaturesModalHeaderlessState extends State<FeaturesModalHeaderless> {
           onChange: (val) => setState(() => _fruit = val),
         ),
         Divider(indent: 20),
-        SmartSelect.multiple(
+        SmartSelect<String>.multiple(
           title: 'Super Hero',
           value: _hero,
           isTwoLine: true,

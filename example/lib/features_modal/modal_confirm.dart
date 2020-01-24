@@ -9,8 +9,8 @@ class FeaturesModalConfirm extends StatefulWidget {
 
 class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
 
-  List _day = ['fri'];
-  List _fruit = ['mel'];
+  List<String> _day = ['fri'];
+  List<String> _fruit = ['mel'];
   String _hero = 'iro';
 
   @override
@@ -18,7 +18,7 @@ class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
     return Column(
       children: <Widget>[
         Container(height: 7),
-        SmartSelect.multiple(
+        SmartSelect<String>.multiple(
           title: 'Days',
           value: _day,
           isTwoLine: true,
@@ -33,7 +33,7 @@ class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
           onChange: (val) => setState(() => _day = val)
         ),
         Divider(indent: 20),
-        SmartSelect.multiple(
+        SmartSelect<String>.multiple(
           title: 'Fruit',
           value: _fruit,
           isTwoLine: true,
@@ -50,7 +50,7 @@ class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
           onChange: (val) => setState(() => _fruit = val),
         ),
         Divider(indent: 20),
-        SmartSelect.single(
+        SmartSelect<String>.single(
           title: 'Super Hero',
           value: _hero,
           isTwoLine: true,

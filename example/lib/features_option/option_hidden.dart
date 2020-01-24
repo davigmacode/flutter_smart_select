@@ -8,7 +8,7 @@ class FeaturesOptionHidden extends StatefulWidget {
 
 class _FeaturesOptionHiddenState extends State<FeaturesOptionHidden> {
 
-  List _categories = [];
+  List<int> _categories = [];
 
   int _sort = 0;
 
@@ -36,12 +36,12 @@ class _FeaturesOptionHiddenState extends State<FeaturesOptionHidden> {
           child: Row(
             children: <Widget>[
               Expanded(
-                child: SmartSelect.multiple(
+                child: SmartSelect<int>.multiple(
                   title: 'Categories',
                   value: _categories,
                   isTwoLine: true,
                   trailing: Icon(Icons.arrow_drop_down),
-                  options: SmartSelectOption.listFrom<String, int>(
+                  options: SmartSelectOption.listFrom<int, String>(
                     source: _categoriesOption,
                     value: (index, item) => index,
                     title: (index, item) => item,
@@ -60,12 +60,12 @@ class _FeaturesOptionHiddenState extends State<FeaturesOptionHidden> {
                 child: VerticalDivider(),
               ),
               Expanded(
-                child: SmartSelect.single(
+                child: SmartSelect<int>.single(
                   title: 'Sort By',
                   value: _sort,
                   isTwoLine: true,
                   trailing: Icon(Icons.arrow_drop_down),
-                  options: SmartSelectOption.listFrom<String, int>(
+                  options: SmartSelectOption.listFrom<int, String>(
                     source: _sortOption,
                     value: (index, item) => index,
                     title: (index, item) => item,

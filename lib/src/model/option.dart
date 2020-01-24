@@ -36,7 +36,7 @@ class SmartSelectOption<T> {
   });
 
   /// Helper to create option list from any list
-  static List<SmartSelectOption<R>> listFrom<E, R>({
+  static List<SmartSelectOption<R>> listFrom<R, E>({
     @required List<E> source,
     @required _SmartSelectOptionProp<E, R> value,
     @required _SmartSelectOptionProp<E, String> title,

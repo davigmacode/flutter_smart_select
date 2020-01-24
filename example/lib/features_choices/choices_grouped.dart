@@ -10,19 +10,19 @@ class FeaturesChoicesGrouped extends StatefulWidget {
 class _FeaturesChoicesGroupedState extends State<FeaturesChoicesGrouped> {
 
   String _smartphone = '';
-  List _car = [];
+  List<String> _car = [];
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
         Container(height: 7),
-        SmartSelect.single(
+        SmartSelect<String>.single(
           title: 'Smartphones',
           placeholder: 'Choose one',
           isTwoLine: true,
           value: _smartphone,
-          options: SmartSelectOption.listFrom<Map, String>(
+          options: SmartSelectOption.listFrom<String, Map>(
             source: options.smartphones,
             value: (index, item) => item['id'],
             title: (index, item) => item['name'],
@@ -36,12 +36,12 @@ class _FeaturesChoicesGroupedState extends State<FeaturesChoicesGrouped> {
           onChange: (val) => setState(() => _smartphone = val),
         ),
         Divider(indent: 20),
-        SmartSelect.multiple(
+        SmartSelect<String>.multiple(
           title: 'Cars',
           placeholder: 'Choose one or more',
           isTwoLine: true,
           value: _car,
-          options: SmartSelectOption.listFrom<Map, String>(
+          options: SmartSelectOption.listFrom<String, Map>(
             source: options.cars,
             value: (index, item) => item['value'],
             title: (index, item) => item['title'],

@@ -115,7 +115,7 @@ List<Map<String, String>> days = [
 SmartSelect<T>.single/multiple(
   ...,
   ...,
-  options: SmartSelectOption.listFrom<Map<String, String>, String>(
+  options: SmartSelectOption.listFrom<T, Map<String, String>>(
     source: days,
     value: (index, item) => item['value'],
     title: (index, item) => item['title'],

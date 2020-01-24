@@ -10,16 +10,16 @@ class FeaturesModalHeader extends StatefulWidget {
 
 class _FeaturesModalHeaderState extends State<FeaturesModalHeader> {
 
-  List _month = ['apr'];
+  List<String> _month = ['apr'];
   String _framework = 'flu';
-  List _hero = ['bat', 'spi'];
+  List<String> _hero = ['bat', 'spi'];
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
         Container(height: 7),
-        SmartSelect.multiple(
+        SmartSelect<String>.multiple(
           title: 'Month',
           value: _month,
           isTwoLine: true,
@@ -42,7 +42,7 @@ class _FeaturesModalHeaderState extends State<FeaturesModalHeader> {
           onChange: (val) => setState(() => _month = val)
         ),
         Divider(indent: 20),
-        SmartSelect.single(
+        SmartSelect<String>.single(
           title: 'Frameworks',
           value: _framework,
           options: options.frameworks,
@@ -64,7 +64,7 @@ class _FeaturesModalHeaderState extends State<FeaturesModalHeader> {
           onChange: (val) => setState(() => _framework = val),
         ),
         Divider(indent: 20),
-        SmartSelect.multiple(
+        SmartSelect<String>.multiple(
           title: 'Super Hero',
           value: _hero,
           isTwoLine: true,

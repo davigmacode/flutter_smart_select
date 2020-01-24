@@ -22,7 +22,7 @@ class _FeaturesSingleChipsState extends State<FeaturesSingleChips> {
           title: 'Car',
           value: _car,
           isTwoLine: true,
-          options: SmartSelectOption.listFrom<Map, String>(
+          options: SmartSelectOption.listFrom<String, Map>(
             source: options.cars,
             value: (index, item) => item['value'],
             title: (index, item) => item['title'],

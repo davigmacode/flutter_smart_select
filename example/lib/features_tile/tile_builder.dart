@@ -66,7 +66,7 @@ class _FeaturesTileBuilderState extends State<FeaturesTileBuilder> {
           SmartSelect<String>.multiple(
             title: 'Cars',
             value: _cars,
-            options: SmartSelectOption.listFrom<Map, String>(
+            options: SmartSelectOption.listFrom<String, Map>(
               source: options.cars,
               value: (index, item) => item['value'],
               title: (index, item) => item['title'],

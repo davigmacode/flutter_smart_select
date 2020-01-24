@@ -10,14 +10,14 @@ class FeaturesChoicesTheme extends StatefulWidget {
 
 class _FeaturesChoicesThemeState extends State<FeaturesChoicesTheme> {
 
-  List _smartphones = [];
+  List<String> _smartphones = [];
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
         Container(height: 7),
-        SmartSelect.multiple(
+        SmartSelect<String>.multiple(
           title: 'Smartphones',
           value: _smartphones,
           isTwoLine: true,
@@ -25,7 +25,7 @@ class _FeaturesChoicesThemeState extends State<FeaturesChoicesTheme> {
             icon: const Icon(Icons.shopping_cart),
             counter: _smartphones.length,
           ),
-          options: SmartSelectOption.listFrom<Map, String>(
+          options: SmartSelectOption.listFrom<String, Map>(
             source: options.smartphones,
             value: (index, item) => item['id'],
             title: (index, item) => item['name'],

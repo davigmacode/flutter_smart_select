@@ -22,7 +22,7 @@ class _FeaturesChoicesDividerState extends State<FeaturesChoicesDivider> {
           placeholder: 'Choose one',
           isTwoLine: true,
           value: _car,
-          options: SmartSelectOption.listFrom<Map, String>(
+          options: SmartSelectOption.listFrom<String, Map>(
             source: options.cars,
             value: (index, item) => item['value'],
             title: (index, item) => item['title'],
@@ -43,7 +43,7 @@ class _FeaturesChoicesDividerState extends State<FeaturesChoicesDivider> {
           placeholder: 'Choose one',
           value: _smartphone,
           isTwoLine: true,
-          options: SmartSelectOption.listFrom<Map, String>(
+          options: SmartSelectOption.listFrom<String, Map>(
             source: options.smartphones,
             value: (index, item) => item['id'],
             title: (index, item) => item['name'],

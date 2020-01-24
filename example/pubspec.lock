@@ -176,7 +176,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "3.0.2"
+    version: "3.0.3"
   source_span:
     dependency: transitive
     description:

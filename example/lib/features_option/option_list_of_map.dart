@@ -8,7 +8,7 @@ class FeaturesOptionListOfMap extends StatefulWidget {
 
 class _FeaturesOptionListOfMapState extends State<FeaturesOptionListOfMap> {
 
-  List _day = ['fri'];
+  List<String> _day = ['fri'];
   List<Map<String, String>> _days = [
     { 'value': 'mon', 'title': 'Monday' },
     { 'value': 'tue', 'title': 'Tuesday' },
@@ -24,7 +24,7 @@ class _FeaturesOptionListOfMapState extends State<FeaturesOptionListOfMap> {
     return Column(
       children: <Widget>[
         Container(height: 7),
-        SmartSelect.multiple(
+        SmartSelect<String>.multiple(
           title: 'Days',
           value: _day,
           isTwoLine: true,
@@ -33,7 +33,7 @@ class _FeaturesOptionListOfMapState extends State<FeaturesOptionListOfMap> {
             alignment: Alignment.center,
             child: const Icon(Icons.calendar_today),
           ),
-          options: SmartSelectOption.listFrom<Map<String, String>, String>(
+          options: SmartSelectOption.listFrom<String, Map<String, String>>(
             source: _days,
             value: (index, item) => item['value'],
             title: (index, item) => item['title'],

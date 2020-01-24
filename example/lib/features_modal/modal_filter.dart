@@ -10,19 +10,19 @@ class FeaturesModalFilter extends StatefulWidget {
 class _FeaturesModalFilterState extends State<FeaturesModalFilter> {
 
   String _car = '';
-  List _smartphone = [];
+  List<String> _smartphone = [];
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
         Container(height: 7),
-        SmartSelect.single(
+        SmartSelect<String>.single(
           title: 'Car',
           placeholder: 'Choose one',
           value: _car,
           isTwoLine: true,
-          options: SmartSelectOption.listFrom<Map, String>(
+          options: SmartSelectOption.listFrom<String, Map>(
             source: options.cars,
             value: (index, item) => item['value'],
             title: (index, item) => item['title'],
@@ -36,12 +36,12 @@ class _FeaturesModalFilterState extends State<FeaturesModalFilter> {
           onChange: (val) => setState(() => _car = val),
         ),
         Divider(indent: 20),
-        SmartSelect.multiple(
+        SmartSelect<String>.multiple(
           title: 'Smartphones',
           placeholder: 'Choose one',
           value: _smartphone,
           isTwoLine: true,
-          options: SmartSelectOption.listFrom<Map, String>(
+          options: SmartSelectOption.listFrom<String, Map>(
             source: options.smartphones,
             value: (index, item) => item['id'],
             title: (index, item) => item['name'],

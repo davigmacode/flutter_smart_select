@@ -1,3 +1,7 @@
+## [3.0.3] - 2020-01-22
+
+* Swap position generic type helper function for create list option from any list
+
 ## [3.0.2] - 2020-01-22
 
 * Support disabled and hidden option

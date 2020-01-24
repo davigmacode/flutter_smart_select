@@ -8,7 +8,7 @@ class FeaturesOptionListOfString extends StatefulWidget {
 
 class _FeaturesOptionListOfStringState extends State<FeaturesOptionListOfString> {
 
-  List _categories = [];
+  List<int> _categories = [];
 
   int _sort = 3;
 
@@ -36,12 +36,12 @@ class _FeaturesOptionListOfStringState extends State<FeaturesOptionListOfString>
           child: Row(
             children: <Widget>[
               Expanded(
-                child: SmartSelect.multiple(
+                child: SmartSelect<int>.multiple(
                   title: 'Categories',
                   value: _categories,
                   isTwoLine: true,
                   trailing: Icon(Icons.arrow_drop_down),
-                  options: SmartSelectOption.listFrom<String, int>(
+                  options: SmartSelectOption.listFrom<int, String>(
                     source: _categoriesOption,
                     value: (index, item) => index,
                     title: (index, item) => item,
@@ -59,12 +59,12 @@ class _FeaturesOptionListOfStringState extends State<FeaturesOptionListOfString>
                 child: VerticalDivider(),
               ),
               Expanded(
-                child: SmartSelect.single(
+                child: SmartSelect<int>.single(
                   title: 'Sort By',
                   value: _sort,
                   isTwoLine: true,
                   trailing: Icon(Icons.arrow_drop_down),
-                  options: SmartSelectOption.listFrom<String, int>(
+                  options: SmartSelectOption.listFrom<int, String>(
                     source: _sortOption,
                     value: (index, item) => index,
                     title: (index, item) => item,

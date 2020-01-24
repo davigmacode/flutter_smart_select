@@ -22,7 +22,7 @@ class _FeaturesMultiSwitchesState extends State<FeaturesMultiSwitches> {
           title: 'Car',
           value: _car,
           isTwoLine: true,
-          options: SmartSelectOption.listFrom<Map, String>(
+          options: SmartSelectOption.listFrom<String, Map>(
             source: options.cars,
             value: (index, item) => item['value'],
             title: (index, item) => item['title'],
@@ -43,7 +43,7 @@ class _FeaturesMultiSwitchesState extends State<FeaturesMultiSwitches> {
           title: 'Smartphones',
           value: _smartphone,
           isTwoLine: true,
-          options: SmartSelectOption.listFrom<Map, String>(
+          options: SmartSelectOption.listFrom<String, Map>(
             source: options.smartphones,
             value: (index, item) => item['id'],
             title: (index, item) => item['name'],
