@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
+import 'package:diacritic/diacritic.dart';
 
 /// Choice option configuration
 class SmartSelectOption<T> {
-
   /// Value to return
   final T value;
 
@@ -45,31 +45,36 @@ class SmartSelectOption<T> {
     _SmartSelectOptionProp<E, bool> disabled,
     _SmartSelectOptionProp<E, bool> hidden,
     _SmartSelectOptionProp<E, dynamic> meta,
-  }) => source
-      .asMap()
-      .map((index, item) => MapEntry(index, SmartSelectOption<R>(
-        value: value?.call(index, item),
-        title: title?.call(index, item),
-        subtitle: subtitle?.call(index, item),
-        group: group?.call(index, item),
-        disabled: disabled?.call(index, item),
-        hidden: hidden?.call(index, item),
-        meta: meta?.call(index, item),
-      )))
-      .values
-      .toList()
-      .cast<SmartSelectOption<R>>();
+  }) =>
+      source
+          .asMap()
+          .map((index, item) => MapEntry(
+              index,
+              SmartSelectOption<R>(
+                value: value?.call(index, item),
+                title: title?.call(index, item),
+                subtitle: subtitle?.call(index, item),
+                group: group?.call(index, item),
+                disabled: disabled?.call(index, item),
+                hidden: hidden?.call(index, item),
+                meta: meta?.call(index, item),
+              )))
+          .values
+          .toList()
+          .cast<SmartSelectOption<R>>();
 
   bool contains(String query) {
-    return _testPropBy(title, query)
-      || _testPropBy(subtitle, query)
-      || _testPropBy(group, query);
+    return _testPropBy(title, query) ||
+        _testPropBy(subtitle, query) ||
+        _testPropBy(group, query);
   }
 
   bool _testPropBy(String prop, String query) {
     return prop != null
-      ? prop.toLowerCase().contains(query.toLowerCase())
-      : false;
+        ? removeDiacritics(prop)
+            .toLowerCase()
+            .contains(removeDiacritics(query).toLowerCase())
+        : false;
   }
 }
 
