@@ -34,13 +34,14 @@ class SmartSelectModalHeader extends StatelessWidget implements PreferredSizeWid
     // build search widget
     Widget searchWidget = TextField(
       controller: filter.ctrl,
+      onChanged: config.filterAutocomplete ? filter.setQuery : null,
       style: textStyle,
       autofocus: true,
       decoration: InputDecoration.collapsed(
         hintText: config.searchBarHint ?? 'Search on $title',
         hintStyle: textStyle,
       ),
-      onSubmitted: filter.setQuery,
+      onSubmitted: config.filterAutocomplete ? null : filter.setQuery,
     );
 
     Widget confirmButton = config.useConfirmation && !isFiltering

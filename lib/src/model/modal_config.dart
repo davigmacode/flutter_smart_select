@@ -31,6 +31,9 @@ class SmartSelectModalConfig {
   /// Whether the option list is filterable or not
   final bool useFilter;
 
+  /// Whether the filter is autocomplete or need confirmation
+  final bool filterAutocomplete;
+
   /// Whether the option list need to confirm
   /// to return the changed value
   final bool useConfirmation;
@@ -52,6 +55,7 @@ class SmartSelectModalConfig {
     this.trailing,
     this.useHeader = true,
     this.useFilter = false,
+    this.filterAutocomplete = false,
     this.useConfirmation = false,
     this.style = const SmartSelectModalStyle(),
     this.headerStyle = const SmartSelectModalHeaderStyle(),
