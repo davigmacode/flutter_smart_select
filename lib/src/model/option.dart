@@ -1,5 +1,5 @@
-import 'dart:convert';
 import 'package:flutter/foundation.dart';
+import 'package:smart_select/src/utils/accent.dart';
 
 /// Choice option configuration
 class S2Option<T> {
@@ -70,12 +70,7 @@ class S2Option<T> {
   }
 
   bool _testPropBy(String prop, String query) {
-    return prop != null
-        ? Base64Codec()
-            .normalize(prop)
-            .toLowerCase()
-            .contains(Base64Codec().normalize(query).toLowerCase())
-        : false;
+    return prop != null ? normalized(prop).contains(normalized(query)) : false;
   }
 
   @override
