@@ -1,8 +1,8 @@
 name: smart_select
-description: Smart select allows you to easily convert your usual form selects into dynamic pages with various choices input.
+description: SmartSelect allows you to easily convert your usual form select or dropdown into dynamic page, popup dialog, or sliding bottom sheet with various choices input like radio, checkbox, switch, chips, or even custom input.
 author: Irfan Vigma Taufik<davigmacode@gmail.com>
 homepage: https://github.com/davigmacode/flutter_smart_select
-version: 3.0.3
+version: 4.0.0-dev
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
@@ -10,9 +10,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  provider: ">=4.0.0 <5.0.0"
-  sticky_headers: ">=0.1.8+1 <1.0.0"
-  diacritic: ^0.1.1
 
 dev_dependencies:
   flutter_test:

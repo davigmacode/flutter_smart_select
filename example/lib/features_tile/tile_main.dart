@@ -7,46 +7,43 @@ import './tile_leading.dart';
 import './tile_trailing.dart';
 import './tile_builder.dart';
 import '../features_header.dart';
+import '../keep_alive.dart';
 
-class FeaturesTile extends StatefulWidget {
-  @override
-  _FeaturesTileState createState() => _FeaturesTileState();
-}
-
-class _FeaturesTileState extends State<FeaturesTile> with AutomaticKeepAliveClientMixin<FeaturesTile> {
-
-  @override
-  bool get wantKeepAlive => true;
+class FeaturesTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     return Scrollbar(
       child: ListView(
+        addAutomaticKeepAlives: true,
         children: <Widget>[
           StickyHeader(
-            header: FeaturesHeader('One Line'),
+            header: const FeaturesHeader('One Line'),
             content: FeaturesTileOneLine(),
           ),
           StickyHeader(
-            header: FeaturesHeader('Two Line'),
+            header: const FeaturesHeader('Two Line'),
             content: FeaturesTileTwoLine(),
           ),
           StickyHeader(
-            header: FeaturesHeader('Leading Widget'),
+            header: const FeaturesHeader('Leading Widget'),
             content: FeaturesTileLeading(),
           ),
           StickyHeader(
-            header: FeaturesHeader('Custom Trailing Widget'),
+            header: const FeaturesHeader('Custom Trailing Widget'),
             content: FeaturesTileTrailing(),
           ),
-          StickyHeader(
-            header: FeaturesHeader('Loading Stats'),
-            content: FeaturesTileLoading(),
+          KeepAliveWidget(
+            child: StickyHeader(
+              header: const FeaturesHeader('Loading Stats'),
+              content: FeaturesTileLoading(),
+            ),
           ),
-          StickyHeader(
-            header: FeaturesHeader('Custom Tile Builder'),
-            content: FeaturesTileBuilder(),
+          KeepAliveWidget(
+            child: StickyHeader(
+              header: const FeaturesHeader('Custom Tile Builder'),
+              content: FeaturesTileBuilder(),
+            ),
           ),
         ],
       ),

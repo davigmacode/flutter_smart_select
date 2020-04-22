@@ -16,53 +16,59 @@ class _FeaturesChoicesDividerState extends State<FeaturesChoicesDivider> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Container(height: 7),
+        const SizedBox(height: 7),
         SmartSelect<String>.single(
           title: 'Car',
           placeholder: 'Choose one',
-          isTwoLine: true,
           value: _car,
-          options: SmartSelectOption.listFrom<String, Map>(
+          options: S2Option.listFrom<String, Map>(
             source: options.cars,
             value: (index, item) => item['value'],
             title: (index, item) => item['title'],
             group: (index, item) => item['body'],
           ),
-          choiceConfig: SmartSelectChoiceConfig(
-            isGrouped: true,
-            useDivider: true
-          ),
-          leading: CircleAvatar(
-            backgroundImage: NetworkImage('https://source.unsplash.com/yeVtxxPxzbw/100x100'),
-          ),
-          onChange: (val) => setState(() => _car = val),
+          choiceGrouped: true,
+          choiceDivider: true,
+          onChange: (state) => setState(() => _car = state.value),
+          tileBuilder: (context, state) {
+            return S2Tile.fromState(
+              state,
+              isTwoLine: true,
+              leading: const CircleAvatar(
+                backgroundImage: NetworkImage('https://source.unsplash.com/yeVtxxPxzbw/100x100'),
+              ),
+            );
+          }
         ),
-        Divider(indent: 20),
+        const Divider(indent: 20),
         SmartSelect<String>.multiple(
           title: 'Smartphones',
           placeholder: 'Choose one',
           value: _smartphone,
-          isTwoLine: true,
-          options: SmartSelectOption.listFrom<String, Map>(
+          options: S2Option.listFrom<String, Map>(
             source: options.smartphones,
             value: (index, item) => item['id'],
             title: (index, item) => item['name'],
             group: (index, item) => item['brand'],
           ),
-          modalType: SmartSelectModalType.bottomSheet,
-          modalConfig: SmartSelectModalConfig(
-            useFilter: true,
-          ),
-          choiceConfig: SmartSelectChoiceConfig(
-            isGrouped: true,
+          modalType: S2ModalType.bottomSheet,
+          modalFilter: true,
+          choiceGrouped: true,
+          choiceConfig: const S2ChoiceConfig(
             useDivider: true,
           ),
-          leading: CircleAvatar(
-            backgroundImage: NetworkImage('https://source.unsplash.com/xsGxhtAsfSA/100x100'),
-          ),
-          onChange: (val) => setState(() => _smartphone = val),
+          onChange: (state) => setState(() => _smartphone = state.value),
+          tileBuilder: (context, state) {
+            return S2Tile.fromState(
+              state,
+              isTwoLine: true,
+              leading: const CircleAvatar(
+                backgroundImage: NetworkImage('https://source.unsplash.com/xsGxhtAsfSA/100x100'),
+              ),
+            );
+          }
         ),
-        Container(height: 7),
+        const SizedBox(height: 7),
       ],
     );
   }

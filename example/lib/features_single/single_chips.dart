@@ -17,67 +17,81 @@ class _FeaturesSingleChipsState extends State<FeaturesSingleChips> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Container(height: 7),
+        const SizedBox(height: 7),
         SmartSelect<String>.single(
-          title: 'Car',
           value: _car,
-          isTwoLine: true,
-          options: SmartSelectOption.listFrom<String, Map>(
+          options: S2Option.listFrom<String, Map>(
             source: options.cars,
             value: (index, item) => item['value'],
             title: (index, item) => item['title'],
             group: (index, item) => item['brand'],
           ),
-          modalType: SmartSelectModalType.fullPage,
-          modalConfig: SmartSelectModalConfig(
-            title: 'Cars Option',
-            // leading: Container(
-            //   padding: EdgeInsets.all(10.0),
-            //   child: Text('To hot reload changes while running, press "r". To hot restart (and rebuild state), press "R"'),
-            // ),
-            // trailing: Container(
-            //   padding: EdgeInsets.all(10.0),
-            //   child: Text('To hot reload changes while running, press "r". To hot restart (and rebuild state), press "R"'),
-            // ),
+          modalTitle: 'Cars Option',
+          modalType: S2ModalType.bottomSheet,
+          choiceType: S2ChoiceType.chips,
+          choiceGrouped: true,
+          choiceDirection: Axis.horizontal,
+          choiceStyle: const S2ChoiceStyle(
+            showCheckmark: false,
+            activeBrightness: Brightness.dark,
           ),
-          choiceType: SmartSelectChoiceType.chips,
-          choiceConfig: SmartSelectChoiceConfig(isGrouped: true),
-          leading: CircleAvatar(
-            backgroundImage: NetworkImage('https://source.unsplash.com/yeVtxxPxzbw/100x100'),
+          onChange: (state) => setState(() => _car = state.value),
+          tileBuilder: (context, state) => S2Tile(
+            title: 'Car',
+            value: state.valueDisplay,
+            isTwoLine: true,
+            leading: const CircleAvatar(
+              backgroundImage: NetworkImage('https://source.unsplash.com/yeVtxxPxzbw/100x100'),
+            ),
+            onTap: state.showModal,
           ),
-          onChange: (val) => setState(() => _car = val),
         ),
-        Divider(indent: 20),
+        const Divider(indent: 20),
         SmartSelect<String>.single(
           title: 'Category',
-          isTwoLine: true,
           value: _category,
           options: options.categories,
-          modalType: SmartSelectModalType.bottomSheet,
-          choiceType: SmartSelectChoiceType.chips,
-          leading: Container(
-            width: 40,
-            alignment: Alignment.center,
-            child: const Icon(Icons.label_outline),
+          modalType: S2ModalType.bottomSheet,
+          choiceType: S2ChoiceType.chips,
+          choiceDirection: Axis.horizontal,
+          choiceStyle: S2ChoiceStyle(
+            showCheckmark: true,
           ),
-          onChange: (val) => setState(() => _category = val),
+          onChange: (state) => setState(() => _category = state.value),
+          tileBuilder: (context, state) => S2Tile.fromState(
+            state,
+            isTwoLine: true,
+            leading: Container(
+              width: 40,
+              alignment: Alignment.center,
+              child: const Icon(Icons.label_outline),
+            ),
+          ),
         ),
-        Divider(indent: 20),
+        const Divider(indent: 20),
         SmartSelect<String>.single(
           title: 'Days',
           value: _day,
-          isTwoLine: true,
-          leading: Container(
-            width: 40,
-            alignment: Alignment.center,
-            child: const Icon(Icons.calendar_today),
-          ),
           options: options.days,
-          choiceType: SmartSelectChoiceType.chips,
-          modalType: SmartSelectModalType.popupDialog,
-          onChange: (val) => setState(() => _day = val)
+          onChange: (state) => setState(() => _day = state.value),
+          modalType: S2ModalType.popupDialog,
+          choiceType: S2ChoiceType.chips,
+          choiceStyle: S2ChoiceStyle(
+            color: Colors.blueGrey[400],
+            brightness: Brightness.dark,
+            activeBrightness: Brightness.dark,
+          ),
+          tileBuilder: (context, state) => S2Tile.fromState(
+            state,
+            isTwoLine: true,
+            leading: Container(
+              width: 40,
+              alignment: Alignment.center,
+              child: const Icon(Icons.calendar_today),
+            ),
+          ),
         ),
-        Container(height: 7),
+        const SizedBox(height: 7),
       ],
     );
   }

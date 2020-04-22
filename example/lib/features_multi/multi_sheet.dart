@@ -16,29 +16,39 @@ class _FeaturesMultiSheetState extends State<FeaturesMultiSheet> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Container(height: 7),
+        const SizedBox(height: 7),
         SmartSelect<String>.multiple(
-          title: 'OS',
           value: _os,
-          isTwoLine: true,
           options: options.os,
-          modalType: SmartSelectModalType.bottomSheet,
-          leading: CircleAvatar(
-            backgroundImage: NetworkImage('https://source.unsplash.com/xsGxhtAsfSA/100x100'),
-          ),
-          onChange: (val) => setState(() => _os = val),
+          title: 'OS',
+          modalType: S2ModalType.bottomSheet,
+          onChange: (state) => setState(() => _os = state.value),
+          tileBuilder: (context, state) {
+            return S2Tile.fromState(
+              state,
+              isTwoLine: true,
+              leading: const CircleAvatar(
+                backgroundImage: NetworkImage('https://source.unsplash.com/xsGxhtAsfSA/100x100'),
+              ),
+            );
+          },
         ),
-        Divider(indent: 20),
+        const Divider(indent: 20),
         SmartSelect<String>.multiple(
-          title: 'Super Hero',
           value: _hero,
-          isTwoLine: true,
           options: options.heroes,
-          modalType: SmartSelectModalType.bottomSheet,
-          leading: CircleAvatar(
-            backgroundImage: NetworkImage('https://source.unsplash.com/8I-ht65iRww/100x100'),
-          ),
-          onChange: (val) => setState(() => _hero = val),
+          title: 'Super Hero',
+          modalType: S2ModalType.bottomSheet,
+          onChange: (state) => setState(() => _hero = state.value),
+          tileBuilder: (context, state) {
+            return S2Tile.fromState(
+              state,
+              isTwoLine: true,
+              leading: const CircleAvatar(
+                backgroundImage: NetworkImage('https://source.unsplash.com/8I-ht65iRww/100x100'),
+              ),
+            );
+          },
         ),
         Container(height: 7),
       ],

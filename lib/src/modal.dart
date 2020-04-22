@@ -1,65 +1,97 @@
-import 'package:flutter/widgets.dart';
-import 'package:flutter/material.dart' show Scaffold;
-import './model/modal_config.dart';
-import './modal_header.dart';
+import 'package:flutter/material.dart';
+import 'model/modal_theme.dart';
+import 'model/modal_config.dart';
 
-class SmartSelectModal extends StatelessWidget {
+class S2Modal extends StatelessWidget {
 
-  final String title;
-  final SmartSelectModalType type;
-  final SmartSelectModalConfig config;
+  final S2ModalConfig config;
+  final Widget header;
   final Widget choices;
+  final Widget divider;
+  final Widget footer;
 
-  SmartSelectModal({
+  S2Modal({
     Key key,
-    @required this.title,
-    @required this.type,
     @required this.config,
+    @required this.header,
     @required this.choices,
+    @required this.divider,
+    @required this.footer,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    if (type == SmartSelectModalType.fullPage) {
+    if (_isFullPage == true) {
       return Scaffold(
         backgroundColor: config.style.backgroundColor,
-        appBar: _routeHeader,
-        body: _routeBody,
+        appBar: PreferredSize(
+          child: header,
+          preferredSize: Size.fromHeight(kToolbarHeight)
+        ),
+        body: _modalBody,
       );
     } else {
-      return _routeBody;
+      return _modalBody;
     }
   }
 
   bool get _isFullPage {
-    return type == SmartSelectModalType.fullPage;
+    return config.type == S2ModalType.fullPage;
   }
 
-  Widget get _routeHeader {
-    return config.useHeader
-      ? SmartSelectModalHeader(
-          title: config?.title ?? title,
-          type: type,
-          config: config,
-        )
-      : null;
-  }
-
-  Widget get _routeBody {
+  Widget get _modalBody {
     return SafeArea(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          _isFullPage != true ? _routeHeader : null,
-          config.leading,
+          _isFullPage != true ? header : null,
+          divider,
           Flexible(
             fit: FlexFit.loose,
             child: choices,
           ),
-          config.trailing,
-        ].where((child) => child != null).toList(),
+          divider,
+          footer,
+        ]..removeWhere((child) => child == null),
       ),
+    );
+  }
+}
+
+class S2ModalHeader extends StatelessWidget {
+
+  final Widget title;
+  final Widget filterToggle;
+  final Widget confirmButton;
+  final S2ModalHeaderStyle style;
+  final bool useLeading;
+
+  S2ModalHeader({
+    Key key,
+    @required this.title,
+    @required this.filterToggle,
+    @required this.confirmButton,
+    @required this.style,
+    @required this.useLeading,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      shape: style.shape,
+      elevation: style.elevation,
+      brightness: style.brightness,
+      backgroundColor: style.backgroundColor,
+      actionsIconTheme: style.actionsIconTheme,
+      iconTheme: style.iconTheme,
+      centerTitle: style.centerTitle,
+      automaticallyImplyLeading: useLeading,
+      title: title,
+      actions: <Widget>[
+        filterToggle,
+        confirmButton,
+      ]..removeWhere((child) => child == null),
     );
   }
 }

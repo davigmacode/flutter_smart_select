@@ -16,21 +16,24 @@ class _FeaturesTileOneLineState extends State<FeaturesTileOneLine> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Container(height: 7),
+        const SizedBox(height: 7),
         SmartSelect<String>.single(
           title: 'Days',
           value: _day,
           options: options.days,
-          onChange: (val) => setState(() => _day = val)
+          onChange: (state) => setState(() => _day = state.value),
         ),
-        Divider(indent: 20),
+        const Divider(indent: 20),
         SmartSelect<String>.multiple(
           title: 'Month',
           value: _month,
           options: options.months,
-          onChange: (val) => setState(() => _month = val)
+          onChange: (state) => setState(() => _month = state.value),
+          tileBuilder: (context, state) {
+            return S2Tile.fromState(state);
+          },
         ),
-        Container(height: 7),
+        const SizedBox(height: 7),
       ],
     );
   }

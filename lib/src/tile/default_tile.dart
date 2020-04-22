@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import '../widget.dart';
 
 /// Default trigger widget
-class SmartSelectTile extends StatelessWidget {
+class S2Tile<T> extends StatelessWidget {
 
   /// The value of the selected option.
   final String value;
@@ -54,6 +55,9 @@ class SmartSelectTile extends StatelessWidget {
   /// Dense list tiles default to a smaller height.
   final bool dense;
 
+  /// Whether the [value] is displayed or not
+  final bool hideValue;
+
   /// The tile's internal padding.
   ///
   /// Insets a [ListTile]'s contents: its [leading], [title], [subtitle],
@@ -68,10 +72,11 @@ class SmartSelectTile extends StatelessWidget {
   final GestureTapCallback onTap;
 
   /// Create a default trigger widget
-  SmartSelectTile({
+  S2Tile({
     Key key,
-    this.value,
-    this.title,
+    @required this.title,
+    @required this.value,
+    @required this.onTap,
     this.leading,
     this.trailing,
     this.loadingText = 'Loading..',
@@ -80,9 +85,29 @@ class SmartSelectTile extends StatelessWidget {
     this.enabled = true,
     this.selected = false,
     this.dense = false,
+    this.hideValue = false,
     this.padding,
-    this.onTap,
   }) : super(key: key);
+
+  /// Create a default trigger widget
+  S2Tile.fromState(
+    S2State<T> state, {
+    Key key,
+    this.leading,
+    this.trailing,
+    this.loadingText = 'Loading..',
+    this.isLoading = false,
+    this.isTwoLine = false,
+    this.enabled = true,
+    this.selected = false,
+    this.dense = false,
+    this.hideValue = false,
+    this.padding,
+  }) :
+    title = state.title,
+    value = state.valueDisplay,
+    onTap = state.showModal,
+    super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -93,51 +118,51 @@ class SmartSelectTile extends StatelessWidget {
       contentPadding: padding,
       leading: leading,
       title: Text(title),
-      subtitle: isTwoLine ? _valueWidget : null,
+      subtitle: isTwoLine && hideValue != true ? _valueWidget : null,
       trailing: _trailingWidget,
       onTap: onTap,
     );
   }
 
   Widget get _trailingWidget {
-    return isTwoLine != true
-        ? Container(
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Container(
-                  constraints: BoxConstraints(maxWidth: 100),
-                  child: _valueWidget,
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 5),
-                  child: _trailingIconWidget,
-                ),
-              ],
-            ),
-          )
-        : _trailingIconWidget;
+    return isTwoLine != true && hideValue != true
+      ? Container(
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Container(
+                constraints: BoxConstraints(maxWidth: 100),
+                child: _valueWidget,
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 5),
+                child: _trailingIconWidget,
+              ),
+            ],
+          ),
+        )
+      : _trailingIconWidget;
   }
 
   Widget get _trailingIconWidget {
     return isLoading != true
-        ? trailing != null
-            ? trailing
-            : Icon(Icons.keyboard_arrow_right, color: Colors.grey)
-        : SizedBox(
-            child: CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.black45),
-              strokeWidth: 1.5,
-            ),
-            height: 16.0,
-            width: 16.0,
-          );
+      ? trailing != null
+        ? trailing
+        : const Icon(Icons.keyboard_arrow_right, color: Colors.grey)
+      : const SizedBox(
+          child: CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(Colors.black45),
+            strokeWidth: 1.5,
+          ),
+          height: 16.0,
+          width: 16.0,
+        );
   }
 
   Widget get _valueWidget {
     return Text(
       isLoading ? loadingText : value,
-      style: TextStyle(color: Colors.grey),
+      style: const TextStyle(color: Colors.grey),
       overflow: TextOverflow.ellipsis,
       maxLines: 1,
     );

@@ -1,6 +1,6 @@
 # smart_select
 
-Smart select allows you to easily convert your usual form selects into dynamic pages with various choices input. This widget is inspired by Smart Select component from [Framework7](https://framework7.io/).
+SmartSelect allows you to easily convert your usual form select or dropdown into dynamic page, popup dialog, or sliding bottom sheet with various choices input like radio, checkbox, switch, chips, or even custom input. This widget is inspired by Smart Select component from [Framework7](https://framework7.io/).
 
 # Demo
 
@@ -16,20 +16,19 @@ Smart select allows you to easily convert your usual form selects into dynamic p
 
 * Select single or multiple choice
 * Open choices modal in full page, bottom sheet, or popup dialog
-* Various choices input (radio, checkbox, switch, chips)
+* Various choices input (radio, checkbox, switch, chips, or custom widget)
+* Various choices layout (list, wrap, or grid)
 * Grouping choices with sticky header
+* Searchable choices with highlighted text
+* Disabled or hidden choices
 * Customizable trigger/tile widget
 * Customizable modal style
 * Customizable modal header style
+* Customizable modal footer
 * Customizable choices style
-* Flexible option input
-* Filterable option
-* Async option
+* Flexible option source type
+* Async option source
 * and many more
-
-# TODO
-
-* Full support async option using Future
 
 # Usage
 
@@ -91,10 +90,10 @@ Widget build(BuildContext context) {
 SmartSelect<T>.single/multiple(
   ...,
   ...,
-  options: <SmartSelectOption<int>>[
-    SmartSelectOption<int>(value: 1, title: 'Ionic'),
-    SmartSelectOption<int>(value: 2, title: 'Flutter'),
-    SmartSelectOption<int>(value: 3, title: 'React Native'),
+  options: <SmartSelectOption<T>>[
+    SmartSelectOption<T>(value: 1, title: 'Ionic'),
+    SmartSelectOption<T>(value: 2, title: 'Flutter'),
+    SmartSelectOption<T>(value: 3, title: 'React Native'),
   ],
 );
 ```
