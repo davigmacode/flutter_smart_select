@@ -1,76 +1,76 @@
-import 'package:smart_select/smart_select.dart' show SmartSelectOption;
+import 'package:smart_select/smart_select.dart' show S2Option;
 
-List<SmartSelectOption<String>> days = [
-  SmartSelectOption<String>(value: 'mon', title: 'Monday'),
-  SmartSelectOption<String>(value: 'tue', title: 'Tuesday'),
-  SmartSelectOption<String>(value: 'wed', title: 'Wednesday'),
-  SmartSelectOption<String>(value: 'thu', title: 'Thursday'),
-  SmartSelectOption<String>(value: 'fri', title: 'Friday'),
-  SmartSelectOption<String>(value: 'sat', title: 'Saturday'),
-  SmartSelectOption<String>(value: 'sun', title: 'Sunday'),
+List<S2Option<String>> days = [
+  S2Option<String>(value: 'mon', title: 'Monday'),
+  S2Option<String>(value: 'tue', title: 'Tuesday'),
+  S2Option<String>(value: 'wed', title: 'Wednesday'),
+  S2Option<String>(value: 'thu', title: 'Thursday'),
+  S2Option<String>(value: 'fri', title: 'Friday'),
+  S2Option<String>(value: 'sat', title: 'Saturday'),
+  S2Option<String>(value: 'sun', title: 'Sunday'),
 ];
 
-List<SmartSelectOption<String>> months = [
-  SmartSelectOption<String>(value: 'jan', title: 'January'),
-  SmartSelectOption<String>(value: 'feb', title: 'February'),
-  SmartSelectOption<String>(value: 'mar', title: 'March'),
-  SmartSelectOption<String>(value: 'apr', title: 'April'),
-  SmartSelectOption<String>(value: 'may', title: 'May'),
-  SmartSelectOption<String>(value: 'jun', title: 'June'),
-  SmartSelectOption<String>(value: 'jul', title: 'July'),
-  SmartSelectOption<String>(value: 'aug', title: 'August'),
-  SmartSelectOption<String>(value: 'sep', title: 'September'),
-  SmartSelectOption<String>(value: 'oct', title: 'October'),
-  SmartSelectOption<String>(value: 'nov', title: 'November'),
-  SmartSelectOption<String>(value: 'dec', title: 'December'),
+List<S2Option<String>> months = [
+  S2Option<String>(value: 'jan', title: 'January'),
+  S2Option<String>(value: 'feb', title: 'February'),
+  S2Option<String>(value: 'mar', title: 'March'),
+  S2Option<String>(value: 'apr', title: 'April'),
+  S2Option<String>(value: 'may', title: 'May'),
+  S2Option<String>(value: 'jun', title: 'June'),
+  S2Option<String>(value: 'jul', title: 'July'),
+  S2Option<String>(value: 'aug', title: 'August'),
+  S2Option<String>(value: 'sep', title: 'September'),
+  S2Option<String>(value: 'oct', title: 'October'),
+  S2Option<String>(value: 'nov', title: 'November'),
+  S2Option<String>(value: 'dec', title: 'December'),
 ];
 
-List<SmartSelectOption<String>> os = [
-  SmartSelectOption<String>(value: 'and', title: 'Android'),
-  SmartSelectOption<String>(value: 'ios', title: 'IOS'),
-  SmartSelectOption<String>(value: 'mac', title: 'Macintos'),
-  SmartSelectOption<String>(value: 'tux', title: 'Linux'),
-  SmartSelectOption<String>(value: 'win', title: 'Windows'),
+List<S2Option<String>> os = [
+  S2Option<String>(value: 'and', title: 'Android'),
+  S2Option<String>(value: 'ios', title: 'IOS'),
+  S2Option<String>(value: 'mac', title: 'Macintos'),
+  S2Option<String>(value: 'tux', title: 'Linux'),
+  S2Option<String>(value: 'win', title: 'Windows'),
 ];
 
-List<SmartSelectOption<String>> heroes = [
-  SmartSelectOption<String>(value: 'bat', title: 'Batman'),
-  SmartSelectOption<String>(value: 'sup', title: 'Superman'),
-  SmartSelectOption<String>(value: 'hul', title: 'Hulk'),
-  SmartSelectOption<String>(value: 'spi', title: 'Spiderman'),
-  SmartSelectOption<String>(value: 'iro', title: 'Ironman'),
-  SmartSelectOption<String>(value: 'won', title: 'Wonder Woman'),
+List<S2Option<String>> heroes = [
+  S2Option<String>(value: 'bat', title: 'Batman'),
+  S2Option<String>(value: 'sup', title: 'Superman'),
+  S2Option<String>(value: 'hul', title: 'Hulk'),
+  S2Option<String>(value: 'spi', title: 'Spiderman'),
+  S2Option<String>(value: 'iro', title: 'Ironman'),
+  S2Option<String>(value: 'won', title: 'Wonder Woman'),
 ];
 
-List<SmartSelectOption<String>> fruits = [
-  SmartSelectOption<String>(value: 'app', title: 'Apple'),
-  SmartSelectOption<String>(value: 'ore', title: 'Orange'),
-  SmartSelectOption<String>(value: 'mel', title: 'Melon'),
+List<S2Option<String>> fruits = [
+  S2Option<String>(value: 'app', title: 'Apple'),
+  S2Option<String>(value: 'ore', title: 'Orange'),
+  S2Option<String>(value: 'mel', title: 'Melon'),
 ];
 
-List<SmartSelectOption<String>> frameworks = [
-  SmartSelectOption<String>(value: 'ion', title: 'Ionic'),
-  SmartSelectOption<String>(value: 'flu', title: 'Flutter'),
-  SmartSelectOption<String>(value: 'rea', title: 'React Native'),
+List<S2Option<String>> frameworks = [
+  S2Option<String>(value: 'ion', title: 'Ionic'),
+  S2Option<String>(value: 'flu', title: 'Flutter'),
+  S2Option<String>(value: 'rea', title: 'React Native'),
 ];
 
-List<SmartSelectOption<String>> categories = [
-  SmartSelectOption<String>(value: 'ele', title: 'Electronics'),
-  SmartSelectOption<String>(value: 'aud', title: 'Audio & Video'),
-  SmartSelectOption<String>(value: 'acc', title: 'Accessories'),
-  SmartSelectOption<String>(value: 'ind', title: 'Industrial'),
-  SmartSelectOption<String>(value: 'wat', title: 'Smartwatch'),
-  SmartSelectOption<String>(value: 'sci', title: 'Scientific'),
-  SmartSelectOption<String>(value: 'mea', title: 'Measurement'),
-  SmartSelectOption<String>(value: 'pho', title: 'Smartphone'),
+List<S2Option<String>> categories = [
+  S2Option<String>(value: 'ele', title: 'Electronics'),
+  S2Option<String>(value: 'aud', title: 'Audio & Video'),
+  S2Option<String>(value: 'acc', title: 'Accessories'),
+  S2Option<String>(value: 'ind', title: 'Industrial'),
+  S2Option<String>(value: 'wat', title: 'Smartwatch'),
+  S2Option<String>(value: 'sci', title: 'Scientific'),
+  S2Option<String>(value: 'mea', title: 'Measurement'),
+  S2Option<String>(value: 'pho', title: 'Smartphone'),
 ];
 
-List<SmartSelectOption<String>> sorts = [
-  SmartSelectOption<String>(value: 'popular', title: 'Popular'),
-  SmartSelectOption<String>(value: 'review', title: 'Most Reviews'),
-  SmartSelectOption<String>(value: 'latest', title: 'Newest'),
-  SmartSelectOption<String>(value: 'cheaper', title: 'Low Price'),
-  SmartSelectOption<String>(value: 'pricey', title: 'High Price'),
+List<S2Option<String>> sorts = [
+  S2Option<String>(value: 'popular', title: 'Popular'),
+  S2Option<String>(value: 'review', title: 'Most Reviews'),
+  S2Option<String>(value: 'latest', title: 'Newest'),
+  S2Option<String>(value: 'cheaper', title: 'Low Price'),
+  S2Option<String>(value: 'pricey', title: 'High Price'),
 ];
 
 List<Map<String,dynamic>> cars = [
@@ -125,4 +125,32 @@ List<Map<String,dynamic>> smartphones = [
   { 'id': 'hp30', 'name': 'Huawei P30 Pro', 'brand': 'Huawei', 'category': 'Flagship Phone' },
   { 'id': 'ofx', 'name': 'Oppo Find X', 'brand': 'Oppo', 'category': 'Flagship Phone' },
   { 'id': 'gs10', 'name': 'Galaxy S10+', 'brand': 'Samsung', 'category': 'Flagship Phone' },
+];
+
+List<Map<String,dynamic>> transports = [
+  {
+    'title': 'Premium',
+    'subtitle': 'Premium cars for superior experience',
+    'image': 'https://source.unsplash.com/oUBjd22gF6w/100x100',
+  },
+  {
+    'title': 'Business',
+    'subtitle': 'Executive cars with added comfort',
+    'image': 'https://source.unsplash.com/3ZUsNJhi_Ik/100x100',
+  },
+  {
+    'title': 'Go',
+    'subtitle': 'Executive cars with added comfort',
+    'image': 'https://source.unsplash.com/p7tai9P7H-s/100x100',
+  },
+  {
+    'title': 'Mini',
+    'subtitle': 'Executive cars with added comfort',
+    'image': 'https://source.unsplash.com/doli0TqGBac/100x100',
+  },
+  {
+    'title': 'Bike',
+    'subtitle': 'Executive cars with added comfort',
+    'image': 'https://source.unsplash.com/2LTMNCN4nEg/100x100',
+  },
 ];

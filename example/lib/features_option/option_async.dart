@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smart_select/smart_select.dart';
 import 'package:dio/dio.dart';
+import 'package:async/async.dart';
 
 class FeaturesOptionAsync extends StatefulWidget {
   @override
@@ -10,34 +11,36 @@ class FeaturesOptionAsync extends StatefulWidget {
 class _FeaturesOptionAsyncState extends State<FeaturesOptionAsync> {
 
   String _user;
-  List<SmartSelectOption<String>> _users = [];
+  List<S2Option<String>> _users = [];
   bool _usersIsLoading;
 
   List<String> _country;
-  List<SmartSelectOption<String>> _countries = [];
-  bool _countriesIsLoading;
+  final _countriesMemoizer = AsyncMemoizer<List<S2Option<String>>>();
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Container(height: 7),
+        const SizedBox(height: 7),
         SmartSelect<String>.single(
           title: 'Admin',
           value: _user,
           options: _users,
-          modalConfig: SmartSelectModalConfig(useFilter: true),
-          choiceType: SmartSelectChoiceType.chips,
-          choiceConfig: SmartSelectChoiceConfig<String>(
-            isGrouped: true,
-            secondaryBuilder: (context, item) => CircleAvatar(
-              backgroundImage: NetworkImage(item.meta['picture']['thumbnail']),
-            ),
+          onChange: (state) => setState(() => _user = state.value),
+          modalFilter: true,
+          choiceType: S2ChoiceType.chips,
+          choiceGrouped: true,
+          choiceStyle: S2ChoiceStyle(
+            showCheckmark: true,
+            activeBrightness: Brightness.dark,
+            highlightColor: Colors.redAccent.withOpacity(.4)
           ),
-          builder: (context, state, showChoices) {
-            return SmartSelectTile(
-              title: state.title,
-              value: state.valueDisplay,
+          choiceSecondaryBuilder: (context, choice, filterText) => CircleAvatar(
+            backgroundImage: NetworkImage(choice.data.meta['picture']['thumbnail']),
+          ),
+          tileBuilder: (context, state) {
+            return S2Tile.fromState(
+              state,
               isTwoLine: true,
               isLoading: _usersIsLoading,
               leading: Builder(
@@ -50,29 +53,38 @@ class _FeaturesOptionAsyncState extends State<FeaturesOptionAsync> {
                   );
                 },
               ),
-              onTap: () => showChoices(context),
             );
           },
-          onChange: (val) => setState(() => _user = val),
         ),
-        Divider(indent: 20),
-        SmartSelect<String>.multiple(
-          title: 'Country',
-          value: _country,
-          isTwoLine: true,
-          isLoading: _countriesIsLoading,
-          options: _countries,
-          modalConfig: SmartSelectModalConfig(useFilter: true),
-          choiceConfig: SmartSelectChoiceConfig(isGrouped: true),
-          choiceType: SmartSelectChoiceType.checkboxes,
-          leading: Container(
-            width: 40,
-            height: 40,
-            child: Icon(Icons.flag),
-          ),
-          onChange: (val) => setState(() => _country = val),
+        const Divider(indent: 20),
+        FutureBuilder<List<S2Option<String>>>(
+          initialData: [],
+          future: this._countriesMemoizer.runOnce(_getCountries),
+          builder: (context, snapshot) {
+            return SmartSelect<String>.multiple(
+              title: 'Country',
+              value: _country,
+              options: snapshot.data,
+              modalFilter: true,
+              choiceGrouped: true,
+              choiceType: S2ChoiceType.checkboxes,
+              onChange: (state) => setState(() => _country = state.value),
+              tileBuilder: (context, state) {
+                return S2Tile.fromState(
+                  state,
+                  isTwoLine: true,
+                  isLoading: snapshot.connectionState == ConnectionState.waiting,
+                  leading: const SizedBox(
+                    width: 40,
+                    height: 40,
+                    child: Icon(Icons.flag),
+                  ),
+                );
+              },
+            );
+          },
         ),
-        Container(height: 7),
+        const SizedBox(height: 7),
       ],
     );
   }
@@ -82,7 +94,6 @@ class _FeaturesOptionAsyncState extends State<FeaturesOptionAsync> {
     super.initState();
 
     _getUsers();
-    _getCountries();
   }
 
   void _getUsers() async {
@@ -90,7 +101,7 @@ class _FeaturesOptionAsyncState extends State<FeaturesOptionAsync> {
       setState(() => _usersIsLoading = true);
       String url = "https://randomuser.me/api/?inc=gender,name,nat,picture,email&results=25";
       Response res = await Dio().get(url);
-      List<SmartSelectOption> options = SmartSelectOption.listFrom<String, dynamic>(
+      List<S2Option> options = S2Option.listFrom<String, dynamic>(
         source: res.data['results'],
         value: (index, item) => item['email'],
         title: (index, item) => item['name']['first'] + ' ' + item['name']['last'],
@@ -106,24 +117,15 @@ class _FeaturesOptionAsyncState extends State<FeaturesOptionAsync> {
     }
   }
 
-  void _getCountries() async {
-    try {
-      setState(() => _countriesIsLoading = true);
-      String url = "http://restcountries.eu/rest/v2/all?fields=name;capital;flag;region;subregion";
-      Response res = await Dio().get(url);
-      setState(() {
-        _countries = SmartSelectOption.listFrom<String, dynamic>(
-          source: res.data,
-          value: (index, item) => item['subregion'] + ' - ' + item['name'],
-          title: (index, item) => item['name'],
-          subtitle: (index, item) => item['capital'],
-          group: (index, item) => item['region'],
-        );
-      });
-    } catch (e) {
-      print(e);
-    } finally {
-      setState(() => _countriesIsLoading = false);
-    }
+  Future<List<S2Option<String>>> _getCountries() async {
+    String url = "http://restcountries.eu/rest/v2/all?fields=name;capital;region;subregion";
+    Response res = await Dio().get(url);
+    return S2Option.listFrom<String, dynamic>(
+      source: res.data,
+      value: (index, item) => item['subregion'] + ' - ' + item['name'],
+      title: (index, item) => item['name'],
+      subtitle: (index, item) => item['capital'],
+      group: (index, item) => item['region'],
+    );
   }
 }

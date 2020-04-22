@@ -16,22 +16,22 @@ class _FeaturesMultiPageState extends State<FeaturesMultiPage> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Container(height: 7),
+        const SizedBox(height: 7),
         SmartSelect<String>.multiple(
           title: 'Days',
           value: _day,
           options: options.days,
-          onChange: (val) => setState(() => _day = val)
+          onChange: (state) => setState(() => _day = state.value),
         ),
-        Divider(indent: 20),
+        const Divider(indent: 20),
         SmartSelect<String>.multiple(
           title: 'Month',
           value: _month,
           options: options.months,
-          modalType: SmartSelectModalType.fullPage,
-          onChange: (val) => setState(() => _month = val)
+          modalType: S2ModalType.fullPage,
+          onChange: (state) => setState(() => _month = state.value),
         ),
-        Container(height: 7),
+        const SizedBox(height: 7),
       ],
     );
   }

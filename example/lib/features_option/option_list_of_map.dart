@@ -23,26 +23,31 @@ class _FeaturesOptionListOfMapState extends State<FeaturesOptionListOfMap> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Container(height: 7),
+        const SizedBox(height: 7),
         SmartSelect<String>.multiple(
           title: 'Days',
           value: _day,
-          isTwoLine: true,
-          leading: Container(
-            width: 40,
-            alignment: Alignment.center,
-            child: const Icon(Icons.calendar_today),
-          ),
-          options: SmartSelectOption.listFrom<String, Map<String, String>>(
+          options: S2Option.listFrom<String, Map<String, String>>(
             source: _days,
             value: (index, item) => item['value'],
             title: (index, item) => item['title'],
           ),
-          choiceType: SmartSelectChoiceType.switches,
-          modalType: SmartSelectModalType.bottomSheet,
-          onChange: (val) => setState(() => _day = val)
+          choiceType: S2ChoiceType.switches,
+          modalType: S2ModalType.bottomSheet,
+          onChange: (state) => setState(() => _day = state.value),
+          tileBuilder: (context, state) {
+            return S2Tile.fromState(
+              state,
+              isTwoLine: true,
+              leading: Container(
+                width: 40,
+                alignment: Alignment.center,
+                child: const Icon(Icons.calendar_today),
+              ),
+            );
+          },
         ),
-        Container(height: 7),
+        const SizedBox(height: 7),
       ],
     );
   }

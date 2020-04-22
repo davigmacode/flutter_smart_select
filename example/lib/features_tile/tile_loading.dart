@@ -16,24 +16,34 @@ class _FeaturesTileLoadingState extends State<FeaturesTileLoading> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Container(height: 7),
+        const SizedBox(height: 7),
         SmartSelect<String>.single(
           title: 'Days',
           value: _day,
           options: options.days,
-          onChange: (val) => setState(() => _day = val),
-          isLoading: true,
+          onChange: (state) => setState(() => _day = state.value),
+          tileBuilder: (context, state) {
+            return S2Tile.fromState(
+              state,
+              isLoading: true,
+            );
+          },
         ),
-        Divider(indent: 20),
+        const Divider(indent: 20),
         SmartSelect<String>.multiple(
           title: 'Month',
           value: _month,
           options: options.months,
-          onChange: (val) => setState(() => _month = val),
-          isLoading: true,
-          isTwoLine: true,
+          onChange: (state) => setState(() => _month = state.value),
+          tileBuilder: (context, state) {
+            return S2Tile.fromState(
+              state,
+              isLoading: true,
+              isTwoLine: true,
+            );
+          },
         ),
-        Container(height: 7),
+        const SizedBox(height: 7),
       ],
     );
   }

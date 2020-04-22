@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 /// Choice option configuration
-class SmartSelectOption<T> {
+class S2Option<T> {
 
   /// Value to return
   final T value;
@@ -25,7 +25,7 @@ class SmartSelectOption<T> {
   final dynamic meta;
 
   /// Default constructor
-  SmartSelectOption({
+  S2Option({
     @required this.value,
     @required this.title,
     this.subtitle,
@@ -33,32 +33,32 @@ class SmartSelectOption<T> {
     this.disabled = false,
     this.hidden = false,
     this.meta,
-  });
+  }) : assert(disabled != null),
+    assert(hidden != null);
 
   /// Helper to create option list from any list
-  static List<SmartSelectOption<R>> listFrom<R, E>({
+  static List<S2Option<R>> listFrom<R, E>({
     @required List<E> source,
-    @required _SmartSelectOptionProp<E, R> value,
-    @required _SmartSelectOptionProp<E, String> title,
-    _SmartSelectOptionProp<E, String> subtitle,
-    _SmartSelectOptionProp<E, String> group,
-    _SmartSelectOptionProp<E, bool> disabled,
-    _SmartSelectOptionProp<E, bool> hidden,
-    _SmartSelectOptionProp<E, dynamic> meta,
+    @required _S2OptionProp<E, R> value,
+    @required _S2OptionProp<E, String> title,
+    _S2OptionProp<E, String> subtitle,
+    _S2OptionProp<E, String> group,
+    _S2OptionProp<E, bool> disabled,
+    _S2OptionProp<E, bool> hidden,
+    _S2OptionProp<E, dynamic> meta,
   }) => source
       .asMap()
-      .map((index, item) => MapEntry(index, SmartSelectOption<R>(
+      .map((index, item) => MapEntry(index, S2Option<R>(
         value: value?.call(index, item),
         title: title?.call(index, item),
         subtitle: subtitle?.call(index, item),
         group: group?.call(index, item),
-        disabled: disabled?.call(index, item),
-        hidden: hidden?.call(index, item),
+        disabled: disabled?.call(index, item) ?? false,
+        hidden: hidden?.call(index, item) ?? false,
         meta: meta?.call(index, item),
       )))
       .values
-      .toList()
-      .cast<SmartSelectOption<R>>();
+      .toList();
 
   bool contains(String query) {
     return _testPropBy(title, query)
@@ -71,6 +71,16 @@ class SmartSelectOption<T> {
       ? prop.toLowerCase().contains(query.toLowerCase())
       : false;
   }
+
+  @override
+  bool operator ==(Object other) =>
+    identical(this, other) ||
+    other is S2Option &&
+    runtimeType == other.runtimeType &&
+    value == other.value;
+
+  @override
+  int get hashCode => value.hashCode;
 }
 
-typedef R _SmartSelectOptionProp<E, R>(int index, E item);
+typedef R _S2OptionProp<E, R>(int index, E item);

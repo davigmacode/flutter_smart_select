@@ -5,43 +5,53 @@ import './modal_confirm.dart';
 import './modal_shape.dart';
 import './modal_header.dart';
 import './modal_headerless.dart';
+import './modal_footer.dart';
 import '../features_header.dart';
+import '../keep_alive.dart';
 
-class FeaturesModal extends StatefulWidget {
-  @override
-  _FeaturesModalState createState() => _FeaturesModalState();
-}
-
-class _FeaturesModalState extends State<FeaturesModal> with AutomaticKeepAliveClientMixin<FeaturesModal> {
-
-  @override
-  bool get wantKeepAlive => true;
+class FeaturesModal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     return Scrollbar(
-      child:ListView(
+      child: ListView(
+        addAutomaticKeepAlives: true,
         children: <Widget>[
-          StickyHeader(
-            header: FeaturesHeader('Use Filter'),
-            content: FeaturesModalFilter(),
+          KeepAliveWidget(
+            child: StickyHeader(
+              header: const FeaturesHeader('Use Filter'),
+              content: FeaturesModalFilter(),
+            ),
           ),
-          StickyHeader(
-            header: FeaturesHeader('Need to Confirm'),
-            content: FeaturesModalConfirm(),
+          KeepAliveWidget(
+            child: StickyHeader(
+              header: const FeaturesHeader('Need to Confirm'),
+              content: FeaturesModalConfirm(),
+            ),
           ),
-          StickyHeader(
-            header: FeaturesHeader('Modal Shape'),
-            content: FeaturesModalShape(),
+          KeepAliveWidget(
+            child: StickyHeader(
+              header: const FeaturesHeader('Modal Shape'),
+              content: FeaturesModalShape(),
+            ),
           ),
-          StickyHeader(
-            header: FeaturesHeader('Modal Header'),
-            content: FeaturesModalHeader(),
+          KeepAliveWidget(
+            child: StickyHeader(
+              header: const FeaturesHeader('Modal Header'),
+              content: FeaturesModalHeader(),
+            ),
           ),
-          StickyHeader(
-            header: FeaturesHeader('Without Header'),
-            content: FeaturesModalHeaderless(),
+          KeepAliveWidget(
+            child: StickyHeader(
+              header: const FeaturesHeader('Custom Modal Header & Footer'),
+              content: FeaturesModalFooter(),
+            ),
+          ),
+          KeepAliveWidget(
+            child: StickyHeader(
+              header: const FeaturesHeader('Without Header'),
+              content: FeaturesModalHeaderless(),
+            ),
           ),
         ],
       ),

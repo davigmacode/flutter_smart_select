@@ -16,39 +16,45 @@ class _FeaturesModalHeaderlessState extends State<FeaturesModalHeaderless> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Container(height: 7),
+        const SizedBox(height: 7),
         SmartSelect<String>.multiple(
           title: 'Fruit',
           value: _fruit,
-          isTwoLine: true,
           options: options.fruits,
-          modalType: SmartSelectModalType.popupDialog,
-          modalConfig: SmartSelectModalConfig(
-            useHeader: false,
-          ),
-          leading: Container(
-            width: 40,
-            alignment: Alignment.center,
-            child: const Icon(Icons.shopping_cart),
-          ),
-          onChange: (val) => setState(() => _fruit = val),
+          modalType: S2ModalType.popupDialog,
+          modalHeader: false,
+          onChange: (state) => setState(() => _fruit = state.value),
+          tileBuilder: (context, state) {
+            return S2Tile.fromState(
+              state,
+              isTwoLine: true,
+              leading: Container(
+                width: 40,
+                alignment: Alignment.center,
+                child: const Icon(Icons.shopping_cart),
+              ),
+            );
+          }
         ),
-        Divider(indent: 20),
+        const Divider(indent: 20),
         SmartSelect<String>.multiple(
           title: 'Super Hero',
           value: _hero,
-          isTwoLine: true,
           options: options.heroes,
-          modalType: SmartSelectModalType.bottomSheet,
-          modalConfig: SmartSelectModalConfig(
-            useHeader: false,
-          ),
-          leading: CircleAvatar(
-            backgroundImage: NetworkImage('https://source.unsplash.com/8I-ht65iRww/100x100'),
-          ),
-          onChange: (val) => setState(() => _hero = val),
+          modalType: S2ModalType.bottomSheet,
+          modalHeader: false,
+          onChange: (state) => setState(() => _hero = state.value),
+          tileBuilder: (context, state) {
+            return S2Tile.fromState(
+              state,
+              isTwoLine: true,
+              leading: const CircleAvatar(
+                backgroundImage: NetworkImage('https://source.unsplash.com/8I-ht65iRww/100x100'),
+              ),
+            );
+          }
         ),
-        Container(height: 7),
+        const SizedBox(height: 7),
       ],
     );
   }

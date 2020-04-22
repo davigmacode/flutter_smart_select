@@ -16,22 +16,28 @@ class _FeaturesSinglePopupState extends State<FeaturesSinglePopup> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Container(height: 7),
+        const SizedBox(height: 7),
         SmartSelect<String>.single(
-          title: 'Fruit',
           value: _fruit,
           options: options.fruits,
-          leading: const Icon(Icons.shopping_cart),
-          onChange: (val) => setState(() => _fruit = val),
-          modalType: SmartSelectModalType.popupDialog,
+          onChange: (state) => setState(() => _fruit = state.value),
+          modalType: S2ModalType.popupDialog,
+          title: 'Fruit',
+          tileBuilder: (context, state) {
+            return S2Tile.fromState(
+              state,
+              leading: const Icon(Icons.shopping_cart),
+            );
+          },
         ),
-        Divider(indent: 20),
+        const Divider(indent: 20),
         SmartSelect<String>.single(
-          title: 'Frameworks',
           value: _framework,
           options: options.frameworks,
-          modalType: SmartSelectModalType.popupDialog,
-          builder: (context, state, showOption) {
+          title: 'Frameworks',
+          modalType: S2ModalType.popupDialog,
+          onChange: (state) => setState(() => _framework = state.value),
+          tileBuilder: (context, state) {
             return ListTile(
               title: Text(state.title),
               subtitle: Text(
@@ -47,13 +53,12 @@ class _FeaturesSinglePopupState extends State<FeaturesSinglePopup> {
                   style: TextStyle(color: Colors.white)
                 ),
               ),
-              trailing: Icon(Icons.keyboard_arrow_right, color: Colors.grey),
-              onTap: () => showOption(context),
+              trailing: const Icon(Icons.keyboard_arrow_right, color: Colors.grey),
+              onTap: state.showModal,
             );
           },
-          onChange: (val) => setState(() => _framework = val),
         ),
-        Container(height: 7),
+        const SizedBox(height: 7),
       ],
     );
   }
