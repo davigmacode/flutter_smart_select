@@ -26,12 +26,12 @@ class _FeaturesOptionHiddenState extends State<FeaturesOptionHidden> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Container(height: 7),
+        const SizedBox(height: 7),
         Card(
           elevation: 3,
-          margin: EdgeInsets.all(10),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(5.0),
+          margin: const EdgeInsets.all(10),
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(5.0)),
           ),
           child: Row(
             children: <Widget>[
@@ -39,23 +39,26 @@ class _FeaturesOptionHiddenState extends State<FeaturesOptionHidden> {
                 child: SmartSelect<int>.multiple(
                   title: 'Categories',
                   value: _categories,
-                  isTwoLine: true,
-                  trailing: Icon(Icons.arrow_drop_down),
-                  options: SmartSelectOption.listFrom<int, String>(
+                  options: S2Option.listFrom<int, String>(
                     source: _categoriesOption,
                     value: (index, item) => index,
                     title: (index, item) => item,
                     hidden: (index, item) => [0, 2, 5].contains(index),
                   ),
-                  choiceType: SmartSelectChoiceType.switches,
-                  modalType: SmartSelectModalType.popupDialog,
-                  modalConfig: SmartSelectModalConfig(
-                    useHeader: false,
-                  ),
-                  onChange: (val) => setState(() => _categories = val),
+                  choiceType: S2ChoiceType.switches,
+                  modalType: S2ModalType.popupDialog,
+                  modalHeader: false,
+                  onChange: (state) => setState(() => _categories = state.value),
+                  tileBuilder: (context, state) {
+                    return S2Tile.fromState(
+                      state,
+                      trailing: const Icon(Icons.arrow_drop_down),
+                      isTwoLine: true,
+                    );
+                  },
                 ),
               ),
-              Container(
+              const SizedBox(
                 height: 40,
                 child: VerticalDivider(),
               ),
@@ -63,25 +66,28 @@ class _FeaturesOptionHiddenState extends State<FeaturesOptionHidden> {
                 child: SmartSelect<int>.single(
                   title: 'Sort By',
                   value: _sort,
-                  isTwoLine: true,
-                  trailing: Icon(Icons.arrow_drop_down),
-                  options: SmartSelectOption.listFrom<int, String>(
+                  options: S2Option.listFrom<int, String>(
                     source: _sortOption,
                     value: (index, item) => index,
                     title: (index, item) => item,
                     hidden: (index, item) => item.toLowerCase().contains('price'),
                   ),
-                  modalType: SmartSelectModalType.popupDialog,
-                  modalConfig: SmartSelectModalConfig(
-                    useHeader: false,
-                  ),
-                  onChange: (val) => setState(() => _sort = val),
+                  modalType: S2ModalType.popupDialog,
+                  modalHeader: false,
+                  onChange: (state) => setState(() => _sort = state.value),
+                  tileBuilder: (context, state) {
+                    return S2Tile.fromState(
+                      state,
+                      trailing: const Icon(Icons.arrow_drop_down),
+                      isTwoLine: true,
+                    );
+                  },
                 ),
               ),
             ],
           ),
         ),
-        Container(height: 7),
+        const SizedBox(height: 7),
       ],
     );
   }

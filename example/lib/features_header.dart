@@ -4,7 +4,7 @@ class FeaturesHeader extends StatelessWidget {
 
   final String title;
 
-  FeaturesHeader(this.title, {
+  const FeaturesHeader(this.title, {
     Key key,
   }) : super(key: key);
 

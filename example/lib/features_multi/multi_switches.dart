@@ -17,63 +17,74 @@ class _FeaturesMultiSwitchesState extends State<FeaturesMultiSwitches> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Container(height: 7),
+        const SizedBox(height: 7),
         SmartSelect<String>.multiple(
           title: 'Car',
           value: _car,
-          isTwoLine: true,
-          options: SmartSelectOption.listFrom<String, Map>(
+          options: S2Option.listFrom<String, Map>(
             source: options.cars,
             value: (index, item) => item['value'],
             title: (index, item) => item['title'],
             group: (index, item) => item['brand'],
           ),
-          modalConfig: SmartSelectModalConfig(
-            useFilter: true,
-          ),
-          choiceType: SmartSelectChoiceType.switches,
-          choiceConfig: SmartSelectChoiceConfig(isGrouped: true),
-          leading: CircleAvatar(
-            backgroundImage: NetworkImage('https://source.unsplash.com/yeVtxxPxzbw/100x100'),
-          ),
-          onChange: (val) => setState(() => _car = val),
+          onChange: (state) => setState(() => _car = state.value),
+          modalFilter: true,
+          choiceType: S2ChoiceType.switches,
+          choiceGrouped: true,
+          tileBuilder: (context, state) {
+            return S2Tile.fromState(
+              state,
+              isTwoLine: true,
+              leading: const CircleAvatar(
+                backgroundImage: NetworkImage('https://source.unsplash.com/yeVtxxPxzbw/100x100'),
+              ),
+            );
+          },
         ),
-        Divider(indent: 20),
+        const Divider(indent: 20),
         SmartSelect<String>.multiple(
           title: 'Smartphones',
           value: _smartphone,
-          isTwoLine: true,
-          options: SmartSelectOption.listFrom<String, Map>(
+          options: S2Option.listFrom<String, Map>(
             source: options.smartphones,
             value: (index, item) => item['id'],
             title: (index, item) => item['name'],
           ),
-          modalType: SmartSelectModalType.bottomSheet,
-          modalConfig: SmartSelectModalConfig(
-            useFilter: true,
-          ),
-          choiceType: SmartSelectChoiceType.switches,
-          leading: CircleAvatar(
-            backgroundImage: NetworkImage('https://source.unsplash.com/xsGxhtAsfSA/100x100'),
-          ),
-          onChange: (val) => setState(() => _smartphone = val),
+          onChange: (state) => setState(() => _smartphone = state.value),
+          modalType: S2ModalType.bottomSheet,
+          modalFilter: true,
+          choiceType: S2ChoiceType.switches,
+          tileBuilder: (context, state) {
+            return S2Tile.fromState(
+              state,
+              isTwoLine: true,
+              leading: const CircleAvatar(
+                backgroundImage: NetworkImage('https://source.unsplash.com/xsGxhtAsfSA/100x100'),
+              ),
+            );
+          },
         ),
-        Divider(indent: 20),
+        const Divider(indent: 20),
         SmartSelect<String>.multiple(
           title: 'Days',
           value: _days,
-          isTwoLine: true,
-          leading: Container(
-            width: 40,
-            alignment: Alignment.center,
-            child: const Icon(Icons.calendar_today),
-          ),
           options: options.days,
-          choiceType: SmartSelectChoiceType.switches,
-          modalType: SmartSelectModalType.popupDialog,
-          onChange: (val) => setState(() => _days = val)
+          choiceType: S2ChoiceType.switches,
+          modalType: S2ModalType.popupDialog,
+          onChange: (state) => setState(() => _days = state.value),
+          tileBuilder: (context, state) {
+            return S2Tile.fromState(
+              state,
+              isTwoLine: true,
+              leading: Container(
+                width: 40,
+                alignment: Alignment.center,
+                child: const Icon(Icons.calendar_today),
+              ),
+            );
+          },
         ),
-        Container(height: 7),
+        const SizedBox(height: 7),
       ],
     );
   }

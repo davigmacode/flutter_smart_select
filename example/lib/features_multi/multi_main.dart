@@ -6,42 +6,45 @@ import './multi_popup.dart';
 import './multi_chips.dart';
 import './multi_switches.dart';
 import '../features_header.dart';
+import '../keep_alive.dart';
 
-class FeaturesMulti extends StatefulWidget {
-  @override
-  _FeaturesMultiState createState() => _FeaturesMultiState();
-}
-
-class _FeaturesMultiState extends State<FeaturesMulti> with AutomaticKeepAliveClientMixin<FeaturesMulti> {
-
-  @override
-  bool get wantKeepAlive => true;
+class FeaturesMulti extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     return Scrollbar(
-      child:ListView(
+      child: ListView(
+        addAutomaticKeepAlives: true,
         children: <Widget>[
-          StickyHeader(
-            header: FeaturesHeader('Open in Full Page'),
-            content: FeaturesMultiPage(),
+          KeepAliveWidget(
+            child: StickyHeader(
+              header: const FeaturesHeader('Open in Full Page'),
+              content: FeaturesMultiPage(),
+            ),
           ),
-          StickyHeader(
-            header: FeaturesHeader('Open in Bottom Sheet'),
-            content: FeaturesMultiSheet(),
+          KeepAliveWidget(
+            child: StickyHeader(
+              header: const FeaturesHeader('Open in Bottom Sheet'),
+              content: FeaturesMultiSheet(),
+            ),
           ),
-          StickyHeader(
-            header: FeaturesHeader('Open in Popup Dialog'),
-            content: FeaturesMultiPopup(),
+          KeepAliveWidget(
+            child: StickyHeader(
+              header: const FeaturesHeader('Open in Popup Dialog'),
+              content: FeaturesMultiPopup(),
+            ),
           ),
-          StickyHeader(
-            header: FeaturesHeader('Use Chips'),
-            content: FeaturesMultiChips(),
+          KeepAliveWidget(
+            child: StickyHeader(
+              header: const FeaturesHeader('Use Chips'),
+              content: FeaturesMultiChips(),
+            ),
           ),
-          StickyHeader(
-            header: FeaturesHeader('Use Switches'),
-            content: FeaturesMultiSwitches(),
+          KeepAliveWidget(
+            child: StickyHeader(
+              header: const FeaturesHeader('Use Switches'),
+              content: FeaturesMultiSwitches(),
+            ),
           ),
         ],
       ),

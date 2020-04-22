@@ -19,57 +19,75 @@ class _FeaturesTileLeadingState extends State<FeaturesTileLeading> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Container(height: 7),
+        const SizedBox(height: 7),
         SmartSelect<String>.single(
           title: 'Days',
           value: _day,
           options: options.days,
-          onChange: (val) => setState(() => _day = val),
-          leading: const Icon(Icons.calendar_today),
+          onChange: (state) => setState(() => _day = state.value),
+          tileBuilder: (context, state) {
+            return S2Tile.fromState(
+              state,
+              leading: const Icon(Icons.calendar_today),
+            );
+          },
         ),
-        Divider(indent: 20),
+        const Divider(indent: 20),
         SmartSelect<String>.multiple(
           title: 'Month',
           value: _month,
           options: options.months,
-          onChange: (val) => setState(() => _month = val),
-          isTwoLine: true,
-          leading: IconBadge(
-            icon: const Icon(Icons.calendar_today),
-            counter: _month.length,
-          ),
+          onChange: (state) => setState(() => _month = state.value),
+          tileBuilder: (context, state) {
+            return S2Tile.fromState(
+              state,
+              isTwoLine: true,
+              leading: IconBadge(
+                icon: const Icon(Icons.calendar_today),
+                counter: _month.length,
+              ),
+            );
+          },
         ),
-        Divider(indent: 20),
+        const Divider(indent: 20),
         SmartSelect<String>.single(
           title: 'Frameworks',
           value: _framework,
           options: options.frameworks,
-          onChange: (val) => setState(() => _framework = val),
-          modalType: SmartSelectModalType.popupDialog,
-          leading: CircleAvatar(
-            backgroundColor: Colors.blue,
-            child: Text(
-              '${_framework[0]}',
-              style: TextStyle(color: Colors.white)
-            ),
-          ),
+          onChange: (state) => setState(() => _framework = state.value),
+          modalType: S2ModalType.popupDialog,
+          tileBuilder: (context, state) {
+            return S2Tile.fromState(
+              state,
+              leading: CircleAvatar(
+                backgroundColor: Colors.blue,
+                child: Text(
+                  '${state.valueDisplay[0]}',
+                  style: TextStyle(color: Colors.white)
+                ),
+              ),
+            );
+          },
         ),
-        Divider(indent: 20),
+        const Divider(indent: 20),
         SmartSelect<String>.multiple(
           title: 'Super Hero',
           value: _hero,
           options: options.heroes,
-          onChange: (val) => setState(() => _hero = val),
-          isTwoLine: true,
-          modalType: SmartSelectModalType.bottomSheet,
-          modalConfig: SmartSelectModalConfig(
-            useFilter: true
-          ),
-          leading: CircleAvatar(
-            backgroundImage: NetworkImage('https://source.unsplash.com/8I-ht65iRww/100x100'),
-          ),
+          onChange: (state) => setState(() => _hero = state.value),
+          modalType: S2ModalType.bottomSheet,
+          modalFilter: true,
+          tileBuilder: (context, state) {
+            return S2Tile.fromState(
+              state,
+              isTwoLine: true,
+              leading: const CircleAvatar(
+                backgroundImage: NetworkImage('https://source.unsplash.com/8I-ht65iRww/100x100'),
+              ),
+            );
+          },
         ),
-        Container(height: 7),
+        const SizedBox(height: 7),
       ],
     );
   }

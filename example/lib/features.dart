@@ -5,6 +5,7 @@ import './features_tile/tile_main.dart';
 import './features_option/option_main.dart';
 import './features_modal/modal_main.dart';
 import './features_choices/choices_main.dart';
+import './keep_alive.dart';
 
 class Features extends StatelessWidget {
   @override
@@ -13,7 +14,7 @@ class Features extends StatelessWidget {
       length: 6,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Smart Select'),
+          title: Text('SmartSelect'),
           bottom: TabBar(
             isScrollable: true,
             indicatorSize: TabBarIndicatorSize.label,
@@ -35,12 +36,24 @@ class Features extends StatelessWidget {
         ),
         body: TabBarView(
           children: [
-            FeaturesSingle(),
-            FeaturesMulti(),
-            FeaturesTile(),
-            FeaturesOption(),
-            FeaturesModal(),
-            FeaturesChoices(),
+            KeepAliveWidget(
+              child: FeaturesSingle(),
+            ),
+            KeepAliveWidget(
+              child: FeaturesMulti(),
+            ),
+            KeepAliveWidget(
+              child: FeaturesTile(),
+            ),
+            KeepAliveWidget(
+              child: FeaturesOption(),
+            ),
+            KeepAliveWidget(
+              child: FeaturesModal(),
+            ),
+            KeepAliveWidget(
+              child: FeaturesChoices(),
+            ),
           ],
         ),
       ),

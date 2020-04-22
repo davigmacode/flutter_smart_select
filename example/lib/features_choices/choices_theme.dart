@@ -16,28 +16,24 @@ class _FeaturesChoicesThemeState extends State<FeaturesChoicesTheme> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Container(height: 7),
+        const SizedBox(height: 7),
         SmartSelect<String>.multiple(
           title: 'Smartphones',
           value: _smartphones,
-          isTwoLine: true,
-          leading: IconBadge(
-            icon: const Icon(Icons.shopping_cart),
-            counter: _smartphones.length,
-          ),
-          options: SmartSelectOption.listFrom<String, Map>(
+          options: S2Option.listFrom<String, Map>(
             source: options.smartphones,
             value: (index, item) => item['id'],
             title: (index, item) => item['name'],
             group: (index, item) => item['brand'],
           ),
-          modalType: SmartSelectModalType.fullPage,
-          modalConfig: SmartSelectModalConfig(
+          onChange: (state) => setState(() => _smartphones = state.value),
+          modalConfig: S2ModalConfig(
+            type: S2ModalType.fullPage,
             useFilter: true,
-            style: SmartSelectModalStyle(
+            style: S2ModalStyle(
               backgroundColor: Colors.blueGrey[800],
             ),
-            headerStyle: SmartSelectModalHeaderStyle(
+            headerStyle: const S2ModalHeaderStyle(
               elevation: 4,
               centerTitle: true,
               backgroundColor: Colors.green,
@@ -46,33 +42,42 @@ class _FeaturesChoicesThemeState extends State<FeaturesChoicesTheme> {
               actionsIconTheme: IconThemeData(color: Colors.white),
             ),
           ),
-          choiceType: SmartSelectChoiceType.switches,
-          choiceConfig: SmartSelectChoiceConfig(
+          choiceConfig: S2ChoiceConfig(
+            type: S2ChoiceType.switches,
             isGrouped: true,
             useDivider: true,
-            glowingOverscrollIndicatorColor: Colors.green,
-            style: SmartSelectChoiceStyle(
+            overscrollColor: Colors.green,
+            style: const S2ChoiceStyle(
               titleStyle: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
               ),
-              inactiveColor: Colors.white,
+              color: Colors.white,
               activeColor: Colors.green,
             ),
-            dividerBuilder: (context, i) => Divider(
-              color: Colors.white24,
-              indent: 0.0,
-              endIndent: 0.0,
-            ),
-            groupHeaderStyle: SmartSelectChoiceGroupHeaderStyle(
+            headerStyle: S2ChoiceHeaderStyle(
               backgroundColor: Colors.blueGrey[600],
               textStyle: TextStyle(color: Colors.white)
             )
           ),
-          onChange: (val) => setState(() => _smartphones = val)
+          choiceDividerBuilder: (context, i) => Divider(
+            color: Colors.white24,
+            indent: 0.0,
+            endIndent: 0.0,
+          ),
+          tileBuilder: (context, state) {
+            return S2Tile.fromState(
+              state,
+              isTwoLine: true,
+              leading: IconBadge(
+                icon: const Icon(Icons.shopping_cart),
+                counter: _smartphones.length,
+              ),
+            );
+          }
         ),
-        Container(height: 7),
+        const SizedBox(height: 7),
       ],
     );
   }

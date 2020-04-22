@@ -1,76 +1,92 @@
 import 'package:flutter/material.dart';
-import './model/choice_config.dart';
+import './model/builder.dart';
 import './model/option.dart';
+import './model/choice_config.dart';
 import './choices_grouped.dart';
 import './choices_list.dart';
 import './choices_empty.dart';
 
-class SmartSelectChoices<T> extends StatelessWidget {
+class S2Choices<T> extends StatelessWidget {
 
-  final List<SmartSelectOption<T>> items;
-  final SmartSelectChoiceType type;
-  final SmartSelectChoiceConfig<T> config;
+  final Widget Function(S2Option<T>) itemBuilder;
+  final List<S2Option<T>> items;
+  final S2ChoiceConfig config;
+  final S2Builder<T> builder;
   final String query;
 
-  SmartSelectChoices({
+  S2Choices({
     Key key,
+    @required this.itemBuilder,
     @required this.items,
-    @required this.type,
     @required this.config,
+    @required this.builder,
     @required this.query,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ListTileTheme(
-      contentPadding: config.style.padding,
-      child: Theme(
-        data: ThemeData(
-          unselectedWidgetColor: config.style.inactiveColor ?? Colors.black54,
-        ),
-        child: Scrollbar(
-          child: ScrollConfiguration(
-            behavior: ScrollBehavior(),
-            child: GlowingOverscrollIndicator(
-              axisDirection: AxisDirection.down,
-              color: config.glowingOverscrollIndicatorColor,
-              child: Builder(
-                builder: (context) {
-                  return _filteredItems.length > 0
-                    ? _isGrouped == true
-                      ? SmartSelectChoicesGrouped<T>(_groupKeys, _filteredItems, type, config)
-                      : SmartSelectChoicesList<T>(_filteredItems, type, config)
-                    : config.emptyBuilder?.call(query) ?? SmartSelectChoicesEmpty();
-                },
-              )
-            ),
-          ),
+    return _filteredItems.length > 0
+      ? _isGrouped == true
+        ? _choicesGrouped
+        : _choicesList
+      : builder.choiceEmptyBuilder?.call(context, query)
+        ?? const S2ChoicesEmpty();
+  }
+
+  Widget get _choicesList {
+    return S2ChoicesList<T>(
+      items: _filteredItems,
+      itemBuilder: itemBuilder,
+      config: config,
+      builder: builder,
+    );
+  }
+
+  Widget get _choicesGrouped {
+    return Scrollbar(
+      child: ScrollConfiguration(
+        behavior: const ScrollBehavior(),
+        child: GlowingOverscrollIndicator(
+          axisDirection: AxisDirection.down,
+          color: config.overscrollColor ?? config.style?.activeColor,
+          child: S2ChoicesGrouped<T>(
+            items: _filteredItems,
+            itemBuilder: itemBuilder,
+            groupKeys: _groupKeys,
+            config: config,
+            builder: builder,
+            query: query,
+          )
         ),
       ),
     );
   }
 
   /// return a filtered list of options
-  List<SmartSelectOption<T>> get _filteredItems {
+  List<S2Option<T>> get _filteredItems {
     return query != null
       ? _nonHiddenItems
-        .where((SmartSelectOption<T> item) => item.contains(query))
-        .toList().cast<SmartSelectOption<T>>()
+        .where((S2Option<T> item) => item.contains(query))
+        .toList().cast<S2Option<T>>()
       : _nonHiddenItems;
   }
 
   // return a non hidden option item
-  List<SmartSelectOption<T>> get _nonHiddenItems {
+  List<S2Option<T>> get _nonHiddenItems {
     return items
-      .where((SmartSelectOption<T> item) => item.hidden != true)
-      .toList().cast<SmartSelectOption<T>>();
+      .where((S2Option<T> item) => item.hidden != true)
+      .toList().cast<S2Option<T>>();
   }
 
-  // return a list of group keys
+  // return a sorted list of group keys
   List<String> get _groupKeys {
     Set groups = Set();
-    _filteredItems.forEach((SmartSelectOption<T> item) => groups.add(item.group));
-    return groups.toList().cast<String>();
+    _filteredItems.forEach((S2Option<T> item) => groups.add(item.group));
+
+    return groups
+      .toList()
+      .cast<String>()
+      ..sort((a, b) => a.toLowerCase().compareTo(b.toLowerCase()));
   }
 
   bool get _isGrouped {
