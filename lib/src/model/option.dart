@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
+import 'package:smart_select/src/utils/accent.dart';
 
 /// Choice option configuration
 class S2Option<T> {
-
   /// Value to return
   final T value;
 
@@ -33,8 +33,8 @@ class S2Option<T> {
     this.disabled = false,
     this.hidden = false,
     this.meta,
-  }) : assert(disabled != null),
-    assert(hidden != null);
+  })  : assert(disabled != null),
+        assert(hidden != null);
 
   /// Helper to create option list from any list
   static List<S2Option<R>> listFrom<R, E>({
@@ -46,38 +46,39 @@ class S2Option<T> {
     _S2OptionProp<E, bool> disabled,
     _S2OptionProp<E, bool> hidden,
     _S2OptionProp<E, dynamic> meta,
-  }) => source
-      .asMap()
-      .map((index, item) => MapEntry(index, S2Option<R>(
-        value: value?.call(index, item),
-        title: title?.call(index, item),
-        subtitle: subtitle?.call(index, item),
-        group: group?.call(index, item),
-        disabled: disabled?.call(index, item) ?? false,
-        hidden: hidden?.call(index, item) ?? false,
-        meta: meta?.call(index, item),
-      )))
-      .values
-      .toList();
+  }) =>
+      source
+          .asMap()
+          .map((index, item) => MapEntry(
+              index,
+              S2Option<R>(
+                value: value?.call(index, item),
+                title: title?.call(index, item),
+                subtitle: subtitle?.call(index, item),
+                group: group?.call(index, item),
+                disabled: disabled?.call(index, item) ?? false,
+                hidden: hidden?.call(index, item) ?? false,
+                meta: meta?.call(index, item),
+              )))
+          .values
+          .toList();
 
   bool contains(String query) {
-    return _testPropBy(title, query)
-      || _testPropBy(subtitle, query)
-      || _testPropBy(group, query);
+    return _testPropBy(title, query) ||
+        _testPropBy(subtitle, query) ||
+        _testPropBy(group, query);
   }
 
   bool _testPropBy(String prop, String query) {
-    return prop != null
-      ? prop.toLowerCase().contains(query.toLowerCase())
-      : false;
+    return prop != null ? normalized(prop).contains(normalized(query)) : false;
   }
 
   @override
   bool operator ==(Object other) =>
-    identical(this, other) ||
-    other is S2Option &&
-    runtimeType == other.runtimeType &&
-    value == other.value;
+      identical(this, other) ||
+      other is S2Option &&
+          runtimeType == other.runtimeType &&
+          value == other.value;
 
   @override
   int get hashCode => value.hashCode;
