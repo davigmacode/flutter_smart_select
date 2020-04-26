@@ -360,31 +360,43 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
   /// get primary title
   String get title => widget.title ?? modalConfig?.title;
 
-  // build modal widget
   Widget get modal {
     return AnimatedBuilder(
       animation: filter,
       builder: (context, _) {
         modalContext = context;
-        return S2Modal(
-          config: modalConfig,
-          choices: choiceItems,
-          header: AnimatedBuilder(
-            animation: cache,
-            builder: (context, _) => modalHeader ?? Container(),
-          ),
-          divider: AnimatedBuilder(
-            animation: cache,
-            builder: (context, _) => modalDivider ?? Container(),
-          ),
-          footer: AnimatedBuilder(
-            animation: cache,
-            builder: (context, _) => modalFooter ?? Container(),
-          ),
-        );
-      },
+        return _customModal != null
+          ? AnimatedBuilder(
+              animation: cache,
+              builder: (context, _) => _customModal,
+            )
+          : defaultModal;
+      }
     );
   }
+
+  // get default modal widget
+  Widget get defaultModal {
+    return _S2Modal(
+      config: modalConfig,
+      choices: choiceItems,
+      header: AnimatedBuilder(
+        animation: cache,
+        builder: (context, _) => modalHeader ?? Container(),
+      ),
+      divider: AnimatedBuilder(
+        animation: cache,
+        builder: (context, _) => modalDivider ?? Container(),
+      ),
+      footer: AnimatedBuilder(
+        animation: cache,
+        builder: (context, _) => modalFooter ?? Container(),
+      ),
+    );
+  }
+
+  /// get custom modal
+  Widget get _customModal;
 
   /// get modal divider
   Widget get modalDivider;
@@ -697,6 +709,12 @@ class S2SingleState<T> extends S2State<T> {
     return builder?.tileBuilder?.call(context, this) ?? defaultTile;
   }
 
+  /// get custom modal widget
+  @override
+  Widget get _customModal {
+    return builder?.modalBuilder?.call(modalContext, this);
+  }
+
   /// get modal leading widget
   @override
   Widget get modalDivider {
@@ -791,6 +809,12 @@ class S2MultiState<T> extends S2State<T> {
     return builder?.tileBuilder?.call(context, this) ?? defaultTile;
   }
 
+  /// get custom modal widget
+  @override
+  Widget get _customModal {
+    return builder?.modalBuilder?.call(modalContext, this);
+  }
+
   /// get modal divider widget
   @override
   Widget get modalDivider {
@@ -841,7 +865,7 @@ class S2MultiState<T> extends S2State<T> {
 
 }
 
-class S2Modal extends StatelessWidget {
+class _S2Modal extends StatelessWidget {
 
   final S2ModalConfig config;
   final Widget header;
@@ -849,7 +873,7 @@ class S2Modal extends StatelessWidget {
   final Widget divider;
   final Widget footer;
 
-  S2Modal({
+  _S2Modal({
     Key key,
     @required this.config,
     @required this.header,
