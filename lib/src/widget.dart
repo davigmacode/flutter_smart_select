@@ -410,7 +410,8 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
         hintText: modalConfig.filterHint ?? 'Search on $title',
         hintStyle: modalHeaderStyle.textStyle,
       ),
-      onSubmitted: filter.apply,
+      onChanged: modalConfig.filterAuto ? filter.apply : null,
+      onSubmitted: modalConfig.filterAuto ? null : filter.apply,
     );
   }
 
