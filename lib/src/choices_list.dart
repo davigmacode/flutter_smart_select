@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'model/builder.dart';
 import 'model/choice_config.dart';
 import 'model/choice_theme.dart';
 import 'model/option.dart';
+import 'scrollbar.dart';
 
 class S2ChoicesList<T> extends StatelessWidget {
 

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import './model/builder.dart';
 import './model/option.dart';
 import './model/choice_config.dart';
@@ -27,29 +27,7 @@ class S2Choices<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return _filteredItems.length > 0
       ? _isGrouped == true
-        ? _choicesGrouped
-        : _choicesList
-      : builder.choiceEmptyBuilder?.call(context, query)
-        ?? const S2ChoicesEmpty();
-  }
-
-  Widget get _choicesList {
-    return S2ChoicesList<T>(
-      items: _filteredItems,
-      itemBuilder: itemBuilder,
-      config: config,
-      builder: builder,
-    );
-  }
-
-  Widget get _choicesGrouped {
-    return Scrollbar(
-      child: ScrollConfiguration(
-        behavior: const ScrollBehavior(),
-        child: GlowingOverscrollIndicator(
-          axisDirection: AxisDirection.down,
-          color: config.overscrollColor ?? config.style?.activeColor,
-          child: S2ChoicesGrouped<T>(
+        ? S2ChoicesGrouped<T>(
             items: _filteredItems,
             itemBuilder: itemBuilder,
             groupKeys: _groupKeys,
@@ -57,9 +35,14 @@ class S2Choices<T> extends StatelessWidget {
             builder: builder,
             query: query,
           )
-        ),
-      ),
-    );
+        : S2ChoicesList<T>(
+            items: _filteredItems,
+            itemBuilder: itemBuilder,
+            config: config,
+            builder: builder,
+          )
+      : builder.choiceEmptyBuilder?.call(context, query)
+        ?? const S2ChoicesEmpty();
   }
 
   /// return a filtered list of options
