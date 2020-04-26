@@ -12,6 +12,7 @@ import './choices.dart';
 import './choices_resolver.dart';
 import './dialog.dart';
 import './tile/default_tile.dart';
+import './utils/debouncer.dart';
 
 /// SmartSelect that allows you to easily convert your usual form selects
 /// to dynamic pages with grouped radio or checkbox inputs.
@@ -113,6 +114,7 @@ class SmartSelect<T> extends StatefulWidget {
     bool modalHeader,
     bool modalConfirmation,
     bool modalFilter,
+    bool modalFilterAuto,
     String modalFilterHint,
     String modalTitle,
   }) {
@@ -167,6 +169,7 @@ class SmartSelect<T> extends StatefulWidget {
         type: modalType,
         title: modalTitle,
         filterHint: modalFilterHint,
+        filterAuto: modalFilterAuto,
         useFilter: modalFilter,
         useHeader: modalHeader,
         useConfirmation: modalConfirmation,
@@ -217,6 +220,7 @@ class SmartSelect<T> extends StatefulWidget {
     bool modalHeader,
     bool modalConfirmation,
     bool modalFilter,
+    bool modalFilterAuto,
     String modalFilterHint,
     String modalTitle,
   }) {
@@ -271,6 +275,7 @@ class SmartSelect<T> extends StatefulWidget {
         type: modalType,
         title: modalTitle,
         filterHint: modalFilterHint,
+        filterAuto: modalFilterAuto,
         useFilter: modalFilter,
         useHeader: modalHeader,
         useConfirmation: modalConfirmation,
@@ -297,6 +302,9 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
 
   /// modal build context
   BuildContext modalContext;
+
+  /// debouncer used in search text on changed
+  final Debouncer debouncer = Debouncer();
 
   /// return an object or array of object
   /// that represent the value
@@ -403,15 +411,21 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
   /// get default filter widget
   Widget get defaultModalFilter {
     return TextField(
+      autofocus: true,
       controller: filter.ctrl,
       style: modalHeaderStyle.textStyle,
-      autofocus: true,
+      textInputAction: TextInputAction.search,
       decoration: InputDecoration.collapsed(
         hintText: modalConfig.filterHint ?? 'Search on $title',
         hintStyle: modalHeaderStyle.textStyle,
       ),
-      onChanged: modalConfig.filterAuto ? filter.apply : null,
+      textAlign: modalConfig?.headerStyle?.centerTitle ?? false
+        ? TextAlign.center
+        : TextAlign.left,
       onSubmitted: modalConfig.filterAuto ? null : filter.apply,
+      onChanged: modalConfig.filterAuto
+        ? (query) => debouncer.run(() => filter.apply(query))
+        : null,
     );
   }
 
