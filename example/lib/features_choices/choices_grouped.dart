@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_select/smart_select.dart';
+import 'package:sticky_headers/sticky_headers.dart';
 import '../options.dart' as options;
 
 class FeaturesChoicesGrouped extends StatefulWidget {
@@ -61,6 +62,12 @@ class _FeaturesChoicesGroupedState extends State<FeaturesChoicesGrouped> {
           choiceStyle: const S2ChoiceStyle(
             activeColor: Colors.redAccent
           ),
+          groupBuilder: (context, header, choices) {
+            return StickyHeader(
+              header: header,
+              content: choices,
+            );
+          },
           groupHeaderBuilder: (context, group, searchText) {
             return Container(
               color: Colors.redAccent,

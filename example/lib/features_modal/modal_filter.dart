@@ -29,6 +29,7 @@ class _FeaturesModalFilterState extends State<FeaturesModalFilter> {
           ),
           choiceGrouped: true,
           modalFilter: true,
+          modalFilterAuto: true,
           onChange: (state) => setState(() => _car = state.value),
           tileBuilder: (context, state) {
             return S2Tile.fromState(
