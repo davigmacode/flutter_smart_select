@@ -1,7 +1,16 @@
 import './modal_theme.dart';
 
 /// Target to open choices list
-enum S2ModalType { fullPage, popupDialog, bottomSheet }
+enum S2ModalType {
+  /// open in full page
+  fullPage,
+
+  /// open in popup dialog
+  popupDialog,
+
+  /// open in sliding bottom sheet
+  bottomSheet,
+}
 
 /// Modal configuration
 class S2ModalConfig {
@@ -45,7 +54,13 @@ class S2ModalConfig {
     this.useConfirmation = false,
     this.style = const S2ModalStyle(),
     this.headerStyle = const S2ModalHeaderStyle(),
-  });
+  }) :
+    assert(filterAuto != null),
+    assert(useHeader != null),
+    assert(useFilter != null),
+    assert(useConfirmation != null),
+    assert(style != null),
+    assert(headerStyle != null);
 
   /// Creates a copy of this [S2ModalConfig] but with
   /// the given fields replaced with the new values.

@@ -99,7 +99,9 @@ class S2ModalHeaderStyle {
     this.actionsIconTheme = const IconThemeData(color: Color(0x8A000000)),
     this.backgroundColor = const Color(0xFFFFFFFF),
     this.brightness,
-  });
+  }) :
+    assert(elevation != null),
+    assert(centerTitle != null);
 
   /// Creates a copy of this [S2ModalHeaderStyle] but with
   /// the given fields replaced with the new values.
