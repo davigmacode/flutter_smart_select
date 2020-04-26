@@ -14,8 +14,9 @@ import './dialog.dart';
 import './tile/default_tile.dart';
 import './utils/debouncer.dart';
 
-/// SmartSelect that allows you to easily convert your usual form selects
-/// to dynamic pages with grouped radio or checkbox inputs.
+/// SmartSelect allows you to easily convert your usual form select or dropdown
+/// into dynamic page, popup dialog, or sliding bottom sheet with various choices input
+/// such as radio, checkbox, switch, chips, or even custom input.
 class SmartSelect<T> extends StatefulWidget {
 
   /// The primary content of the widget.
@@ -504,7 +505,8 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
       actionsIconTheme: modalHeaderStyle.actionsIconTheme,
       iconTheme: modalHeaderStyle.iconTheme,
       centerTitle: modalHeaderStyle.centerTitle,
-      automaticallyImplyLeading: modalHeaderStyle?.useLeading ?? modalConfig.type == S2ModalType.fullPage,
+      automaticallyImplyLeading: modalConfig.type == S2ModalType.fullPage || filter.activated,
+      leading: filter.activated ? Icon(Icons.search) : null,
       title: filter.activated == true ? modalFilter : modalTitle,
       actions: <Widget>[
         modalFilterToggle,
@@ -629,23 +631,6 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
   initState() {
     super.initState();
     filter = S2Filter()..addListener(_filterHandler);
-
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   setState(() {
-    //     theme = Theme.of(context);
-    //     choiceConfig = widget.choiceConfig.copyWith(
-    //       style: S2ChoiceStyle(
-    //         activeColor: theme.primaryColor,
-    //         color: theme.unselectedWidgetColor,
-    //       ).merge(widget.choiceConfig?.style)
-    //     );
-    //     modalConfig = widget.modalConfig?.copyWith(
-    //       headerStyle: widget.modalConfig?.headerStyle?.copyWith(
-    //         textStyle: theme.textTheme.title.merge(widget.modalConfig?.headerStyle?.textStyle)
-    //       ),
-    //     );
-    //   });
-    // });
   }
 
   @override
