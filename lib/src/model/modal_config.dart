@@ -22,7 +22,7 @@ class S2ModalConfig {
   final bool useFilter;
 
   /// Whether the filter is autocomplete or need confirmation
-  final bool autofilter;
+  final bool filterAuto;
 
   /// Whether the option list need to confirm
   /// to return the changed value
@@ -41,7 +41,7 @@ class S2ModalConfig {
     this.filterHint,
     this.useHeader = true,
     this.useFilter = false,
-    this.autofilter = false,
+    this.filterAuto = false,
     this.useConfirmation = false,
     this.style = const S2ModalStyle(),
     this.headerStyle = const S2ModalHeaderStyle(),
@@ -55,6 +55,7 @@ class S2ModalConfig {
     String filterHint,
     bool useHeader,
     bool useFilter,
+    bool filterAuto,
     bool useConfirmation,
     S2ModalStyle style,
     S2ModalHeaderStyle headerStyle,
@@ -63,6 +64,7 @@ class S2ModalConfig {
       type: type ?? this.type,
       title: title ?? this.title,
       filterHint: filterHint ?? this.filterHint,
+      filterAuto: filterAuto ?? this.filterAuto,
       useHeader: useHeader ?? this.useHeader,
       useFilter: useFilter ?? this.useFilter,
       useConfirmation: useConfirmation ?? this.useConfirmation,
@@ -83,6 +85,7 @@ class S2ModalConfig {
       filterHint: other.filterHint,
       useHeader: other.useHeader,
       useFilter: other.useFilter,
+      filterAuto: other.filterAuto,
       useConfirmation: other.useConfirmation,
       style: other.style,
       headerStyle: other.headerStyle,
