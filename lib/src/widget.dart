@@ -70,9 +70,20 @@ class SmartSelect<T> extends StatefulWidget {
     this.multiValue,
     this.multiOnChange,
     this.multiBuilder,
-    this.modalConfig,
-    this.choiceConfig,
-  }) : super(key: key);
+    this.modalConfig = const S2ModalConfig(),
+    this.choiceConfig = const S2ChoiceConfig(),
+  }) :
+    assert(isMultiChoice != null),
+    assert(title != null || modalConfig?.title != null, 'title and modalConfig.title must not be both null'),
+    assert(
+      (isMultiChoice && multiOnChange != null && multiBuilder != null) || (!isMultiChoice && singleOnChange != null && singleBuilder != null)
+      , isMultiChoice ? 'multiValue, multiOnChange, and multiBuilder must be not null in multiple choice' : 'singleValue, singleOnChange, and singleBuilder must be not null in single choice'
+    ),
+    assert(
+      (isMultiChoice && (choiceConfig.type == S2ChoiceType.checkboxes || choiceConfig.type == S2ChoiceType.switches || choiceConfig.type == S2ChoiceType.chips)) || (!isMultiChoice && (choiceConfig.type == S2ChoiceType.radios || choiceConfig.type == S2ChoiceType.chips)),
+      isMultiChoice ? 'multiple choice only support SmartSelectChoiceType.checkboxes, SmartSelectChoiceType.switches and SmartSelectChoiceType.chips' : 'Single choice only support SmartSelectChoiceType.radios and SmartSelectChoiceType.chips'
+    ),
+    super(key: key);
 
   /// Constructor for single choice
   factory SmartSelect.single({
@@ -119,12 +130,6 @@ class SmartSelect<T> extends StatefulWidget {
     String modalFilterHint,
     String modalTitle,
   }) {
-    // assert(choiceType == S2ChoiceType.radios || choiceType == S2ChoiceType.chips, 'SmartSelect.single only support SmartSelectChoiceType.radios and SmartSelectChoiceType.chips');
-    assert(title != null || modalTitle != null || modalConfig?.title != null);
-    // assert(choiceGrouped != null);
-    // assert(modalHeader != null);
-    // assert(modalConfirmation != null);
-    // assert(modalFilter != null);
     S2ModalConfig defaultModalConfig = const S2ModalConfig();
     S2ChoiceConfig defaultChoiceConfig = const S2ChoiceConfig(type: S2ChoiceType.radios);
     return SmartSelect<T>(
@@ -225,12 +230,6 @@ class SmartSelect<T> extends StatefulWidget {
     String modalFilterHint,
     String modalTitle,
   }) {
-    // assert(choiceType == S2ChoiceType.checkboxes || choiceType == S2ChoiceType.switches || choiceType == S2ChoiceType.chips, 'SmartSelect.multiple only support SmartSelectChoiceType.checkboxes, SmartSelectChoiceType.switches and SmartSelectChoiceType.chips');
-    assert(title != null || modalTitle != null || modalConfig?.title != null);
-    // assert(choiceGrouped != null);
-    // assert(modalHeader != null);
-    // assert(modalConfirmation != null);
-    // assert(modalFilter != null);
     S2ModalConfig defaultModalConfig = const S2ModalConfig();
     S2ChoiceConfig defaultChoiceConfig = const S2ChoiceConfig(type: S2ChoiceType.checkboxes);
     return SmartSelect<T>(
