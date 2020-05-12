@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_select/smart_select.dart';
-import '../options.dart' as options;
+import '../choices.dart' as choices;
 
 class FeaturesModalFilter extends StatefulWidget {
   @override
@@ -21,8 +21,9 @@ class _FeaturesModalFilterState extends State<FeaturesModalFilter> {
           title: 'Car',
           placeholder: 'Choose one',
           value: _car,
-          options: S2Option.listFrom<String, Map>(
-            source: options.cars,
+          onChange: (state) => setState(() => _car = state.value),
+          choiceItems: S2Choice.listFrom<String, Map>(
+            source: choices.cars,
             value: (index, item) => item['value'],
             title: (index, item) => item['title'],
             group: (index, item) => item['brand'],
@@ -30,7 +31,6 @@ class _FeaturesModalFilterState extends State<FeaturesModalFilter> {
           choiceGrouped: true,
           modalFilter: true,
           modalFilterAuto: true,
-          onChange: (state) => setState(() => _car = state.value),
           tileBuilder: (context, state) {
             return S2Tile.fromState(
               state,
@@ -46,8 +46,9 @@ class _FeaturesModalFilterState extends State<FeaturesModalFilter> {
           title: 'Smartphones',
           placeholder: 'Choose one',
           value: _smartphone,
-          options: S2Option.listFrom<String, Map>(
-            source: options.smartphones,
+          onChange: (state) => setState(() => _smartphone = state.value),
+          choiceItems: S2Choice.listFrom<String, Map>(
+            source: choices.smartphones,
             value: (index, item) => item['id'],
             title: (index, item) => item['name'],
             group: (index, item) => item['category'],
@@ -55,7 +56,6 @@ class _FeaturesModalFilterState extends State<FeaturesModalFilter> {
           choiceGrouped: true,
           modalType: S2ModalType.bottomSheet,
           modalFilter: true,
-          onChange: (state) => setState(() => _smartphone = state.value),
           tileBuilder: (context, state) {
             return S2Tile.fromState(
               state,

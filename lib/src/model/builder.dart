@@ -1,7 +1,8 @@
 import 'package:flutter/widgets.dart';
 import '../state/filter.dart';
 import '../widget.dart';
-import 'choice.dart';
+import 'choice_item.dart';
+import 'choice_group.dart';
 
 /// A builder for
 typedef Widget S2WidgetBuilder<T>(
@@ -16,22 +17,25 @@ typedef Widget S2ComplexWidgetBuilder<A, B>(
   B anotherValue,
 );
 
+/// A builder for choice list item widget
+typedef Widget S2ChoiceItemBuilder<T>(S2Choice<T> choice);
+
 /// A widget builder for custom each choices item
-typedef Widget S2ChoiceItemBuilder<T>(
+typedef Widget S2ChoiceBuilder<T>(
   BuildContext context,
   S2Choice<T> choice,
   String searchText,
 );
 
 /// A widget builder for custom choices group
-typedef Widget S2GroupBuilder(
+typedef Widget S2ChoiceGroupBuilder(
   BuildContext context,
   Widget header,
   Widget choices,
 );
 
 /// A widget builder for custom header choices group
-typedef Widget S2GroupHeaderBuilder(
+typedef Widget S2ChoiceHeaderBuilder(
   BuildContext context,
   S2ChoiceGroup group,
   String searchText,
@@ -46,16 +50,16 @@ class S2Builder<T> {
   final S2WidgetBuilder<S2Filter> modalFilterToggleBuilder;
 
   /// Builder for each custom choices item
-  final S2ChoiceItemBuilder<T> choiceBuilder;
+  final S2ChoiceBuilder<T> choiceBuilder;
 
   /// Builder for each custom choices item subtitle
-  final S2ChoiceItemBuilder<T> choiceTitleBuilder;
+  final S2ChoiceBuilder<T> choiceTitleBuilder;
 
   /// Builder for each custom choices item subtitle
-  final S2ChoiceItemBuilder<T> choiceSubtitleBuilder;
+  final S2ChoiceBuilder<T> choiceSubtitleBuilder;
 
   /// Builder for each custom choices item secondary
-  final S2ChoiceItemBuilder<T> choiceSecondaryBuilder;
+  final S2ChoiceBuilder<T> choiceSecondaryBuilder;
 
   /// Builder for custom divider widget between choices item
   final IndexedWidgetBuilder choiceDividerBuilder;
@@ -64,10 +68,16 @@ class S2Builder<T> {
   final S2WidgetBuilder<String> choiceEmptyBuilder;
 
   /// A widget builder for custom choices group
-  final S2GroupBuilder groupBuilder;
+  final S2ChoiceGroupBuilder choiceGroupBuilder;
 
   /// A widget builder for custom header choices group
-  final S2GroupHeaderBuilder groupHeaderBuilder;
+  final S2ChoiceHeaderBuilder choiceHeaderBuilder;
+
+  /// Builder for progress indicator on choice load
+  final WidgetBuilder choiceProgressBuilder;
+
+  /// Builder for progress indicator on choice load
+  final S2ChoiceBuilder<T> choicePagerBuilder;
 
   /// default constructor
   const S2Builder({
@@ -79,8 +89,10 @@ class S2Builder<T> {
     this.choiceSecondaryBuilder,
     this.choiceDividerBuilder,
     this.choiceEmptyBuilder,
-    this.groupBuilder,
-    this.groupHeaderBuilder,
+    this.choiceGroupBuilder,
+    this.choiceHeaderBuilder,
+    this.choiceProgressBuilder,
+    this.choicePagerBuilder,
   });
 }
 
@@ -102,14 +114,16 @@ class S2SingleBuilder<T> extends S2Builder<T> {
     this.modalFooterBuilder,
     S2WidgetBuilder<S2Filter> modalFilterBuilder,
     S2WidgetBuilder<S2Filter> modalFilterToggleBuilder,
-    S2ChoiceItemBuilder<T> choiceBuilder,
-    S2ChoiceItemBuilder<T> choiceTitleBuilder,
-    S2ChoiceItemBuilder<T> choiceSubtitleBuilder,
-    S2ChoiceItemBuilder<T> choiceSecondaryBuilder,
+    S2ChoiceBuilder<T> choiceBuilder,
+    S2ChoiceBuilder<T> choiceTitleBuilder,
+    S2ChoiceBuilder<T> choiceSubtitleBuilder,
+    S2ChoiceBuilder<T> choiceSecondaryBuilder,
     IndexedWidgetBuilder choiceDividerBuilder,
     S2WidgetBuilder<String> choiceEmptyBuilder,
-    S2GroupBuilder groupBuilder,
-    S2GroupHeaderBuilder groupHeaderBuilder,
+    S2ChoiceGroupBuilder choiceGroupBuilder,
+    S2ChoiceHeaderBuilder choiceHeaderBuilder,
+    WidgetBuilder choiceProgressBuilder,
+    S2ChoiceBuilder<T> choicePagerBuilder,
   }) : super(
     modalFilterBuilder: modalFilterBuilder,
     modalFilterToggleBuilder: modalFilterToggleBuilder,
@@ -118,9 +132,11 @@ class S2SingleBuilder<T> extends S2Builder<T> {
     choiceSubtitleBuilder: choiceSubtitleBuilder,
     choiceSecondaryBuilder: choiceSecondaryBuilder,
     choiceDividerBuilder: choiceDividerBuilder,
-    groupBuilder: groupBuilder,
-    groupHeaderBuilder: groupHeaderBuilder,
+    choiceGroupBuilder: choiceGroupBuilder,
+    choiceHeaderBuilder: choiceHeaderBuilder,
     choiceEmptyBuilder: choiceEmptyBuilder,
+    choiceProgressBuilder: choiceProgressBuilder,
+    choicePagerBuilder: choicePagerBuilder,
   );
 
   /// Creates a copy of this [S2SingleBuilder] but with
@@ -134,14 +150,16 @@ class S2SingleBuilder<T> extends S2Builder<T> {
     S2WidgetBuilder<S2SingleState<T>> modalFooterBuilder,
     S2WidgetBuilder<S2Filter> modalFilterBuilder,
     S2WidgetBuilder<S2Filter> modalFilterToggleBuilder,
-    S2ChoiceItemBuilder<T> choiceBuilder,
-    S2ChoiceItemBuilder<T> choiceTitleBuilder,
-    S2ChoiceItemBuilder<T> choiceSubtitleBuilder,
-    S2ChoiceItemBuilder<T> choiceSecondaryBuilder,
+    S2ChoiceBuilder<T> choiceBuilder,
+    S2ChoiceBuilder<T> choiceTitleBuilder,
+    S2ChoiceBuilder<T> choiceSubtitleBuilder,
+    S2ChoiceBuilder<T> choiceSecondaryBuilder,
     IndexedWidgetBuilder choiceDividerBuilder,
     S2WidgetBuilder<String> choiceEmptyBuilder,
-    S2GroupBuilder groupBuilder,
-    S2GroupHeaderBuilder groupHeaderBuilder,
+    S2ChoiceGroupBuilder choiceGroupBuilder,
+    S2ChoiceHeaderBuilder choiceHeaderBuilder,
+    WidgetBuilder choiceProgressBuilder,
+    S2ChoiceBuilder<T> choicePagerBuilder,
   }) {
     return S2SingleBuilder<T>(
       tileBuilder: tileBuilder ?? this.tileBuilder,
@@ -158,8 +176,10 @@ class S2SingleBuilder<T> extends S2Builder<T> {
       choiceSecondaryBuilder: choiceSecondaryBuilder ?? this.choiceSecondaryBuilder,
       choiceDividerBuilder: choiceDividerBuilder ?? this.choiceDividerBuilder,
       choiceEmptyBuilder: choiceEmptyBuilder ?? this.choiceEmptyBuilder,
-      groupBuilder: groupBuilder ?? this.groupBuilder,
-      groupHeaderBuilder: groupHeaderBuilder ?? this.groupHeaderBuilder,
+      choiceGroupBuilder: choiceGroupBuilder ?? this.choiceGroupBuilder,
+      choiceHeaderBuilder: choiceHeaderBuilder ?? this.choiceHeaderBuilder,
+      choiceProgressBuilder: choiceProgressBuilder ?? this.choiceProgressBuilder,
+      choicePagerBuilder: choicePagerBuilder ?? this.choicePagerBuilder,
     );
   }
 
@@ -184,8 +204,10 @@ class S2SingleBuilder<T> extends S2Builder<T> {
       choiceSecondaryBuilder: other.choiceSecondaryBuilder,
       choiceDividerBuilder: other.choiceDividerBuilder,
       choiceEmptyBuilder: other.choiceEmptyBuilder,
-      groupBuilder: other.groupBuilder,
-      groupHeaderBuilder: other.groupHeaderBuilder,
+      choiceGroupBuilder: other.choiceGroupBuilder,
+      choiceHeaderBuilder: other.choiceHeaderBuilder,
+      choiceProgressBuilder: other.choiceProgressBuilder,
+      choicePagerBuilder: other.choicePagerBuilder,
     );
   }
 }
@@ -208,14 +230,16 @@ class S2MultiBuilder<T> extends S2Builder<T> {
     this.modalFooterBuilder,
     S2WidgetBuilder<S2Filter> modalFilterBuilder,
     S2WidgetBuilder<S2Filter> modalFilterToggleBuilder,
-    S2ChoiceItemBuilder<T> choiceBuilder,
-    S2ChoiceItemBuilder<T> choiceTitleBuilder,
-    S2ChoiceItemBuilder<T> choiceSubtitleBuilder,
-    S2ChoiceItemBuilder<T> choiceSecondaryBuilder,
+    S2ChoiceBuilder<T> choiceBuilder,
+    S2ChoiceBuilder<T> choiceTitleBuilder,
+    S2ChoiceBuilder<T> choiceSubtitleBuilder,
+    S2ChoiceBuilder<T> choiceSecondaryBuilder,
     IndexedWidgetBuilder choiceDividerBuilder,
     S2WidgetBuilder<String> choiceEmptyBuilder,
-    S2GroupBuilder groupBuilder,
-    S2GroupHeaderBuilder groupHeaderBuilder,
+    S2ChoiceGroupBuilder choiceGroupBuilder,
+    S2ChoiceHeaderBuilder choiceHeaderBuilder,
+    WidgetBuilder choiceProgressBuilder,
+    S2ChoiceBuilder<T> choicePagerBuilder,
   }) : super(
     modalFilterBuilder: modalFilterBuilder,
     modalFilterToggleBuilder: modalFilterToggleBuilder,
@@ -225,8 +249,10 @@ class S2MultiBuilder<T> extends S2Builder<T> {
     choiceSecondaryBuilder: choiceSecondaryBuilder,
     choiceDividerBuilder: choiceDividerBuilder,
     choiceEmptyBuilder: choiceEmptyBuilder,
-    groupBuilder: groupBuilder,
-    groupHeaderBuilder: groupHeaderBuilder,
+    choiceGroupBuilder: choiceGroupBuilder,
+    choiceHeaderBuilder: choiceHeaderBuilder,
+    choiceProgressBuilder: choiceProgressBuilder,
+    choicePagerBuilder: choicePagerBuilder,
   );
 
   /// Creates a copy of this [S2MultiBuilder] but with
@@ -240,14 +266,16 @@ class S2MultiBuilder<T> extends S2Builder<T> {
     S2WidgetBuilder<S2MultiState<T>> modalFooterBuilder,
     S2WidgetBuilder<S2Filter> modalFilterBuilder,
     S2WidgetBuilder<S2Filter> modalFilterToggleBuilder,
-    S2ChoiceItemBuilder<T> choiceBuilder,
-    S2ChoiceItemBuilder<T> choiceTitleBuilder,
-    S2ChoiceItemBuilder<T> choiceSubtitleBuilder,
-    S2ChoiceItemBuilder<T> choiceSecondaryBuilder,
+    S2ChoiceBuilder<T> choiceBuilder,
+    S2ChoiceBuilder<T> choiceTitleBuilder,
+    S2ChoiceBuilder<T> choiceSubtitleBuilder,
+    S2ChoiceBuilder<T> choiceSecondaryBuilder,
     IndexedWidgetBuilder choiceDividerBuilder,
     S2WidgetBuilder<String> choiceEmptyBuilder,
-    S2GroupBuilder groupBuilder,
-    S2GroupHeaderBuilder groupHeaderBuilder,
+    S2ChoiceGroupBuilder choiceGroupBuilder,
+    S2ChoiceHeaderBuilder choiceHeaderBuilder,
+    WidgetBuilder choiceProgressBuilder,
+    S2ChoiceBuilder<T> choicePagerBuilder,
   }) {
     return S2MultiBuilder<T>(
       tileBuilder: tileBuilder ?? this.tileBuilder,
@@ -264,8 +292,10 @@ class S2MultiBuilder<T> extends S2Builder<T> {
       choiceSecondaryBuilder: choiceSecondaryBuilder ?? this.choiceSecondaryBuilder,
       choiceDividerBuilder: choiceDividerBuilder ?? this.choiceDividerBuilder,
       choiceEmptyBuilder: choiceEmptyBuilder ?? this.choiceEmptyBuilder,
-      groupBuilder: groupBuilder ?? this.groupBuilder,
-      groupHeaderBuilder: groupHeaderBuilder ?? this.groupHeaderBuilder,
+      choiceGroupBuilder: choiceGroupBuilder ?? this.choiceGroupBuilder,
+      choiceHeaderBuilder: choiceHeaderBuilder ?? this.choiceHeaderBuilder,
+      choiceProgressBuilder: choiceProgressBuilder ?? this.choiceProgressBuilder,
+      choicePagerBuilder: choicePagerBuilder ?? this.choicePagerBuilder,
     );
   }
 
@@ -290,8 +320,10 @@ class S2MultiBuilder<T> extends S2Builder<T> {
       choiceSecondaryBuilder: other.choiceSecondaryBuilder,
       choiceDividerBuilder: other.choiceDividerBuilder,
       choiceEmptyBuilder: other.choiceEmptyBuilder,
-      groupBuilder: other.groupBuilder,
-      groupHeaderBuilder: other.groupHeaderBuilder,
+      choiceGroupBuilder: other.choiceGroupBuilder,
+      choiceHeaderBuilder: other.choiceHeaderBuilder,
+      choiceProgressBuilder: other.choiceProgressBuilder,
+      choicePagerBuilder: other.choicePagerBuilder,
     );
   }
 }

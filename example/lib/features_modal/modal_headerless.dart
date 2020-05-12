@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_select/smart_select.dart';
-import '../options.dart' as options;
+import '../choices.dart' as choices;
 
 class FeaturesModalHeaderless extends StatefulWidget {
   @override
@@ -20,10 +20,10 @@ class _FeaturesModalHeaderlessState extends State<FeaturesModalHeaderless> {
         SmartSelect<String>.multiple(
           title: 'Fruit',
           value: _fruit,
-          options: options.fruits,
+          onChange: (state) => setState(() => _fruit = state.value),
+          choiceItems: choices.fruits,
           modalType: S2ModalType.popupDialog,
           modalHeader: false,
-          onChange: (state) => setState(() => _fruit = state.value),
           tileBuilder: (context, state) {
             return S2Tile.fromState(
               state,
@@ -40,10 +40,10 @@ class _FeaturesModalHeaderlessState extends State<FeaturesModalHeaderless> {
         SmartSelect<String>.multiple(
           title: 'Super Hero',
           value: _hero,
-          options: options.heroes,
+          onChange: (state) => setState(() => _hero = state.value),
+          choiceItems: choices.heroes,
           modalType: S2ModalType.bottomSheet,
           modalHeader: false,
-          onChange: (state) => setState(() => _hero = state.value),
           tileBuilder: (context, state) {
             return S2Tile.fromState(
               state,

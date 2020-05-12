@@ -1,24 +1,24 @@
 import 'package:flutter/foundation.dart';
 
-abstract class S2Cache<T> extends ChangeNotifier {
+abstract class S2Changes<T> extends ChangeNotifier {
 
   /// check whether the current value has the requested value
   bool contains(T val);
 
   /// select value
-  void select(T val, [bool selected = true]);
+  void commit(T val, { bool selected = true });
 
   /// get length of selected value
   int get length;
 }
 
-class S2SingleCache<T> extends S2Cache<T> {
+class S2SingleChanges<T> extends S2Changes<T> {
 
   T _value;
 
   T get value => _value;
 
-  S2SingleCache(this._value);
+  S2SingleChanges(this._value);
 
   int get length => 1;
 
@@ -27,7 +27,7 @@ class S2SingleCache<T> extends S2Cache<T> {
     notifyListeners();
   }
 
-  void select(T val, [bool selected = true]) {
+  void commit(T val, { bool selected = true }) {
     _value = val;
     notifyListeners();
   }
@@ -38,13 +38,13 @@ class S2SingleCache<T> extends S2Cache<T> {
 
 }
 
-class S2MultiCache<T> extends S2Cache<T> {
+class S2MultiChanges<T> extends S2Changes<T> {
 
   List<T> _value;
 
   List<T> get value => _value;
 
-  S2MultiCache(this._value);
+  S2MultiChanges(this._value);
 
   int get length => _value.length;
 
@@ -53,7 +53,7 @@ class S2MultiCache<T> extends S2Cache<T> {
     notifyListeners();
   }
 
-  void select(T val, [bool selected = true]) {
+  void commit(T val, { bool selected = true }) {
     if (selected) {
       _value.add(val);
     } else {

@@ -39,7 +39,8 @@ class _FeaturesOptionHiddenState extends State<FeaturesOptionHidden> {
                 child: SmartSelect<int>.multiple(
                   title: 'Categories',
                   value: _categories,
-                  options: S2Option.listFrom<int, String>(
+                  onChange: (state) => setState(() => _categories = state.value),
+                  choiceItems: S2Choice.listFrom<int, String>(
                     source: _categoriesOption,
                     value: (index, item) => index,
                     title: (index, item) => item,
@@ -48,7 +49,6 @@ class _FeaturesOptionHiddenState extends State<FeaturesOptionHidden> {
                   choiceType: S2ChoiceType.switches,
                   modalType: S2ModalType.popupDialog,
                   modalHeader: false,
-                  onChange: (state) => setState(() => _categories = state.value),
                   tileBuilder: (context, state) {
                     return S2Tile.fromState(
                       state,
@@ -66,7 +66,8 @@ class _FeaturesOptionHiddenState extends State<FeaturesOptionHidden> {
                 child: SmartSelect<int>.single(
                   title: 'Sort By',
                   value: _sort,
-                  options: S2Option.listFrom<int, String>(
+                  onChange: (state) => setState(() => _sort = state.value),
+                  choiceItems: S2Choice.listFrom<int, String>(
                     source: _sortOption,
                     value: (index, item) => index,
                     title: (index, item) => item,
@@ -74,7 +75,6 @@ class _FeaturesOptionHiddenState extends State<FeaturesOptionHidden> {
                   ),
                   modalType: S2ModalType.popupDialog,
                   modalHeader: false,
-                  onChange: (state) => setState(() => _sort = state.value),
                   tileBuilder: (context, state) {
                     return S2Tile.fromState(
                       state,

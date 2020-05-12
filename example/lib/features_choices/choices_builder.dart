@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smart_select/smart_select.dart';
 import 'package:dio/dio.dart';
-import '../options.dart' as options;
+import '../choices.dart' as choices;
 
 class FeaturesChoicesBuilder extends StatefulWidget {
   @override
@@ -13,7 +13,7 @@ class _FeaturesChoicesBuilderState extends State<FeaturesChoicesBuilder> {
   int _commute;
 
   List<String> _user;
-  List<S2Option<String>> _users = [];
+  List<S2Choice<String>> _users = [];
   bool _usersIsLoading;
 
   @override
@@ -25,16 +25,16 @@ class _FeaturesChoicesBuilderState extends State<FeaturesChoicesBuilder> {
           title: 'Commuter',
           placeholder: 'Choose one',
           value: _commute,
-          options: S2Option.listFrom<int, Map<String, dynamic>>(
-            source: options.transports,
+          onChange: (state) => setState(() => _commute = state.value),
+          modalType: S2ModalType.bottomSheet,
+          modalHeader: false,
+          choiceItems: S2Choice.listFrom<int, Map<String, dynamic>>(
+            source: choices.transports,
             value: (index, item) => index,
             title: (index, item) => item['title'],
             subtitle: (index, item) => item['subtitle'],
             meta: (index, item) => item,
           ),
-          onChange: (state) => setState(() => _commute = state.value),
-          modalType: S2ModalType.bottomSheet,
-          modalHeader: false,
           choiceLayout: S2ChoiceLayout.wrap,
           choiceDirection: Axis.horizontal,
           choiceBuilder: (context, choice, query) {
@@ -51,7 +51,7 @@ class _FeaturesChoicesBuilderState extends State<FeaturesChoicesBuilder> {
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         CircleAvatar(
-                          backgroundImage: NetworkImage(choice.data.meta['image']),
+                          backgroundImage: NetworkImage(choice.meta['image']),
                           child: choice.selected ? Icon(
                             Icons.check,
                             color: Colors.white,
@@ -59,7 +59,7 @@ class _FeaturesChoicesBuilderState extends State<FeaturesChoicesBuilder> {
                         ),
                         const SizedBox(height: 5),
                         Text(
-                          choice.data.title,
+                          choice.title,
                           style: TextStyle(
                             color: choice.selected ? Colors.white : Colors.black87,
                           ),
@@ -99,9 +99,9 @@ class _FeaturesChoicesBuilderState extends State<FeaturesChoicesBuilder> {
         SmartSelect<String>.multiple(
           title: 'Admin',
           value: _user,
-          options: _users,
           onChange: (state) => setState(() => _user = state.value),
           modalFilter: true,
+          choiceItems: _users,
           choiceGrouped: true,
           choiceLayout: S2ChoiceLayout.grid,
           choiceGrid: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -125,12 +125,12 @@ class _FeaturesChoicesBuilderState extends State<FeaturesChoicesBuilder> {
                         width: 50,
                         height: 50,
                         child: CircleAvatar(
-                          backgroundImage: NetworkImage(choice.data.meta['picture']['thumbnail']),
+                          backgroundImage: NetworkImage(choice.meta['picture']['thumbnail']),
                         ),
                       ),
                       SizedBox(height: 5),
                       Text(
-                        choice.data.title,
+                        choice.title,
                         textAlign: TextAlign.center,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
@@ -173,7 +173,7 @@ class _FeaturesChoicesBuilderState extends State<FeaturesChoicesBuilder> {
       setState(() => _usersIsLoading = true);
       String url = "https://randomuser.me/api/?inc=gender,name,nat,picture,email&results=25";
       Response res = await Dio().get(url);
-      setState(() => _users = S2Option.listFrom<String, dynamic>(
+      setState(() => _users = S2Choice.listFrom<String, dynamic>(
         source: res.data['results'],
         value: (index, item) => item['email'],
         title: (index, item) => item['name']['first'] + ' ' + item['name']['last'],

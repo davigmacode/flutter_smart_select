@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_select/smart_select.dart';
-import '../options.dart' as options;
+import '../choices.dart' as choices;
 
 class FeaturesSingleChips extends StatefulWidget {
   @override
@@ -20,8 +20,8 @@ class _FeaturesSingleChipsState extends State<FeaturesSingleChips> {
         const SizedBox(height: 7),
         SmartSelect<String>.single(
           value: _car,
-          options: S2Option.listFrom<String, Map>(
-            source: options.cars,
+          choiceItems: S2Choice.listFrom<String, Map>(
+            source: choices.cars,
             value: (index, item) => item['value'],
             title: (index, item) => item['title'],
             group: (index, item) => item['brand'],
@@ -50,7 +50,7 @@ class _FeaturesSingleChipsState extends State<FeaturesSingleChips> {
         SmartSelect<String>.single(
           title: 'Category',
           value: _category,
-          options: options.categories,
+          choiceItems: choices.categories,
           modalType: S2ModalType.bottomSheet,
           choiceType: S2ChoiceType.chips,
           choiceDirection: Axis.horizontal,
@@ -72,7 +72,7 @@ class _FeaturesSingleChipsState extends State<FeaturesSingleChips> {
         SmartSelect<String>.single(
           title: 'Days',
           value: _day,
-          options: options.days,
+          choiceItems: choices.days,
           onChange: (state) => setState(() => _day = state.value),
           modalType: S2ModalType.popupDialog,
           choiceType: S2ChoiceType.chips,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_select/smart_select.dart';
-import '../options.dart' as options;
+import '../choices.dart' as choices;
 
 class FeaturesModalShape extends StatefulWidget {
   @override
@@ -20,7 +20,9 @@ class _FeaturesModalShapeState extends State<FeaturesModalShape> {
         SmartSelect<String>.single(
           title: 'Frameworks',
           value: _framework,
-          options: options.frameworks,
+          onChange: (state) => setState(() => _framework = state.value),
+          choiceType: S2ChoiceType.radios,
+          choiceItems: choices.frameworks,
           modalType: S2ModalType.popupDialog,
           modalHeader: false,
           modalConfig: const S2ModalConfig(
@@ -31,8 +33,6 @@ class _FeaturesModalShapeState extends State<FeaturesModalShape> {
               ),
             ),
           ),
-          choiceType: S2ChoiceType.radios,
-          onChange: (state) => setState(() => _framework = state.value),
           tileBuilder: (context, state) {
             return S2Tile.fromState(
               state,
@@ -51,7 +51,8 @@ class _FeaturesModalShapeState extends State<FeaturesModalShape> {
         SmartSelect<String>.multiple(
           title: 'Super Hero',
           value: _hero,
-          options: options.heroes,
+          onChange: (state) => setState(() => _hero = state.value),
+          choiceItems: choices.heroes,
           choiceType: S2ChoiceType.switches,
           modalType: S2ModalType.bottomSheet,
           modalConfig: const S2ModalConfig(
@@ -69,7 +70,6 @@ class _FeaturesModalShapeState extends State<FeaturesModalShape> {
               centerTitle: true,
             ),
           ),
-          onChange: (state) => setState(() => _hero = state.value),
           tileBuilder: (context, state) {
             return S2Tile.fromState(
               state,

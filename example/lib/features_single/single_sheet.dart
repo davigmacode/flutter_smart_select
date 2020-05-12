@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_select/smart_select.dart';
-import '../options.dart' as options;
+import '../choices.dart' as choices;
 
 class FeaturesSingleSheet extends StatefulWidget {
   @override
@@ -18,10 +18,10 @@ class _FeaturesSingleSheetState extends State<FeaturesSingleSheet> {
       children: <Widget>[
         const SizedBox(height: 7),
         SmartSelect<String>.single(
-          value: _os,
-          options: options.os,
-          onChange: (state) => setState(() => _os = state.value),
           title: 'OS',
+          value: _os,
+          choiceItems: choices.os,
+          onChange: (state) => setState(() => _os = state.value),
           modalType: S2ModalType.bottomSheet,
           tileBuilder: (context, state) {
             return S2Tile.fromState(
@@ -35,9 +35,9 @@ class _FeaturesSingleSheetState extends State<FeaturesSingleSheet> {
         ),
         const Divider(indent: 20),
         SmartSelect<String>.single(
-          value: _hero,
-          options: options.heroes,
           title: 'Super Hero',
+          value: _hero,
+          choiceItems: choices.heroes,
           modalType: S2ModalType.bottomSheet,
           onChange: (state) => setState(() => _hero = state.value),
           tileBuilder: (context, state) {

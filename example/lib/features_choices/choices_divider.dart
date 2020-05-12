@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_select/smart_select.dart';
-import '../options.dart' as options;
+import '../choices.dart' as choices;
 
 class FeaturesChoicesDivider extends StatefulWidget {
   @override
@@ -21,15 +21,15 @@ class _FeaturesChoicesDividerState extends State<FeaturesChoicesDivider> {
           title: 'Car',
           placeholder: 'Choose one',
           value: _car,
-          options: S2Option.listFrom<String, Map>(
-            source: options.cars,
+          onChange: (state) => setState(() => _car = state.value),
+          choiceItems: S2Choice.listFrom<String, Map>(
+            source: choices.cars,
             value: (index, item) => item['value'],
             title: (index, item) => item['title'],
             group: (index, item) => item['body'],
           ),
           choiceGrouped: true,
           choiceDivider: true,
-          onChange: (state) => setState(() => _car = state.value),
           tileBuilder: (context, state) {
             return S2Tile.fromState(
               state,
@@ -45,19 +45,19 @@ class _FeaturesChoicesDividerState extends State<FeaturesChoicesDivider> {
           title: 'Smartphones',
           placeholder: 'Choose one',
           value: _smartphone,
-          options: S2Option.listFrom<String, Map>(
-            source: options.smartphones,
+          onChange: (state) => setState(() => _smartphone = state.value),
+          choiceItems: S2Choice.listFrom<String, Map>(
+            source: choices.smartphones,
             value: (index, item) => item['id'],
             title: (index, item) => item['name'],
             group: (index, item) => item['brand'],
           ),
-          modalType: S2ModalType.bottomSheet,
-          modalFilter: true,
           choiceGrouped: true,
           choiceConfig: const S2ChoiceConfig(
             useDivider: true,
           ),
-          onChange: (state) => setState(() => _smartphone = state.value),
+          modalType: S2ModalType.bottomSheet,
+          modalFilter: true,
           tileBuilder: (context, state) {
             return S2Tile.fromState(
               state,

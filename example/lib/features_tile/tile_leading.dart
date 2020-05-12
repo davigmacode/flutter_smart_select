@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smart_select/smart_select.dart';
 import '../widgets/icon_badge.dart';
-import '../options.dart' as options;
+import '../choices.dart' as choices;
 
 class FeaturesTileLeading extends StatefulWidget {
   @override
@@ -23,7 +23,7 @@ class _FeaturesTileLeadingState extends State<FeaturesTileLeading> {
         SmartSelect<String>.single(
           title: 'Days',
           value: _day,
-          options: options.days,
+          choiceItems: choices.days,
           onChange: (state) => setState(() => _day = state.value),
           tileBuilder: (context, state) {
             return S2Tile.fromState(
@@ -36,7 +36,7 @@ class _FeaturesTileLeadingState extends State<FeaturesTileLeading> {
         SmartSelect<String>.multiple(
           title: 'Month',
           value: _month,
-          options: options.months,
+          choiceItems: choices.months,
           onChange: (state) => setState(() => _month = state.value),
           tileBuilder: (context, state) {
             return S2Tile.fromState(
@@ -53,7 +53,7 @@ class _FeaturesTileLeadingState extends State<FeaturesTileLeading> {
         SmartSelect<String>.single(
           title: 'Frameworks',
           value: _framework,
-          options: options.frameworks,
+          choiceItems: choices.frameworks,
           onChange: (state) => setState(() => _framework = state.value),
           modalType: S2ModalType.popupDialog,
           tileBuilder: (context, state) {
@@ -73,7 +73,7 @@ class _FeaturesTileLeadingState extends State<FeaturesTileLeading> {
         SmartSelect<String>.multiple(
           title: 'Super Hero',
           value: _hero,
-          options: options.heroes,
+          choiceItems: choices.heroes,
           onChange: (state) => setState(() => _hero = state.value),
           modalType: S2ModalType.bottomSheet,
           modalFilter: true,

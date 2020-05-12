@@ -1,3 +1,12 @@
+## [4.0.0]
+
+* Simplify class name and enum
+* Removed `provider` package, simpler the state management and accessible from any builder
+* Removed `sticky_headers` package, provide simple API to easy implement sticky header
+* Add choice text and group header text highlight on filter
+* Customizable choice layout and scroll direction
+* Customizable every part on modal widget (header, footer, searchbar, confirm button, searchbar toggle)
+
 ## [3.0.3] - 2020-01-22
 
 * Swap position generic type helper function for create list option from any list

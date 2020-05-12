@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smart_select/smart_select.dart';
 import '../widgets/icon_badge.dart';
-import '../options.dart' as options;
+import '../choices.dart' as choices;
 
 class FeaturesChoicesTheme extends StatefulWidget {
   @override
@@ -20,27 +20,12 @@ class _FeaturesChoicesThemeState extends State<FeaturesChoicesTheme> {
         SmartSelect<String>.multiple(
           title: 'Smartphones',
           value: _smartphones,
-          options: S2Option.listFrom<String, Map>(
-            source: options.smartphones,
+          onChange: (state) => setState(() => _smartphones = state.value),
+          choiceItems: S2Choice.listFrom<String, Map>(
+            source: choices.smartphones,
             value: (index, item) => item['id'],
             title: (index, item) => item['name'],
             group: (index, item) => item['brand'],
-          ),
-          onChange: (state) => setState(() => _smartphones = state.value),
-          modalConfig: S2ModalConfig(
-            type: S2ModalType.fullPage,
-            useFilter: true,
-            style: S2ModalStyle(
-              backgroundColor: Colors.blueGrey[800],
-            ),
-            headerStyle: const S2ModalHeaderStyle(
-              elevation: 4,
-              centerTitle: true,
-              backgroundColor: Colors.green,
-              textStyle: TextStyle(color: Colors.white),
-              iconTheme: IconThemeData(color: Colors.white),
-              actionsIconTheme: IconThemeData(color: Colors.white),
-            ),
           ),
           choiceConfig: S2ChoiceConfig(
             type: S2ChoiceType.switches,
@@ -60,6 +45,21 @@ class _FeaturesChoicesThemeState extends State<FeaturesChoicesTheme> {
               backgroundColor: Colors.blueGrey[600],
               textStyle: TextStyle(color: Colors.white)
             )
+          ),
+          modalConfig: S2ModalConfig(
+            type: S2ModalType.fullPage,
+            useFilter: true,
+            style: S2ModalStyle(
+              backgroundColor: Colors.blueGrey[800],
+            ),
+            headerStyle: const S2ModalHeaderStyle(
+              elevation: 4,
+              centerTitle: true,
+              backgroundColor: Colors.green,
+              textStyle: TextStyle(color: Colors.white),
+              iconTheme: IconThemeData(color: Colors.white),
+              actionsIconTheme: IconThemeData(color: Colors.white),
+            ),
           ),
           choiceDividerBuilder: (context, i) => Divider(
             color: Colors.white24,

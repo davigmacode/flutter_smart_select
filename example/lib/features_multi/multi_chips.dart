@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_select/smart_select.dart';
-import '../options.dart' as options;
+import '../choices.dart' as choices;
 
 class FeaturesMultiChips extends StatefulWidget {
   @override
@@ -21,8 +21,9 @@ class _FeaturesMultiChipsState extends State<FeaturesMultiChips> {
         SmartSelect<String>.multiple(
           title: 'Car',
           value: _car,
-          options: S2Option.listFrom<String, Map>(
-            source: options.cars,
+          onChange: (state) => setState(() => _car = state.value),
+          choiceItems: S2Choice.listFrom<String, Map>(
+            source: choices.cars,
             value: (index, item) => item['value'],
             title: (index, item) => item['title'],
             group: (index, item) => item['brand'],
@@ -30,7 +31,6 @@ class _FeaturesMultiChipsState extends State<FeaturesMultiChips> {
           choiceType: S2ChoiceType.chips,
           choiceGrouped: true,
           modalFilter: true,
-          onChange: (state) => setState(() => _car = state.value),
           tileBuilder: (context, state) {
             return S2Tile.fromState(
               state,
@@ -45,15 +45,15 @@ class _FeaturesMultiChipsState extends State<FeaturesMultiChips> {
         SmartSelect<String>.multiple(
           title: 'Smartphones',
           value: _smartphone,
-          options: S2Option.listFrom<String, Map>(
-            source: options.smartphones,
+          onChange: (state) => setState(() => _smartphone = state.value),
+          choiceType: S2ChoiceType.chips,
+          choiceItems: S2Choice.listFrom<String, Map>(
+            source: choices.smartphones,
             value: (index, item) => item['id'],
             title: (index, item) => item['name'],
           ),
           modalType: S2ModalType.bottomSheet,
           modalFilter: true,
-          choiceType: S2ChoiceType.chips,
-          onChange: (state) => setState(() => _smartphone = state.value),
           tileBuilder: (context, state) {
             return S2Tile.fromState(
               state,
@@ -68,10 +68,10 @@ class _FeaturesMultiChipsState extends State<FeaturesMultiChips> {
         SmartSelect<String>.multiple(
           title: 'Days',
           value: _day,
-          options: options.days,
+          onChange: (state) => setState(() => _day = state.value),
+          choiceItems: choices.days,
           choiceType: S2ChoiceType.chips,
           modalType: S2ModalType.popupDialog,
-          onChange: (state) => setState(() => _day = state.value),
           tileBuilder: (context, state) {
             return S2Tile.fromState(
               state,

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'model/builder.dart';
 import 'model/choice_config.dart';
 import 'model/choice_theme.dart';
-import 'model/choice.dart';
+import 'model/choice_item.dart';
 import 'text.dart';
 
 class S2ChoiceResolver<T> {
@@ -19,11 +19,11 @@ class S2ChoiceResolver<T> {
     @required this.builder,
   });
 
-  S2ChoiceItemBuilder<T> get choiceBuilder {
+  S2ChoiceBuilder<T> get choiceBuilder {
     return builder.choiceBuilder ?? defaultChoiceBuilder;
   }
 
-  S2ChoiceItemBuilder<T> get defaultChoiceBuilder {
+  S2ChoiceBuilder<T> get defaultChoiceBuilder {
     return type == S2ChoiceType.checkboxes
       ? checkboxBuilder
       : type == S2ChoiceType.switches
@@ -35,7 +35,7 @@ class S2ChoiceResolver<T> {
             : null;
   }
 
-  S2ChoiceItemBuilder<T> get radioBuilder => (
+  S2ChoiceBuilder<T> get radioBuilder => (
     BuildContext context,
     S2Choice<T> choice,
     String searchText,
@@ -45,12 +45,12 @@ class S2ChoiceResolver<T> {
         secondary: getSecondary(context, choice, searchText),
         activeColor: style.activeColor,
         controlAffinity: ListTileControlAffinity.values[style.control?.index ?? 2],
-        onChanged: choice.data.disabled != true ? (val) => choice.select(true) : null,
-        groupValue: choice.selected == true ? choice.data.value : null,
-        value: choice.data.value,
+        onChanged: choice.disabled != true ? (val) => choice.select(true) : null,
+        groupValue: choice.selected == true ? choice.value : null,
+        value: choice.value,
       );
 
-  S2ChoiceItemBuilder<T> get switchBuilder => (
+  S2ChoiceBuilder<T> get switchBuilder => (
     BuildContext context,
     S2Choice<T> choice,
     String searchText,
@@ -62,13 +62,13 @@ class S2ChoiceResolver<T> {
         activeTrackColor: style.activeColor?.withAlpha(0x80),
         inactiveThumbColor: style.accentColor,
         inactiveTrackColor: style.color?.withAlpha(0x80),
-        onChanged: choice.data.disabled != true
+        onChanged: choice.disabled != true
           ? (selected) => choice.select(selected)
           : null,
         value: choice.selected,
       );
 
-  S2ChoiceItemBuilder<T> get checkboxBuilder => (
+  S2ChoiceBuilder<T> get checkboxBuilder => (
     BuildContext context,
     S2Choice<T> choice,
     String searchText,
@@ -78,13 +78,13 @@ class S2ChoiceResolver<T> {
         secondary: getSecondary(context, choice, searchText),
         activeColor: style.activeColor,
         controlAffinity: ListTileControlAffinity.values[style.control?.index ?? 2],
-        onChanged: choice.data.disabled != true
+        onChanged: choice.disabled != true
           ? (selected) => choice.select(selected)
           : null,
         value: choice.selected,
       );
 
-  S2ChoiceItemBuilder<T> get chipBuilder => (
+  S2ChoiceBuilder<T> get chipBuilder => (
     BuildContext context,
     S2Choice<T> choice,
     String searchText,
@@ -131,7 +131,7 @@ class S2ChoiceResolver<T> {
       selectedShadowColor: style.activeColor,
       backgroundColor: backgroundColor,
       selectedColor: selectedBackgroundColor,
-      onSelected: choice.data.disabled != true
+      onSelected: choice.disabled != true
         ? (selected) => choice.select(selected)
         : null,
       selected: choice.selected,
@@ -140,11 +140,11 @@ class S2ChoiceResolver<T> {
 
   // build title widget
   Widget getTitle(BuildContext context, S2Choice<T> choice, String searchText) {
-    return choice.data.title != null
+    return choice.title != null
     ? builder.choiceTitleBuilder != null
       ? builder.choiceTitleBuilder(context, choice, searchText)
       : S2Text(
-          text: choice.data.title,
+          text: choice.title,
           style: style.titleStyle,
           highlight: searchText,
           highlightColor: style.highlightColor ?? Colors.yellow.withOpacity(.7),
@@ -154,11 +154,11 @@ class S2ChoiceResolver<T> {
 
   // build subtitle widget
   Widget getSubtitle(BuildContext context, S2Choice<T> choice, String searchText) {
-    return choice.data.subtitle != null
+    return choice.subtitle != null
       ? builder.choiceSubtitleBuilder != null
         ? builder.choiceSubtitleBuilder(context, choice, searchText)
         : S2Text(
-            text: choice.data.subtitle,
+            text: choice.subtitle,
             style: style.subtitleStyle,
             highlight: searchText,
             highlightColor: style.highlightColor ?? Colors.yellow.withOpacity(.7),

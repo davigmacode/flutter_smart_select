@@ -27,14 +27,14 @@ class _FeaturesOptionListOfMapState extends State<FeaturesOptionListOfMap> {
         SmartSelect<String>.multiple(
           title: 'Days',
           value: _day,
-          options: S2Option.listFrom<String, Map<String, String>>(
+          onChange: (state) => setState(() => _day = state.value),
+          choiceItems: S2Choice.listFrom<String, Map<String, String>>(
             source: _days,
             value: (index, item) => item['value'],
             title: (index, item) => item['title'],
           ),
           choiceType: S2ChoiceType.switches,
           modalType: S2ModalType.bottomSheet,
-          onChange: (state) => setState(() => _day = state.value),
           tileBuilder: (context, state) {
             return S2Tile.fromState(
               state,

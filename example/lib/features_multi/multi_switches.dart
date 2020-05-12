@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_select/smart_select.dart';
-import '../options.dart' as options;
+import '../choices.dart' as choices;
 
 class FeaturesMultiSwitches extends StatefulWidget {
   @override
@@ -21,16 +21,16 @@ class _FeaturesMultiSwitchesState extends State<FeaturesMultiSwitches> {
         SmartSelect<String>.multiple(
           title: 'Car',
           value: _car,
-          options: S2Option.listFrom<String, Map>(
-            source: options.cars,
+          onChange: (state) => setState(() => _car = state.value),
+          choiceItems: S2Choice.listFrom<String, Map>(
+            source: choices.cars,
             value: (index, item) => item['value'],
             title: (index, item) => item['title'],
             group: (index, item) => item['brand'],
           ),
-          onChange: (state) => setState(() => _car = state.value),
-          modalFilter: true,
           choiceType: S2ChoiceType.switches,
           choiceGrouped: true,
+          modalFilter: true,
           tileBuilder: (context, state) {
             return S2Tile.fromState(
               state,
@@ -45,15 +45,15 @@ class _FeaturesMultiSwitchesState extends State<FeaturesMultiSwitches> {
         SmartSelect<String>.multiple(
           title: 'Smartphones',
           value: _smartphone,
-          options: S2Option.listFrom<String, Map>(
-            source: options.smartphones,
+          onChange: (state) => setState(() => _smartphone = state.value),
+          choiceType: S2ChoiceType.switches,
+          choiceItems: S2Choice.listFrom<String, Map>(
+            source: choices.smartphones,
             value: (index, item) => item['id'],
             title: (index, item) => item['name'],
           ),
-          onChange: (state) => setState(() => _smartphone = state.value),
           modalType: S2ModalType.bottomSheet,
           modalFilter: true,
-          choiceType: S2ChoiceType.switches,
           tileBuilder: (context, state) {
             return S2Tile.fromState(
               state,
@@ -68,10 +68,10 @@ class _FeaturesMultiSwitchesState extends State<FeaturesMultiSwitches> {
         SmartSelect<String>.multiple(
           title: 'Days',
           value: _days,
-          options: options.days,
+          onChange: (state) => setState(() => _days = state.value),
+          choiceItems: choices.days,
           choiceType: S2ChoiceType.switches,
           modalType: S2ModalType.popupDialog,
-          onChange: (state) => setState(() => _days = state.value),
           tileBuilder: (context, state) {
             return S2Tile.fromState(
               state,

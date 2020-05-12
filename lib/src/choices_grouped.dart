@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
 import 'model/builder.dart';
 import 'model/choice_config.dart';
-import 'model/choice.dart';
-import 'model/option.dart';
+import 'model/choice_item.dart';
+import 'model/choice_group.dart';
 import 'choices_list.dart';
 import 'scrollbar.dart';
 import 'text.dart';
@@ -10,8 +10,8 @@ import 'text.dart';
 class S2ChoicesGrouped<T> extends StatelessWidget {
 
   final List<String> groupKeys;
-  final Widget Function(S2Option<T>) itemBuilder;
-  final List<S2Option<T>> items;
+  final Widget Function(S2Choice<T>) itemBuilder;
+  final List<S2Choice<T>> items;
   final S2ChoiceConfig config;
   final S2Builder<T> builder;
   final String query;
@@ -38,13 +38,13 @@ class S2ChoicesGrouped<T> extends StatelessWidget {
             itemCount: groupKeys.length,
             itemBuilder: (BuildContext context, int i) {
               final String groupKey = groupKeys[i];
-              final List<S2Option<T>> groupItems = _groupItems(groupKey);
+              final List<S2Choice<T>> groupItems = _groupItems(groupKey);
               final S2ChoiceGroup group = S2ChoiceGroup(
                 name: groupKey,
                 count: groupItems.length,
                 style: config.headerStyle,
               );
-              final Widget groupHeader = builder.groupHeaderBuilder?.call(context, group, query)
+              final Widget groupHeader = builder.choiceHeaderBuilder?.call(context, group, query)
                 ?? SmartSelectChoicesGroupedHeader(
                     group: group,
                     query: query,
@@ -55,7 +55,7 @@ class S2ChoicesGrouped<T> extends StatelessWidget {
                 items: groupItems,
                 itemBuilder: itemBuilder,
               );
-              return builder.groupBuilder?.call(context, groupHeader, groupChoices)
+              return builder.choiceGroupBuilder?.call(context, groupHeader, groupChoices)
                 ?? Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
@@ -71,8 +71,8 @@ class S2ChoicesGrouped<T> extends StatelessWidget {
   }
 
   /// return a list of group items
-  List<S2Option<T>> _groupItems(String key) {
-    return items.where((S2Option<T> item) => item.group == key).toList();
+  List<S2Choice<T>> _groupItems(String key) {
+    return items.where((S2Choice<T> item) => item.group == key).toList();
   }
 }
 

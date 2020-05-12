@@ -22,7 +22,6 @@ dependencies:
   smart_select:
     path: ../
   dio: ^3.0.7
-  # provider: ^4.0.0
   sticky_headers: ^0.1.8+1
 
   # The following adds the Cupertino Icons font to your application.

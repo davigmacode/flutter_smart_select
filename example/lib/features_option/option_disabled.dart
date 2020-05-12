@@ -39,7 +39,8 @@ class _FeaturesOptionDisabledState extends State<FeaturesOptionDisabled> {
                 child: SmartSelect<int>.multiple(
                   title: 'Categories',
                   value: _categories,
-                  options: S2Option.listFrom<int, String>(
+                  onChange: (state) => setState(() => _categories = state.value),
+                  choiceItems: S2Choice.listFrom<int, String>(
                     source: _categoriesOption,
                     value: (index, item) => index,
                     title: (index, item) => item,
@@ -48,7 +49,6 @@ class _FeaturesOptionDisabledState extends State<FeaturesOptionDisabled> {
                   choiceType: S2ChoiceType.switches,
                   modalType: S2ModalType.popupDialog,
                   modalHeader: false,
-                  onChange: (state) => setState(() => _categories = state.value),
                   tileBuilder: (context, state) {
                     return S2Tile.fromState(
                       state,
@@ -65,13 +65,13 @@ class _FeaturesOptionDisabledState extends State<FeaturesOptionDisabled> {
               Expanded(
                 child: SmartSelect<int>.single(
                   value: _sort,
-                  options: S2Option.listFrom<int, String>(
+                  onChange: (state) => setState(() => _sort = state.value),
+                  choiceItems: S2Choice.listFrom<int, String>(
                     source: _sortOption,
                     value: (index, item) => index,
                     title: (index, item) => item,
                     disabled: (index, item) => item.toLowerCase().contains('price'),
                   ),
-                  onChange: (state) => setState(() => _sort = state.value),
                   modalType: S2ModalType.popupDialog,
                   modalHeader: false,
                   modalTitle: 'Sort By',

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_select/smart_select.dart';
-import '../options.dart' as options;
+import '../choices.dart' as choices;
 
 class FeaturesMultiPopup extends StatefulWidget {
   @override
@@ -18,11 +18,11 @@ class _FeaturesMultiPopupState extends State<FeaturesMultiPopup> {
       children: <Widget>[
         const SizedBox(height: 7),
         SmartSelect<String>.multiple(
-          value: _fruit,
-          options: options.fruits,
           title: 'Fruit',
-          modalType: S2ModalType.popupDialog,
+          value: _fruit,
           onChange: (state) => setState(() => _fruit = state.value),
+          choiceItems: choices.fruits,
+          modalType: S2ModalType.popupDialog,
           tileBuilder: (context, state) {
             return S2Tile.fromState(
               state,
@@ -37,11 +37,11 @@ class _FeaturesMultiPopupState extends State<FeaturesMultiPopup> {
         ),
         const Divider(indent: 20),
         SmartSelect<String>.multiple(
-          value: _framework,
-          options: options.frameworks,
           title: 'Frameworks',
-          modalType: S2ModalType.popupDialog,
+          value: _framework,
           onChange: (state) => setState(() => _framework = state.value),
+          choiceItems: choices.frameworks,
+          modalType: S2ModalType.popupDialog,
           tileBuilder: (context, state) {
             return ListTile(
               title: Text(state.title),

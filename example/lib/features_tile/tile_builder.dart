@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_select/smart_select.dart';
-import '../options.dart' as options;
+import '../choices.dart' as choices;
 
 class FeaturesTileBuilder extends StatefulWidget {
   @override
@@ -32,7 +32,7 @@ class _FeaturesTileBuilderState extends State<FeaturesTileBuilder> {
                   child: SmartSelect<String>.multiple(
                     title: 'Categories',
                     value: _categories,
-                    options: options.categories,
+                    choiceItems: choices.categories,
                     onChange: (state) => setState(() => _categories = state.value),
                     modalType: S2ModalType.bottomSheet,
                     modalHeader: false,
@@ -53,7 +53,7 @@ class _FeaturesTileBuilderState extends State<FeaturesTileBuilder> {
                   child: SmartSelect<String>.single(
                     title: 'Sort By',
                     value: _sort,
-                    options: options.sorts,
+                    choiceItems: choices.sorts,
                     onChange: (state) => setState(() => _sort = state.value),
                     modalType: S2ModalType.popupDialog,
                     modalHeader: false,
@@ -72,8 +72,8 @@ class _FeaturesTileBuilderState extends State<FeaturesTileBuilder> {
           SmartSelect<String>.multiple(
             title: 'Cars',
             value: _cars,
-            options: S2Option.listFrom<String, Map>(
-              source: options.cars,
+            choiceItems: S2Choice.listFrom<String, Map>(
+              source: choices.cars,
               value: (index, item) => item['value'],
               title: (index, item) => item['title'],
               group: (index, item) => item['body'],

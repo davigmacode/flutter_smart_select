@@ -37,7 +37,9 @@ class _FeaturesModalFooterState extends State<FeaturesModalFooter> {
         SmartSelect<int>.single(
           title: 'Overall, how satisfied are you with smart_select package?',
           value: _question1,
-          options: S2Option.listFrom<int, String>(
+          onChange: (state) => setState(() => _question1 = state.value),
+          choiceType: S2ChoiceType.radios,
+          choiceItems: S2Choice.listFrom<int, String>(
             source: _options1,
             value: (i, v) => i,
             title: (i, v) => v
@@ -51,8 +53,6 @@ class _FeaturesModalFooterState extends State<FeaturesModalFooter> {
               ),
             ),
           ),
-          choiceType: S2ChoiceType.radios,
-          onChange: (state) => setState(() => _question1 = state.value),
           tileBuilder: (context, state) {
             return Card(
               elevation: 3,
@@ -89,12 +89,12 @@ class _FeaturesModalFooterState extends State<FeaturesModalFooter> {
         SmartSelect<int>.multiple(
           title: 'Which of following words would you use to describe smart_select?',
           value: _question2,
-          options: S2Option.listFrom<int, String>(
+          onChange: (state) => setState(() => _question2 = state.value),
+          choiceItems: S2Choice.listFrom<int, String>(
             source: _options2,
             value: (i, v) => i,
             title: (i, v) => v
           ),
-          onChange: (state) => setState(() => _question2 = state.value),
           choiceConfig: S2ChoiceConfig(
             type: S2ChoiceType.checkboxes,
             layout: S2ChoiceLayout.grid,
@@ -151,7 +151,7 @@ class _FeaturesModalFooterState extends State<FeaturesModalFooter> {
             );
           },
           modalFooterBuilder: (context, state) {
-            final int count = state.cache.length;
+            final int count = state.changes.length;
             return Padding(
               padding: const EdgeInsets.fromLTRB(25, 5, 25, 15),
               child: ButtonTheme(

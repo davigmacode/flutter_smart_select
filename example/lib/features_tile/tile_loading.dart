@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_select/smart_select.dart';
-import '../options.dart' as options;
+import '../choices.dart' as choices;
 
 class FeaturesTileLoading extends StatefulWidget {
   @override
@@ -20,7 +20,7 @@ class _FeaturesTileLoadingState extends State<FeaturesTileLoading> {
         SmartSelect<String>.single(
           title: 'Days',
           value: _day,
-          options: options.days,
+          choiceItems: choices.days,
           onChange: (state) => setState(() => _day = state.value),
           tileBuilder: (context, state) {
             return S2Tile.fromState(
@@ -33,7 +33,7 @@ class _FeaturesTileLoadingState extends State<FeaturesTileLoading> {
         SmartSelect<String>.multiple(
           title: 'Month',
           value: _month,
-          options: options.months,
+          choiceItems: choices.months,
           onChange: (state) => setState(() => _month = state.value),
           tileBuilder: (context, state) {
             return S2Tile.fromState(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smart_select/smart_select.dart';
 import '../widgets/icon_badge.dart';
-import '../options.dart' as options;
+import '../choices.dart' as choices;
 
 class FeaturesModalHeader extends StatefulWidget {
   @override
@@ -22,7 +22,11 @@ class _FeaturesModalHeaderState extends State<FeaturesModalHeader> {
         SmartSelect<String>.multiple(
           title: 'Month',
           value: _month,
-          options: options.months,
+          onChange: (state) => setState(() => _month = state.value),
+          choiceItems: choices.months,
+          choiceStyle: S2ChoiceStyle(
+            activeColor: Colors.red
+          ),
           modalFilter: true,
           modalHeaderStyle: const S2ModalHeaderStyle(
             elevation: 4,
@@ -32,10 +36,6 @@ class _FeaturesModalHeaderState extends State<FeaturesModalHeader> {
             iconTheme: IconThemeData(color: Colors.white),
             actionsIconTheme: IconThemeData(color: Colors.white),
           ),
-          choiceStyle: S2ChoiceStyle(
-            activeColor: Colors.red
-          ),
-          onChange: (state) => setState(() => _month = state.value),
           tileBuilder: (context, state) {
             return S2Tile.fromState(
               state,
@@ -51,7 +51,8 @@ class _FeaturesModalHeaderState extends State<FeaturesModalHeader> {
         SmartSelect<String>.single(
           title: 'Frameworks',
           value: _framework,
-          options: options.frameworks,
+          onChange: (state) => setState(() => _framework = state.value),
+          choiceItems: choices.frameworks,
           modalConfig: S2ModalConfig(
             type: S2ModalType.popupDialog,
             headerStyle: S2ModalHeaderStyle(
@@ -60,7 +61,6 @@ class _FeaturesModalHeaderState extends State<FeaturesModalHeader> {
               elevation: 0,
             ),
           ),
-          onChange: (state) => setState(() => _framework = state.value),
           tileBuilder: (context, state) {
             return S2Tile.fromState(
               state,
@@ -79,13 +79,13 @@ class _FeaturesModalHeaderState extends State<FeaturesModalHeader> {
         SmartSelect<String>.multiple(
           title: 'Super Hero',
           value: _hero,
-          options: options.heroes,
+          onChange: (state) => setState(() => _hero = state.value),
+          choiceItems: choices.heroes,
           modalType: S2ModalType.bottomSheet,
           modalFilter: true,
           modalHeaderStyle: const S2ModalHeaderStyle(
             centerTitle: true,
           ),
-          onChange: (state) => setState(() => _hero = state.value),
           tileBuilder: (context, state) {
             return S2Tile.fromState(
               state,

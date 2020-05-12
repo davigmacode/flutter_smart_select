@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_select/smart_select.dart';
-import '../options.dart' as options;
+import '../choices.dart' as choices;
 
 class FeaturesMultiSheet extends StatefulWidget {
   @override
@@ -18,11 +18,11 @@ class _FeaturesMultiSheetState extends State<FeaturesMultiSheet> {
       children: <Widget>[
         const SizedBox(height: 7),
         SmartSelect<String>.multiple(
-          value: _os,
-          options: options.os,
           title: 'OS',
-          modalType: S2ModalType.bottomSheet,
+          value: _os,
           onChange: (state) => setState(() => _os = state.value),
+          choiceItems: choices.os,
+          modalType: S2ModalType.bottomSheet,
           tileBuilder: (context, state) {
             return S2Tile.fromState(
               state,
@@ -35,11 +35,11 @@ class _FeaturesMultiSheetState extends State<FeaturesMultiSheet> {
         ),
         const Divider(indent: 20),
         SmartSelect<String>.multiple(
-          value: _hero,
-          options: options.heroes,
           title: 'Super Hero',
-          modalType: S2ModalType.bottomSheet,
+          value: _hero,
           onChange: (state) => setState(() => _hero = state.value),
+          choiceItems: choices.heroes,
+          modalType: S2ModalType.bottomSheet,
           tileBuilder: (context, state) {
             return S2Tile.fromState(
               state,

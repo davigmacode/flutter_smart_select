@@ -11,11 +11,12 @@ class FeaturesOptionAsync extends StatefulWidget {
 class _FeaturesOptionAsyncState extends State<FeaturesOptionAsync> {
 
   String _user;
-  List<S2Option<String>> _users = [];
+  List<S2Choice<String>> _users = [];
   bool _usersIsLoading;
 
-  List<String> _country;
-  final _countriesMemoizer = AsyncMemoizer<List<S2Option<String>>>();
+  String _country;
+  List<String> _countries;
+  final _countriesMemoizer = AsyncMemoizer<List<S2Choice<String>>>();
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +26,9 @@ class _FeaturesOptionAsyncState extends State<FeaturesOptionAsync> {
         SmartSelect<String>.single(
           title: 'Admin',
           value: _user,
-          options: _users,
           onChange: (state) => setState(() => _user = state.value),
           modalFilter: true,
+          choiceItems: _users,
           choiceType: S2ChoiceType.chips,
           choiceGrouped: true,
           choiceStyle: S2ChoiceStyle(
@@ -36,7 +37,7 @@ class _FeaturesOptionAsyncState extends State<FeaturesOptionAsync> {
             highlightColor: Colors.redAccent.withOpacity(.4)
           ),
           choiceSecondaryBuilder: (context, choice, filterText) => CircleAvatar(
-            backgroundImage: NetworkImage(choice.data.meta['picture']['thumbnail']),
+            backgroundImage: NetworkImage(choice.meta['picture']['thumbnail']),
           ),
           tileBuilder: (context, state) {
             return S2Tile.fromState(
@@ -57,18 +58,18 @@ class _FeaturesOptionAsyncState extends State<FeaturesOptionAsync> {
           },
         ),
         const Divider(indent: 20),
-        FutureBuilder<List<S2Option<String>>>(
+        FutureBuilder<List<S2Choice<String>>>(
           initialData: [],
           future: this._countriesMemoizer.runOnce(_getCountries),
           builder: (context, snapshot) {
             return SmartSelect<String>.multiple(
               title: 'Country',
-              value: _country,
-              options: snapshot.data,
+              value: _countries,
               modalFilter: true,
+              choiceItems: snapshot.data,
               choiceGrouped: true,
               choiceType: S2ChoiceType.checkboxes,
-              onChange: (state) => setState(() => _country = state.value),
+              onChange: (state) => setState(() => _countries = state.value),
               tileBuilder: (context, state) {
                 return S2Tile.fromState(
                   state,
@@ -81,6 +82,29 @@ class _FeaturesOptionAsyncState extends State<FeaturesOptionAsync> {
                   ),
                 );
               },
+            );
+          },
+        ),
+        const SizedBox(height: 7),
+        SmartSelect<String>.single(
+          title: 'Country',
+          value: _country,
+          modalFilter: true,
+          choiceLoader: (query) async {
+            return await _getCountries(query);
+          },
+          choiceGrouped: true,
+          choiceType: S2ChoiceType.radios,
+          onChange: (state) => setState(() => _country = state.value),
+          tileBuilder: (context, state) {
+            return S2Tile.fromState(
+              state,
+              isTwoLine: true,
+              leading: const SizedBox(
+                width: 40,
+                height: 40,
+                child: Icon(Icons.flag),
+              ),
             );
           },
         ),
@@ -101,7 +125,7 @@ class _FeaturesOptionAsyncState extends State<FeaturesOptionAsync> {
       setState(() => _usersIsLoading = true);
       String url = "https://randomuser.me/api/?inc=gender,name,nat,picture,email&results=25";
       Response res = await Dio().get(url);
-      List<S2Option> options = S2Option.listFrom<String, dynamic>(
+      List<S2Choice> options = S2Choice.listFrom<String, dynamic>(
         source: res.data['results'],
         value: (index, item) => item['email'],
         title: (index, item) => item['name']['first'] + ' ' + item['name']['last'],
@@ -117,10 +141,11 @@ class _FeaturesOptionAsyncState extends State<FeaturesOptionAsync> {
     }
   }
 
-  Future<List<S2Option<String>>> _getCountries() async {
-    String url = "http://restcountries.eu/rest/v2/all?fields=name;capital;region;subregion";
+  Future<List<S2Choice<String>>> _getCountries([String query]) async {
+    String endpoint = query != null ? 'name/$query' : 'all';
+    String url = "http://restcountries.eu/rest/v2/$endpoint?fields=name;capital;region;subregion";
     Response res = await Dio().get(url);
-    return S2Option.listFrom<String, dynamic>(
+    return S2Choice.listFrom<String, dynamic>(
       source: res.data,
       value: (index, item) => item['subregion'] + ' - ' + item['name'],
       title: (index, item) => item['name'],

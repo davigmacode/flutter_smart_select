@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smart_select/smart_select.dart';
 import 'package:sticky_headers/sticky_headers.dart';
-import '../options.dart' as options;
+import '../choices.dart' as choices;
 
 class FeaturesChoicesGrouped extends StatefulWidget {
   @override
@@ -22,15 +22,15 @@ class _FeaturesChoicesGroupedState extends State<FeaturesChoicesGrouped> {
           title: 'Smartphones',
           placeholder: 'Choose one',
           value: _smartphone,
-          options: S2Option.listFrom<String, Map>(
-            source: options.smartphones,
+          onChange: (state) => setState(() => _smartphone = state.value),
+          choiceItems: S2Choice.listFrom<String, Map>(
+            source: choices.smartphones,
             value: (index, item) => item['id'],
             title: (index, item) => item['name'],
             group: (index, item) => item['brand'],
           ),
-          modalType: S2ModalType.bottomSheet,
           choiceGrouped: true,
-          onChange: (state) => setState(() => _smartphone = state.value),
+          modalType: S2ModalType.bottomSheet,
           tileBuilder: (context, state) {
             return S2Tile(
               title: state.title,
@@ -48,27 +48,27 @@ class _FeaturesChoicesGroupedState extends State<FeaturesChoicesGrouped> {
           title: 'Cars',
           placeholder: 'Choose one or more',
           value: _car,
-          options: S2Option.listFrom<String, Map>(
-            source: options.cars,
+          onChange: (state) => setState(() => _car = state.value),
+          choiceItems: S2Choice.listFrom<String, Map>(
+            source: choices.cars,
             value: (index, item) => item['value'],
             title: (index, item) => item['title'],
             group: (index, item) => item['body'],
           ),
-          onChange: (state) => setState(() => _car = state.value),
-          modalType: S2ModalType.bottomSheet,
-          modalConfirmation: true,
-          modalFilter: true,
           choiceGrouped: true,
           choiceStyle: const S2ChoiceStyle(
             activeColor: Colors.redAccent
           ),
-          groupBuilder: (context, header, choices) {
+          modalType: S2ModalType.bottomSheet,
+          modalConfirmation: true,
+          modalFilter: true,
+          choiceGroupBuilder: (context, header, choices) {
             return StickyHeader(
               header: header,
               content: choices,
             );
           },
-          groupHeaderBuilder: (context, group, searchText) {
+          choiceHeaderBuilder: (context, group, searchText) {
             return Container(
               color: Colors.redAccent,
               padding: const EdgeInsets.all(15),

@@ -1,8 +1,10 @@
-import 'package:flutter/foundation.dart';
+import 'package:meta/meta.dart';
 import 'package:smart_select/src/utils/accent.dart';
 
+typedef Future<List<S2Choice<T>>> S2ChoiceLoader<T>(String query);
+
 /// Choice option configuration
-class S2Option<T> {
+class S2Choice<T> {
   /// Value to return
   final T value;
 
@@ -24,8 +26,14 @@ class S2Option<T> {
   /// This prop is useful for choice builder
   final dynamic meta;
 
+  /// Callback to select choice
+  final Function(bool selected) select;
+
+  /// Whether the choice is selected or not
+  final bool selected;
+
   /// Default constructor
-  S2Option({
+  S2Choice({
     @required this.value,
     @required this.title,
     this.subtitle,
@@ -33,11 +41,13 @@ class S2Option<T> {
     this.disabled = false,
     this.hidden = false,
     this.meta,
+    this.select,
+    this.selected = false,
   })  : assert(disabled != null),
         assert(hidden != null);
 
   /// Helper to create option list from any list
-  static List<S2Option<R>> listFrom<R, E>({
+  static List<S2Choice<R>> listFrom<R, E>({
     @required List<E> source,
     @required _S2OptionProp<E, R> value,
     @required _S2OptionProp<E, String> title,
@@ -51,7 +61,7 @@ class S2Option<T> {
           .asMap()
           .map((index, item) => MapEntry(
               index,
-              S2Option<R>(
+              S2Choice<R>(
                 value: value?.call(index, item),
                 title: title?.call(index, item),
                 subtitle: subtitle?.call(index, item),
@@ -76,12 +86,57 @@ class S2Option<T> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is S2Option &&
+      other is S2Choice &&
           runtimeType == other.runtimeType &&
           value == other.value;
 
   @override
   int get hashCode => value.hashCode;
+
+  /// Creates a copy of this [S2Choice] but with
+  /// the given fields replaced with the new values.
+  S2Choice<T> copyWith({
+    T value,
+    String title,
+    String subtitle,
+    String group,
+    bool disabled,
+    bool hidden,
+    dynamic meta,
+    Function(bool selected) select,
+    bool selected,
+  }) {
+    return S2Choice<T>(
+      value: value ?? this.value,
+      title: title ?? this.title,
+      subtitle: subtitle ?? this.subtitle,
+      group: group ?? this.group,
+      disabled: disabled ?? this.disabled,
+      hidden: hidden ?? this.hidden,
+      meta: meta ?? this.meta,
+      select: select ?? this.select,
+      selected: selected ?? this.selected,
+    );
+  }
+
+  /// Creates a copy of this [S2Choice] but with
+  /// the given fields replaced with the new values.
+  S2Choice<T> merge(S2Choice<T> other) {
+    // if null return current object
+    if (other == null) return this;
+
+    return copyWith(
+      value: other.value,
+      title: other.title,
+      subtitle: other.subtitle,
+      group: other.group,
+      disabled: other.disabled,
+      hidden: other.hidden,
+      meta: other.meta,
+      select: other.select,
+      selected: other.selected,
+    );
+  }
 }
 
 typedef R _S2OptionProp<E, R>(int index, E item);

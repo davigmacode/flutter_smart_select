@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_select/smart_select.dart';
-import '../options.dart' as options;
+import '../choices.dart' as choices;
 
 class FeaturesModalConfirm extends StatefulWidget {
   @override
@@ -21,8 +21,8 @@ class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
         SmartSelect<String>.multiple(
           title: 'Days',
           value: _day,
-          options: options.days,
           onChange: (state) => setState(() => _day = state.value),
+          choiceItems: choices.days,
           modalType: S2ModalType.fullPage,
           modalConfirmation: true,
           tileBuilder: (context, state) {
@@ -41,8 +41,8 @@ class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
         SmartSelect<String>.multiple(
           title: 'Fruit',
           value: _fruit,
-          options: options.fruits,
           onChange: (state) => setState(() => _fruit = state.value),
+          choiceItems: choices.fruits,
           modalType: S2ModalType.popupDialog,
           modalConfirmation: true,
           tileBuilder: (context, state) {
@@ -57,7 +57,7 @@ class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
             );
           },
           modalHeaderBuilder: (context, state) {
-            int count = state.cache.length;
+            int count = state.changes.length;
             return Container(
               padding: const EdgeInsets.fromLTRB(15, 15, 15, 15),
               height: kToolbarHeight,
@@ -82,7 +82,7 @@ class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
             return const Divider(height: 1);
           },
           modalFooterBuilder: (context, state) {
-            final int count = state.cache.length;
+            final int count = state.changes.length;
             return Container(
               padding: const EdgeInsets.symmetric(
                 horizontal: 12.0,
@@ -111,13 +111,13 @@ class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
         SmartSelect<String>.single(
           title: 'Super Hero',
           value: _hero,
-          options: options.heroes,
           onChange: (state) => setState(() => _hero = state.value),
-          modalType: S2ModalType.bottomSheet,
-          modalConfirmation: true,
+          choiceItems: choices.heroes,
           choiceStyle: const S2ChoiceStyle(
             activeColor: Colors.redAccent
           ),
+          modalType: S2ModalType.bottomSheet,
+          modalConfirmation: true,
           tileBuilder: (context, state) {
             return S2Tile.fromState(
               state,
