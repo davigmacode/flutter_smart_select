@@ -3,7 +3,6 @@ import 'dart:ui';
 
 /// Configure modal style
 class SmartSelectModalStyle {
-
   /// Modal border shape
   /// used in popup dialog and bottom sheet
   final ShapeBorder shape;
@@ -25,7 +24,6 @@ class SmartSelectModalStyle {
 
 /// Configure modal option header style
 class SmartSelectModalHeaderStyle {
-
   /// Header border shape
   final ShapeBorder shape;
 
@@ -51,6 +49,9 @@ class SmartSelectModalHeaderStyle {
   /// Header actions icon theme
   final IconThemeData actionsIconTheme;
 
+  /// Enable a bit of extra spacing to the right
+  final bool enableExtraSpacing;
+
   /// Create a configuration of modal option header style
   const SmartSelectModalHeaderStyle({
     this.shape,
@@ -61,5 +62,6 @@ class SmartSelectModalHeaderStyle {
     this.actionsIconTheme = const IconThemeData(color: Color(0x8A000000)),
     this.backgroundColor = const Color(0xFFFFFFFF),
     this.brightness,
+    this.enableExtraSpacing = false,
   });
 }

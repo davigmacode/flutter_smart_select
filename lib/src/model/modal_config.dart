@@ -6,13 +6,10 @@ enum SmartSelectModalType { fullPage, popupDialog, bottomSheet }
 
 /// A builder for custom confirmation widget
 typedef Widget SmartSelectModalConfirmationBuilder(
-  BuildContext context,
-  Function onConfirm
-);
+    BuildContext context, Function onConfirm);
 
 /// Modal configuration
 class SmartSelectModalConfig {
-
   /// Use different title with the trigger widget title
   final String title;
 
@@ -30,6 +27,9 @@ class SmartSelectModalConfig {
 
   /// Whether the option list is filterable or not
   final bool useFilter;
+
+  /// Provide custom actions to be placed in the header.
+  final List<Widget> customHeaderActions;
 
   /// Whether the option list need to confirm
   /// to return the changed value
@@ -52,6 +52,7 @@ class SmartSelectModalConfig {
     this.trailing,
     this.useHeader = true,
     this.useFilter = false,
+    this.customHeaderActions,
     this.useConfirmation = false,
     this.style = const SmartSelectModalStyle(),
     this.headerStyle = const SmartSelectModalHeaderStyle(),

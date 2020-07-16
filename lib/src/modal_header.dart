@@ -4,8 +4,8 @@ import './model/state_filter.dart';
 import './model/modal_theme.dart';
 import './model/modal_config.dart';
 
-class SmartSelectModalHeader extends StatelessWidget implements PreferredSizeWidget {
-
+class SmartSelectModalHeader extends StatelessWidget
+    implements PreferredSizeWidget {
   final String title;
   final SmartSelectModalType type;
   final SmartSelectModalConfig config;
@@ -20,13 +20,15 @@ class SmartSelectModalHeader extends StatelessWidget implements PreferredSizeWid
   @override
   PreferredSizeWidget build(BuildContext context) {
     // get state
-    SmartSelectStateFilter filter = Provider.of<SmartSelectStateFilter>(context);
+    SmartSelectStateFilter filter =
+        Provider.of<SmartSelectStateFilter>(context);
     bool isFiltering = filter.activated;
 
     String modalTitle = config.title ?? title;
 
     // define text style
-    TextStyle textStyle = Theme.of(context).textTheme.title.merge(theme.textStyle);
+    TextStyle textStyle =
+        Theme.of(context).textTheme.title.merge(theme.textStyle);
 
     // build title widget
     Widget titleWidget = Text(modalTitle, style: textStyle);
@@ -44,38 +46,50 @@ class SmartSelectModalHeader extends StatelessWidget implements PreferredSizeWid
     );
 
     Widget confirmButton = config.useConfirmation && !isFiltering
-      ? config.confirmationBuilder != null
-        ? config.confirmationBuilder(context, () => Navigator.pop(context, true))
-        : IconButton(
-            icon: Icon(Icons.check_circle_outline),
-            onPressed: () => Navigator.pop(context, true),
-          )
-      : null;
+        ? config.confirmationBuilder != null
+            ? config.confirmationBuilder(
+                context, () => Navigator.pop(context, true))
+            : IconButton(
+                icon: Icon(Icons.check_circle_outline),
+                onPressed: () => Navigator.pop(context, true),
+              )
+        : null;
 
     Widget filterButton = config.useFilter && !isFiltering
-      ? IconButton(
-          icon: Icon(Icons.search),
-          onPressed: () {
-            // add history to route, so back button will appear
-            // and when physical back button pressed
-            // will close the searchbar instead of close the modal
-            LocalHistoryEntry entry = LocalHistoryEntry(onRemove: filter.stop);
-            ModalRoute.of(context).addLocalHistoryEntry(entry);
+        ? IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {
+              // add history to route, so back button will appear
+              // and when physical back button pressed
+              // will close the searchbar instead of close the modal
+              LocalHistoryEntry entry =
+                  LocalHistoryEntry(onRemove: filter.stop);
+              ModalRoute.of(context).addLocalHistoryEntry(entry);
 
-            filter.start();
-          },
-        )
-      : null;
+              filter.start();
+            },
+          )
+        : null;
 
     Widget clearButton = isFiltering == true
-      ? IconButton(
-          icon: Icon(Icons.clear),
-          onPressed: () {
-            filter.stop();
-            Navigator.pop(context);
-          },
-        )
-      : null;
+        ? IconButton(
+            icon: Icon(Icons.clear),
+            onPressed: () {
+              filter.stop();
+              Navigator.pop(context);
+            },
+          )
+        : null;
+
+    List<Widget> actions =
+        (config.customHeaderActions != null) ? config.customHeaderActions : [];
+
+    actions.addAll([
+      filterButton,
+      clearButton,
+      confirmButton,
+      (config.headerStyle.enableExtraSpacing) ? Container(width: 5.0) : null,
+    ].where((child) => child != null).toList());
 
     return AppBar(
       shape: theme.shape,
@@ -85,14 +99,10 @@ class SmartSelectModalHeader extends StatelessWidget implements PreferredSizeWid
       actionsIconTheme: theme.actionsIconTheme,
       iconTheme: theme.iconTheme,
       centerTitle: theme.centerTitle,
-      automaticallyImplyLeading: type == SmartSelectModalType.fullPage || isFiltering == true,
+      automaticallyImplyLeading:
+          type == SmartSelectModalType.fullPage || isFiltering == true,
       title: isFiltering == true ? searchWidget : titleWidget,
-      actions: <Widget>[
-        filterButton,
-        clearButton,
-        confirmButton,
-        Container(width: 5.0),
-      ].where((child) => child != null).toList(),
+      actions: actions,
     );
   }
 
