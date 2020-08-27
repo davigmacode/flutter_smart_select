@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../smart_select.dart';
 import './model/option.dart';
 import './model/choice_config.dart';
 import './model/modal_config.dart';
@@ -17,16 +18,12 @@ typedef void SmartSelectOnChange<T>(T value);
 typedef void SmartSelectShowModal(BuildContext context);
 
 /// Builder for custom trigger widget
-typedef Widget SmartSelectBuilder<T>(
-  BuildContext context,
-  SmartSelectState<T> state,
-  SmartSelectShowModal showChoices
-);
+typedef Widget SmartSelectBuilder<T>(BuildContext context,
+    SmartSelectState<T> state, SmartSelectShowModal showChoices);
 
 /// SmartSelect that allows you to easily convert your usual form selects
 /// to dynamic pages with grouped radio or checkbox inputs.
 class SmartSelect<T> extends StatelessWidget {
-
   /// The primary content of the widget.
   /// Used in trigger widget and header option
   final String title;
@@ -113,6 +110,9 @@ class SmartSelect<T> extends StatelessWidget {
   /// Modal configuration
   final SmartSelectModalConfig modalConfig;
 
+  /// Modal configuration
+  final SmartSelectTileConfig tileConfig;
+
   /// Called when single choice value changed
   final SmartSelectOnChange<T> _onChangeSingle;
 
@@ -150,18 +150,22 @@ class SmartSelect<T> extends StatelessWidget {
     this.modalType = SmartSelectModalType.fullPage,
     this.choiceConfig = const SmartSelectChoiceConfig(),
     this.modalConfig = const SmartSelectModalConfig(),
+    this.tileConfig = const SmartSelectTileConfig(),
     this.builder,
-  }) : assert(choiceType == SmartSelectChoiceType.radios || choiceType == SmartSelectChoiceType.chips, 'SmartSelect.single only support SmartSelectChoiceType.radios and SmartSelectChoiceType.chips'),
-    isMultiChoice = false,
-    _onChangeMultiple = null,
-    _onChangeSingle = onChange,
-    _state =  SmartSelectState<T>.single(
-      value,
-      title: title,
-      options: options,
-      placeholder: placeholder,
-    ),
-    super(key: key);
+  })  : assert(
+            choiceType == SmartSelectChoiceType.radios ||
+                choiceType == SmartSelectChoiceType.chips,
+            'SmartSelect.single only support SmartSelectChoiceType.radios and SmartSelectChoiceType.chips'),
+        isMultiChoice = false,
+        _onChangeMultiple = null,
+        _onChangeSingle = onChange,
+        _state = SmartSelectState<T>.single(
+          value,
+          title: title,
+          options: options,
+          placeholder: placeholder,
+        ),
+        super(key: key);
 
   /// Constructor for multiple choice
   SmartSelect.multiple({
@@ -184,37 +188,43 @@ class SmartSelect<T> extends StatelessWidget {
     this.modalType = SmartSelectModalType.fullPage,
     this.choiceConfig = const SmartSelectChoiceConfig(),
     this.modalConfig = const SmartSelectModalConfig(),
+    this.tileConfig = const SmartSelectTileConfig(),
     this.builder,
-  }) : assert(choiceType == SmartSelectChoiceType.checkboxes || choiceType == SmartSelectChoiceType.switches || choiceType == SmartSelectChoiceType.chips, 'SmartSelect.multiple only support SmartSelectChoiceType.checkboxes, SmartSelectChoiceType.switches and SmartSelectChoiceType.chips'),
-    isMultiChoice = true,
-    _onChangeSingle = null,
-    _onChangeMultiple = onChange,
-    _state = SmartSelectState<T>.multiple(
-      value ?? [],
-      title: title,
-      options: options,
-      placeholder: placeholder,
-    ),
-    super(key: key);
+  })  : assert(
+            choiceType == SmartSelectChoiceType.checkboxes ||
+                choiceType == SmartSelectChoiceType.switches ||
+                choiceType == SmartSelectChoiceType.chips,
+            'SmartSelect.multiple only support SmartSelectChoiceType.checkboxes, SmartSelectChoiceType.switches and SmartSelectChoiceType.chips'),
+        isMultiChoice = true,
+        _onChangeSingle = null,
+        _onChangeMultiple = onChange,
+        _state = SmartSelectState<T>.multiple(
+          value ?? [],
+          title: title,
+          options: options,
+          placeholder: placeholder,
+        ),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return builder != null
-      ? builder(context, _state, this._showModal)
-      : SmartSelectTile(
-          title: title,
-          value: _state.valueDisplay,
-          leading: leading,
-          trailing: trailing,
-          loadingText: loadingText,
-          isLoading: isLoading,
-          isTwoLine: isTwoLine,
-          enabled: enabled,
-          selected: selected,
-          dense: dense,
-          padding: padding,
-          onTap: () => this._showModal(context),
-        );
+        ? builder(context, _state, this._showModal)
+        : SmartSelectTile(
+            title: title,
+            config: tileConfig,
+            value: _state.valueDisplay,
+            leading: leading,
+            trailing: trailing,
+            loadingText: loadingText,
+            isLoading: isLoading,
+            isTwoLine: isTwoLine,
+            enabled: enabled,
+            selected: selected,
+            dense: dense,
+            padding: padding,
+            onTap: () => this._showModal(context),
+          );
   }
 
   void _showModal(BuildContext context) async {
@@ -252,14 +262,11 @@ class SmartSelect<T> extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<SmartSelectStateSelected<T>>(
           create: (_) => isMultiChoice == true
-            ? SmartSelectStateSelected<T>.multiple(
-                List.from(_state.values) ?? [],
-                useConfirmation: modalConfig.useConfirmation
-              )
-            : SmartSelectStateSelected<T>.single(
-                _state.value,
-                useConfirmation: modalConfig.useConfirmation
-              ),
+              ? SmartSelectStateSelected<T>.multiple(
+                  List.from(_state.values) ?? [],
+                  useConfirmation: modalConfig.useConfirmation)
+              : SmartSelectStateSelected<T>.single(_state.value,
+                  useConfirmation: modalConfig.useConfirmation),
         ),
         ChangeNotifierProvider<SmartSelectStateFilter>(
           create: (_) => SmartSelectStateFilter(),
@@ -321,15 +328,18 @@ class SmartSelect<T> extends StatelessWidget {
 
     if (isMultiChoice == true) {
       // get selected value(s)
-      List<T> selected = Provider.of<SmartSelectStateSelected<T>>(_context, listen: false).values;
+      List<T> selected =
+          Provider.of<SmartSelectStateSelected<T>>(_context, listen: false)
+              .values;
       // return value
       if (selected != null) _onChangeMultiple?.call(selected);
     } else {
       // get selected value(s)
-      T selected = Provider.of<SmartSelectStateSelected<T>>(_context, listen: false).value;
+      T selected =
+          Provider.of<SmartSelectStateSelected<T>>(_context, listen: false)
+              .value;
       // return value
       if (selected != null) _onChangeSingle?.call(selected);
     }
   }
 }
-

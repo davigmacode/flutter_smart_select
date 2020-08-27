@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:smart_select/src/smart_select_tile_config.dart';
+import 'package:smart_select/src/tile_theme.dart';
 
 /// Default trigger widget
 class SmartSelectTile extends StatelessWidget {
-
   /// The value of the selected option.
   final String value;
 
@@ -67,22 +68,25 @@ class SmartSelectTile extends StatelessWidget {
   /// Inoperative if [enabled] is false.
   final GestureTapCallback onTap;
 
+  final SmartSelectTileConfig config;
+
   /// Create a default trigger widget
-  SmartSelectTile({
-    Key key,
-    this.value,
-    this.title,
-    this.leading,
-    this.trailing,
-    this.loadingText = 'Loading..',
-    this.isLoading = false,
-    this.isTwoLine = false,
-    this.enabled = true,
-    this.selected = false,
-    this.dense = false,
-    this.padding,
-    this.onTap,
-  }) : super(key: key);
+  SmartSelectTile(
+      {Key key,
+      this.value,
+      this.title,
+      this.leading,
+      this.trailing,
+      this.loadingText = 'Loading..',
+      this.isLoading = false,
+      this.isTwoLine = false,
+      this.enabled = true,
+      this.selected = false,
+      this.dense = false,
+      this.padding,
+      this.onTap,
+      this.config})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +96,10 @@ class SmartSelectTile extends StatelessWidget {
       selected: selected,
       contentPadding: padding,
       leading: leading,
-      title: Text(title),
+      title: Text(title,
+          style: config != null
+              ? titleStyle.textStyle
+              : TextStyle(color: Color(0x8A000000))),
       subtitle: isTwoLine ? _valueWidget : null,
       trailing: _trailingWidget,
       onTap: onTap,
@@ -141,5 +148,9 @@ class SmartSelectTile extends StatelessWidget {
       overflow: TextOverflow.ellipsis,
       maxLines: 1,
     );
+  }
+
+  SmartSelectTileStyle get titleStyle {
+    return config.style;
   }
 }
