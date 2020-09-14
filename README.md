@@ -619,6 +619,7 @@ S2ChoiceHeaderStyle({
   double height,
 
 })
+```
 
 ## Builder Widget
 
