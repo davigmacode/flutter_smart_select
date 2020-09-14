@@ -1,38 +1,92 @@
 import 'package:flutter/material.dart';
+import '../model/choice_item.dart';
 import '../widget.dart';
 
+/// Chips tile/trigger widget
 class S2ChipsTile<T> extends StatelessWidget {
 
-  final S2MultiState<T> state;
-  final Widget title;
-  final Widget subtitle;
-  final Widget leading;
-  final Widget trailing;
-  final Widget placeholder;
-  final Widget divider;
-  final bool scrollable;
-  final bool hidePlaceholder;
-  final EdgeInsetsGeometry padding;
-  final Color chipColor;
-  final double chipBorderOpacity;
-  final Brightness chipBrightness;
-  final Color chipActionColor;
-  final double chipSpacing;
-  final double chipRunSpacing;
-  final IndexedWidgetBuilder chipBuilder;
-  final ValueChanged<T> onDeleted;
+  /// List of value of the selected choices.
+  final List<S2Choice<T>> values;
 
+  /// Called when the user taps this list tile.
+  ///
+  /// Inoperative if [enabled] is false.
+  final GestureTapCallback onTap;
+
+  /// The primary content of the list tile.
+  final Widget title;
+
+  /// Additional content displayed below the title.
+  final Widget subtitle;
+
+  /// A widget to display before the title.
+  ///
+  /// Typically an [Icon] or a [CircleAvatar] widget.
+  final Widget leading;
+
+  /// A widget to display after the title.
+  ///
+  /// Typically an [Icon] widget.
+  ///
+  /// To show right-aligned metadata (assuming left-to-right reading order;
+  /// left-aligned for right-to-left reading order), consider using a [Row] with
+  /// [MainAxisAlign.baseline] alignment whose first item is [Expanded] and
+  /// whose second child is the metadata text, instead of using the [trailing]
+  /// property.
+  final Widget trailing;
+
+  /// Divider widget
+  final Widget divider;
+
+  /// The [Widget] displayed when the [values] is null
+  final Widget placeholder;
+
+  /// Hide placeholder when the [values] is null
+  final bool placeholderIgnored;
+
+  /// Whether the chip list is scrollable or not
+  final bool scrollable;
+
+  /// Chip list padding
+  final EdgeInsetsGeometry padding;
+
+  /// Chip color
+  final Color chipColor;
+
+  /// Chip border opacity
+  final double chipBorderOpacity;
+
+  /// Chip brightness
+  final Brightness chipBrightness;
+
+  /// Chip action button color
+  final Color chipActionColor;
+
+  /// Chip spacing
+  final double chipSpacing;
+
+  /// Chip run spacing
+  final double chipRunSpacing;
+
+  /// Widget builder for chip item
+  final IndexedWidgetBuilder chipBuilder;
+
+  /// Called when the user delete the chip item.
+  final ValueChanged<T> chipOnDelete;
+
+  /// Create a chips tile/trigger widget
   S2ChipsTile({
     Key key,
-    @required this.state,
+    @required this.values,
+    @required this.onTap,
     @required this.title,
     this.subtitle,
     this.leading,
     this.trailing,
-    this.placeholder,
     this.divider,
+    this.placeholder,
+    this.placeholderIgnored= false,
     this.scrollable = false,
-    this.hidePlaceholder = false,
     this.padding,
     this.chipColor = Colors.black87,
     this.chipBorderOpacity,
@@ -41,13 +95,42 @@ class S2ChipsTile<T> extends StatelessWidget {
     this.chipSpacing,
     this.chipRunSpacing,
     this.chipBuilder,
-    this.onDeleted,
+    this.chipOnDelete,
   }) : super(key: key);
+
+  /// Create a chips tile/trigger widget from state
+  S2ChipsTile.fromState(
+    S2MultiState<T> state, {
+    Key key,
+    List<S2Choice<T>> values,
+    GestureTapCallback onTap,
+    Widget title,
+    this.subtitle,
+    this.leading,
+    this.trailing,
+    this.divider,
+    this.placeholder,
+    this.placeholderIgnored = false,
+    this.scrollable = false,
+    this.padding,
+    this.chipColor = Colors.black87,
+    this.chipBorderOpacity,
+    this.chipBrightness,
+    this.chipActionColor,
+    this.chipSpacing,
+    this.chipRunSpacing,
+    this.chipBuilder,
+    this.chipOnDelete,
+  }) :
+    title = title ?? state.titleWidget,
+    values = values ?? state.valueObject,
+    onTap = onTap ?? state.showModal,
+    super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onDeleted == null ? state.showModal : null,
+      onTap: chipOnDelete == null ? onTap : null,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -56,7 +139,7 @@ class S2ChipsTile<T> extends StatelessWidget {
             subtitle: subtitle ?? _placeholder,
             leading: leading,
             trailing: trailing ?? Icon(Icons.arrow_drop_down),
-            onTap: onDeleted != null ? state.showModal : null,
+            onTap: chipOnDelete != null ? onTap : null,
           ),
           divider,
           _chipLayout(context),
@@ -66,9 +149,9 @@ class S2ChipsTile<T> extends StatelessWidget {
   }
 
   Widget get _placeholder {
-    return hidePlaceholder != true
-      ? state.valueObject?.isEmpty ?? true
-        ? placeholder ?? Text(state.widget.placeholder)
+    return placeholderIgnored != true
+      ? values?.isEmpty ?? true
+        ? placeholder ?? const Text('Select one or more')
         : null
       : null;
   }
@@ -78,7 +161,7 @@ class S2ChipsTile<T> extends StatelessWidget {
   }
 
   Widget _chipLayout(BuildContext context) {
-    return state.valueObject?.isNotEmpty ?? false
+    return values?.isNotEmpty ?? false
       ? scrollable
         ? _chipScrollable(context)
         : _chipWrapped(context)
@@ -116,7 +199,7 @@ class S2ChipsTile<T> extends StatelessWidget {
   }
 
   List<Widget> _chipList(BuildContext context) {
-    final int n = state.valueObject.length;
+    final int n = values.length;
     return List<Widget>.generate(
       n,
       (i) {
@@ -141,7 +224,7 @@ class S2ChipsTile<T> extends StatelessWidget {
   Widget _chipGenerator(int i) {
     return Chip(
       label: Text(
-        state.valueObject[i].title,
+        values[i].title,
         style: TextStyle(
           color: _chipIsDark ? Colors.white : chipColor
         ),
@@ -155,8 +238,8 @@ class S2ChipsTile<T> extends StatelessWidget {
             : chipColor.withOpacity(chipBorderOpacity ?? .1),
         ),
       ),
-      onDeleted: onDeleted != null
-        ? () => onDeleted(state.valueObject[i].value)
+      onDeleted: chipOnDelete != null
+        ? () => chipOnDelete(values[i].value)
         : null,
     );
   }
