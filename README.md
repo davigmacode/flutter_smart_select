@@ -154,7 +154,7 @@ SmartSelect<T>.single({
 ```
 
 ```dart
-// simple example
+// simple usage
 
 String value = 'flutter';
 List<S2Choice<String>> options = [
@@ -177,6 +177,7 @@ Widget build(BuildContext context) {
 ## Multiple Choice
 
 ```dart
+// available configuration for multiple choice
 SmartSelect<T>.multiple({
 
   // The primary content of the widget.
@@ -204,7 +205,7 @@ SmartSelect<T>.multiple({
 ```
 
 ```dart
-// a simple example
+// a simple usage
 
 List<int> value = [2];
 List<S2Choice<int>> frameworks = [
@@ -288,6 +289,8 @@ Please follow these [example](https://github.com/davigmacode/flutter_smart_selec
 
 ## Modal Configuration
 
+More info about `S2ModalConfig` can be found on the [API Reference](https://pub.dev/documentation/smart_select/latest/smart_select/S2ModalConfig-class.html)
+
 ```dart
 // available configuration
 SmartSelect<T>.[single|multiple]({
@@ -348,7 +351,7 @@ SmartSelect<T>.[single|multiple]({
 By default SmartSelect will open choices modal in full page. You can change it by changing with this value:
 
 ```dart
-// Target to open choices list
+// Available option
 enum S2ModalType {
 
   // open in full page
@@ -425,9 +428,10 @@ S2ModalHeaderStyle({
 
 ## Choices Configuration
 
+More info about `S2ChoiceConfig` can be found on the [API Reference](https://pub.dev/documentation/smart_select/latest/smart_select/S2ChoiceConfig-class.html)
+
 ```dart
-// available choice type
-// for single choice widget
+// Available option to configure choices
 SmartSelect<T>.[single|multiple]({
 
   // other configuration
@@ -504,6 +508,7 @@ enum S2ChoiceType {
 
 }
 ```
+
 ### Choice Layout
 
 By default SmartSelect will use `list`, but it can change by changing  with this value:
@@ -523,6 +528,97 @@ enum S2ChoiceLayout {
 
 }
 ```
+
+### Choice Styles
+
+```dart
+// Available option to configure choice style
+S2ChoiceStyle({
+
+  // How much space to place between children in a run in the main axis.
+  // When use [SmartSelectChoiceType.chips] or [useWrap] is [true]
+  double spacing,
+
+  // How much space to place between the runs themselves in the cross axis.
+  // When use [SmartSelectChoiceType.chips] or [useWrap] is [true]
+  double runSpacing,
+
+  // choices wrapper padding
+  EdgeInsetsGeometry wrapperPadding,
+
+  // Choices item padding
+  EdgeInsetsGeometry padding,
+
+  // choices item title style
+  TextStyle titleStyle,
+
+  // choices item subtitle style
+  TextStyle subtitleStyle,
+
+  // whether the chips use checkmark or not
+  bool showCheckmark,
+
+  // Where to place the control in widgets that use
+  // [ListTile] to position a control next to a label.
+  S2ChoiceControl control,
+
+  // Highlight color
+  Color highlightColor,
+
+  // Primary color of selected choice item
+  Color activeColor,
+
+  // Primary color of unselected choice item
+  Color color,
+
+  // Secondary color of selected choice item
+  Color activeAccentColor,
+
+  // Secondary color of unselected choice item
+  Color accentColor,
+
+  // Brightness for selected Chip
+  Brightness activeBrightness,
+
+  // Brightness for unselected Chip
+  Brightness brightness,
+
+  // Opacity for selected Chip border, only effect when
+  // [activeBrightness] is [Brightness.light]
+  double activeBorderOpacity,
+
+  // Opacity for unselected chip border, only effect when
+  // [brightness] is [Brightness.light]
+  double borderOpacity,
+
+  // Shape clip behavior
+  Clip clipBehavior,
+
+})
+```
+
+### Choice Header Style
+
+```dart
+// Available option to configure choices group header widget style
+S2ChoiceHeaderStyle({
+
+  // Group header background color
+  Color backgroundColor,
+
+  // Highlight color
+  Color highlightColor,
+
+  // Group header text style
+  TextStyle textStyle,
+
+  // Group header padding
+  EdgeInsetsGeometry padding,
+
+  // Group header height
+  double height,
+
+})
 
 ## Builder Widget
 
