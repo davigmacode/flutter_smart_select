@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import '../widget.dart';
 
-/// Default trigger widget
+/// Default trigger/tile widget
 class S2Tile<T> extends StatelessWidget {
 
   /// The value of the selected option.
   final String value;
 
+  /// Called when the user taps this list tile.
+  ///
+  /// Inoperative if [enabled] is false.
+  final GestureTapCallback onTap;
+
   /// The primary content of the list tile.
-  final String title;
+  final Widget title;
 
   /// A widget to display before the title.
   ///
@@ -66,17 +71,12 @@ class S2Tile<T> extends StatelessWidget {
   /// If null, `EdgeInsets.symmetric(horizontal: 16.0)` is used.
   final EdgeInsetsGeometry padding;
 
-  /// Called when the user taps this list tile.
-  ///
-  /// Inoperative if [enabled] is false.
-  final GestureTapCallback onTap;
-
   /// Create a default trigger widget
   S2Tile({
     Key key,
-    @required this.title,
     @required this.value,
     @required this.onTap,
+    @required this.title,
     this.leading,
     this.trailing,
     this.loadingText = 'Loading..',
@@ -89,10 +89,13 @@ class S2Tile<T> extends StatelessWidget {
     this.padding,
   }) : super(key: key);
 
-  /// Create a default trigger widget
+  /// Create a default trigger widget from state
   S2Tile.fromState(
     S2State<T> state, {
     Key key,
+    String value,
+    GestureTapCallback onTap,
+    Widget title,
     this.leading,
     this.trailing,
     this.loadingText = 'Loading..',
@@ -104,9 +107,9 @@ class S2Tile<T> extends StatelessWidget {
     this.hideValue = false,
     this.padding,
   }) :
-    title = state.title,
-    value = state.valueDisplay,
-    onTap = state.showModal,
+    title = title ?? state.titleWidget,
+    value = value ?? state.valueDisplay,
+    onTap = onTap ?? state.showModal,
     super(key: key);
 
   @override
@@ -117,7 +120,7 @@ class S2Tile<T> extends StatelessWidget {
       selected: selected,
       contentPadding: padding,
       leading: leading,
-      title: Text(title),
+      title: title,
       subtitle: isTwoLine && hideValue != true ? _valueWidget : null,
       trailing: _trailingWidget,
       onTap: onTap,
@@ -131,11 +134,11 @@ class S2Tile<T> extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Container(
-                constraints: BoxConstraints(maxWidth: 100),
+                constraints: const BoxConstraints(maxWidth: 100),
                 child: _valueWidget,
               ),
               Padding(
-                padding: EdgeInsets.only(left: 5),
+                padding: const EdgeInsets.only(left: 5),
                 child: _trailingIconWidget,
               ),
             ],
