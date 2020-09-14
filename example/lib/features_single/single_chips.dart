@@ -37,7 +37,7 @@ class _FeaturesSingleChipsState extends State<FeaturesSingleChips> {
           ),
           onChange: (state) => setState(() => _car = state.value),
           tileBuilder: (context, state) => S2Tile(
-            title: 'Car',
+            title: const Text('Car'),
             value: state.valueDisplay,
             isTwoLine: true,
             leading: const CircleAvatar(

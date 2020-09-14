@@ -90,9 +90,7 @@ class _FeaturesOptionAsyncState extends State<FeaturesOptionAsync> {
           title: 'Country',
           value: _country,
           modalFilter: true,
-          choiceLoader: (query) async {
-            return await _getCountries(query);
-          },
+          choiceLoader: (info) => _getCountries(info.query),
           choiceGrouped: true,
           choiceType: S2ChoiceType.radios,
           onChange: (state) => setState(() => _country = state.value),

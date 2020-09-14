@@ -40,12 +40,12 @@ class CardTile extends StatelessWidget {
                   children: <Widget>[
                     Text(
                       title,
-                      style: Theme.of(context).textTheme.title.merge(TextStyle(color: Colors.black54)),
+                      style: Theme.of(context).textTheme.headline6.merge(TextStyle(color: Colors.black54)),
                     ),
                     Container(height: 5),
                     Text(
                       value,
-                      style: Theme.of(context).textTheme.subtitle.merge(TextStyle(color: Colors.black38)),
+                      style: Theme.of(context).textTheme.subtitle2.merge(TextStyle(color: Colors.black38)),
                     ),
                   ],
                 ),

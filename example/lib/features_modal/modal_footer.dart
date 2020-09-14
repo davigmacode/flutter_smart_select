@@ -123,9 +123,8 @@ class _FeaturesModalFooterState extends State<FeaturesModalFooter> {
               ),
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(0, 7, 0, 7),
-                child: S2ChipsTile<int>(
-                  state: state,
-                  title: Text(state.title),
+                child: S2ChipsTile<int>.fromState(
+                  state,
                   // subtitle: Text('lorem impsum'),
                   leading: CircleAvatar(
                     backgroundColor: _question2 == null ? Colors.grey : Colors.blue,
@@ -137,7 +136,7 @@ class _FeaturesModalFooterState extends State<FeaturesModalFooter> {
                   // trailing: Icon(Icons.add_circle_outline),
                   // scrollable: true,
                   // divider: Divider(height: 1),
-                  hidePlaceholder: true,
+                  placeholderIgnored: true,
                   chipColor: Colors.blue,
                   chipBrightness: Brightness.dark,
                 ),

@@ -33,7 +33,7 @@ class _FeaturesChoicesGroupedState extends State<FeaturesChoicesGrouped> {
           modalType: S2ModalType.bottomSheet,
           tileBuilder: (context, state) {
             return S2Tile(
-              title: state.title,
+              title: state.titleWidget,
               value: state.valueDisplay,
               onTap: state.showModal,
               isTwoLine: true,

@@ -27,7 +27,7 @@ class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
           modalConfirmation: true,
           tileBuilder: (context, state) {
             return S2Tile(
-              title: state.title,
+              title: state.titleWidget,
               value: state.valueDisplay,
               onTap: state.showModal,
               isTwoLine: true,

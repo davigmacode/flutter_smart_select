@@ -70,7 +70,7 @@ class Features extends StatelessWidget {
             ListTile(
               title: Text(
                 'smart_select',
-                style: Theme.of(context).textTheme.headline.merge(TextStyle(color: Colors.black87)),
+                style: Theme.of(context).textTheme.headline5.merge(TextStyle(color: Colors.black87)),
               ),
               subtitle: Text('by davigmacode'),
               trailing: IconButton(
@@ -87,7 +87,7 @@ class Features extends StatelessWidget {
                   children: <Widget>[
                     Text(
                       'Smart select allows you to easily convert your usual form selects to dynamic pages with grouped radio or checkbox inputs. This widget is inspired by Smart Select component from Framework7',
-                      style: Theme.of(context).textTheme.body1.merge(TextStyle(color: Colors.black54)),
+                      style: Theme.of(context).textTheme.bodyText2.merge(TextStyle(color: Colors.black54)),
                     ),
                     Container(height: 15),
                   ],

@@ -90,8 +90,8 @@ class _FeaturesTileBuilderState extends State<FeaturesTileBuilder> {
                 shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(5.0)),
                 ),
-                child: S2ChipsTile<String>(
-                  state: state,
+                child: S2ChipsTile<String>.fromState(
+                  state,
                   title: const Text('Cars'),
                   // subtitle: Text('lorem impsum'),
                   // leading: CircleAvatar(
@@ -102,7 +102,7 @@ class _FeaturesTileBuilderState extends State<FeaturesTileBuilder> {
                   // divider: Divider(height: 1),
                   chipColor: Colors.red,
                   chipBrightness: Brightness.dark,
-                  onDeleted: (value) {
+                  chipOnDelete: (value) {
                     setState(() => _cars.remove(value));
                   },
                 ),
