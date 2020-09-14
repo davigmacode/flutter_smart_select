@@ -41,7 +41,7 @@ class S2Choices<T> extends ChangeNotifier {
       page = 1;
       notifyListeners();
       try {
-        List<S2Choice<T>> res = await find(query);
+        List<S2Choice<T>> res = await find(S2ChoiceLoaderInfo<T>(query: query));
         items = List.from(res);
         page = 2;
       } catch (e) {
@@ -60,7 +60,7 @@ class S2Choices<T> extends ChangeNotifier {
       appending = true;
       notifyListeners();
       try {
-        List<S2Choice<T>> res = await find(query);
+        List<S2Choice<T>> res = await find(S2ChoiceLoaderInfo<T>(query: query));
         items.addAll(res);
         page += 1;
       } catch (e) {
@@ -75,10 +75,10 @@ class S2Choices<T> extends ChangeNotifier {
   }
 
   // return a list of options
-  Future<List<S2Choice<T>>> find(String query) async {
+  Future<List<S2Choice<T>>> find(S2ChoiceLoaderInfo<T> info) async {
     return loader != null
-      ? _hide(await loader(query))
-      : _filter(_hide(predefined), query);
+      ? _hide(await loader(info))
+      : _filter(_hide(predefined), info.query);
   }
 
   // return a sorted list of group keys
@@ -98,8 +98,8 @@ class S2Choices<T> extends ChangeNotifier {
   List<S2Choice<T>> _filter(List<S2Choice<T>> items, String query) {
     return query != null
       ? items
-        .where((S2Choice<T> item) => item.contains(query))
-        .toList().cast<S2Choice<T>>()
+          .where((S2Choice<T> item) => item.contains(query))
+          .toList().cast<S2Choice<T>>()
       : items;
   }
 
