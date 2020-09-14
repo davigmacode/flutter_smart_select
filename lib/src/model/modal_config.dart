@@ -4,10 +4,8 @@ import './modal_theme.dart';
 enum S2ModalType {
   /// open in full page
   fullPage,
-
   /// open in popup dialog
   popupDialog,
-
   /// open in sliding bottom sheet
   bottomSheet,
 }
@@ -21,8 +19,9 @@ class S2ModalConfig {
   /// Use different title with the trigger widget title
   final String title;
 
-  /// Custom searchbar hint
-  final String filterHint;
+  /// Whether the option list need to confirm
+  /// to return the changed value
+  final bool useConfirmation;
 
   /// Whether the options list modal use header or not
   final bool useHeader;
@@ -30,12 +29,11 @@ class S2ModalConfig {
   /// Whether the option list is filterable or not
   final bool useFilter;
 
+  /// Custom searchbar hint
+  final String filterHint;
+
   /// Whether the filter is autocomplete or need confirmation
   final bool filterAuto;
-
-  /// Whether the option list need to confirm
-  /// to return the changed value
-  final bool useConfirmation;
 
   /// Configure modal style
   final S2ModalStyle style;
@@ -47,18 +45,18 @@ class S2ModalConfig {
   const S2ModalConfig({
     this.type = S2ModalType.fullPage,
     this.title,
-    this.filterHint,
+    this.useConfirmation = false,
     this.useHeader = true,
     this.useFilter = false,
     this.filterAuto = false,
-    this.useConfirmation = false,
+    this.filterHint,
     this.style = const S2ModalStyle(),
     this.headerStyle = const S2ModalHeaderStyle(),
   }) :
-    assert(filterAuto != null),
+    assert(useConfirmation != null),
     assert(useHeader != null),
     assert(useFilter != null),
-    assert(useConfirmation != null),
+    assert(filterAuto != null),
     assert(style != null),
     assert(headerStyle != null);
 
@@ -67,22 +65,22 @@ class S2ModalConfig {
   S2ModalConfig copyWith({
     S2ModalType type,
     String title,
-    String filterHint,
+    bool useConfirmation,
     bool useHeader,
     bool useFilter,
     bool filterAuto,
-    bool useConfirmation,
+    String filterHint,
     S2ModalStyle style,
     S2ModalHeaderStyle headerStyle,
   }) {
     return S2ModalConfig(
       type: type ?? this.type,
       title: title ?? this.title,
-      filterHint: filterHint ?? this.filterHint,
-      filterAuto: filterAuto ?? this.filterAuto,
+      useConfirmation: useConfirmation ?? this.useConfirmation,
       useHeader: useHeader ?? this.useHeader,
       useFilter: useFilter ?? this.useFilter,
-      useConfirmation: useConfirmation ?? this.useConfirmation,
+      filterAuto: filterAuto ?? this.filterAuto,
+      filterHint: filterHint ?? this.filterHint,
       style: style ?? this.style,
       headerStyle: headerStyle ?? this.headerStyle,
     );
@@ -97,11 +95,11 @@ class S2ModalConfig {
     return copyWith(
       type: other.type,
       title: other.title,
-      filterHint: other.filterHint,
+      useConfirmation: other.useConfirmation,
       useHeader: other.useHeader,
       useFilter: other.useFilter,
       filterAuto: other.filterAuto,
-      useConfirmation: other.useConfirmation,
+      filterHint: other.filterHint,
       style: other.style,
       headerStyle: other.headerStyle,
     );

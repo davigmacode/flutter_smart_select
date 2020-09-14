@@ -1,7 +1,15 @@
 ## [4.0.0]
 
+* Validate before confirm
+* Auto search on type
+* Accent marks handler on search
+* Highlight search result
+* Add Chips tile widget
+* Horizotal or vertical choice list scroll direction
+* Use `StatefulWidget` instead of `Provider` as state management
+* Configuration supports `copyWith` and `merge`
+* Easy shortcut to define configuration
 * Simplify class name and enum
-* Removed `provider` package, simpler the state management and accessible from any builder
 * Removed `sticky_headers` package, provide simple API to easy implement sticky header
 * Add choice text and group header text highlight on filter
 * Customizable choice layout and scroll direction

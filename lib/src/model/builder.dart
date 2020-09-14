@@ -4,18 +4,18 @@ import '../widget.dart';
 import 'choice_item.dart';
 import 'choice_group.dart';
 
-/// A builder for
+/// A common builder
 typedef Widget S2WidgetBuilder<T>(
   BuildContext context,
   T value,
 );
 
-/// A builder for
-typedef Widget S2ComplexWidgetBuilder<A, B>(
-  BuildContext context,
-  A value,
-  B anotherValue,
-);
+/// A complex builder
+// typedef Widget S2ComplexWidgetBuilder<A, B>(
+//   BuildContext context,
+//   A value,
+//   B anotherValue,
+// );
 
 /// A builder for choice list item widget
 typedef Widget S2ChoiceItemBuilder<T>(S2Choice<T> choice);
@@ -96,15 +96,28 @@ class S2Builder<T> {
   });
 }
 
+/// Builder collection of single choice widget
 class S2SingleBuilder<T> extends S2Builder<T> {
 
+  /// Builder for custom tile widget
   final S2WidgetBuilder<S2SingleState<T>> tileBuilder;
+
+  /// Builder for custom modal widget
   final S2WidgetBuilder<S2SingleState<T>> modalBuilder;
+
+  /// Builder for custom modal header widget
   final S2WidgetBuilder<S2SingleState<T>> modalHeaderBuilder;
+
+  /// Builder for modal confirm action widget
   final S2WidgetBuilder<S2SingleState<T>> modalConfirmBuilder;
+
+  /// Builder for divider widget between header, body, and footer modal
   final S2WidgetBuilder<S2SingleState<T>> modalDividerBuilder;
+
+  /// Builder for modal footer widget
   final S2WidgetBuilder<S2SingleState<T>> modalFooterBuilder;
 
+  /// default contructor
   const S2SingleBuilder({
     this.tileBuilder,
     this.modalBuilder,
@@ -212,15 +225,28 @@ class S2SingleBuilder<T> extends S2Builder<T> {
   }
 }
 
+/// Builder collection of multiple choice widget
 class S2MultiBuilder<T> extends S2Builder<T> {
 
+  /// Builder for custom tile widget
   final S2WidgetBuilder<S2MultiState<T>> tileBuilder;
+
+  /// Builder for custom modal widget
   final S2WidgetBuilder<S2MultiState<T>> modalBuilder;
+
+  /// Builder for custom modal header widget
   final S2WidgetBuilder<S2MultiState<T>> modalHeaderBuilder;
+
+  /// Builder for custom modal confirm action widget
   final S2WidgetBuilder<S2MultiState<T>> modalConfirmBuilder;
+
+  /// Builder for divider widget between header, body, and footer modal
   final S2WidgetBuilder<S2MultiState<T>> modalDividerBuilder;
+
+  /// Builder for custom modal footer widget
   final S2WidgetBuilder<S2MultiState<T>> modalFooterBuilder;
 
+  /// default constuctor
   const S2MultiBuilder({
     this.tileBuilder,
     this.modalBuilder,

@@ -2,10 +2,30 @@ import 'package:flutter/widgets.dart';
 import './choice_theme.dart';
 
 /// Type of choice input
-enum S2ChoiceType { radios, checkboxes, switches, chips }
+enum S2ChoiceType {
+  /// use radio widget
+  /// for single choice
+  radios,
+  /// use checkbox widget
+  /// for multiple choice
+  checkboxes,
+  /// use switch widget
+  /// for multiple choice
+  switches,
+  /// use chip widget
+  /// for single and multiple choice
+  chips
+}
 
 /// Layout of choice item
-enum S2ChoiceLayout { list, wrap, grid }
+enum S2ChoiceLayout {
+  /// use list view widget
+  list,
+  /// use wrap view widget
+  wrap,
+  /// use grid view widget
+  grid
+}
 
 /// Choices configuration
 class S2ChoiceConfig {
