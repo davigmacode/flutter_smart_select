@@ -73,11 +73,11 @@ class S2Builder<T> {
   /// A widget builder for custom header choices group
   final S2ChoiceHeaderBuilder choiceHeaderBuilder;
 
-  /// Builder for progress indicator on choice load
-  final WidgetBuilder choiceProgressBuilder;
+  // /// Builder for progress indicator on choice load
+  // final WidgetBuilder choiceProgressBuilder;
 
-  /// Builder for progress indicator on choice load
-  final S2ChoiceBuilder<T> choicePagerBuilder;
+  // /// Builder for progress indicator on choice load
+  // final S2ChoiceBuilder<T> choicePagerBuilder;
 
   /// default constructor
   const S2Builder({
@@ -91,8 +91,8 @@ class S2Builder<T> {
     this.choiceEmptyBuilder,
     this.choiceGroupBuilder,
     this.choiceHeaderBuilder,
-    this.choiceProgressBuilder,
-    this.choicePagerBuilder,
+    // this.choiceProgressBuilder,
+    // this.choicePagerBuilder,
   });
 }
 
@@ -148,8 +148,8 @@ class S2SingleBuilder<T> extends S2Builder<T> {
     choiceGroupBuilder: choiceGroupBuilder,
     choiceHeaderBuilder: choiceHeaderBuilder,
     choiceEmptyBuilder: choiceEmptyBuilder,
-    choiceProgressBuilder: choiceProgressBuilder,
-    choicePagerBuilder: choicePagerBuilder,
+    // choiceProgressBuilder: choiceProgressBuilder,
+    // choicePagerBuilder: choicePagerBuilder,
   );
 
   /// Creates a copy of this [S2SingleBuilder] but with
@@ -191,8 +191,8 @@ class S2SingleBuilder<T> extends S2Builder<T> {
       choiceEmptyBuilder: choiceEmptyBuilder ?? this.choiceEmptyBuilder,
       choiceGroupBuilder: choiceGroupBuilder ?? this.choiceGroupBuilder,
       choiceHeaderBuilder: choiceHeaderBuilder ?? this.choiceHeaderBuilder,
-      choiceProgressBuilder: choiceProgressBuilder ?? this.choiceProgressBuilder,
-      choicePagerBuilder: choicePagerBuilder ?? this.choicePagerBuilder,
+      // choiceProgressBuilder: choiceProgressBuilder ?? this.choiceProgressBuilder,
+      // choicePagerBuilder: choicePagerBuilder ?? this.choicePagerBuilder,
     );
   }
 
@@ -219,8 +219,8 @@ class S2SingleBuilder<T> extends S2Builder<T> {
       choiceEmptyBuilder: other.choiceEmptyBuilder,
       choiceGroupBuilder: other.choiceGroupBuilder,
       choiceHeaderBuilder: other.choiceHeaderBuilder,
-      choiceProgressBuilder: other.choiceProgressBuilder,
-      choicePagerBuilder: other.choicePagerBuilder,
+      // choiceProgressBuilder: other.choiceProgressBuilder,
+      // choicePagerBuilder: other.choicePagerBuilder,
     );
   }
 }
@@ -277,8 +277,8 @@ class S2MultiBuilder<T> extends S2Builder<T> {
     choiceEmptyBuilder: choiceEmptyBuilder,
     choiceGroupBuilder: choiceGroupBuilder,
     choiceHeaderBuilder: choiceHeaderBuilder,
-    choiceProgressBuilder: choiceProgressBuilder,
-    choicePagerBuilder: choicePagerBuilder,
+    // choiceProgressBuilder: choiceProgressBuilder,
+    // choicePagerBuilder: choicePagerBuilder,
   );
 
   /// Creates a copy of this [S2MultiBuilder] but with
@@ -320,8 +320,8 @@ class S2MultiBuilder<T> extends S2Builder<T> {
       choiceEmptyBuilder: choiceEmptyBuilder ?? this.choiceEmptyBuilder,
       choiceGroupBuilder: choiceGroupBuilder ?? this.choiceGroupBuilder,
       choiceHeaderBuilder: choiceHeaderBuilder ?? this.choiceHeaderBuilder,
-      choiceProgressBuilder: choiceProgressBuilder ?? this.choiceProgressBuilder,
-      choicePagerBuilder: choicePagerBuilder ?? this.choicePagerBuilder,
+      // choiceProgressBuilder: choiceProgressBuilder ?? this.choiceProgressBuilder,
+      // choicePagerBuilder: choicePagerBuilder ?? this.choicePagerBuilder,
     );
   }
 
@@ -348,8 +348,8 @@ class S2MultiBuilder<T> extends S2Builder<T> {
       choiceEmptyBuilder: other.choiceEmptyBuilder,
       choiceGroupBuilder: other.choiceGroupBuilder,
       choiceHeaderBuilder: other.choiceHeaderBuilder,
-      choiceProgressBuilder: other.choiceProgressBuilder,
-      choicePagerBuilder: other.choicePagerBuilder,
+      // choiceProgressBuilder: other.choiceProgressBuilder,
+      // choicePagerBuilder: other.choicePagerBuilder,
     );
   }
 }

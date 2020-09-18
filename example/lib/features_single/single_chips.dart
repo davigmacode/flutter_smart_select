@@ -53,7 +53,6 @@ class _FeaturesSingleChipsState extends State<FeaturesSingleChips> {
           choiceItems: choices.categories,
           modalType: S2ModalType.bottomSheet,
           choiceType: S2ChoiceType.chips,
-          choiceDirection: Axis.horizontal,
           choiceStyle: S2ChoiceStyle(
             showCheckmark: true,
           ),

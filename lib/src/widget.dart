@@ -7,8 +7,7 @@ import './model/choice_config.dart';
 import './model/choice_item.dart';
 import './state/filter.dart';
 import './state/changes.dart';
-import './state/choices.dart';
-import './choices_wrapper.dart';
+import './choices.dart';
 import './choices_resolver.dart';
 import './tile/default_tile.dart';
 import './utils/debouncer.dart';
@@ -28,9 +27,6 @@ class SmartSelect<T> extends StatefulWidget {
 
   /// List of choice item
   final List<S2Choice<T>> choiceItems;
-
-  /// Loader of list choice item
-  final S2ChoiceLoader<T> choiceLoader;
 
   /// Choice configuration
   final S2ChoiceConfig choiceConfig;
@@ -75,7 +71,6 @@ class SmartSelect<T> extends StatefulWidget {
     this.modalConfig = const S2ModalConfig(),
     this.choiceConfig = const S2ChoiceConfig(),
     this.choiceItems,
-    this.choiceLoader,
   }) :
     assert(isMultiChoice != null),
     assert(title != null || modalConfig?.title != null, 'title and modalConfig.title must not be both null'),
@@ -87,7 +82,7 @@ class SmartSelect<T> extends StatefulWidget {
       (isMultiChoice && (choiceConfig.type == S2ChoiceType.checkboxes || choiceConfig.type == S2ChoiceType.switches || choiceConfig.type == S2ChoiceType.chips)) || (!isMultiChoice && (choiceConfig.type == S2ChoiceType.radios || choiceConfig.type == S2ChoiceType.chips)),
       isMultiChoice ? 'multiple choice only support SmartSelectChoiceType.checkboxes, SmartSelectChoiceType.switches and SmartSelectChoiceType.chips' : 'Single choice only support SmartSelectChoiceType.radios and SmartSelectChoiceType.chips'
     ),
-    assert(choiceItems != null || choiceLoader != null, '`choiceItems` and `choiceLoader` must not be both null'),
+    assert(choiceItems != null, '`choiceItems` must not be null'),
     super(key: key);
 
   /// Constructor for single choice
@@ -110,9 +105,6 @@ class SmartSelect<T> extends StatefulWidget {
 
     /// List of choice item
     List<S2Choice<T>> choiceItems,
-
-    /// Loader of list choice item
-    S2ChoiceLoader<T> choiceLoader,
 
     // Builder collection of single choice widget
     S2SingleBuilder<T> builder,
@@ -180,14 +172,6 @@ class SmartSelect<T> extends StatefulWidget {
     // A widget builder for custom header choices group
     // shortcut to [builder.choiceHeaderBuilder]
     S2ChoiceHeaderBuilder choiceHeaderBuilder,
-
-    // Builder for choice items pager
-    // shortcut to [builder.choicePagerBuilder]
-    S2ChoiceBuilder<T> choicePagerBuilder,
-
-    // Builder for progress indicator on choice load
-    // shortcut to [builder.choiceProgressBuilder]
-    WidgetBuilder choiceProgressBuilder,
 
     // choice configuration
     S2ChoiceConfig choiceConfig,
@@ -273,7 +257,6 @@ class SmartSelect<T> extends StatefulWidget {
       title: title,
       placeholder: placeholder,
       choiceItems: choiceItems,
-      choiceLoader: choiceLoader,
       isMultiChoice: false,
       multiValue: null,
       multiOnChange: null,
@@ -293,8 +276,6 @@ class SmartSelect<T> extends StatefulWidget {
         choiceTitleBuilder: choiceTitleBuilder,
         choiceSubtitleBuilder: choiceSubtitleBuilder,
         choiceSecondaryBuilder: choiceSecondaryBuilder,
-        choiceProgressBuilder: choiceProgressBuilder,
-        choicePagerBuilder: choicePagerBuilder,
         choiceDividerBuilder: choiceDividerBuilder,
         choiceEmptyBuilder: choiceEmptyBuilder,
         choiceGroupBuilder: choiceGroupBuilder,
@@ -344,9 +325,6 @@ class SmartSelect<T> extends StatefulWidget {
 
     /// List of choice item
     List<S2Choice<T>> choiceItems,
-
-    /// Loader of list choice item
-    S2ChoiceLoader<T> choiceLoader,
 
     // Builder collection of single choice widget
     S2MultiBuilder<T> builder,
@@ -414,14 +392,6 @@ class SmartSelect<T> extends StatefulWidget {
     // A widget builder for custom header choices group
     // shortcut to [builder.choiceHeaderBuilder]
     S2ChoiceHeaderBuilder choiceHeaderBuilder,
-
-    // Builder for choice items pager
-    // shortcut to [builder.choicePagerBuilder]
-    S2ChoiceBuilder<T> choicePagerBuilder,
-
-    // Builder for progress indicator on choice load
-    // shortcut to [builder.choiceProgressBuilder]
-    WidgetBuilder choiceProgressBuilder,
 
     // choice configuration
     S2ChoiceConfig choiceConfig,
@@ -507,7 +477,6 @@ class SmartSelect<T> extends StatefulWidget {
       title: title,
       placeholder: placeholder,
       choiceItems: choiceItems,
-      choiceLoader: choiceLoader,
       isMultiChoice: true,
       singleValue: null,
       singleOnChange: null,
@@ -527,8 +496,6 @@ class SmartSelect<T> extends StatefulWidget {
         choiceTitleBuilder: choiceTitleBuilder,
         choiceSubtitleBuilder: choiceSubtitleBuilder,
         choiceSecondaryBuilder: choiceSecondaryBuilder,
-        choiceProgressBuilder: choiceProgressBuilder,
-        choicePagerBuilder: choicePagerBuilder,
         choiceDividerBuilder: choiceDividerBuilder,
         choiceEmptyBuilder: choiceEmptyBuilder,
         choiceGroupBuilder: choiceGroupBuilder,
@@ -574,9 +541,6 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
   /// changes value
   S2Changes<T> changes;
 
-  /// choices service
-  S2Choices<T> choices;
-
   /// modal build context
   BuildContext modalContext;
 
@@ -585,8 +549,7 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
 
   /// return an object or array of object
   /// that represent the value
-  // get valueObject;
-  covariant var valueObject;
+  get valueObject;
 
   /// return a string or array of string
   /// that represent the value
@@ -606,19 +569,10 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
   get builder;
 
   // filter listener handler
-  void _filterHandler() {
-    setState(() {});
-    choices.refresh(
-      query: filter.query,
-      init: true,
-    );
-  }
+  void _filterHandler() => setState(() {});
 
   // changes listener handler
   void _changesHandler() => setState(() {});
-
-  // choices listener handler
-  void _choicesHandler() => setState(() {});
 
   /// get theme data
   ThemeData get theme => Theme.of(context);
@@ -730,13 +684,7 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
         : TextAlign.left,
       onSubmitted: modalConfig.filterAuto ? null : filter.apply,
       onChanged: modalConfig.filterAuto
-        ? (query) => debouncer.run(() {
-            filter.apply(query);
-            choices.refresh(
-              init: true,
-              query: query
-            );
-          })
+        ? (query) => debouncer.run(() => filter.apply(query))
         : null,
     );
   }
@@ -835,10 +783,10 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
           return choiceBuilder(
             context,
             choice.copyWith(
-              selected: changes.contains(choice),
+              selected: changes.contains(choice.value),
               select: ([bool selected = true]) {
                 // set temporary value
-                changes.commit(choice, selected: selected);
+                changes.commit(choice.value, selected: selected);
                 // for single choice check if is filtering and use confirmation
                 if (widget.isMultiChoice != true) {
                   // Pop filtering status
@@ -865,26 +813,14 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
         data: ThemeData(
           unselectedWidgetColor: choiceStyle.color,
         ),
-        child: S2ChoicesWrapper(
+        child: S2Choices<T>(
           itemBuilder: choiceItemBuilder,
-          choices: choices,
+          items: widget.choiceItems,
           config: choiceConfig,
           builder: builder,
           query: filter.query
         ),
       ),
-    );
-  }
-
-  /// get choice loading widget
-  Widget get choiceLoading {
-    return builder?.choiceProgressBuilder?.call(context) ?? defaultChoiceLoading;
-  }
-
-  /// get default loading widget
-  Widget get defaultChoiceLoading {
-    return const Center(
-      child: CircularProgressIndicator(),
     );
   }
 
@@ -958,34 +894,13 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
   void initState() {
     super.initState();
 
-    // initialize choice items
-    choices = S2Choices<T>(
-      predefined: widget.choiceItems,
-      loader: widget.choiceLoader,
-      grouped: widget.choiceConfig.isGrouped,
-    )..addListener(_choicesHandler);
-
     // initialize filter
     filter = S2Filter()..addListener(_filterHandler);
   }
 
   @override
-  void didUpdateWidget(SmartSelect<T> oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.choiceItems != oldWidget.choiceItems) {
-      // reinitialize choice items
-      choices = S2Choices<T>(
-        predefined: widget.choiceItems,
-        loader: widget.choiceLoader,
-        grouped: widget.choiceConfig.isGrouped,
-      )..addListener(_choicesHandler);
-    }
-  }
-
-  @override
   void dispose() {
     // dispose everything
-    choices?.dispose();
     filter?.dispose();
     changes?.dispose();
     super.dispose();
@@ -999,22 +914,15 @@ class S2SingleState<T> extends S2State<T> {
   /// final value
   T value;
 
-  @override
-  S2Choice<T> valueObject;
-
   /// return an object or array of object
   /// that represent the value
-  // @override
-  // S2Choice<T> get valueObject {
-  //   // return widget.choiceItems?.firstWhere(
-  //   //   (S2Choice<T> item) => item.value == value,
-  //   //   orElse: () => null
-  //   // );
-  //   return choices?.items?.firstWhere(
-  //     (S2Choice<T> item) => item.value == value,
-  //     orElse: () => null
-  //   );
-  // }
+  @override
+  S2Choice<T> get valueObject {
+    return widget.choiceItems?.firstWhere(
+      (S2Choice<T> item) => item.value == value,
+      orElse: () => null
+    );
+  }
 
   /// return a string or array of string
   /// that represent the value
@@ -1042,12 +950,9 @@ class S2SingleState<T> extends S2State<T> {
   initState() {
     super.initState();
     // set initial final value
-    setSelected(val: widget.singleValue);
-    // setState(() => value = widget.singleValue);
-    // build display value
-    // _buildDisplayValue(value);
+    setState(() => value = widget.singleValue);
     // set initial cache value
-    changes = S2SingleChanges<T>(valueObject)..addListener(_changesHandler);
+    changes = S2SingleChanges<T>(value)..addListener(_changesHandler);
   }
 
   @override
@@ -1088,7 +993,7 @@ class S2SingleState<T> extends S2State<T> {
   @override
   void showModal() async {
     // reset cache value
-    (changes as S2SingleChanges<T>).value = valueObject;
+    (changes as S2SingleChanges<T>).value = value;
 
     // show modal by type and return confirmed value
     bool confirmed = await _showModalByType();
@@ -1099,42 +1004,10 @@ class S2SingleState<T> extends S2State<T> {
     // return value
     if ((changes as S2SingleChanges<T>).value != null) {
       // set cache to final value
-      // setState(() => value = (changes as S2SingleChanges<T>).value);
-      setSelected(choice: (changes as S2SingleChanges<T>).value);
+      setState(() => value = (changes as S2SingleChanges<T>).value);
       // return state to onChange callback
       onChange?.call(this);
     }
-  }
-
-  void setSelected({T val, S2Choice<T> choice}) {
-    setState(() {
-      value = val ?? choice.value;
-      valueObject = choice ?? widget.choiceItems?.firstWhere(
-        (S2Choice<T> item) => item.value == value,
-        orElse: () => null
-      );
-    });
-  }
-
-  void setValue(T _value) {
-    setState(() {
-      value = _value;
-      valueObject = findChoiceByValue(widget.choiceItems, _value);
-    });
-  }
-
-  void setValueByChoice(S2Choice<T> _choice) {
-    setState(() {
-      value = _choice.value;
-      valueObject = _choice;
-    });
-  }
-
-  S2Choice<T> findChoiceByValue(List<S2Choice<T>> _choices, T _value) {
-    return _choices?.firstWhere(
-      (S2Choice<T> item) => item.value == _value,
-      orElse: () => null
-    );
   }
 
 }
@@ -1145,21 +1018,14 @@ class S2MultiState<T> extends S2State<T> {
   /// final value
   List<T> value;
 
-  @override
-  List<S2Choice<T>> valueObject;
-
   /// return an object or array of object
   /// that represent the value
-  // List<S2Choice<T>> get valueObject {
-  //   // return widget.choiceItems
-  //   //   .where((S2Choice<T> item) => value?.contains(item.value) ?? false)
-  //   //   .toList()
-  //   //   .cast<S2Choice<T>>();
-  //   return choices?.items
-  //     ?.where((S2Choice<T> item) => value?.contains(item.value) ?? false)
-  //     ?.toList()
-  //     ?.cast<S2Choice<T>>();
-  // }
+  List<S2Choice<T>> get valueObject {
+    return widget.choiceItems
+      .where((S2Choice<T> item) => value?.contains(item.value) ?? false)
+      .toList()
+      .cast<S2Choice<T>>();
+  }
 
   /// return a string or array of string
   /// that represent the value
@@ -1188,22 +1054,9 @@ class S2MultiState<T> extends S2State<T> {
   initState() {
     super.initState();
     // set initial final value
-    // setState(() => value = widget.multiValue ?? []);
-    setSelected(val: widget.multiValue);
-    // build display value
-    // _buildDisplayValue(value);
+    setState(() => value = widget.multiValue);
     // set initial cache value
-    changes = S2MultiChanges<T>(valueObject)..addListener(_changesHandler);
-  }
-
-  @override
-  void didUpdateWidget(SmartSelect<T> oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    print(widget.multiValue != oldWidget.multiValue);
-    if (widget.multiValue != oldWidget.multiValue) {
-      // reinitialize choice items
-      setSelected(val: widget.multiValue);
-    }
+    changes = S2MultiChanges<T>(value)..addListener(_changesHandler);
   }
 
   @override
@@ -1244,7 +1097,7 @@ class S2MultiState<T> extends S2State<T> {
   @override
   void showModal() async {
     // reset cache value
-    (changes as S2MultiChanges<T>).value = valueObject;
+    (changes as S2MultiChanges<T>).value = value;
 
     // show modal by type and return confirmed value
     bool confirmed = await _showModalByType();
@@ -1252,28 +1105,17 @@ class S2MultiState<T> extends S2State<T> {
     // dont return value if modal need confirmation and not confirmed
     if (modalConfig.useConfirmation == true && confirmed != true) {
       // reset cache value
-      (changes as S2MultiChanges<T>).value = valueObject;
+      (changes as S2MultiChanges<T>).value = value;
       return;
     }
 
     // return value
     if ((changes as S2MultiChanges<T>).value != null) {
       // set cache to final value
-      // setState(() => value = (changes as S2MultiChanges<T>).value);
-      setSelected(choice: (changes as S2MultiChanges<T>).value);
+      setState(() => value = (changes as S2MultiChanges<T>).value);
       // return state to onChange callback
       onChange?.call(this);
     }
-  }
-
-  void setSelected({List<T> val, List<S2Choice<T>> choice}) {
-    setState(() {
-      value = val ?? choice?.map((i) => i.value)?.toList();
-      valueObject = choice ?? widget.choiceItems
-        .where((S2Choice<T> item) => value?.contains(item.value) ?? false)
-        .toList()
-        .cast<S2Choice<T>>();
-    });
   }
 
 }

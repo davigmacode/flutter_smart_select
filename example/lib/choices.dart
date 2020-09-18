@@ -129,28 +129,23 @@ List<Map<String,dynamic>> smartphones = [
 
 List<Map<String,dynamic>> transports = [
   {
-    'title': 'Premium',
-    'subtitle': 'Premium cars for superior experience',
-    'image': 'https://source.unsplash.com/oUBjd22gF6w/100x100',
-  },
-  {
-    'title': 'Business',
-    'subtitle': 'Executive cars with added comfort',
-    'image': 'https://source.unsplash.com/3ZUsNJhi_Ik/100x100',
-  },
-  {
-    'title': 'Go',
-    'subtitle': 'Executive cars with added comfort',
-    'image': 'https://source.unsplash.com/p7tai9P7H-s/100x100',
-  },
-  {
-    'title': 'Mini',
-    'subtitle': 'Executive cars with added comfort',
+    'title': 'Plane',
     'image': 'https://source.unsplash.com/doli0TqGBac/100x100',
   },
   {
+    'title': 'Train',
+    'image': 'https://source.unsplash.com/oUBjd22gF6w/100x100',
+  },
+  {
+    'title': 'Bus',
+    'image': 'https://source.unsplash.com/3ZUsNJhi_Ik/100x100',
+  },
+  {
+    'title': 'Car',
+    'image': 'https://source.unsplash.com/p7tai9P7H-s/100x100',
+  },
+  {
     'title': 'Bike',
-    'subtitle': 'Executive cars with added comfort',
     'image': 'https://source.unsplash.com/2LTMNCN4nEg/100x100',
   },
 ];
