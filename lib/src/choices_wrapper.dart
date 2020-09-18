@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import './model/builder.dart';
 import './model/choice_item.dart';
 import './model/choice_config.dart';
@@ -6,6 +6,7 @@ import './state/choices.dart';
 import './choices_grouped.dart';
 import './choices_list.dart';
 import './choices_empty.dart';
+import './spinner.dart';
 
 class S2ChoicesWrapper<T> extends StatefulWidget {
 
