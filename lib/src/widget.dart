@@ -585,7 +585,8 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
 
   /// return an object or array of object
   /// that represent the value
-  get valueObject;
+  // get valueObject;
+  covariant var valueObject;
 
   /// return a string or array of string
   /// that represent the value
@@ -834,10 +835,10 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
           return choiceBuilder(
             context,
             choice.copyWith(
-              selected: changes.contains(choice.value),
+              selected: changes.contains(choice),
               select: ([bool selected = true]) {
                 // set temporary value
-                changes.commit(choice.value, selected: selected);
+                changes.commit(choice, selected: selected);
                 // for single choice check if is filtering and use confirmation
                 if (widget.isMultiChoice != true) {
                   // Pop filtering status
@@ -998,19 +999,22 @@ class S2SingleState<T> extends S2State<T> {
   /// final value
   T value;
 
+  @override
+  S2Choice<T> valueObject;
+
   /// return an object or array of object
   /// that represent the value
-  @override
-  S2Choice<T> get valueObject {
-    // return widget.choiceItems?.firstWhere(
-    //   (S2Choice<T> item) => item.value == value,
-    //   orElse: () => null
-    // );
-    return choices?.items?.firstWhere(
-      (S2Choice<T> item) => item.value == value,
-      orElse: () => null
-    );
-  }
+  // @override
+  // S2Choice<T> get valueObject {
+  //   // return widget.choiceItems?.firstWhere(
+  //   //   (S2Choice<T> item) => item.value == value,
+  //   //   orElse: () => null
+  //   // );
+  //   return choices?.items?.firstWhere(
+  //     (S2Choice<T> item) => item.value == value,
+  //     orElse: () => null
+  //   );
+  // }
 
   /// return a string or array of string
   /// that represent the value
@@ -1038,11 +1042,12 @@ class S2SingleState<T> extends S2State<T> {
   initState() {
     super.initState();
     // set initial final value
-    setState(() => value = widget.singleValue);
+    setSelected(val: widget.singleValue);
+    // setState(() => value = widget.singleValue);
     // build display value
     // _buildDisplayValue(value);
     // set initial cache value
-    changes = S2SingleChanges<T>(value)..addListener(_changesHandler);
+    changes = S2SingleChanges<T>(valueObject)..addListener(_changesHandler);
   }
 
   @override
@@ -1083,7 +1088,7 @@ class S2SingleState<T> extends S2State<T> {
   @override
   void showModal() async {
     // reset cache value
-    (changes as S2SingleChanges<T>).value = value;
+    (changes as S2SingleChanges<T>).value = valueObject;
 
     // show modal by type and return confirmed value
     bool confirmed = await _showModalByType();
@@ -1094,10 +1099,42 @@ class S2SingleState<T> extends S2State<T> {
     // return value
     if ((changes as S2SingleChanges<T>).value != null) {
       // set cache to final value
-      setState(() => value = (changes as S2SingleChanges<T>).value);
+      // setState(() => value = (changes as S2SingleChanges<T>).value);
+      setSelected(choice: (changes as S2SingleChanges<T>).value);
       // return state to onChange callback
       onChange?.call(this);
     }
+  }
+
+  void setSelected({T val, S2Choice<T> choice}) {
+    setState(() {
+      value = val ?? choice.value;
+      valueObject = choice ?? widget.choiceItems?.firstWhere(
+        (S2Choice<T> item) => item.value == value,
+        orElse: () => null
+      );
+    });
+  }
+
+  void setValue(T _value) {
+    setState(() {
+      value = _value;
+      valueObject = findChoiceByValue(widget.choiceItems, _value);
+    });
+  }
+
+  void setValueByChoice(S2Choice<T> _choice) {
+    setState(() {
+      value = _choice.value;
+      valueObject = _choice;
+    });
+  }
+
+  S2Choice<T> findChoiceByValue(List<S2Choice<T>> _choices, T _value) {
+    return _choices?.firstWhere(
+      (S2Choice<T> item) => item.value == _value,
+      orElse: () => null
+    );
   }
 
 }
@@ -1108,18 +1145,21 @@ class S2MultiState<T> extends S2State<T> {
   /// final value
   List<T> value;
 
+  @override
+  List<S2Choice<T>> valueObject;
+
   /// return an object or array of object
   /// that represent the value
-  List<S2Choice<T>> get valueObject {
-    // return widget.choiceItems
-    //   .where((S2Choice<T> item) => value?.contains(item.value) ?? false)
-    //   .toList()
-    //   .cast<S2Choice<T>>();
-    return choices?.items
-      ?.where((S2Choice<T> item) => value?.contains(item.value) ?? false)
-      ?.toList()
-      ?.cast<S2Choice<T>>();
-  }
+  // List<S2Choice<T>> get valueObject {
+  //   // return widget.choiceItems
+  //   //   .where((S2Choice<T> item) => value?.contains(item.value) ?? false)
+  //   //   .toList()
+  //   //   .cast<S2Choice<T>>();
+  //   return choices?.items
+  //     ?.where((S2Choice<T> item) => value?.contains(item.value) ?? false)
+  //     ?.toList()
+  //     ?.cast<S2Choice<T>>();
+  // }
 
   /// return a string or array of string
   /// that represent the value
@@ -1148,11 +1188,22 @@ class S2MultiState<T> extends S2State<T> {
   initState() {
     super.initState();
     // set initial final value
-    setState(() => value = widget.multiValue ?? []);
+    // setState(() => value = widget.multiValue ?? []);
+    setSelected(val: widget.multiValue);
     // build display value
     // _buildDisplayValue(value);
     // set initial cache value
-    changes = S2MultiChanges<T>(value)..addListener(_changesHandler);
+    changes = S2MultiChanges<T>(valueObject)..addListener(_changesHandler);
+  }
+
+  @override
+  void didUpdateWidget(SmartSelect<T> oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    print(widget.multiValue != oldWidget.multiValue);
+    if (widget.multiValue != oldWidget.multiValue) {
+      // reinitialize choice items
+      setSelected(val: widget.multiValue);
+    }
   }
 
   @override
@@ -1193,7 +1244,7 @@ class S2MultiState<T> extends S2State<T> {
   @override
   void showModal() async {
     // reset cache value
-    (changes as S2MultiChanges<T>).value = value;
+    (changes as S2MultiChanges<T>).value = valueObject;
 
     // show modal by type and return confirmed value
     bool confirmed = await _showModalByType();
@@ -1201,17 +1252,28 @@ class S2MultiState<T> extends S2State<T> {
     // dont return value if modal need confirmation and not confirmed
     if (modalConfig.useConfirmation == true && confirmed != true) {
       // reset cache value
-      (changes as S2MultiChanges<T>).value = value;
+      (changes as S2MultiChanges<T>).value = valueObject;
       return;
     }
 
     // return value
     if ((changes as S2MultiChanges<T>).value != null) {
       // set cache to final value
-      setState(() => value = (changes as S2MultiChanges<T>).value);
+      // setState(() => value = (changes as S2MultiChanges<T>).value);
+      setSelected(choice: (changes as S2MultiChanges<T>).value);
       // return state to onChange callback
       onChange?.call(this);
     }
+  }
+
+  void setSelected({List<T> val, List<S2Choice<T>> choice}) {
+    setState(() {
+      value = val ?? choice?.map((i) => i.value)?.toList();
+      valueObject = choice ?? widget.choiceItems
+        .where((S2Choice<T> item) => value?.contains(item.value) ?? false)
+        .toList()
+        .cast<S2Choice<T>>();
+    });
   }
 
 }

@@ -1,38 +1,40 @@
 import 'package:flutter/foundation.dart';
+import '../model/choice_item.dart';
 
 abstract class S2Changes<T> extends ChangeNotifier {
 
   /// check whether the current value has the requested value
-  bool contains(T val);
+  bool contains(S2Choice<T> val);
 
   /// select value
-  void commit(T val, { bool selected = true });
+  void commit(S2Choice<T> val, { bool selected = true });
 
   /// get length of selected value
   int get length;
+
 }
 
 class S2SingleChanges<T> extends S2Changes<T> {
 
-  T _value;
+  S2Choice<T> _value;
 
-  T get value => _value;
+  S2Choice<T> get value => _value;
 
   S2SingleChanges(this._value);
 
-  int get length => 1;
+  int get length => _value != null ? 1 : 0;
 
-  set value(T val) {
+  set value(S2Choice<T> val) {
     _value = val;
     notifyListeners();
   }
 
-  void commit(T val, { bool selected = true }) {
+  void commit(S2Choice<T> val, { bool selected = true }) {
     _value = val;
     notifyListeners();
   }
 
-  bool contains(T val) {
+  bool contains(S2Choice<T> val) {
     return _value == val;
   }
 
@@ -40,20 +42,20 @@ class S2SingleChanges<T> extends S2Changes<T> {
 
 class S2MultiChanges<T> extends S2Changes<T> {
 
-  List<T> _value;
+  List<S2Choice<T>> _value;
 
-  List<T> get value => _value;
+  List<S2Choice<T>> get value => _value;
 
-  S2MultiChanges(this._value);
+  S2MultiChanges(List<S2Choice<T>> val) : _value = val ?? [];
 
-  int get length => _value.length;
+  int get length => _value?.length ?? 0;
 
-  set value(List<T> val) {
-    _value = List<T>.from(val);
+  set value(List<S2Choice<T>> val) {
+    _value = List<S2Choice<T>>.from(val);
     notifyListeners();
   }
 
-  void commit(T val, { bool selected = true }) {
+  void commit(S2Choice<T> val, { bool selected = true }) {
     if (selected) {
       _value.add(val);
     } else {
@@ -62,7 +64,7 @@ class S2MultiChanges<T> extends S2Changes<T> {
     notifyListeners();
   }
 
-  bool contains(T val) {
+  bool contains(S2Choice<T> val) {
     return _value?.contains(val) ?? false;
   }
 
