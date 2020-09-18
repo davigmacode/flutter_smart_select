@@ -1,5 +1,7 @@
 # smart_select
 
+![Pub Version](https://img.shields.io/pub/v/smart_select) ![GitHub](https://img.shields.io/github/license/davigmacode/flutter_smart_select)
+
 SmartSelect allows you to easily convert your usual form select or dropdown into dynamic page, popup dialog, or sliding bottom sheet with various choices input such as radio, checkbox, switch, chips, or even custom input. Supports single and multiple choice. Inspired by Smart Select component from [Framework7](https://framework7.io/).
 
 ## What's New in Version 4.0.0
@@ -24,6 +26,7 @@ SmartSelect allows you to easily convert your usual form select or dropdown into
 - Internally handle async choice items loader
 - Custom search handler
 - Choice items pagination (pull to refresh and pull to load more)
+- Supports iOS
 
 ## Migration from 3.0.x to 4.x.x
 
