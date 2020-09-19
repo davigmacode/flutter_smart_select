@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:smart_select/smart_select.dart';
 
-class FeaturesModalFooter extends StatefulWidget {
+class FeaturesModalWidget extends StatefulWidget {
   @override
-  _FeaturesModalFooterState createState() => _FeaturesModalFooterState();
+  _FeaturesModalWidgetState createState() => _FeaturesModalWidgetState();
 }
 
-class _FeaturesModalFooterState extends State<FeaturesModalFooter> {
+class _FeaturesModalWidgetState extends State<FeaturesModalWidget> {
 
   int _question1;
   List<int> _question2;

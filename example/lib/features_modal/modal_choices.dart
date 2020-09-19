@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:smart_select/smart_select.dart';
 import '../choices.dart' as choices;
 
-class FeaturesModalHeaderless extends StatefulWidget {
+class FeaturesModalChoices extends StatefulWidget {
   @override
-  _FeaturesModalHeaderlessState createState() => _FeaturesModalHeaderlessState();
+  _FeaturesModalChoicesState createState() => _FeaturesModalChoicesState();
 }
 
-class _FeaturesModalHeaderlessState extends State<FeaturesModalHeaderless> {
+class _FeaturesModalChoicesState extends State<FeaturesModalChoices> {
 
   List<String> _fruit = ['mel'];
   List<String> _hero = ['bat', 'spi'];

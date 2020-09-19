@@ -4,8 +4,8 @@ import './modal_filter.dart';
 import './modal_confirm.dart';
 import './modal_shape.dart';
 import './modal_header.dart';
-import './modal_headerless.dart';
-import './modal_footer.dart';
+import './modal_choices.dart';
+import './modal_widget.dart';
 import '../features_header.dart';
 import '../keep_alive.dart';
 
@@ -43,14 +43,14 @@ class FeaturesModal extends StatelessWidget {
           ),
           KeepAliveWidget(
             child: StickyHeader(
-              header: const FeaturesHeader('Custom Modal Header & Footer'),
-              content: FeaturesModalFooter(),
+              header: const FeaturesHeader('Custom Modal Header & Footer Widget'),
+              content: FeaturesModalWidget(),
             ),
           ),
           KeepAliveWidget(
             child: StickyHeader(
-              header: const FeaturesHeader('Without Header'),
-              content: FeaturesModalHeaderless(),
+              header: const FeaturesHeader('Only Choices, Without Header & Footer'),
+              content: FeaturesModalChoices(),
             ),
           ),
         ],
