@@ -1,5 +1,8 @@
 import 'package:flutter/foundation.dart';
 
+/// Validation callback
+typedef bool ValidationCallback<T>(T value);
+
 abstract class S2Changes<T> extends ChangeNotifier {
 
   /// check whether the current value has the requested value
@@ -8,6 +11,11 @@ abstract class S2Changes<T> extends ChangeNotifier {
   /// select value
   void commit(T val, { bool selected = true });
 
+  void validate();
+
+  /// whether the changes value is valid or not
+  bool valid;
+
   /// get length of selected value
   int get length;
 
@@ -15,21 +23,28 @@ abstract class S2Changes<T> extends ChangeNotifier {
 
 class S2SingleChanges<T> extends S2Changes<T> {
 
+  final ValidationCallback<T> validation;
+
   T _value;
 
   T get value => _value;
 
-  S2SingleChanges(this._value);
+  S2SingleChanges(this._value, { this.validation });
 
   int get length => _value != null ? 1 : 0;
 
   set value(T val) {
     _value = val;
-    notifyListeners();
+    validate();
   }
 
   void commit(T val, { bool selected = true }) {
     _value = val;
+    validate();
+  }
+
+  void validate() {
+    valid = validation?.call(value);
     notifyListeners();
   }
 
@@ -41,17 +56,19 @@ class S2SingleChanges<T> extends S2Changes<T> {
 
 class S2MultiChanges<T> extends S2Changes<T> {
 
+  final ValidationCallback<List<T>> validation;
+
   List<T> _value;
 
   List<T> get value => _value;
 
-  S2MultiChanges(List<T> val) : _value = val ?? [];
+  S2MultiChanges(List<T> val, { this.validation }) : _value = val ?? [];
 
   int get length => _value?.length ?? 0;
 
   set value(List<T> val) {
     _value = List<T>.from(val ?? []);
-    notifyListeners();
+    validate();
   }
 
   void commit(T val, { bool selected = true }) {
@@ -60,6 +77,11 @@ class S2MultiChanges<T> extends S2Changes<T> {
     } else {
       _value.remove(val);
     }
+    validate();
+  }
+
+  void validate() {
+    valid = validation?.call(value);
     notifyListeners();
   }
 

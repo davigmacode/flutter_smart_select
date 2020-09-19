@@ -56,6 +56,12 @@ class SmartSelect<T> extends StatefulWidget {
   /// Builder collection of multiple choice widget
   final S2MultiBuilder<T> multiBuilder;
 
+  /// Modal validation of single choice widget
+  final ValidationCallback<T> singleModalValidation;
+
+  /// Modal validation of multiple choice widget
+  final ValidationCallback<List<T>> multiModalValidation;
+
   /// Default constructor
   SmartSelect({
     Key key,
@@ -64,9 +70,11 @@ class SmartSelect<T> extends StatefulWidget {
     this.isMultiChoice,
     this.singleValue,
     this.singleOnChange,
+    this.singleModalValidation,
     this.singleBuilder,
     this.multiValue,
     this.multiOnChange,
+    this.multiModalValidation,
     this.multiBuilder,
     this.modalConfig = const S2ModalConfig(),
     this.choiceConfig = const S2ChoiceConfig(),
@@ -102,6 +110,9 @@ class SmartSelect<T> extends StatefulWidget {
 
     /// Called when single choice value changed
     @required ValueChanged<S2SingleState<T>> onChange,
+
+    /// Modal validation of single choice widget
+    ValidationCallback<T> modalValidation,
 
     /// List of choice item
     List<S2Choice<T>> choiceItems,
@@ -267,6 +278,7 @@ class SmartSelect<T> extends StatefulWidget {
       multiBuilder: null,
       singleValue: value,
       singleOnChange: onChange,
+      singleModalValidation: modalValidation,
       singleBuilder: S2SingleBuilder<T>().merge(builder).copyWith(
         tileBuilder: tileBuilder,
         modalBuilder: modalBuilder,
@@ -327,6 +339,9 @@ class SmartSelect<T> extends StatefulWidget {
 
     /// Called when multiple choice value changed
     @required ValueChanged<S2MultiState<T>> onChange,
+
+    /// Modal validation of multiple choice widget
+    ValidationCallback<List<T>> modalValidation,
 
     /// List of choice item
     List<S2Choice<T>> choiceItems,
@@ -492,6 +507,7 @@ class SmartSelect<T> extends StatefulWidget {
       singleBuilder: null,
       multiValue: value,
       multiOnChange: onChange,
+      multiModalValidation: modalValidation,
       multiBuilder: S2MultiBuilder<T>().merge(builder).copyWith(
         tileBuilder: tileBuilder,
         modalBuilder: modalBuilder,
@@ -553,6 +569,9 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
 
   /// modal build context
   BuildContext modalContext;
+
+  /// get final modal validation
+  get modalValidation;
 
   /// debouncer used in search text on changed
   final Debouncer debouncer = Debouncer();
@@ -958,13 +977,17 @@ class S2SingleState<T> extends S2State<T> {
   @override
   S2SingleBuilder<T> get builder => widget.singleBuilder;
 
+  /// get final modal validation
+  @override
+  ValidationCallback<T> get modalValidation => widget.singleModalValidation;
+
   @override
   initState() {
     super.initState();
     // set initial final value
     setState(() => value = widget.singleValue);
     // set initial cache value
-    changes = S2SingleChanges<T>(value)..addListener(_changesHandler);
+    changes = S2SingleChanges<T>(value, validation: modalValidation)..addListener(_changesHandler);
   }
 
   @override
@@ -1068,13 +1091,17 @@ class S2MultiState<T> extends S2State<T> {
   @override
   S2MultiBuilder<T> get builder => widget.multiBuilder;
 
+  /// get final modal validation
+  @override
+  ValidationCallback<List<T>> get modalValidation => widget.multiModalValidation;
+
   @override
   initState() {
     super.initState();
     // set initial final value
     setState(() => value = widget.multiValue);
     // set initial cache value
-    changes = S2MultiChanges<T>(value)..addListener(_changesHandler);
+    changes = S2MultiChanges<T>(value, validation: modalValidation)..addListener(_changesHandler);
   }
 
   @override
