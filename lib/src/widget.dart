@@ -623,12 +623,10 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
       animation: filter,
       builder: (context, _) {
         modalContext = context;
-        return _customModal != null
-          ? AnimatedBuilder(
-              animation: changes,
-              builder: (context, _) => _customModal,
-            )
-          : defaultModal;
+        return AnimatedBuilder(
+          animation: changes,
+          builder: (context, _) => _customModal ?? defaultModal,
+        );
       }
     );
   }
@@ -638,18 +636,9 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
     return _S2Modal(
       config: modalConfig,
       choices: choiceItems,
-      header: AnimatedBuilder(
-        animation: changes,
-        builder: (context, _) => modalHeader ?? Container(),
-      ),
-      divider: AnimatedBuilder(
-        animation: changes,
-        builder: (context, _) => modalDivider ?? Container(),
-      ),
-      footer: AnimatedBuilder(
-        animation: changes,
-        builder: (context, _) => modalFooter ?? Container(),
-      ),
+      header: modalHeader,
+      divider: modalDivider,
+      footer: modalFooter,
     );
   }
 
