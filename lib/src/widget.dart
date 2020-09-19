@@ -121,6 +121,10 @@ class SmartSelect<T> extends StatefulWidget {
     // shortcut to [builder.modalHeaderBuilder]
     S2WidgetBuilder<S2SingleState<T>> modalHeaderBuilder,
 
+    // Builder for custom modal actions widget
+    // shortcut to [builder.modalActionsBuilder]
+    S2ListWidgetBuilder<S2SingleState<T>> modalActionsBuilder,
+
     // Builder for custom modal confirm action widget
     // shortcut to [builder.modalConfirmBuilder]
     S2WidgetBuilder<S2SingleState<T>> modalConfirmBuilder,
@@ -267,6 +271,7 @@ class SmartSelect<T> extends StatefulWidget {
         tileBuilder: tileBuilder,
         modalBuilder: modalBuilder,
         modalHeaderBuilder: modalHeaderBuilder,
+        modalActionsBuilder: modalActionsBuilder,
         modalConfirmBuilder: modalConfirmBuilder,
         modalDividerBuilder: modalDividerBuilder,
         modalFooterBuilder: modalFooterBuilder,
@@ -340,6 +345,10 @@ class SmartSelect<T> extends StatefulWidget {
     // Builder for custom modal header widget
     // shortcut to [builder.modalHeaderBuilder]
     S2WidgetBuilder<S2MultiState<T>> modalHeaderBuilder,
+
+    // Builder for custom modal actions widget
+    // shortcut to [builder.modalActionsBuilder]
+    S2ListWidgetBuilder<S2MultiState<T>> modalActionsBuilder,
 
     // Builder for custom modal confirm action widget
     // shortcut to [builder.modalConfirmBuilder]
@@ -487,6 +496,7 @@ class SmartSelect<T> extends StatefulWidget {
         tileBuilder: tileBuilder,
         modalBuilder: modalBuilder,
         modalHeaderBuilder: modalHeaderBuilder,
+        modalActionsBuilder: modalActionsBuilder,
         modalConfirmBuilder: modalConfirmBuilder,
         modalDividerBuilder: modalDividerBuilder,
         modalFooterBuilder: modalFooterBuilder,
@@ -755,11 +765,24 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
       automaticallyImplyLeading: modalConfig.type == S2ModalType.fullPage || filter.activated,
       leading: filter.activated ? Icon(Icons.search) : null,
       title: filter.activated == true ? modalFilter : modalTitle,
-      actions: <Widget>[
-        modalFilterToggle,
-        confirmButton,
-      ]..removeWhere((child) => child == null),
+      actions: modalActions,
     );
+  }
+
+  /// get modal action widgets
+  List<Widget> get modalActions {
+    return (_customModalActions ?? defaultModalActions)..removeWhere((child) => child == null);
+  }
+
+  /// get custom modal header
+  List<Widget> get _customModalActions;
+
+  /// get default modal header widget
+  List<Widget> get defaultModalActions {
+    return <Widget>[
+      modalFilterToggle,
+      confirmButton,
+    ];
   }
 
   /// get choice item builder
@@ -859,7 +882,7 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
           context: context,
           builder: (_) => Dialog(
             shape: modalStyle.shape,
-            clipBehavior: modalStyle.clipBehavior ?? Clip.none,
+            clipBehavior: modalStyle.clipBehavior ?? Clip.antiAlias,
             backgroundColor: modalStyle.backgroundColor,
             elevation: modalStyle.elevation,
             child: modal,
@@ -872,15 +895,15 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
 
   /// get default tile widget
   Widget get defaultTile {
-    return S2Tile.fromState(this);
+    return S2Tile<T>.fromState(this);
   }
 
-  /// call back to close the choice modal
+  /// callback to close the choice modal
   void closeModal({ bool confirmed = true }) {
     Navigator.pop(context, confirmed);
   }
 
-  /// call back to show the choice modal
+  /// callback to show the choice modal
   void showModal();
 
   @override
@@ -982,6 +1005,12 @@ class S2SingleState<T> extends S2State<T> {
   @override
   Widget get _customModalHeader {
     return builder?.modalHeaderBuilder?.call(modalContext, this);
+  }
+
+  /// get custom modal header widget
+  @override
+  List<Widget> get _customModalActions {
+    return builder?.modalActionsBuilder?.call(modalContext, this);
   }
 
   /// get custom confirm button
@@ -1086,6 +1115,12 @@ class S2MultiState<T> extends S2State<T> {
   @override
   Widget get _customModalHeader {
     return builder?.modalHeaderBuilder?.call(modalContext, this);
+  }
+
+  /// get custom modal header widget
+  @override
+  List<Widget> get _customModalActions {
+    return builder?.modalActionsBuilder?.call(modalContext, this);
   }
 
   /// get custom confirm button

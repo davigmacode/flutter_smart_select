@@ -4,8 +4,14 @@ import '../widget.dart';
 import 'choice_item.dart';
 import 'choice_group.dart';
 
-/// A common builder
+/// A common widget builder
 typedef Widget S2WidgetBuilder<T>(
+  BuildContext context,
+  T value,
+);
+
+/// A common list of widget builder
+typedef List<Widget> S2ListWidgetBuilder<T>(
   BuildContext context,
   T value,
 );
@@ -108,6 +114,9 @@ class S2SingleBuilder<T> extends S2Builder<T> {
   /// Builder for custom modal header widget
   final S2WidgetBuilder<S2SingleState<T>> modalHeaderBuilder;
 
+  /// Builder for custom modal header widget
+  final S2ListWidgetBuilder<S2SingleState<T>> modalActionsBuilder;
+
   /// Builder for modal confirm action widget
   final S2WidgetBuilder<S2SingleState<T>> modalConfirmBuilder;
 
@@ -122,6 +131,7 @@ class S2SingleBuilder<T> extends S2Builder<T> {
     this.tileBuilder,
     this.modalBuilder,
     this.modalHeaderBuilder,
+    this.modalActionsBuilder,
     this.modalConfirmBuilder,
     this.modalDividerBuilder,
     this.modalFooterBuilder,
@@ -158,6 +168,7 @@ class S2SingleBuilder<T> extends S2Builder<T> {
     S2WidgetBuilder<S2SingleState<T>> tileBuilder,
     S2WidgetBuilder<S2SingleState<T>> modalBuilder,
     S2WidgetBuilder<S2SingleState<T>> modalHeaderBuilder,
+    S2ListWidgetBuilder<S2SingleState<T>> modalActionsBuilder,
     S2WidgetBuilder<S2SingleState<T>> modalConfirmBuilder,
     S2WidgetBuilder<S2SingleState<T>> modalDividerBuilder,
     S2WidgetBuilder<S2SingleState<T>> modalFooterBuilder,
@@ -178,6 +189,7 @@ class S2SingleBuilder<T> extends S2Builder<T> {
       tileBuilder: tileBuilder ?? this.tileBuilder,
       modalBuilder: modalBuilder ?? this.modalBuilder,
       modalHeaderBuilder: modalHeaderBuilder ?? this.modalHeaderBuilder,
+      modalActionsBuilder: modalActionsBuilder ?? this.modalActionsBuilder,
       modalConfirmBuilder: modalConfirmBuilder ?? this.modalConfirmBuilder,
       modalDividerBuilder: modalDividerBuilder ?? this.modalDividerBuilder,
       modalFooterBuilder: modalFooterBuilder ?? this.modalFooterBuilder,
@@ -206,6 +218,7 @@ class S2SingleBuilder<T> extends S2Builder<T> {
       tileBuilder: other.tileBuilder,
       modalBuilder: other.modalBuilder,
       modalHeaderBuilder: other.modalHeaderBuilder,
+      modalActionsBuilder: other.modalActionsBuilder,
       modalConfirmBuilder: other.modalConfirmBuilder,
       modalDividerBuilder: other.modalDividerBuilder,
       modalFooterBuilder: other.modalFooterBuilder,
@@ -237,6 +250,9 @@ class S2MultiBuilder<T> extends S2Builder<T> {
   /// Builder for custom modal header widget
   final S2WidgetBuilder<S2MultiState<T>> modalHeaderBuilder;
 
+  /// Builder for custom modal header widget
+  final S2ListWidgetBuilder<S2MultiState<T>> modalActionsBuilder;
+
   /// Builder for custom modal confirm action widget
   final S2WidgetBuilder<S2MultiState<T>> modalConfirmBuilder;
 
@@ -251,6 +267,7 @@ class S2MultiBuilder<T> extends S2Builder<T> {
     this.tileBuilder,
     this.modalBuilder,
     this.modalHeaderBuilder,
+    this.modalActionsBuilder,
     this.modalConfirmBuilder,
     this.modalDividerBuilder,
     this.modalFooterBuilder,
@@ -287,6 +304,7 @@ class S2MultiBuilder<T> extends S2Builder<T> {
     S2WidgetBuilder<S2MultiState<T>> tileBuilder,
     S2WidgetBuilder<S2MultiState<T>> modalBuilder,
     S2WidgetBuilder<S2MultiState<T>> modalHeaderBuilder,
+    S2ListWidgetBuilder<S2MultiState<T>> modalActionsBuilder,
     S2WidgetBuilder<S2MultiState<T>> modalConfirmBuilder,
     S2WidgetBuilder<S2MultiState<T>> modalDividerBuilder,
     S2WidgetBuilder<S2MultiState<T>> modalFooterBuilder,
@@ -307,6 +325,7 @@ class S2MultiBuilder<T> extends S2Builder<T> {
       tileBuilder: tileBuilder ?? this.tileBuilder,
       modalBuilder: modalBuilder ?? this.modalBuilder,
       modalHeaderBuilder: modalHeaderBuilder ?? this.modalHeaderBuilder,
+      modalActionsBuilder: modalActionsBuilder ?? this.modalActionsBuilder,
       modalConfirmBuilder: modalConfirmBuilder ?? this.modalConfirmBuilder,
       modalDividerBuilder: modalDividerBuilder ?? this.modalDividerBuilder,
       modalFooterBuilder: modalFooterBuilder ?? this.modalFooterBuilder,
@@ -335,6 +354,7 @@ class S2MultiBuilder<T> extends S2Builder<T> {
       tileBuilder: other.tileBuilder,
       modalBuilder: other.modalBuilder,
       modalHeaderBuilder: other.modalHeaderBuilder,
+      modalActionsBuilder: other.modalActionsBuilder,
       modalConfirmBuilder: other.modalConfirmBuilder,
       modalDividerBuilder: other.modalDividerBuilder,
       modalFooterBuilder: other.modalFooterBuilder,
