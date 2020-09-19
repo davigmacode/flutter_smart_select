@@ -683,7 +683,7 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
         : TextAlign.left,
       onSubmitted: modalConfig.filterAuto ? null : filter.apply,
       onChanged: modalConfig.filterAuto
-        ? (query) => debouncer.run(() => filter.apply(query))
+        ? (query) => debouncer.run(() => filter.apply(query), delay: modalConfig.filterDelay)
         : null,
     );
   }

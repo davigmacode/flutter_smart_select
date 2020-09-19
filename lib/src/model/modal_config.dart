@@ -35,6 +35,9 @@ class S2ModalConfig {
   /// Whether the filter is autocomplete or need confirmation
   final bool filterAuto;
 
+  /// The filter autocomplete delay
+  final Duration filterDelay;
+
   /// Configure modal style
   final S2ModalStyle style;
 
@@ -49,6 +52,7 @@ class S2ModalConfig {
     this.useHeader = true,
     this.useFilter = false,
     this.filterAuto = false,
+    this.filterDelay = const Duration(milliseconds: 300),
     this.filterHint,
     this.style = const S2ModalStyle(),
     this.headerStyle = const S2ModalHeaderStyle(),
@@ -69,6 +73,7 @@ class S2ModalConfig {
     bool useHeader,
     bool useFilter,
     bool filterAuto,
+    Duration filterDelay,
     String filterHint,
     S2ModalStyle style,
     S2ModalHeaderStyle headerStyle,
@@ -80,6 +85,7 @@ class S2ModalConfig {
       useHeader: useHeader ?? this.useHeader,
       useFilter: useFilter ?? this.useFilter,
       filterAuto: filterAuto ?? this.filterAuto,
+      filterDelay: filterDelay ?? this.filterDelay,
       filterHint: filterHint ?? this.filterHint,
       style: style ?? this.style,
       headerStyle: headerStyle ?? this.headerStyle,
@@ -99,6 +105,7 @@ class S2ModalConfig {
       useHeader: other.useHeader,
       useFilter: other.useFilter,
       filterAuto: other.filterAuto,
+      filterDelay: other.filterDelay,
       filterHint: other.filterHint,
       style: other.style,
       headerStyle: other.headerStyle,
