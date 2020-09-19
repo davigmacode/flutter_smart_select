@@ -111,6 +111,29 @@ class _FeaturesModalFooterState extends State<FeaturesModalFooter> {
           ),
           modalConfirmation: true,
           modalType: S2ModalType.bottomSheet,
+          modalValidation: (value) => value.length > 0,
+          modalHeaderBuilder: (context, state) {
+            return Container(
+              padding: const EdgeInsets.fromLTRB(25, 20, 25, 10),
+              child: state.modalTitle,
+            );
+          },
+          modalFooterBuilder: (context, state) {
+            return Padding(
+              padding: const EdgeInsets.fromLTRB(25, 5, 25, 15),
+              child: ButtonTheme(
+                minWidth: double.infinity,
+                child: FlatButton(
+                  child: Text('Submit (${state.changes.length})'),
+                  color: Colors.blue,
+                  textColor: Colors.white,
+                  onPressed: state.changes.valid
+                    ? () => state.closeModal(confirmed: true)
+                    : null,
+                ),
+              ),
+            );
+          },
           tileBuilder: (context, state) {
             return Card(
               elevation: 3,
@@ -139,27 +162,6 @@ class _FeaturesModalFooterState extends State<FeaturesModalFooter> {
                   placeholderIgnored: true,
                   chipColor: Colors.blue,
                   chipBrightness: Brightness.dark,
-                ),
-              ),
-            );
-          },
-          modalHeaderBuilder: (context, state) {
-            return Container(
-              padding: const EdgeInsets.fromLTRB(25, 20, 25, 10),
-              child: state.modalTitle,
-            );
-          },
-          modalFooterBuilder: (context, state) {
-            final int count = state.changes.length;
-            return Padding(
-              padding: const EdgeInsets.fromLTRB(25, 5, 25, 15),
-              child: ButtonTheme(
-                minWidth: double.infinity,
-                child: FlatButton(
-                  child: Text('Submit ($count)'),
-                  color: Colors.blue,
-                  textColor: Colors.white,
-                  onPressed: count > 0 ? () => state.closeModal(confirmed: true) : null,
                 ),
               ),
             );

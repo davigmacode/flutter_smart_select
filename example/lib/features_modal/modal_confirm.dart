@@ -45,6 +45,7 @@ class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
           choiceItems: choices.fruits,
           modalType: S2ModalType.popupDialog,
           modalConfirmation: true,
+          modalValidation: (value) => value.length > 0,
           tileBuilder: (context, state) {
             return S2Tile.fromState(
               state,
@@ -57,7 +58,6 @@ class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
             );
           },
           modalHeaderBuilder: (context, state) {
-            int count = state.changes.length;
             return Container(
               padding: const EdgeInsets.fromLTRB(15, 15, 15, 15),
               height: kToolbarHeight,
@@ -66,7 +66,7 @@ class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
                   state.modalTitle,
                   const Spacer(),
                   Visibility(
-                    visible: count == 0,
+                    visible: state.changes.valid,
                     child: const Text(
                       'Select at least one',
                       style: TextStyle(
@@ -82,7 +82,6 @@ class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
             return const Divider(height: 1);
           },
           modalFooterBuilder: (context, state) {
-            final int count = state.changes.length;
             return Container(
               padding: const EdgeInsets.symmetric(
                 horizontal: 12.0,
@@ -97,10 +96,12 @@ class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
                   ),
                   const SizedBox(width: 5),
                   FlatButton(
-                    child: Text('OK ($count)'),
+                    child: Text('OK (${state.changes.length})'),
                     color: Colors.blue,
                     textColor: Colors.white,
-                    onPressed: count > 0 ? () => state.closeModal(confirmed: true) : null,
+                    onPressed: state.changes.valid
+                      ? () => state.closeModal(confirmed: true)
+                      : null,
                   ),
                 ],
               ),

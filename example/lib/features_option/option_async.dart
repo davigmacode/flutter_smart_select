@@ -14,7 +14,6 @@ class _FeaturesOptionAsyncState extends State<FeaturesOptionAsync> {
   List<S2Choice<String>> _users = [];
   bool _usersIsLoading;
 
-  String _country;
   List<String> _countries;
   final _countriesMemoizer = AsyncMemoizer<List<S2Choice<String>>>();
 
@@ -86,27 +85,6 @@ class _FeaturesOptionAsyncState extends State<FeaturesOptionAsync> {
           },
         ),
         const SizedBox(height: 7),
-        // SmartSelect<String>.single(
-        //   title: 'Country',
-        //   value: _country,
-        //   modalFilter: true,
-        //   choiceLoader: (info) => _getCountries(info.query),
-        //   choiceGrouped: true,
-        //   choiceType: S2ChoiceType.radios,
-        //   onChange: (state) => setState(() => _country = state.value),
-        //   tileBuilder: (context, state) {
-        //     return S2Tile.fromState(
-        //       state,
-        //       isTwoLine: true,
-        //       leading: const SizedBox(
-        //         width: 40,
-        //         height: 40,
-        //         child: Icon(Icons.flag),
-        //       ),
-        //     );
-        //   },
-        // ),
-        // const SizedBox(height: 7),
       ],
     );
   }
