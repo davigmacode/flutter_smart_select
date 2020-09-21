@@ -564,8 +564,8 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
   /// filter state
   S2Filter filter;
 
-  /// changes value
-  S2Changes<T> changes;
+  /// value changes state
+  covariant S2Changes<T> changes;
 
   /// modal build context
   BuildContext modalContext;
@@ -575,6 +575,9 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
 
   /// debouncer used in search text on changed
   final Debouncer debouncer = Debouncer();
+
+
+  covariant var value;
 
   /// return an object or array of object
   /// that represent the value
@@ -793,6 +796,9 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
     ];
   }
 
+  /// get choices selector widget
+  Widget get choiceSelector;
+
   /// get choice item builder
   /// by it's type from resolver
   S2ChoiceBuilder<T> get choiceBuilder {
@@ -906,12 +912,12 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
     return S2Tile<T>.fromState(this);
   }
 
-  /// callback to close the choice modal
+  /// function to close the choice modal
   void closeModal({ bool confirmed = true }) {
     Navigator.pop(context, confirmed);
   }
 
-  /// callback to show the choice modal
+  /// function to show the choice modal
   void showModal();
 
   @override
@@ -942,7 +948,12 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
 /// State for Single Choice
 class S2SingleState<T> extends S2State<T> {
 
+  /// value changes state
+  @override
+  S2SingleChanges<T> changes;
+
   /// final value
+  @override
   T value;
 
   /// return an object or array of object
@@ -1031,10 +1042,15 @@ class S2SingleState<T> extends S2State<T> {
     return builder?.modalConfirmBuilder?.call(modalContext, this);
   }
 
+  /// get choices selector widget
+  @override
+  Widget get choiceSelector => null;
+
+  /// function to show the choice modal
   @override
   void showModal() async {
     // reset cache value
-    (changes as S2SingleChanges<T>).value = value;
+    changes.value = value;
 
     // show modal by type and return confirmed value
     bool confirmed = await _showModalByType();
@@ -1043,9 +1059,9 @@ class S2SingleState<T> extends S2State<T> {
     if (modalConfig.useConfirmation == true && confirmed != true) return;
 
     // return value
-    if ((changes as S2SingleChanges<T>).value != null) {
+    if (changes.value != null) {
       // set cache to final value
-      setState(() => value = (changes as S2SingleChanges<T>).value);
+      setState(() => value = changes.value);
       // return state to onChange callback
       onChange?.call(this);
     }
@@ -1056,7 +1072,12 @@ class S2SingleState<T> extends S2State<T> {
 /// State for Multiple Choice
 class S2MultiState<T> extends S2State<T> {
 
+  /// value changes state
+  @override
+  S2MultiChanges<T> changes;
+
   /// final value
+  @override
   List<T> value;
 
   /// return an object or array of object
@@ -1101,7 +1122,15 @@ class S2MultiState<T> extends S2State<T> {
     // set initial final value
     setState(() => value = widget.multiValue);
     // set initial cache value
-    changes = S2MultiChanges<T>(value, validation: modalValidation)..addListener(_changesHandler);
+    changes = S2MultiChanges<T>(
+      value,
+      validation: modalValidation,
+      selectAll: () {
+        changes.value = widget.choiceItems
+          .map((S2Choice<T> item) => item.value)
+          .toList();
+      }
+    )..addListener(_changesHandler);
   }
 
   @override
@@ -1145,10 +1174,31 @@ class S2MultiState<T> extends S2State<T> {
     return builder?.modalConfirmBuilder?.call(modalContext, this);
   }
 
+  /// get choices selector widget
+  @override
+  Widget get choiceSelector {
+    return Checkbox(
+      value: changes.length == widget.choiceItems.length
+        ? true
+        : changes.length == 0
+          ? false
+          : null,
+      tristate: true,
+      onChanged: (value) {
+        if (value == true) {
+          changes.selectAll();
+        } else {
+          changes.selectNone();
+        }
+      },
+    );
+  }
+
+  /// function to show the choice modal
   @override
   void showModal() async {
     // reset cache value
-    (changes as S2MultiChanges<T>).value = value;
+    changes.value = value;
 
     // show modal by type and return confirmed value
     bool confirmed = await _showModalByType();
@@ -1156,14 +1206,14 @@ class S2MultiState<T> extends S2State<T> {
     // dont return value if modal need confirmation and not confirmed
     if (modalConfig.useConfirmation == true && confirmed != true) {
       // reset cache value
-      (changes as S2MultiChanges<T>).value = value;
+      changes.value = value;
       return;
     }
 
     // return value
-    if ((changes as S2MultiChanges<T>).value != null) {
+    if (changes.value != null) {
       // set cache to final value
-      setState(() => value = (changes as S2MultiChanges<T>).value);
+      setState(() => value = changes.value);
       // return state to onChange callback
       onChange?.call(this);
     }
