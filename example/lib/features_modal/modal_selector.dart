@@ -2,42 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:smart_select/smart_select.dart';
 import '../choices.dart' as choices;
 
-class FeaturesModalConfirm extends StatefulWidget {
+class FeaturesModalSelector extends StatefulWidget {
   @override
-  _FeaturesModalConfirmState createState() => _FeaturesModalConfirmState();
+  _FeaturesModalSelectorState createState() => _FeaturesModalSelectorState();
 }
 
-class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
+class _FeaturesModalSelectorState extends State<FeaturesModalSelector> {
 
-  List<String> _day = ['fri'];
   List<String> _fruit = ['mel'];
-  String _hero = 'iro';
+  List<String> _smartphone = [];
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
         const SizedBox(height: 7),
-        SmartSelect<String>.multiple(
-          title: 'Days',
-          value: _day,
-          onChange: (state) => setState(() => _day = state.value),
-          choiceItems: choices.days,
-          modalType: S2ModalType.fullPage,
-          modalConfirmation: true,
-          tileBuilder: (context, state) {
-            return S2Tile(
-              title: state.titleWidget,
-              value: state.valueDisplay,
-              onTap: state.showModal,
-              isTwoLine: true,
-              leading: const CircleAvatar(
-                backgroundImage: NetworkImage('https://source.unsplash.com/xsGxhtAsfSA/100x100'),
-              ),
-            );
-          }
-        ),
-        const Divider(indent: 20),
         SmartSelect<String>.multiple(
           title: 'Fruit',
           value: _fruit,
@@ -96,41 +75,90 @@ class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
           }
         ),
         const Divider(indent: 20),
-        SmartSelect<String>.single(
-          title: 'Super Hero',
-          value: _hero,
-          onChange: (state) => setState(() => _hero = state.value),
-          choiceItems: choices.heroes,
-          choiceStyle: const S2ChoiceStyle(
-            activeColor: Colors.redAccent
+        SmartSelect<String>.multiple(
+          title: 'Phones',
+          placeholder: 'Choose one',
+          value: _smartphone,
+          onChange: (state) => setState(() => _smartphone = state.value),
+          choiceItems: S2Choice.listFrom<String, Map>(
+            source: choices.smartphones,
+            value: (index, item) => item['id'],
+            title: (index, item) => item['name'],
+            group: (index, item) => item['brand'],
+            meta: (index, item) => item,
           ),
+          choiceType: S2ChoiceType.chips,
           modalType: S2ModalType.bottomSheet,
-          modalConfirmation: true,
+          modalActionsBuilder: (context, state) {
+            return [
+              ActionButton(
+                label: const Text('Low End'),
+                onTap: () {
+                  state.changes.value = state.widget.choiceItems
+                    .where((item) => item.meta['category'] == 'Budget Phone')
+                    .map((item) => item.value)
+                    .toList();
+                },
+              ),
+              ActionButton(
+                label: const Text('Mid End'),
+                onTap: () {
+                  state.changes.value = state.widget.choiceItems
+                    .where((item) => item.meta['category'] == 'Mid End Phone')
+                    .map((item) => item.value)
+                    .toList();
+                },
+              ),
+              ActionButton(
+                label: const Text('High End'),
+                onTap: () {
+                  state.changes.value = state.widget.choiceItems
+                    .where((item) => item.meta['category'] == 'Flagship Phone')
+                    .map((item) => item.value)
+                    .toList();
+                },
+              ),
+            ];
+          },
           tileBuilder: (context, state) {
             return S2Tile.fromState(
               state,
               isTwoLine: true,
               leading: const CircleAvatar(
-                backgroundImage: NetworkImage('https://source.unsplash.com/8I-ht65iRww/100x100'),
+                backgroundImage: NetworkImage('https://source.unsplash.com/xsGxhtAsfSA/100x100'),
               ),
             );
-          },
-          modalConfirmBuilder: (context, state) {
-            return Center(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-                child: FlatButton(
-                  child: const Text('Send'),
-                  color: Colors.redAccent,
-                  textColor: Colors.white,
-                  onPressed: () => state.closeModal(confirmed: true),
-                ),
-              ),
-            );
-          },
+          }
         ),
         const SizedBox(height: 7),
       ],
+    );
+  }
+}
+
+class ActionButton extends StatelessWidget {
+
+  final Widget label;
+  final VoidCallback onTap;
+
+  ActionButton({
+    Key key,
+    this.label,
+    this.onTap,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+        child: FlatButton(
+          child: label,
+          color: Colors.redAccent,
+          textColor: Colors.white,
+          onPressed: onTap,
+        ),
+      ),
     );
   }
 }

@@ -44,7 +44,7 @@ class _FeaturesModalValidationState extends State<FeaturesModalValidation> {
                   state.modalTitle,
                   const Spacer(),
                   Visibility(
-                    visible: state.changes.valid,
+                    visible: !state.changes.valid,
                     child: const Text(
                       'Select at least one',
                       style: TextStyle(

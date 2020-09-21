@@ -22,7 +22,7 @@ class _FeaturesChoicesBuilderState extends State<FeaturesChoicesBuilder> {
       children: <Widget>[
         const SizedBox(height: 7),
         SmartSelect<int>.single(
-          title: 'Commuter',
+          title: 'Transportation',
           placeholder: 'Choose one',
           value: _commute,
           onChange: (state) => setState(() => _commute = state.value),
@@ -70,22 +70,9 @@ class _FeaturesChoicesBuilderState extends State<FeaturesChoicesBuilder> {
                 ),
               ),
             );
-
-            // return ListTile(
-            //   title: Text(choice.data.title),
-            //   subtitle: Text(choice.data.subtitle),
-            //   onTap: () => choice.select(true),
-            //   leading: CircleAvatar(
-            //     backgroundImage: NetworkImage(choice.data.meta['image']),
-            //     child: choice.selected ? Icon(
-            //       Icons.check,
-            //       color: Colors.white,
-            //     ) : null,
-            //   ),
-            // );
           },
           tileBuilder: (context, state) {
-            String avatar = (state.valueObject?.meta ?? {})['image'] ?? 'https://source.unsplash.com/yeVtxxPxzbw/100x100';
+            String avatar = (state.valueObject?.meta ?? {})['image'] ?? 'https://source.unsplash.com/3k5cAmxjXl4/100x100';
             return S2Tile.fromState(
               state,
               isTwoLine: true,

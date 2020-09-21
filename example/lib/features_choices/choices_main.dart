@@ -23,13 +23,13 @@ class FeaturesChoices extends StatelessWidget {
           ),
           KeepAliveWidget(
             child: StickyHeader(
-              header: const FeaturesHeader('Use Divider Between Item'),
+              header: const FeaturesHeader('Divider Between Item'),
               content: FeaturesChoicesDivider(),
             ),
           ),
           KeepAliveWidget(
             child: StickyHeader(
-              header: const FeaturesHeader('Customize Choice Widget and Layout'),
+              header: const FeaturesHeader('Custom Choice Widget and Layout'),
               content: FeaturesChoicesBuilder(),
             ),
           ),

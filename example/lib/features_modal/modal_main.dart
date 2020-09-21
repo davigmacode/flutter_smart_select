@@ -3,6 +3,7 @@ import 'package:sticky_headers/sticky_headers.dart';
 import './modal_filter.dart';
 import './modal_confirm.dart';
 import './modal_validation.dart';
+import './modal_selector.dart';
 import './modal_shape.dart';
 import './modal_header.dart';
 import './modal_choices.dart';
@@ -34,6 +35,12 @@ class FeaturesModal extends StatelessWidget {
             child: StickyHeader(
               header: const FeaturesHeader('Validation'),
               content: FeaturesModalValidation(),
+            ),
+          ),
+          KeepAliveWidget(
+            child: StickyHeader(
+              header: const FeaturesHeader('Choice Selector'),
+              content: FeaturesModalSelector(),
             ),
           ),
           KeepAliveWidget(

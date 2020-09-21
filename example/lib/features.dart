@@ -21,10 +21,10 @@ class Features extends StatelessWidget {
             tabs: [
               Tab(text: 'Single Choice'),
               Tab(text: 'Multiple Choice'),
-              Tab(text: 'Customize Tile'),
-              Tab(text: 'Customize Option'),
+              Tab(text: 'Choices Option'),
+              Tab(text: 'Choices Widget'),
               Tab(text: 'Customize Modal'),
-              Tab(text: 'Customize Choices'),
+              Tab(text: 'Customize Tile'),
             ],
           ),
           actions: <Widget>[
@@ -43,16 +43,16 @@ class Features extends StatelessWidget {
               child: FeaturesMulti(),
             ),
             KeepAliveWidget(
-              child: FeaturesTile(),
+              child: FeaturesOption(),
             ),
             KeepAliveWidget(
-              child: FeaturesOption(),
+              child: FeaturesChoices(),
             ),
             KeepAliveWidget(
               child: FeaturesModal(),
             ),
             KeepAliveWidget(
-              child: FeaturesChoices(),
+              child: FeaturesTile(),
             ),
           ],
         ),
