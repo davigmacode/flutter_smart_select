@@ -2,6 +2,8 @@
 
 ![Pub Version](https://img.shields.io/pub/v/smart_select) ![GitHub](https://img.shields.io/github/license/davigmacode/flutter_smart_select)
 
+<a href="https://www.buymeacoffee.com/davigmacode" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 45px !important;" ></a>
+
 SmartSelect allows you to easily convert your usual form select or dropdown into dynamic page, popup dialog, or sliding bottom sheet with various choices input such as radio, checkbox, switch, chips, or even custom input. Supports single and multiple choice. Inspired by Smart Select component from [Framework7](https://framework7.io/).
 
 ## What's New in Version 4.0.0
@@ -652,6 +654,10 @@ SmartSelect<T>.single({
   // shortcut to [builder.modalHeaderBuilder]
   S2WidgetBuilder<S2SingleState<T>> modalHeaderBuilder,
 
+  // Builder for custom modal actions widget
+  // shortcut to [builder.modalActionsBuilder]
+  S2ListWidgetBuilder<S2SingleState<T>> modalActionsBuilder,
+
   // Builder for custom modal confirm action widget
   // shortcut to [builder.modalConfirmBuilder]
   S2WidgetBuilder<S2SingleState<T>> modalConfirmBuilder,
@@ -696,6 +702,10 @@ SmartSelect<T>.multiple({
   // Builder for custom modal header widget
   // shortcut to [builder.modalHeaderBuilder]
   S2WidgetBuilder<S2MultiState<T>> modalHeaderBuilder,
+
+  // Builder for custom modal actions widget
+  // shortcut to [builder.modalActionsBuilder]
+  S2ListWidgetBuilder<S2MultiState<T>> modalActionsBuilder,
 
   // Builder for custom modal confirm action widget
   // shortcut to [builder.modalConfirmBuilder]
@@ -765,14 +775,6 @@ SmartSelect<T>.[single|multiple]({
   // A widget builder for custom header choices group
   // shortcut to [builder.choiceHeaderBuilder]
   S2ChoiceHeaderBuilder choiceHeaderBuilder,
-
-  // Builder for choice items pager
-  // shortcut to [builder.choicePagerBuilder]
-  S2ChoiceBuilder<T> choicePagerBuilder,
-
-  // Builder for progress indicator on choice load
-  // shortcut to [builder.choiceProgressBuilder]
-  WidgetBuilder choiceProgressBuilder,
 
   // other configuration
   ...,
