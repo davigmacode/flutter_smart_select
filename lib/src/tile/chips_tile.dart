@@ -42,7 +42,7 @@ class S2ChipsTile<T> extends StatelessWidget {
   final Widget placeholder;
 
   /// Hide placeholder when the [values] is null
-  final bool placeholderIgnored;
+  final bool placeholderIgnore;
 
   /// Whether the chip list is scrollable or not
   final bool scrollable;
@@ -59,8 +59,11 @@ class S2ChipsTile<T> extends StatelessWidget {
   /// Chip brightness
   final Brightness chipBrightness;
 
-  /// Chip action button color
-  final Color chipActionColor;
+  /// Chip delete button color
+  final Color chipDeleteColor;
+
+  /// Chip delete button icon
+  final Icon chipDeleteIcon;
 
   /// Chip spacing
   final double chipSpacing;
@@ -68,8 +71,17 @@ class S2ChipsTile<T> extends StatelessWidget {
   /// Chip run spacing
   final double chipRunSpacing;
 
+  /// Chip shape border
+  final ShapeBorder chipShape;
+
   /// Widget builder for chip item
   final IndexedWidgetBuilder chipBuilder;
+
+  /// Widget builder for chip label item
+  final IndexedWidgetBuilder chipLabelBuilder;
+
+  /// Widget builder for chip avatar item
+  final IndexedWidgetBuilder chipAvatarBuilder;
 
   /// Called when the user delete the chip item.
   final ValueChanged<T> chipOnDelete;
@@ -85,16 +97,20 @@ class S2ChipsTile<T> extends StatelessWidget {
     this.trailing,
     this.divider,
     this.placeholder,
-    this.placeholderIgnored= false,
+    this.placeholderIgnore= false,
     this.scrollable = false,
     this.padding,
     this.chipColor = Colors.black87,
     this.chipBorderOpacity,
     this.chipBrightness,
-    this.chipActionColor,
+    this.chipDeleteColor,
+    this.chipDeleteIcon,
     this.chipSpacing,
     this.chipRunSpacing,
+    this.chipShape,
     this.chipBuilder,
+    this.chipLabelBuilder,
+    this.chipAvatarBuilder,
     this.chipOnDelete,
   }) : super(key: key);
 
@@ -110,16 +126,20 @@ class S2ChipsTile<T> extends StatelessWidget {
     this.trailing,
     this.divider,
     this.placeholder,
-    this.placeholderIgnored = false,
+    this.placeholderIgnore = false,
     this.scrollable = false,
     this.padding,
     this.chipColor = Colors.black87,
     this.chipBorderOpacity,
     this.chipBrightness,
-    this.chipActionColor,
+    this.chipDeleteColor,
+    this.chipDeleteIcon,
     this.chipSpacing,
     this.chipRunSpacing,
+    this.chipShape,
     this.chipBuilder,
+    this.chipLabelBuilder,
+    this.chipAvatarBuilder,
     this.chipOnDelete,
   }) :
     title = title ?? state.titleWidget,
@@ -149,7 +169,7 @@ class S2ChipsTile<T> extends StatelessWidget {
   }
 
   Widget get _placeholder {
-    return placeholderIgnored != true
+    return placeholderIgnore != true
       ? values?.isEmpty ?? true
         ? placeholder ?? const Text('Select one or more')
         : null
@@ -204,7 +224,7 @@ class S2ChipsTile<T> extends StatelessWidget {
       n,
       (i) {
         // build chip widget
-        Widget _chip = chipBuilder?.call(context, i) ?? _chipGenerator(i);
+        Widget _chip = chipBuilder?.call(context, i) ?? _chipGenerator(context, i);
 
         // add spacing if chip is scrollable
         if (scrollable) {
@@ -221,17 +241,17 @@ class S2ChipsTile<T> extends StatelessWidget {
     ).toList();
   }
 
-  Widget _chipGenerator(int i) {
+  Widget _chipGenerator(BuildContext context, int i) {
     return Chip(
-      label: Text(
-        values[i].title,
-        style: TextStyle(
-          color: _chipIsDark ? Colors.white : chipColor
-        ),
+      label: chipLabelBuilder?.call(context, i) ?? Text(values[i].title),
+      labelStyle: TextStyle(
+        color: _chipIsDark ? Colors.white : chipColor
       ),
+      avatar: chipAvatarBuilder?.call(context, i),
       backgroundColor: _chipIsDark ? chipColor : Colors.white,
-      deleteIconColor: chipActionColor ?? _chipIsDark ? Colors.white : chipColor,
-      shape: StadiumBorder(
+      deleteIconColor: chipDeleteColor ?? _chipIsDark ? Colors.white : chipColor,
+      deleteIcon: chipDeleteIcon,
+      shape: chipShape ?? StadiumBorder(
         side: BorderSide(
           color: _chipIsDark
             ? chipColor
