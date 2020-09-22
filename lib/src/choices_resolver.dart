@@ -5,13 +5,22 @@ import 'model/choice_theme.dart';
 import 'model/choice_item.dart';
 import 'text.dart';
 
+/// resolve the choice builder based on choice type
 class S2ChoiceResolver<T> {
 
+  /// whether single or multiple choice
   final bool isMultiChoice;
+
+  /// the choice type
   final S2ChoiceType type;
+
+  /// the choice style
   final S2ChoiceStyle style;
+
+  /// the collection of available builder widget
   final S2Builder<T> builder;
 
+  /// default constructor
   S2ChoiceResolver({
     @required this.isMultiChoice,
     @required this.type,
@@ -19,10 +28,12 @@ class S2ChoiceResolver<T> {
     @required this.builder,
   });
 
+  /// get the choice builder
   S2ChoiceBuilder<T> get choiceBuilder {
     return builder.choice ?? defaultChoiceBuilder;
   }
 
+  /// get correct builder based on choice type
   S2ChoiceBuilder<T> get defaultChoiceBuilder {
     return type == S2ChoiceType.checkboxes
       ? checkboxBuilder
@@ -35,6 +46,7 @@ class S2ChoiceResolver<T> {
             : null;
   }
 
+  /// get radio builder
   S2ChoiceBuilder<T> get radioBuilder => (
     BuildContext context,
     S2Choice<T> choice,
@@ -50,6 +62,7 @@ class S2ChoiceResolver<T> {
         value: choice.value,
       );
 
+  /// get switch builder
   S2ChoiceBuilder<T> get switchBuilder => (
     BuildContext context,
     S2Choice<T> choice,
@@ -68,6 +81,7 @@ class S2ChoiceResolver<T> {
         value: choice.selected,
       );
 
+  /// get checkbox builder
   S2ChoiceBuilder<T> get checkboxBuilder => (
     BuildContext context,
     S2Choice<T> choice,
@@ -84,6 +98,7 @@ class S2ChoiceResolver<T> {
         value: choice.selected,
       );
 
+  /// get chip builder
   S2ChoiceBuilder<T> get chipBuilder => (
     BuildContext context,
     S2Choice<T> choice,
@@ -138,7 +153,7 @@ class S2ChoiceResolver<T> {
     );
   };
 
-  // build title widget
+  /// build title widget
   Widget getTitle(BuildContext context, S2Choice<T> choice, String searchText) {
     return choice.title != null
     ? builder.choiceTitle != null
@@ -152,7 +167,7 @@ class S2ChoiceResolver<T> {
     : null;
   }
 
-  // build subtitle widget
+  /// build subtitle widget
   Widget getSubtitle(BuildContext context, S2Choice<T> choice, String searchText) {
     return choice.subtitle != null
       ? builder.choiceSubtitle != null
@@ -166,7 +181,7 @@ class S2ChoiceResolver<T> {
       : null;
   }
 
-  // build secondary/avatar widget
+  /// build secondary/avatar widget
   Widget getSecondary(BuildContext context, S2Choice<T> choice, String searchText) {
     return builder.choiceSecondary?.call(context, choice, searchText);
   }

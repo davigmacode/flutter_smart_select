@@ -7,15 +7,28 @@ import 'choices_list.dart';
 import 'scrollbar.dart';
 import 'text.dart';
 
+/// grouped choices list widget
 class S2ChoicesGrouped<T> extends StatelessWidget {
 
+  /// list of string of group name
   final List<String> groupKeys;
+
+  /// item builder of choice widget
   final Widget Function(S2Choice<T>) itemBuilder;
+
+  /// list of item of choice data
   final List<S2Choice<T>> items;
+
+  /// choices configuration
   final S2ChoiceConfig config;
+
+  /// collection of builder widget
   final S2Builder<T> builder;
+
+  /// current filter query
   final String query;
 
+  /// default constructor
   S2ChoicesGrouped({
     Key key,
     @required this.groupKeys,
@@ -45,7 +58,7 @@ class S2ChoicesGrouped<T> extends StatelessWidget {
                 style: config.headerStyle,
               );
               final Widget groupHeader = builder.choiceHeader?.call(context, group, query)
-                ?? SmartSelectChoicesGroupedHeader(
+                ?? S2ChoicesGroupedHeader(
                     group: group,
                     query: query,
                   );
@@ -76,12 +89,17 @@ class S2ChoicesGrouped<T> extends StatelessWidget {
   }
 }
 
-class SmartSelectChoicesGroupedHeader extends StatelessWidget {
+/// choice group header widget
+class S2ChoicesGroupedHeader extends StatelessWidget {
 
+  /// choices group data
   final S2ChoiceGroup group;
+
+  /// current filter query
   final String query;
 
-  SmartSelectChoicesGroupedHeader({
+  /// default constructor
+  S2ChoicesGroupedHeader({
     Key key,
     this.group,
     this.query,

@@ -5,13 +5,22 @@ import 'model/choice_theme.dart';
 import 'model/choice_item.dart';
 import 'scrollbar.dart';
 
+/// choices list widget
 class S2ChoicesList<T> extends StatelessWidget {
 
+  /// single choice widget builder
   final Widget Function(S2Choice<T>) itemBuilder;
+
+  /// list of choice data
   final List<S2Choice<T>> items;
+
+  /// configuration of single choice widget
   final S2ChoiceConfig config;
+
+  /// collection of available builder widget
   final S2Builder<T> builder;
 
+  /// default constructor
   S2ChoicesList({
     Key key,
     @required this.itemBuilder,
@@ -20,6 +29,7 @@ class S2ChoicesList<T> extends StatelessWidget {
     @required this.builder,
   }) : super(key: key);
 
+  /// get choice style
   S2ChoiceStyle get style => config.style;
 
   @override
@@ -115,12 +125,19 @@ class S2ChoicesList<T> extends StatelessWidget {
   }
 }
 
+/// default divider widget
 class S2Divider extends StatelessWidget {
 
+  /// divider color
   final Color color;
+
+  /// divider height
   final double height;
+
+  /// divider spacing
   final double spacing;
 
+  /// default constructor
   const S2Divider({
     Key key,
     this.color,

@@ -1,12 +1,24 @@
 import 'package:flutter/widgets.dart';
 
+/// text widget that supports highlight
 class S2Text extends StatelessWidget {
+
+  /// the text data string
   final String text;
+
+  /// the text style
   final TextStyle style;
+
+  /// the highlight data string
   final String highlight;
+
+  /// the highlight color
   final Color highlightColor;
+
+  /// whether the match is case sensitive or not
   final bool caseSensitive;
 
+  /// default constructor
   const S2Text({
     Key key,
     this.text,

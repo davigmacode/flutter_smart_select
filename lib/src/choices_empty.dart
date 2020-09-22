@@ -1,7 +1,9 @@
 import 'package:flutter/widgets.dart';
 
+/// Default widget for empty choices list
 class S2ChoicesEmpty extends StatelessWidget {
 
+  /// default constructor
   const S2ChoicesEmpty();
 
   @override

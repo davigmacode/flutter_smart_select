@@ -1,5 +1,6 @@
 import './choice_theme.dart';
 
+/// choice group data
 class S2ChoiceGroup {
 
   /// Group name
@@ -11,6 +12,7 @@ class S2ChoiceGroup {
   /// Group style
   final S2ChoiceHeaderStyle style;
 
+  /// default constructor
   S2ChoiceGroup({
     this.name,
     this.count,
