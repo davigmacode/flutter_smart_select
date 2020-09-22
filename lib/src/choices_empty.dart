@@ -1,6 +1,11 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
-class SmartSelectChoicesEmpty extends StatelessWidget {
+/// Default widget for empty choices list
+class S2ChoicesEmpty extends StatelessWidget {
+
+  /// default constructor
+  const S2ChoicesEmpty();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -8,30 +13,25 @@ class SmartSelectChoicesEmpty extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Icon(Icons.search, size: 120.0, color: Colors.black12),
+            Icon(
+              IconData(0xe8b6, fontFamily: 'MaterialIcons'),
+              color: Color(0x1F000000),
+              size: 120.0,
+            ),
             Container(height: 25),
             Text(
               'Whoops, no matches',
-              style: Theme.of(context)
-                  .textTheme
-                  .headline
-                  .merge(TextStyle(color: Colors.black54)),
+              style: TextStyle(color: Color(0x8A000000)),
             ),
             Container(height: 7),
             Text(
               "We couldn't find any search result",
-              style: Theme.of(context)
-                  .textTheme
-                  .subhead
-                  .merge(TextStyle(color: Colors.black45)),
+              style: TextStyle(color: Color(0x8A000000)),
             ),
             Container(height: 7),
             Text(
               "Give it another go",
-              style: Theme.of(context)
-                  .textTheme
-                  .subhead
-                  .merge(TextStyle(color: Colors.black45)),
+              style: TextStyle(color: Color(0x8A000000)),
             )
           ],
         ),

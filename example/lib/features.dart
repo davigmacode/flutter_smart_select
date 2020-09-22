@@ -5,6 +5,7 @@ import './features_tile/tile_main.dart';
 import './features_option/option_main.dart';
 import './features_modal/modal_main.dart';
 import './features_choices/choices_main.dart';
+import './keep_alive.dart';
 
 class Features extends StatelessWidget {
   @override
@@ -13,17 +14,17 @@ class Features extends StatelessWidget {
       length: 6,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Smart Select'),
+          title: Text('SmartSelect'),
           bottom: TabBar(
             isScrollable: true,
             indicatorSize: TabBarIndicatorSize.label,
             tabs: [
               Tab(text: 'Single Choice'),
               Tab(text: 'Multiple Choice'),
-              Tab(text: 'Customize Tile'),
-              Tab(text: 'Customize Option'),
+              Tab(text: 'Choices Option'),
+              Tab(text: 'Choices Widget'),
               Tab(text: 'Customize Modal'),
-              Tab(text: 'Customize Choices'),
+              Tab(text: 'Customize Tile'),
             ],
           ),
           actions: <Widget>[
@@ -35,12 +36,24 @@ class Features extends StatelessWidget {
         ),
         body: TabBarView(
           children: [
-            FeaturesSingle(),
-            FeaturesMulti(),
-            FeaturesTile(),
-            FeaturesOption(),
-            FeaturesModal(),
-            FeaturesChoices(),
+            KeepAliveWidget(
+              child: FeaturesSingle(),
+            ),
+            KeepAliveWidget(
+              child: FeaturesMulti(),
+            ),
+            KeepAliveWidget(
+              child: FeaturesOption(),
+            ),
+            KeepAliveWidget(
+              child: FeaturesChoices(),
+            ),
+            KeepAliveWidget(
+              child: FeaturesModal(),
+            ),
+            KeepAliveWidget(
+              child: FeaturesTile(),
+            ),
           ],
         ),
       ),
@@ -57,7 +70,7 @@ class Features extends StatelessWidget {
             ListTile(
               title: Text(
                 'smart_select',
-                style: Theme.of(context).textTheme.headline.merge(TextStyle(color: Colors.black87)),
+                style: Theme.of(context).textTheme.headline5.merge(TextStyle(color: Colors.black87)),
               ),
               subtitle: Text('by davigmacode'),
               trailing: IconButton(
@@ -74,7 +87,7 @@ class Features extends StatelessWidget {
                   children: <Widget>[
                     Text(
                       'Smart select allows you to easily convert your usual form selects to dynamic pages with grouped radio or checkbox inputs. This widget is inspired by Smart Select component from Framework7',
-                      style: Theme.of(context).textTheme.body1.merge(TextStyle(color: Colors.black54)),
+                      style: Theme.of(context).textTheme.bodyText2.merge(TextStyle(color: Colors.black54)),
                     ),
                     Container(height: 15),
                   ],

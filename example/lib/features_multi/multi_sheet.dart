@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_select/smart_select.dart';
-import '../options.dart' as options;
+import '../choices.dart' as choices;
 
 class FeaturesMultiSheet extends StatefulWidget {
   @override
@@ -16,29 +16,39 @@ class _FeaturesMultiSheetState extends State<FeaturesMultiSheet> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Container(height: 7),
+        const SizedBox(height: 7),
         SmartSelect<String>.multiple(
           title: 'OS',
           value: _os,
-          isTwoLine: true,
-          options: options.os,
-          modalType: SmartSelectModalType.bottomSheet,
-          leading: CircleAvatar(
-            backgroundImage: NetworkImage('https://source.unsplash.com/xsGxhtAsfSA/100x100'),
-          ),
-          onChange: (val) => setState(() => _os = val),
+          onChange: (state) => setState(() => _os = state.value),
+          choiceItems: choices.os,
+          modalType: S2ModalType.bottomSheet,
+          tileBuilder: (context, state) {
+            return S2Tile.fromState(
+              state,
+              isTwoLine: true,
+              leading: const CircleAvatar(
+                backgroundImage: NetworkImage('https://source.unsplash.com/xsGxhtAsfSA/100x100'),
+              ),
+            );
+          },
         ),
-        Divider(indent: 20),
+        const Divider(indent: 20),
         SmartSelect<String>.multiple(
           title: 'Super Hero',
           value: _hero,
-          isTwoLine: true,
-          options: options.heroes,
-          modalType: SmartSelectModalType.bottomSheet,
-          leading: CircleAvatar(
-            backgroundImage: NetworkImage('https://source.unsplash.com/8I-ht65iRww/100x100'),
-          ),
-          onChange: (val) => setState(() => _hero = val),
+          onChange: (state) => setState(() => _hero = state.value),
+          choiceItems: choices.heroes,
+          modalType: S2ModalType.bottomSheet,
+          tileBuilder: (context, state) {
+            return S2Tile.fromState(
+              state,
+              isTwoLine: true,
+              leading: const CircleAvatar(
+                backgroundImage: NetworkImage('https://source.unsplash.com/8I-ht65iRww/100x100'),
+              ),
+            );
+          },
         ),
         Container(height: 7),
       ],

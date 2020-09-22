@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smart_select/smart_select.dart';
 import '../widgets/icon_badge.dart';
-import '../options.dart' as options;
+import '../choices.dart' as choices;
 
 class FeaturesModalHeader extends StatefulWidget {
   @override
@@ -18,70 +18,85 @@ class _FeaturesModalHeaderState extends State<FeaturesModalHeader> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Container(height: 7),
+        const SizedBox(height: 7),
         SmartSelect<String>.multiple(
           title: 'Month',
           value: _month,
-          isTwoLine: true,
-          leading: IconBadge(
-            icon: const Icon(Icons.calendar_today),
-            counter: _month.length,
+          onChange: (state) => setState(() => _month = state.value),
+          choiceItems: choices.months,
+          choiceStyle: S2ChoiceStyle(
+            activeColor: Colors.red
           ),
-          options: options.months,
-          modalConfig: SmartSelectModalConfig(
-            useFilter: true,
-            headerStyle: SmartSelectModalHeaderStyle(
-              elevation: 4,
-              centerTitle: true,
-              backgroundColor: Colors.red,
-              textStyle: TextStyle(color: Colors.white),
-              iconTheme: IconThemeData(color: Colors.white),
-              actionsIconTheme: IconThemeData(color: Colors.white),
-            ),
+          modalFilter: true,
+          modalHeaderStyle: const S2ModalHeaderStyle(
+            elevation: 4,
+            centerTitle: true,
+            backgroundColor: Colors.red,
+            textStyle: TextStyle(color: Colors.white),
+            iconTheme: IconThemeData(color: Colors.white),
+            actionsIconTheme: IconThemeData(color: Colors.white),
           ),
-          onChange: (val) => setState(() => _month = val)
+          tileBuilder: (context, state) {
+            return S2Tile.fromState(
+              state,
+              isTwoLine: true,
+              leading: IconBadge(
+                icon: const Icon(Icons.calendar_today),
+                counter: state.value.length,
+              ),
+            );
+          }
         ),
-        Divider(indent: 20),
+        const Divider(indent: 20),
         SmartSelect<String>.single(
           title: 'Frameworks',
           value: _framework,
-          options: options.frameworks,
-          modalType: SmartSelectModalType.popupDialog,
-          modalConfig: SmartSelectModalConfig(
-            headerStyle: SmartSelectModalHeaderStyle(
+          onChange: (state) => setState(() => _framework = state.value),
+          choiceItems: choices.frameworks,
+          modalConfig: S2ModalConfig(
+            type: S2ModalType.popupDialog,
+            headerStyle: S2ModalHeaderStyle(
               backgroundColor: Colors.blueGrey[50],
               centerTitle: true,
               elevation: 0,
             ),
           ),
-          leading: CircleAvatar(
-            backgroundColor: Colors.blue,
-            child: Text(
-              '${_framework[0]}',
-              style: TextStyle(color: Colors.white)
-            ),
-          ),
-          onChange: (val) => setState(() => _framework = val),
+          tileBuilder: (context, state) {
+            return S2Tile.fromState(
+              state,
+              isTwoLine: true,
+              leading: CircleAvatar(
+                backgroundColor: Colors.blue,
+                child: Text(
+                  '${state.valueDisplay[0]}',
+                  style: TextStyle(color: Colors.white)
+                ),
+              ),
+            );
+          }
         ),
-        Divider(indent: 20),
+        const Divider(indent: 20),
         SmartSelect<String>.multiple(
           title: 'Super Hero',
           value: _hero,
-          isTwoLine: true,
-          options: options.heroes,
-          modalType: SmartSelectModalType.bottomSheet,
-          modalConfig: SmartSelectModalConfig(
-            useFilter: true,
-            headerStyle: SmartSelectModalHeaderStyle(
-              centerTitle: true,
-            ),
+          onChange: (state) => setState(() => _hero = state.value),
+          choiceItems: choices.heroes,
+          modalType: S2ModalType.bottomSheet,
+          modalFilter: true,
+          modalHeaderStyle: const S2ModalHeaderStyle(
+            centerTitle: true,
           ),
-          leading: CircleAvatar(
-            backgroundImage: NetworkImage('https://source.unsplash.com/8I-ht65iRww/100x100'),
-          ),
-          onChange: (val) => setState(() => _hero = val),
+          tileBuilder: (context, state) {
+            return S2Tile.fromState(
+              state,
+              isTwoLine: true,
+              leading: const CircleAvatar(
+                backgroundImage: NetworkImage('https://source.unsplash.com/8I-ht65iRww/100x100'),
+              ),
+            );
+          }
         ),
-        Container(height: 7),
+        const SizedBox(height: 7),
       ],
     );
   }

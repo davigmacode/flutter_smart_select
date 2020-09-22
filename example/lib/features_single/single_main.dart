@@ -5,38 +5,39 @@ import './single_sheet.dart';
 import './single_popup.dart';
 import './single_chips.dart';
 import '../features_header.dart';
+import '../keep_alive.dart';
 
-class FeaturesSingle extends StatefulWidget {
-  @override
-  _FeaturesSingleState createState() => _FeaturesSingleState();
-}
-
-class _FeaturesSingleState extends State<FeaturesSingle> with AutomaticKeepAliveClientMixin<FeaturesSingle> {
-
-  @override
-  bool get wantKeepAlive => true;
+class FeaturesSingle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     return Scrollbar(
-      child:ListView(
+      child: ListView(
+        addAutomaticKeepAlives: true,
         children: <Widget>[
-          StickyHeader(
-            header: FeaturesHeader('Open in Full Page'),
-            content: FeaturesSinglePage(),
+          KeepAliveWidget(
+            child: StickyHeader(
+              header: const FeaturesHeader('Open in Full Page'),
+              content: FeaturesSinglePage(),
+            ),
           ),
-          StickyHeader(
-            header: FeaturesHeader('Open in Bottom Sheet'),
-            content: FeaturesSingleSheet(),
+          KeepAliveWidget(
+            child: StickyHeader(
+              header: const FeaturesHeader('Open in Bottom Sheet'),
+              content: FeaturesSingleSheet(),
+            ),
           ),
-          StickyHeader(
-            header: FeaturesHeader('Open in Popup Dialog'),
-            content: FeaturesSinglePopup(),
+          KeepAliveWidget(
+            child: StickyHeader(
+              header: const FeaturesHeader('Open in Popup Dialog'),
+              content: FeaturesSinglePopup(),
+            ),
           ),
-          StickyHeader(
-            header: FeaturesHeader('Use Chips'),
-            content: FeaturesSingleChips(),
+          KeepAliveWidget(
+            child: StickyHeader(
+              header: const FeaturesHeader('Use Chips'),
+              content: FeaturesSingleChips(),
+            ),
           ),
         ],
       ),

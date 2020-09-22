@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_select/smart_select.dart';
-import '../options.dart' as options;
+import '../choices.dart' as choices;
 
 class FeaturesModalShape extends StatefulWidget {
   @override
@@ -16,42 +16,49 @@ class _FeaturesModalShapeState extends State<FeaturesModalShape> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Container(height: 7),
+        const SizedBox(height: 7),
         SmartSelect<String>.single(
           title: 'Frameworks',
           value: _framework,
-          options: options.frameworks,
-          modalType: SmartSelectModalType.popupDialog,
-          modalConfig: SmartSelectModalConfig(
-            useHeader: false,
-            style: SmartSelectModalStyle(
+          onChange: (state) => setState(() => _framework = state.value),
+          choiceType: S2ChoiceType.radios,
+          choiceItems: choices.frameworks,
+          modalType: S2ModalType.popupDialog,
+          modalHeader: false,
+          modalConfig: const S2ModalConfig(
+            style: S2ModalStyle(
               elevation: 3,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(20.0))
               ),
             ),
           ),
-          choiceType: SmartSelectChoiceType.radios,
-          leading: CircleAvatar(
-            backgroundColor: Colors.blue,
-            child: Text(
-              '${_framework[0]}',
-              style: TextStyle(color: Colors.white)
-            ),
-          ),
-          onChange: (val) => setState(() => _framework = val),
+          tileBuilder: (context, state) {
+            return S2Tile.fromState(
+              state,
+              isTwoLine: true,
+              leading: CircleAvatar(
+                backgroundColor: Colors.blue,
+                child: Text(
+                  '${state.valueDisplay[0]}',
+                  style: TextStyle(color: Colors.white)
+                ),
+              ),
+            );
+          }
         ),
         Divider(indent: 20),
         SmartSelect<String>.multiple(
           title: 'Super Hero',
           value: _hero,
-          isTwoLine: true,
-          options: options.heroes,
-          choiceType: SmartSelectChoiceType.switches,
-          modalType: SmartSelectModalType.bottomSheet,
-          modalConfig: SmartSelectModalConfig(
-            style: SmartSelectModalStyle(
+          onChange: (state) => setState(() => _hero = state.value),
+          choiceItems: choices.heroes,
+          choiceType: S2ChoiceType.switches,
+          modalType: S2ModalType.bottomSheet,
+          modalConfig: const S2ModalConfig(
+            style: S2ModalStyle(
               backgroundColor: Colors.white,
+              clipBehavior: Clip.antiAlias,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(15.0),
@@ -59,22 +66,21 @@ class _FeaturesModalShapeState extends State<FeaturesModalShape> {
                 ),
               ),
             ),
-            headerStyle: SmartSelectModalHeaderStyle(
+            headerStyle: S2ModalHeaderStyle(
               centerTitle: true,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(15.0),
-                  topRight: Radius.circular(15.0)
-                ),
-              ),
             ),
           ),
-          leading: CircleAvatar(
-            backgroundImage: NetworkImage('https://source.unsplash.com/8I-ht65iRww/100x100'),
-          ),
-          onChange: (val) => setState(() => _hero = val),
+          tileBuilder: (context, state) {
+            return S2Tile.fromState(
+              state,
+              isTwoLine: true,
+              leading: const CircleAvatar(
+                backgroundImage: NetworkImage('https://source.unsplash.com/8I-ht65iRww/100x100'),
+              ),
+            );
+          }
         ),
-        Container(height: 7),
+        const SizedBox(height: 7),
       ],
     );
   }

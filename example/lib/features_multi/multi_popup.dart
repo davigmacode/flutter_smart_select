@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_select/smart_select.dart';
-import '../options.dart' as options;
+import '../choices.dart' as choices;
 
 class FeaturesMultiPopup extends StatefulWidget {
   @override
@@ -16,32 +16,38 @@ class _FeaturesMultiPopupState extends State<FeaturesMultiPopup> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Container(height: 7),
+        const SizedBox(height: 7),
         SmartSelect<String>.multiple(
           title: 'Fruit',
           value: _fruit,
-          isTwoLine: true,
-          options: options.fruits,
-          modalType: SmartSelectModalType.popupDialog,
-          leading: Container(
-            width: 40,
-            alignment: Alignment.center,
-            child: const Icon(Icons.shopping_cart),
-          ),
-          onChange: (val) => setState(() => _fruit = val),
+          onChange: (state) => setState(() => _fruit = state.value),
+          choiceItems: choices.fruits,
+          modalType: S2ModalType.popupDialog,
+          tileBuilder: (context, state) {
+            return S2Tile.fromState(
+              state,
+              isTwoLine: true,
+              leading: Container(
+                width: 40,
+                alignment: Alignment.center,
+                child: const Icon(Icons.shopping_cart),
+              ),
+            );
+          },
         ),
-        Divider(indent: 20),
+        const Divider(indent: 20),
         SmartSelect<String>.multiple(
           title: 'Frameworks',
           value: _framework,
-          options: options.frameworks,
-          modalType: SmartSelectModalType.popupDialog,
-          builder: (context, state, showOptions) {
+          onChange: (state) => setState(() => _framework = state.value),
+          choiceItems: choices.frameworks,
+          modalType: S2ModalType.popupDialog,
+          tileBuilder: (context, state) {
             return ListTile(
               title: Text(state.title),
               subtitle: Text(
                 state.valueDisplay,
-                style: TextStyle(color: Colors.grey),
+                style: const TextStyle(color: Colors.grey),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
               ),
@@ -52,13 +58,12 @@ class _FeaturesMultiPopupState extends State<FeaturesMultiPopup> {
                   style: TextStyle(color: Colors.white)
                 ),
               ),
-              trailing: Icon(Icons.keyboard_arrow_right, color: Colors.grey),
-              onTap: () => showOptions(context),
+              trailing: const Icon(Icons.keyboard_arrow_right, color: Colors.grey),
+              onTap: state.showModal,
             );
           },
-          onChange: (val) => setState(() => _framework = val),
         ),
-        Container(height: 7),
+        const SizedBox(height: 7),
       ],
     );
   }

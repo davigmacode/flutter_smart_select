@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_select/smart_select.dart';
-import '../options.dart' as options;
+import '../choices.dart' as choices;
 
 class FeaturesTileOneLine extends StatefulWidget {
   @override
@@ -16,21 +16,24 @@ class _FeaturesTileOneLineState extends State<FeaturesTileOneLine> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Container(height: 7),
+        const SizedBox(height: 7),
         SmartSelect<String>.single(
           title: 'Days',
           value: _day,
-          options: options.days,
-          onChange: (val) => setState(() => _day = val)
+          choiceItems: choices.days,
+          onChange: (state) => setState(() => _day = state.value),
         ),
-        Divider(indent: 20),
+        const Divider(indent: 20),
         SmartSelect<String>.multiple(
           title: 'Month',
           value: _month,
-          options: options.months,
-          onChange: (val) => setState(() => _month = val)
+          choiceItems: choices.months,
+          onChange: (state) => setState(() => _month = state.value),
+          tileBuilder: (context, state) {
+            return S2Tile.fromState(state);
+          },
         ),
-        Container(height: 7),
+        const SizedBox(height: 7),
       ],
     );
   }

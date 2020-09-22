@@ -1,87 +1,130 @@
-import 'package:flutter/material.dart';
-import 'package:sticky_headers/sticky_headers.dart';
-import './model/choice_config.dart';
-import './model/choice_theme.dart';
-import './model/option.dart';
-import './choices_list.dart';
+import 'package:flutter/widgets.dart';
+import 'model/builder.dart';
+import 'model/choice_config.dart';
+import 'model/choice_item.dart';
+import 'model/choice_group.dart';
+import 'choices_list.dart';
+import 'scrollbar.dart';
+import 'text.dart';
 
-class SmartSelectChoicesGrouped<T> extends StatelessWidget {
+/// grouped choices list widget
+class S2ChoicesGrouped<T> extends StatelessWidget {
 
+  /// list of string of group name
   final List<String> groupKeys;
-  final List<SmartSelectOption<T>> items;
-  final SmartSelectChoiceType type;
-  final SmartSelectChoiceConfig<T> config;
 
-  SmartSelectChoicesGrouped(
-    this.groupKeys,
-    this.items,
-    this.type,
-    this.config,
-    { Key key }
-  ) : super(key: key);
+  /// item builder of choice widget
+  final Widget Function(S2Choice<T>) itemBuilder;
 
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: groupKeys.length,
-      itemBuilder: (BuildContext context, int i) {
-        String groupKey = groupKeys[i];
-        List<SmartSelectOption<T>> groupItems = _groupItems(groupKey);
-        return StickyHeader(
-          content: SmartSelectChoicesList<T>(groupItems, type, config),
-          header: config.groupHeaderBuilder?.call(groupKey, groupItems.length)
-            ?? SmartSelectChoicesGroupedHeader(
-                title: groupKey,
-                counter: groupItems.length,
-                theme: config.groupHeaderStyle,
-              ),
-        );
-      },
-    );
-  }
+  /// list of item of choice data
+  final List<S2Choice<T>> items;
 
-  /// return a list of group items
-  List<SmartSelectOption<T>> _groupItems(String key) {
-    return items.where((SmartSelectOption<T> item) => item.group == key).toList();
-  }
-}
+  /// choices configuration
+  final S2ChoiceConfig config;
 
-class SmartSelectChoicesGroupedHeader extends StatelessWidget {
+  /// collection of builder widget
+  final S2Builder<T> builder;
 
-  final String title;
-  final int counter;
-  final SmartSelectChoiceGroupHeaderStyle theme;
+  /// current filter query
+  final String query;
 
-  SmartSelectChoicesGroupedHeader({
+  /// default constructor
+  S2ChoicesGrouped({
     Key key,
-    this.title,
-    this.counter,
-    this.theme,
+    @required this.groupKeys,
+    @required this.itemBuilder,
+    @required this.items,
+    @required this.config,
+    @required this.builder,
+    @required this.query,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    return Scrollbar(
+      child: ScrollConfiguration(
+        behavior: const ScrollBehavior(),
+        child: GlowingOverscrollIndicator(
+          axisDirection: AxisDirection.down,
+          color: config.overscrollColor ?? config.style?.activeColor,
+          child: ListView.builder(
+            itemCount: groupKeys.length,
+            itemBuilder: (BuildContext context, int i) {
+              final String groupKey = groupKeys[i];
+              final List<S2Choice<T>> groupItems = _groupItems(groupKey);
+              final S2ChoiceGroup group = S2ChoiceGroup(
+                name: groupKey,
+                count: groupItems.length,
+                style: config.headerStyle,
+              );
+              final Widget groupHeader = builder.choiceHeader?.call(context, group, query)
+                ?? S2ChoicesGroupedHeader(
+                    group: group,
+                    query: query,
+                  );
+              final Widget groupChoices = S2ChoicesList<T>(
+                config: config,
+                builder: builder,
+                items: groupItems,
+                itemBuilder: itemBuilder,
+              );
+              return builder.choiceGroup?.call(context, groupHeader, groupChoices)
+                ?? Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    groupHeader,
+                    groupChoices,
+                  ],
+                );
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
+  /// return a list of group items
+  List<S2Choice<T>> _groupItems(String key) {
+    return items.where((S2Choice<T> item) => item.group == key).toList();
+  }
+}
+
+/// choice group header widget
+class S2ChoicesGroupedHeader extends StatelessWidget {
+
+  /// choices group data
+  final S2ChoiceGroup group;
+
+  /// current filter query
+  final String query;
+
+  /// default constructor
+  S2ChoicesGroupedHeader({
+    Key key,
+    this.group,
+    this.query,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    TextStyle textStyle = DefaultTextStyle.of(context).style;
     return Container(
-      height: theme.height,
-      color: theme.backgroundColor,
-      padding: theme.padding,
-      alignment: Alignment.centerLeft,
+      height: group.style.height,
+      color: group.style.backgroundColor,
+      padding: group.style.padding,
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Text(
-            title,
-            style: Theme.of(context)
-                .textTheme
-                .body2
-                .merge(theme.textStyle),
+          S2Text(
+            text: group.name,
+            highlight: query,
+            style: textStyle.merge(group.style.textStyle),
+            highlightColor: group.style.highlightColor ?? Color(0xFFFFF176),
           ),
           Text(
-            counter.toString(),
-            style: Theme.of(context)
-                .textTheme
-                .body2
-                .merge(theme.textStyle),
+            group.count.toString(),
+            style: textStyle.merge(group.style.textStyle),
           ),
         ],
       ),

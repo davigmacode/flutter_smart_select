@@ -29,18 +29,18 @@ class _FeaturesOptionListOfListState extends State<FeaturesOptionListOfList> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Container(height: 7),
+        const SizedBox(height: 7),
         SmartSelect<String>.single(
           title: 'Month',
           value: _month,
-          options: SmartSelectOption.listFrom<String, List<String>>(
+          onChange: (state) => setState(() => _month = state.value),
+          choiceItems: S2Choice.listFrom<String, List<String>>(
             source: monthsOption,
             value: (index, item) => item[0],
             title: (index, item) => item[1],
           ),
-          onChange: (val) => setState(() => _month = val)
         ),
-        Container(height: 7),
+        const SizedBox(height: 7),
       ],
     );
   }

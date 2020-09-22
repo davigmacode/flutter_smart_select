@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_select/smart_select.dart';
-import '../options.dart' as options;
+import '../choices.dart' as choices;
 
 class FeaturesModalFilter extends StatefulWidget {
   @override
@@ -16,48 +16,57 @@ class _FeaturesModalFilterState extends State<FeaturesModalFilter> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Container(height: 7),
+        const SizedBox(height: 7),
         SmartSelect<String>.single(
           title: 'Car',
           placeholder: 'Choose one',
           value: _car,
-          isTwoLine: true,
-          options: SmartSelectOption.listFrom<String, Map>(
-            source: options.cars,
+          onChange: (state) => setState(() => _car = state.value),
+          choiceItems: S2Choice.listFrom<String, Map>(
+            source: choices.cars,
             value: (index, item) => item['value'],
             title: (index, item) => item['title'],
             group: (index, item) => item['brand'],
           ),
-          choiceConfig: SmartSelectChoiceConfig(isGrouped: true),
-          modalConfig: SmartSelectModalConfig(useFilter: true),
-          leading: CircleAvatar(
-            backgroundImage: NetworkImage('https://source.unsplash.com/yeVtxxPxzbw/100x100'),
-          ),
-          onChange: (val) => setState(() => _car = val),
+          choiceGrouped: true,
+          modalFilter: true,
+          modalFilterAuto: true,
+          tileBuilder: (context, state) {
+            return S2Tile.fromState(
+              state,
+              isTwoLine: true,
+              leading: const CircleAvatar(
+                backgroundImage: NetworkImage('https://source.unsplash.com/yeVtxxPxzbw/100x100'),
+              ),
+            );
+          }
         ),
-        Divider(indent: 20),
+        const Divider(indent: 20),
         SmartSelect<String>.multiple(
           title: 'Smartphones',
           placeholder: 'Choose one',
           value: _smartphone,
-          isTwoLine: true,
-          options: SmartSelectOption.listFrom<String, Map>(
-            source: options.smartphones,
+          onChange: (state) => setState(() => _smartphone = state.value),
+          choiceItems: S2Choice.listFrom<String, Map>(
+            source: choices.smartphones,
             value: (index, item) => item['id'],
             title: (index, item) => item['name'],
             group: (index, item) => item['category'],
           ),
-          choiceConfig: SmartSelectChoiceConfig(isGrouped: true),
-          modalType: SmartSelectModalType.bottomSheet,
-          modalConfig: SmartSelectModalConfig(
-            useFilter: true,
-          ),
-          leading: CircleAvatar(
-            backgroundImage: NetworkImage('https://source.unsplash.com/xsGxhtAsfSA/100x100'),
-          ),
-          onChange: (val) => setState(() => _smartphone = val),
+          choiceGrouped: true,
+          modalType: S2ModalType.bottomSheet,
+          modalFilter: true,
+          tileBuilder: (context, state) {
+            return S2Tile.fromState(
+              state,
+              isTwoLine: true,
+              leading: const CircleAvatar(
+                backgroundImage: NetworkImage('https://source.unsplash.com/xsGxhtAsfSA/100x100'),
+              ),
+            );
+          }
         ),
-        Container(height: 7),
+        const SizedBox(height: 7),
       ],
     );
   }
