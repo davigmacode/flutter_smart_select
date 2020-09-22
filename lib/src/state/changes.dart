@@ -113,6 +113,15 @@ class S2MultiChanges<T> extends S2Changes<T> {
     _selectAll?.call();
   }
 
+  /// toggle select all/none
+  void selectToggle() {
+    if (length == 0) {
+      selectAll();
+    } else {
+      selectNone();
+    }
+  }
+
   /// select or unselect a value
   @override
   void commit(T val, { bool selected = true }) {
