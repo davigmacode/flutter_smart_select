@@ -80,7 +80,7 @@ class _FeaturesTileBuilderState extends State<FeaturesTileBuilder> {
             ),
             onChange: (state) => setState(() => _cars = state.value),
             modalType: S2ModalType.bottomSheet,
-            modalConfirmation: true,
+            modalConfirm: true,
             modalFilter: true,
             choiceGrouped: true,
             tileBuilder: (context, state) {

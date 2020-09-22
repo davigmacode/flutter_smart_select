@@ -23,7 +23,7 @@ class _FeaturesModalSelectorState extends State<FeaturesModalSelector> {
           onChange: (state) => setState(() => _fruit = state.value),
           choiceItems: choices.fruits,
           modalType: S2ModalType.popupDialog,
-          modalConfirmation: true,
+          modalConfirm: true,
           modalValidation: (value) => value.length > 0,
           tileBuilder: (context, state) {
             return S2Tile.fromState(
@@ -88,45 +88,63 @@ class _FeaturesModalSelectorState extends State<FeaturesModalSelector> {
             meta: (index, item) => item,
           ),
           choiceType: S2ChoiceType.chips,
-          modalType: S2ModalType.bottomSheet,
-          modalActionsBuilder: (context, state) {
-            return [
-              ActionButton(
-                label: const Text('Low End'),
-                onTap: () {
-                  state.changes.value = state.widget.choiceItems
-                    .where((item) => item.meta['category'] == 'Budget Phone')
-                    .map((item) => item.value)
-                    .toList();
-                },
+          modalFilter: true,
+          modalType: S2ModalType.fullPage,
+          modalFooterBuilder: (context, state) {
+            return Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  ActionButton(
+                    label: const Text('All/None'),
+                    onTap: () {
+                      state.changes.selectToggle();
+                    },
+                  ),
+                  ActionButton(
+                    label: const Text('Low End'),
+                    onTap: () {
+                      state.changes.value = state.widget.choiceItems
+                        .where((item) => item.meta['category'] == 'Budget Phone')
+                        .map((item) => item.value)
+                        .toList();
+                    },
+                  ),
+                  ActionButton(
+                    label: const Text('Mid End'),
+                    onTap: () {
+                      state.changes.value = state.widget.choiceItems
+                        .where((item) => item.meta['category'] == 'Mid End Phone')
+                        .map((item) => item.value)
+                        .toList();
+                    },
+                  ),
+                  ActionButton(
+                    label: const Text('High End'),
+                    onTap: () {
+                      state.changes.value = state.widget.choiceItems
+                        .where((item) => item.meta['category'] == 'Flagship Phone')
+                        .map((item) => item.value)
+                        .toList();
+                    },
+                  ),
+                ],
               ),
-              ActionButton(
-                label: const Text('Mid End'),
-                onTap: () {
-                  state.changes.value = state.widget.choiceItems
-                    .where((item) => item.meta['category'] == 'Mid End Phone')
-                    .map((item) => item.value)
-                    .toList();
-                },
-              ),
-              ActionButton(
-                label: const Text('High End'),
-                onTap: () {
-                  state.changes.value = state.widget.choiceItems
-                    .where((item) => item.meta['category'] == 'Flagship Phone')
-                    .map((item) => item.value)
-                    .toList();
-                },
-              ),
-            ];
+            );
           },
           tileBuilder: (context, state) {
-            return S2Tile.fromState(
+            return S2ChipsTile<String>.fromState(
               state,
-              isTwoLine: true,
+              trailing: const Icon(Icons.add_circle_outline),
               leading: const CircleAvatar(
                 backgroundImage: NetworkImage('https://source.unsplash.com/xsGxhtAsfSA/100x100'),
               ),
+              chipColor: Colors.blue,
+              chipBorderOpacity: .3,
+              chipBrightness: Brightness.light,
+              chipOnDelete: (value) {
+                setState(() => _smartphone.remove(value));
+              },
             );
           }
         ),
@@ -149,16 +167,11 @@ class ActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-        child: FlatButton(
-          child: label,
-          color: Colors.redAccent,
-          textColor: Colors.white,
-          onPressed: onTap,
-        ),
-      ),
+    return FlatButton(
+      child: label,
+      color: Colors.blue,
+      textColor: Colors.white,
+      onPressed: onTap,
     );
   }
 }

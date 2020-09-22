@@ -22,7 +22,7 @@ class _FeaturesModalValidationState extends State<FeaturesModalValidation> {
           onChange: (state) => setState(() => _fruit = state.value),
           choiceItems: choices.fruits,
           modalType: S2ModalType.popupDialog,
-          modalConfirmation: true,
+          modalConfirm: true,
           modalValidation: (value) => value.length > 0,
           tileBuilder: (context, state) {
             return S2Tile.fromState(

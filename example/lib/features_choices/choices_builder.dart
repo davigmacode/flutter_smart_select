@@ -84,7 +84,7 @@ class _FeaturesChoicesBuilderState extends State<FeaturesChoicesBuilder> {
         ),
         const Divider(indent: 20),
         SmartSelect<String>.multiple(
-          title: 'Admin',
+          title: 'Passengers',
           value: _user,
           onChange: (state) => setState(() => _user = state.value),
           modalFilter: true,
@@ -133,13 +133,18 @@ class _FeaturesChoicesBuilderState extends State<FeaturesChoicesBuilder> {
             );
           },
           tileBuilder: (context, state) {
-            return S2Tile.fromState(
+            return S2ChipsTile<String>.fromState(
               state,
-              isTwoLine: true,
-              isLoading: _usersIsLoading,
-              leading: const CircleAvatar(
-                backgroundImage: NetworkImage('https://source.unsplash.com/8I-ht65iRww/100x100'),
+              trailing: const Icon(Icons.add_circle_outline),
+              chipColor: Colors.blue,
+              chipBorderOpacity: .5,
+              chipBrightness: Brightness.light,
+              chipAvatarBuilder: (context, i) => CircleAvatar(
+                backgroundImage: NetworkImage(state.valueObject[i].meta['picture']['thumbnail'])
               ),
+              chipOnDelete: (value) {
+                setState(() => _user.remove(value));
+              },
             );
           },
         ),

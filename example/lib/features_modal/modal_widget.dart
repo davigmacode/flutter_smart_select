@@ -109,7 +109,7 @@ class _FeaturesModalWidgetState extends State<FeaturesModalWidget> {
               wrapperPadding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
             ),
           ),
-          modalConfirmation: true,
+          modalConfirm: true,
           modalType: S2ModalType.bottomSheet,
           modalValidation: (value) => value.length > 0,
           modalHeaderBuilder: (context, state) {
@@ -159,7 +159,7 @@ class _FeaturesModalWidgetState extends State<FeaturesModalWidget> {
                   // trailing: Icon(Icons.add_circle_outline),
                   // scrollable: true,
                   // divider: Divider(height: 1),
-                  placeholderIgnored: true,
+                  placeholderIgnore: true,
                   chipColor: Colors.blue,
                   chipBrightness: Brightness.dark,
                 ),

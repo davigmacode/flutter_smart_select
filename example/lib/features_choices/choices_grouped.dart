@@ -60,7 +60,7 @@ class _FeaturesChoicesGroupedState extends State<FeaturesChoicesGrouped> {
             activeColor: Colors.redAccent
           ),
           modalType: S2ModalType.bottomSheet,
-          modalConfirmation: true,
+          modalConfirm: true,
           modalFilter: true,
           choiceGroupBuilder: (context, header, choices) {
             return StickyHeader(

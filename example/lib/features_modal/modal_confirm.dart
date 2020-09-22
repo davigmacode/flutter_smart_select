@@ -24,7 +24,7 @@ class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
           onChange: (state) => setState(() => _day = state.value),
           choiceItems: choices.days,
           modalType: S2ModalType.fullPage,
-          modalConfirmation: true,
+          modalConfirm: true,
           tileBuilder: (context, state) {
             return S2Tile(
               title: state.titleWidget,
@@ -44,7 +44,7 @@ class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
           onChange: (state) => setState(() => _fruit = state.value),
           choiceItems: choices.fruits,
           modalType: S2ModalType.popupDialog,
-          modalConfirmation: true,
+          modalConfirm: true,
           modalValidation: (value) => value.length > 0,
           tileBuilder: (context, state) {
             return S2Tile.fromState(
@@ -58,12 +58,7 @@ class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
             );
           },
           modalActionsBuilder: (context, state) {
-            return <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(right: 13),
-                child: state.choiceSelector,
-              )
-            ];
+            return [];
           },
           modalDividerBuilder: (context, state) {
             return const Divider(height: 1);
@@ -105,7 +100,7 @@ class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
             activeColor: Colors.redAccent
           ),
           modalType: S2ModalType.bottomSheet,
-          modalConfirmation: true,
+          modalConfirm: true,
           tileBuilder: (context, state) {
             return S2Tile.fromState(
               state,
