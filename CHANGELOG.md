@@ -1,19 +1,23 @@
-## [4.0.0]
+## [4.0.0] - 2020-09-23
 
 * Validate before confirm
 * Auto search on type
 * Accent marks handler on search
 * Highlight search result
-* Add Chips tile widget
+* New Chips tile widget
 * Horizotal or vertical choice list scroll direction
 * Use `StatefulWidget` instead of `Provider` as state management
 * Configuration supports `copyWith` and `merge`
 * Easy shortcut to define configuration
 * Simplify class name and enum
 * Removed `sticky_headers` package, provide simple API to easy implement sticky header
-* Add choice text and group header text highlight on filter
+* Choice text and group header text highlight on filter
 * Customizable choice layout and scroll direction
 * Customizable every part on modal widget (header, footer, searchbar, confirm button, searchbar toggle)
+* Choice select all/none, and provide an easy way to programmatic select
+* New Modal barrier color and dissmisible configuration
+* And many more useful configuration, please see the API documentation
+
 
 ## [3.0.3] - 2020-01-22
 

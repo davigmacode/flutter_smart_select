@@ -2,7 +2,7 @@
 
 ![Pub Version](https://img.shields.io/pub/v/smart_select) ![GitHub](https://img.shields.io/github/license/davigmacode/flutter_smart_select)
 
-<a href="https://www.buymeacoffee.com/davigmacode" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 45px !important;" ></a>
+<a href="https://www.buymeacoffee.com/davigmacode" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" width="195" height="55"></a>
 
 SmartSelect allows you to easily convert your usual form select or dropdown into dynamic page, popup dialog, or sliding bottom sheet with various choices input such as radio, checkbox, switch, chips, or even custom input. Supports single and multiple choice. Inspired by Smart Select component from [Framework7](https://framework7.io/).
 
@@ -28,9 +28,11 @@ SmartSelect allows you to easily convert your usual form select or dropdown into
 - Internally handle async choice items loader
 - Custom search handler
 - Choice items pagination (pull to refresh and pull to load more)
-- Supports iOS
+- Add more test
 
 ## Migration from 3.0.x to 4.x.x
+
+- The parameter `options` is removed, instead use `choiceItems`
 
 - Simplify class name and enum
 
@@ -46,23 +48,23 @@ SmartSelect allows you to easily convert your usual form select or dropdown into
 
 - The parameter `builder` now is a collection of builder (`S2SingleBuilder` or `S2MultiBuilder`), instead use `tileBuilder` to create trigger tile widget.
 
-- The parameters `dense`, `enabled`, `isLoading`, `isTwoLine`, `leading`, `loadingText`, `padding`, `selected`, `trailing` is removed from `SmartSelect` class, instead use `tileBuilder` and return `S2Tile` widget, it has all these parameters.
+- The parameters `dense`, `enabled`, `isLoading`, `isTwoLine`, `leading`, `loadingText`, `padding`, `selected`, `trailing` is removed from `SmartSelect` class, instead use `builder.tile` or `tileBuilder` and return `S2Tile` widget, it's has all these parameters.
 
 - The parameter `onChange` nows return `S2SingleState state` or `S2MultiState state` instead of `T value` or `List<T> value`
 
 - The parameter `choiceConfig.useWrap` is removed, instead use `choiceConfig.layout = S2ChoiceLayout.wrap`
 
-- The parameter `choiceConfig.builder` moved to `builder.choiceBuilder`
+- The parameter `choiceConfig.builder` moved to `builder.choice` or `choiceBuilder`
 
-- The parameter `choiceConfig.titleBuilder` moved to `builder.choiceTitleBuilder`
+- The parameter `choiceConfig.titleBuilder` moved to `builder.choiceTitle` or `choiceTitleBuilder`
 
-- The parameter `choiceConfig.subtitleBuilder` moved to `builder.choiceSubtitleBuilder`
+- The parameter `choiceConfig.subtitleBuilder` moved to `builder.choiceSubtitle` or `choiceSubtitleBuilder`
 
-- The parameter `choiceConfig.secondaryBuilder` moved to `builder.choiceSecondaryBuilder`
+- The parameter `choiceConfig.secondaryBuilder` moved to `builder.choiceSecondary` or `choiceSecondaryBuilder`
 
-- The parameter `choiceConfig.dividerBuilder` moved to `builder.choiceDividerBuilder`
+- The parameter `choiceConfig.dividerBuilder` moved to `builder.choiceDivider` or `choiceDividerBuilder`
 
-- The parameter `choiceConfig.emptyBuilder` moved to `builder.choiceEmptybuilder`
+- The parameter `choiceConfig.emptyBuilder` moved to `builder.choiceEmpty` or `choiceEmptybuilder`
 
 - The parameter `choiceConfig.glowingOverscrollIndicatorColor` is removed, instead use `choiceConfig.overscrollColor`
 
@@ -325,8 +327,8 @@ SmartSelect<T>.[single|multiple]({
 
   // Whether the option list need to confirm
   // to return the changed value
-  // shortcut to [modalConfig.useConfirmation]
-  bool modalConfirmation,
+  // shortcut to [modalConfig.useConfirm]
+  bool modalConfirm,
 
   // Whether the options list modal use header or not
   // shortcut to [modalConfig.useHeader]
@@ -643,31 +645,31 @@ SmartSelect<T>.single({
   S2SingleBuilder<T> builder,
 
   // Builder for custom tile widget
-  // shortcut to [builder.tileBuilder]
+  // shortcut to [builder.tile]
   S2WidgetBuilder<S2SingleState<T>> tileBuilder,
 
   // Builder for custom modal widget
-  // shortcut to [builder.modalBuilder]
+  // shortcut to [builder.modal]
   S2WidgetBuilder<S2SingleState<T>> modalBuilder,
 
   // Builder for custom modal header widget
-  // shortcut to [builder.modalHeaderBuilder]
+  // shortcut to [builder.modalHeader]
   S2WidgetBuilder<S2SingleState<T>> modalHeaderBuilder,
 
   // Builder for custom modal actions widget
-  // shortcut to [builder.modalActionsBuilder]
+  // shortcut to [builder.modalActions]
   S2ListWidgetBuilder<S2SingleState<T>> modalActionsBuilder,
 
   // Builder for custom modal confirm action widget
-  // shortcut to [builder.modalConfirmBuilder]
+  // shortcut to [builder.modalConfirm]
   S2WidgetBuilder<S2SingleState<T>> modalConfirmBuilder,
 
   // Builder for divider widget between header, body, and footer modal
-  // shortcut to [builder.modalDividerBuilder]
+  // shortcut to [builder.modalDivider]
   S2WidgetBuilder<S2SingleState<T>> modalDividerBuilder,
 
   // Builder for custom footer widget
-  // shortcut to [builder.modalFooterBuilder]
+  // shortcut to [builder.modalFooter]
   S2WidgetBuilder<S2SingleState<T>> modalFooterBuilder,
 
   // other configuration
@@ -692,31 +694,31 @@ SmartSelect<T>.multiple({
   S2MultiBuilder<T> builder,
 
   // Builder for custom tile widget
-  // shortcut to [builder.tileBuilder]
+  // shortcut to [builder.tile]
   S2WidgetBuilder<S2MultiState<T>> tileBuilder,
 
   // Builder for custom modal widget
-  // shortcut to [builder.modalBuilder]
+  // shortcut to [builder.modal]
   S2WidgetBuilder<S2MultiState<T>> modalBuilder,
 
   // Builder for custom modal header widget
-  // shortcut to [builder.modalHeaderBuilder]
+  // shortcut to [builder.modalHeader]
   S2WidgetBuilder<S2MultiState<T>> modalHeaderBuilder,
 
   // Builder for custom modal actions widget
-  // shortcut to [builder.modalActionsBuilder]
+  // shortcut to [builder.modalActions]
   S2ListWidgetBuilder<S2MultiState<T>> modalActionsBuilder,
 
   // Builder for custom modal confirm action widget
-  // shortcut to [builder.modalConfirmBuilder]
+  // shortcut to [builder.modalConfirm]
   S2WidgetBuilder<S2MultiState<T>> modalConfirmBuilder,
 
   // Builder for divider widget between header, body, and footer modal
-  // shortcut to [builder.modalDividerBuilder]
+  // shortcut to [builder.modalDivider]
   S2WidgetBuilder<S2MultiState<T>> modalDividerBuilder,
 
   // Builder for custom footer widget
-  // shortcut to [builder.modalFooterBuilder]
+  // shortcut to [builder.modalFooter]
   S2WidgetBuilder<S2MultiState<T>> modalFooterBuilder,
 
   // other configuration
@@ -737,43 +739,43 @@ SmartSelect<T>.[single|multiple]({
   ...,
 
   // Builder for modal filter widget
-  // shortcut to [builder.modalFilterBuilder]
+  // shortcut to [builder.modalFilter]
   S2WidgetBuilder<S2Filter> modalFilterBuilder,
 
   // Builder for modal filter toggle widget
-  // shortcut to [builder.modalFilterToggleBuilder]
+  // shortcut to [builder.modalFilterToggle]
   S2WidgetBuilder<S2Filter> modalFilterToggleBuilder,
 
   // Builder for each custom choices item widget
-  // shortcut to [builder.choiceBuilder]
+  // shortcut to [builder.choice]
   S2ChoiceBuilder<T> choiceBuilder,
 
   // Builder for each custom choices item title widget
-  // shortcut to [builder.choiceTitleBuilder]
+  // shortcut to [builder.choiceTitle]
   S2ChoiceBuilder<T> choiceTitleBuilder,
 
   // Builder for each custom choices item subtitle widget
-  // shortcut to [builder.choiceSubtitleBuilder]
+  // shortcut to [builder.choiceSubtitle]
   S2ChoiceBuilder<T> choiceSubtitleBuilder,
 
   // Builder for each custom choices item secondary widget
-  // shortcut to [builder.choiceSecondaryBuilder]
+  // shortcut to [builder.choiceSecondary]
   S2ChoiceBuilder<T> choiceSecondaryBuilder,
 
   /// Builder for custom divider widget between choices item
-  // shortcut to [builder.choiceDividerBuilder]
+  // shortcut to [builder.choiceDivider]
   IndexedWidgetBuilder choiceDividerBuilder,
 
   // Builder for custom empty display
-  // shortcut to [builder.choiceEmptyBuilder]
+  // shortcut to [builder.choiceEmpty]
   S2WidgetBuilder<String> choiceEmptyBuilder,
 
   // A widget builder for custom choices group
-  // shortcut to [builder.choiceGroupBuilder]
+  // shortcut to [builder.choiceGroup]
   S2ChoiceGroupBuilder choiceGroupBuilder,
 
   // A widget builder for custom header choices group
-  // shortcut to [builder.choiceHeaderBuilder]
+  // shortcut to [builder.choiceHeader]
   S2ChoiceHeaderBuilder choiceHeaderBuilder,
 
   // other configuration
@@ -866,13 +868,15 @@ SmartSelect<T>.multiple(
 ### Chips Tile
 
 ```dart
-/// Chips tile/trigger widget
+// Chips tile/trigger widget
 S2ChipsTile<T>({
 
   // List of value of the selected choices.
   List<S2Choice<T>> values,
 
   // Called when the user taps this list tile.
+  //
+  // Inoperative if [enabled] is false.
   GestureTapCallback onTap,
 
   // The primary content of the list tile.
@@ -882,6 +886,8 @@ S2ChipsTile<T>({
   Widget subtitle,
 
   // A widget to display before the title.
+  //
+  // Typically an [Icon] or a [CircleAvatar] widget.
   Widget leading,
 
   // A widget to display after the title.
@@ -894,7 +900,7 @@ S2ChipsTile<T>({
   Widget placeholder,
 
   // Hide placeholder when the [values] is null
-  bool placeholderIgnored,
+  bool placeholderIgnore,
 
   // Whether the chip list is scrollable or not
   bool scrollable,
@@ -911,8 +917,11 @@ S2ChipsTile<T>({
   // Chip brightness
   Brightness chipBrightness,
 
-  // Chip action button color
-  Color chipActionColor,
+  // Chip delete button color
+  Color chipDeleteColor,
+
+  // Chip delete button icon
+  Icon chipDeleteIcon,
 
   // Chip spacing
   double chipSpacing,
@@ -920,8 +929,17 @@ S2ChipsTile<T>({
   // Chip run spacing
   double chipRunSpacing,
 
+  // Chip shape border
+  ShapeBorder chipShape,
+
   // Widget builder for chip item
   IndexedWidgetBuilder chipBuilder,
+
+  // Widget builder for chip label item
+  IndexedWidgetBuilder chipLabelBuilder,
+
+  // Widget builder for chip avatar item
+  IndexedWidgetBuilder chipAvatarBuilder,
 
   // Called when the user delete the chip item.
   ValueChanged<T> chipOnDelete,
@@ -968,7 +986,6 @@ SmartSelect<String>.multiple(
         backgroundImage: NetworkImage('https://source.unsplash.com/8I-ht65iRww/100x100'),
       ),
       trailing: const Icon(Icons.add_circle_outline),
-      scrollable: true,
       divider: const Divider(height: 1),
       chipColor: Colors.red,
       chipBrightness: Brightness.dark,
