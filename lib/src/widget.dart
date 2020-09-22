@@ -246,8 +246,8 @@ class SmartSelect<T> extends StatefulWidget {
 
     // Whether the option list need to confirm
     // to return the changed value
-    // shortcut to [modalConfig.useConfirmation]
-    bool modalConfirmation,
+    // shortcut to [modalConfig.useConfirm]
+    bool modalConfirm,
 
     // Whether the options list modal use header or not
     // shortcut to [modalConfig.useHeader]
@@ -280,23 +280,23 @@ class SmartSelect<T> extends StatefulWidget {
       singleOnChange: onChange,
       singleModalValidation: modalValidation,
       singleBuilder: S2SingleBuilder<T>().merge(builder).copyWith(
-        tileBuilder: tileBuilder,
-        modalBuilder: modalBuilder,
-        modalHeaderBuilder: modalHeaderBuilder,
-        modalActionsBuilder: modalActionsBuilder,
-        modalConfirmBuilder: modalConfirmBuilder,
-        modalDividerBuilder: modalDividerBuilder,
-        modalFooterBuilder: modalFooterBuilder,
-        modalFilterBuilder: modalFilterBuilder,
-        modalFilterToggleBuilder: modalFilterToggleBuilder,
-        choiceBuilder: choiceBuilder,
-        choiceTitleBuilder: choiceTitleBuilder,
-        choiceSubtitleBuilder: choiceSubtitleBuilder,
-        choiceSecondaryBuilder: choiceSecondaryBuilder,
-        choiceDividerBuilder: choiceDividerBuilder,
-        choiceEmptyBuilder: choiceEmptyBuilder,
-        choiceGroupBuilder: choiceGroupBuilder,
-        choiceHeaderBuilder: choiceHeaderBuilder,
+        tile: tileBuilder,
+        modal: modalBuilder,
+        modalHeader: modalHeaderBuilder,
+        modalActions: modalActionsBuilder,
+        modalConfirm: modalConfirmBuilder,
+        modalDivider: modalDividerBuilder,
+        modalFooter: modalFooterBuilder,
+        modalFilter: modalFilterBuilder,
+        modalFilterToggle: modalFilterToggleBuilder,
+        choice: choiceBuilder,
+        choiceTitle: choiceTitleBuilder,
+        choiceSubtitle: choiceSubtitleBuilder,
+        choiceSecondary: choiceSecondaryBuilder,
+        choiceDivider: choiceDividerBuilder,
+        choiceEmpty: choiceEmptyBuilder,
+        choiceGroup: choiceGroupBuilder,
+        choiceHeader: choiceHeaderBuilder,
       ),
       choiceConfig: defaultChoiceConfig.merge(choiceConfig).copyWith(
         type: choiceType,
@@ -315,7 +315,7 @@ class SmartSelect<T> extends StatefulWidget {
         filterAuto: modalFilterAuto,
         useFilter: modalFilter,
         useHeader: modalHeader,
-        useConfirmation: modalConfirmation,
+        useConfirm: modalConfirm,
         style: modalStyle,
         headerStyle: modalHeaderStyle,
       ),
@@ -475,8 +475,8 @@ class SmartSelect<T> extends StatefulWidget {
 
     // Whether the option list need to confirm
     // to return the changed value
-    // shortcut to [modalConfig.useConfirmation]
-    bool modalConfirmation,
+    // shortcut to [modalConfig.useConfirm]
+    bool modalConfirm,
 
     // Whether the options list modal use header or not
     // shortcut to [modalConfig.useHeader]
@@ -509,23 +509,23 @@ class SmartSelect<T> extends StatefulWidget {
       multiOnChange: onChange,
       multiModalValidation: modalValidation,
       multiBuilder: S2MultiBuilder<T>().merge(builder).copyWith(
-        tileBuilder: tileBuilder,
-        modalBuilder: modalBuilder,
-        modalHeaderBuilder: modalHeaderBuilder,
-        modalActionsBuilder: modalActionsBuilder,
-        modalConfirmBuilder: modalConfirmBuilder,
-        modalDividerBuilder: modalDividerBuilder,
-        modalFooterBuilder: modalFooterBuilder,
-        modalFilterBuilder: modalFilterBuilder,
-        modalFilterToggleBuilder: modalFilterToggleBuilder,
-        choiceBuilder: choiceBuilder,
-        choiceTitleBuilder: choiceTitleBuilder,
-        choiceSubtitleBuilder: choiceSubtitleBuilder,
-        choiceSecondaryBuilder: choiceSecondaryBuilder,
-        choiceDividerBuilder: choiceDividerBuilder,
-        choiceEmptyBuilder: choiceEmptyBuilder,
-        choiceGroupBuilder: choiceGroupBuilder,
-        choiceHeaderBuilder: choiceHeaderBuilder,
+        tile: tileBuilder,
+        modal: modalBuilder,
+        modalHeader: modalHeaderBuilder,
+        modalActions: modalActionsBuilder,
+        modalConfirm: modalConfirmBuilder,
+        modalDivider: modalDividerBuilder,
+        modalFooter: modalFooterBuilder,
+        modalFilter: modalFilterBuilder,
+        modalFilterToggle: modalFilterToggleBuilder,
+        choice: choiceBuilder,
+        choiceTitle: choiceTitleBuilder,
+        choiceSubtitle: choiceSubtitleBuilder,
+        choiceSecondary: choiceSecondaryBuilder,
+        choiceDivider: choiceDividerBuilder,
+        choiceEmpty: choiceEmptyBuilder,
+        choiceGroup: choiceGroupBuilder,
+        choiceHeader: choiceHeaderBuilder,
       ),
       choiceConfig: defaultChoiceConfig.merge(choiceConfig).copyWith(
         type: choiceType,
@@ -544,7 +544,7 @@ class SmartSelect<T> extends StatefulWidget {
         filterAuto: modalFilterAuto,
         useFilter: modalFilter,
         useHeader: modalHeader,
-        useConfirmation: modalConfirmation,
+        useConfirm: modalConfirm,
         style: modalStyle,
         headerStyle: modalHeaderStyle,
       ),
@@ -576,7 +576,7 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
   /// debouncer used in search text on changed
   final Debouncer debouncer = Debouncer();
 
-
+  /// final value
   covariant var value;
 
   /// return an object or array of object
@@ -624,6 +624,39 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
     ),
   );
 
+  // /// get modal config
+  // S2ModalConfig get modalConfig {
+  //   S2ModalStyle _modalStyle;
+  //   if (widget.modalConfig.type == S2ModalType.popupDialog) {
+  //     final DialogTheme _dialogTheme = DialogTheme.of(context);
+  //     _modalStyle = S2ModalStyle(
+  //       backgroundColor: _dialogTheme.backgroundColor ?? Theme.of(context).dialogBackgroundColor,
+  //       elevation: _dialogTheme.elevation ?? 24.0,
+  //       clipBehavior: Clip.antiAlias,
+  //       shape: _dialogTheme.shape ?? const RoundedRectangleBorder(
+  //         borderRadius: BorderRadius.all(Radius.circular(4.0))
+  //       ),
+  //     );
+  //   } else if (widget.modalConfig.type == S2ModalType.popupDialog) {
+  //     final BottomSheetThemeData _bottomSheetTheme = Theme.of(context).bottomSheetTheme;
+  //     _modalStyle = S2ModalStyle(
+  //       backgroundColor: _bottomSheetTheme.backgroundColor,
+  //       elevation: _bottomSheetTheme.elevation ?? 0.1,
+  //       clipBehavior: _bottomSheetTheme.clipBehavior ?? Clip.none,
+  //       shape: _bottomSheetTheme.shape,
+  //     );
+  //   } else {
+  //     _modalStyle = S2ModalStyle();
+  //   }
+
+  //   return widget.modalConfig?.copyWith(
+  //     style: _modalStyle.merge(widget.modalConfig?.style),
+  //     headerStyle: widget.modalConfig?.headerStyle?.copyWith(
+  //       textStyle: theme.textTheme.headline6.merge(widget.modalConfig?.headerStyle?.textStyle)
+  //     ),
+  //   );
+  // }
+
   /// get choice style
   S2ChoiceStyle get choiceStyle => choiceConfig?.style;
 
@@ -655,7 +688,7 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
 
   /// get default modal widget
   Widget get defaultModal {
-    return _S2Modal(
+    return S2Modal(
       config: modalConfig,
       choices: choiceItems,
       header: modalHeader,
@@ -686,7 +719,7 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
 
   /// get custom filter widget
   Widget get _customModalFilter {
-    return builder?.modalFilterBuilder?.call(context, filter);
+    return builder?.modalFilter?.call(context, filter);
   }
 
   /// get default filter widget
@@ -719,7 +752,7 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
 
   /// get custom widget to show/hide modal filter
   Widget get _customModalFilterToggle {
-    return builder?.modalFilterToggleBuilder?.call(context, filter);
+    return builder?.modalFilterToggle?.call(context, filter);
   }
 
   /// get default widget to show/hide modal filter
@@ -737,7 +770,7 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
 
   /// get confirm button widget
   Widget get confirmButton {
-    return modalConfig.useConfirmation && !filter.activated
+    return modalConfig.useConfirm && !filter.activated
       ? _customConfirmButton ?? defaultConfirmButton
       : null;
   }
@@ -830,7 +863,7 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
                   if (filter.activated)
                     Navigator.pop(context);
                   // Pop navigator with confirmed return value
-                  if (!modalConfig.useConfirmation)
+                  if (!modalConfig.useConfirm)
                     Navigator.pop(context, true);
                 }
               },
@@ -863,7 +896,7 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
 
   /// get choice empty widget
   Widget get choiceEmpty {
-    return builder.choiceEmptyBuilder?.call(context, filter.query) ?? defaultChoiceEmpty;
+    return builder.choiceEmpty?.call(context, filter.query) ?? defaultChoiceEmpty;
   }
 
   /// get default choice empty widget
@@ -888,12 +921,16 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
           clipBehavior: modalStyle.clipBehavior ?? Clip.none,
           backgroundColor: modalStyle.backgroundColor,
           elevation: modalStyle.elevation,
+          isDismissible: modalConfig.barrierDismissible,
+          barrierColor: modalConfig.barrierColor,
           builder: (_) => modal,
         );
         break;
       case S2ModalType.popupDialog:
         confirmed = await showDialog(
           context: context,
+          barrierDismissible: modalConfig.barrierDismissible,
+          barrierColor: modalConfig.barrierColor,
           builder: (_) => Dialog(
             shape: modalStyle.shape,
             clipBehavior: modalStyle.clipBehavior ?? Clip.antiAlias,
@@ -1003,43 +1040,43 @@ class S2SingleState<T> extends S2State<T> {
 
   @override
   Widget build(BuildContext context) {
-    return builder?.tileBuilder?.call(context, this) ?? defaultTile;
+    return builder?.tile?.call(context, this) ?? defaultTile;
   }
 
   /// get custom modal widget
   @override
   Widget get _customModal {
-    return builder?.modalBuilder?.call(modalContext, this);
+    return builder?.modal?.call(modalContext, this);
   }
 
   /// get modal leading widget
   @override
   Widget get modalDivider {
-    return builder?.modalDividerBuilder?.call(modalContext, this);
+    return builder?.modalDivider?.call(modalContext, this);
   }
 
   /// get modal trailing widget
   @override
   Widget get modalFooter {
-    return builder?.modalFooterBuilder?.call(modalContext, this);
+    return builder?.modalFooter?.call(modalContext, this);
   }
 
   /// get custom modal header widget
   @override
   Widget get _customModalHeader {
-    return builder?.modalHeaderBuilder?.call(modalContext, this);
+    return builder?.modalHeader?.call(modalContext, this);
   }
 
   /// get custom modal header widget
   @override
   List<Widget> get _customModalActions {
-    return builder?.modalActionsBuilder?.call(modalContext, this);
+    return builder?.modalActions?.call(modalContext, this);
   }
 
   /// get custom confirm button
   @override
   Widget get _customConfirmButton {
-    return builder?.modalConfirmBuilder?.call(modalContext, this);
+    return builder?.modalConfirm?.call(modalContext, this);
   }
 
   /// get choices selector widget
@@ -1056,7 +1093,7 @@ class S2SingleState<T> extends S2State<T> {
     bool confirmed = await _showModalByType();
 
     // dont return value if modal need confirmation and not confirmed
-    if (modalConfig.useConfirmation == true && confirmed != true) return;
+    if (modalConfig.useConfirm == true && confirmed != true) return;
 
     // return value
     if (changes.value != null) {
@@ -1135,43 +1172,43 @@ class S2MultiState<T> extends S2State<T> {
 
   @override
   Widget build(BuildContext context) {
-    return builder?.tileBuilder?.call(context, this) ?? defaultTile;
+    return builder?.tile?.call(context, this) ?? defaultTile;
   }
 
   /// get custom modal widget
   @override
   Widget get _customModal {
-    return builder?.modalBuilder?.call(modalContext, this);
+    return builder?.modal?.call(modalContext, this);
   }
 
   /// get modal divider widget
   @override
   Widget get modalDivider {
-    return builder?.modalDividerBuilder?.call(modalContext, this);
+    return builder?.modalDivider?.call(modalContext, this);
   }
 
   /// get modal footer widget
   @override
   Widget get modalFooter {
-    return builder?.modalFooterBuilder?.call(modalContext, this);
+    return builder?.modalFooter?.call(modalContext, this);
   }
 
   /// get custom modal header widget
   @override
   Widget get _customModalHeader {
-    return builder?.modalHeaderBuilder?.call(modalContext, this);
+    return builder?.modalHeader?.call(modalContext, this);
   }
 
   /// get custom modal header widget
   @override
   List<Widget> get _customModalActions {
-    return builder?.modalActionsBuilder?.call(modalContext, this);
+    return builder?.modalActions?.call(modalContext, this);
   }
 
   /// get custom confirm button
   @override
   Widget get _customConfirmButton {
-    return builder?.modalConfirmBuilder?.call(modalContext, this);
+    return builder?.modalConfirm?.call(modalContext, this);
   }
 
   /// get choices selector widget
@@ -1204,7 +1241,7 @@ class S2MultiState<T> extends S2State<T> {
     bool confirmed = await _showModalByType();
 
     // dont return value if modal need confirmation and not confirmed
-    if (modalConfig.useConfirmation == true && confirmed != true) {
+    if (modalConfig.useConfirm == true && confirmed != true) {
       // reset cache value
       changes.value = value;
       return;
@@ -1221,15 +1258,26 @@ class S2MultiState<T> extends S2State<T> {
 
 }
 
-class _S2Modal extends StatelessWidget {
+/// Smart Select default modal widget
+class S2Modal extends StatelessWidget {
 
+  /// the modal configuration
   final S2ModalConfig config;
+
+  /// the modal header widget
   final Widget header;
+
+  /// the modal choices widget
   final Widget choices;
+
+  /// the modal divider widget
   final Widget divider;
+
+  /// the modal footer widget
   final Widget footer;
 
-  _S2Modal({
+  /// default constructor
+  S2Modal({
     Key key,
     @required this.config,
     @required this.header,
@@ -1250,9 +1298,17 @@ class _S2Modal extends StatelessWidget {
         body: _modalBody,
       );
     } else {
-      return SafeArea(
-        child: _modalBody,
-      );
+      return SafeArea(child: _modalBody);
+      // return SafeArea(
+      //   child: Material(
+      //     color: config.style.backgroundColor,
+      //     elevation: config.style.elevation ?? 0.1,
+      //     shape: config.style.shape,
+      //     type: config.type == S2ModalType.popupDialog ? MaterialType.card : MaterialType.canvas,
+      //     clipBehavior: config.style.clipBehavior,
+      //     child: _modalBody
+      //   )
+      // );
     }
   }
 
@@ -1268,7 +1324,7 @@ class _S2Modal extends StatelessWidget {
         _isFullPage != true ? header : null,
         divider,
         Flexible(
-          fit: FlexFit.loose,
+          fit: _isFullPage == true ? FlexFit.tight : FlexFit.loose,
           child: choices,
         ),
         divider,

@@ -92,7 +92,7 @@ class S2ChoicesList<T> extends StatelessWidget {
       padding: style.wrapperPadding ?? const EdgeInsets.symmetric(vertical: 10.0),
       itemCount: items.length,
       itemBuilder: (context, i) => itemBuilder(items[i]),
-      separatorBuilder: builder.choiceDividerBuilder ?? _dividerBuilderDefault,
+      separatorBuilder: builder.choiceDivider ?? _dividerBuilderDefault,
     );
   }
 

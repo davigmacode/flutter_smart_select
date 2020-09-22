@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import './modal_theme.dart';
 
 /// Target to open choices list
@@ -19,12 +20,15 @@ class S2ModalConfig {
   /// Use different title with the trigger widget title
   final String title;
 
-  /// Whether the option list need to confirm
-  /// to return the changed value
-  final bool useConfirmation;
-
   /// Whether the options list modal use header or not
   final bool useHeader;
+
+  /// Whether the option list need to confirm
+  /// to return the changed value
+  final bool useConfirm;
+
+  /// custom confirmation icon
+  final Icon confirmIcon;
 
   /// Whether the option list is filterable or not
   final bool useFilter;
@@ -38,6 +42,15 @@ class S2ModalConfig {
   /// The filter autocomplete delay
   final Duration filterDelay;
 
+  /// The `barrierDismissible` argument is used to indicate whether tapping on the
+  /// barrier will dismiss the dialog. It is `true` by default and can not be `null`.
+  final bool barrierDismissible;
+
+  /// The `barrierColor` argument is used to specify the color of the modal
+  /// barrier that darkens everything the dialog. If `null` the default color
+  /// `Colors.black54` is used.
+  final Color barrierColor;
+
   /// Configure modal style
   final S2ModalStyle style;
 
@@ -48,19 +61,23 @@ class S2ModalConfig {
   const S2ModalConfig({
     this.type = S2ModalType.fullPage,
     this.title,
-    this.useConfirmation = false,
     this.useHeader = true,
+    this.useConfirm = false,
+    this.confirmIcon,
     this.useFilter = false,
     this.filterAuto = false,
     this.filterDelay = const Duration(milliseconds: 300),
     this.filterHint,
+    this.barrierDismissible = true,
+    this.barrierColor,
     this.style = const S2ModalStyle(),
     this.headerStyle = const S2ModalHeaderStyle(),
   }) :
-    assert(useConfirmation != null),
     assert(useHeader != null),
+    assert(useConfirm != null),
     assert(useFilter != null),
     assert(filterAuto != null),
+    assert(barrierDismissible != null),
     assert(style != null),
     assert(headerStyle != null);
 
@@ -69,8 +86,9 @@ class S2ModalConfig {
   S2ModalConfig copyWith({
     S2ModalType type,
     String title,
-    bool useConfirmation,
     bool useHeader,
+    bool useConfirm,
+    Icon confirmIcon,
     bool useFilter,
     bool filterAuto,
     Duration filterDelay,
@@ -81,8 +99,9 @@ class S2ModalConfig {
     return S2ModalConfig(
       type: type ?? this.type,
       title: title ?? this.title,
-      useConfirmation: useConfirmation ?? this.useConfirmation,
       useHeader: useHeader ?? this.useHeader,
+      useConfirm: useConfirm ?? this.useConfirm,
+      confirmIcon: confirmIcon ?? this.confirmIcon,
       useFilter: useFilter ?? this.useFilter,
       filterAuto: filterAuto ?? this.filterAuto,
       filterDelay: filterDelay ?? this.filterDelay,
@@ -101,8 +120,9 @@ class S2ModalConfig {
     return copyWith(
       type: other.type,
       title: other.title,
-      useConfirmation: other.useConfirmation,
       useHeader: other.useHeader,
+      useConfirm: other.useConfirm,
+      confirmIcon: other.confirmIcon,
       useFilter: other.useFilter,
       filterAuto: other.filterAuto,
       filterDelay: other.filterDelay,

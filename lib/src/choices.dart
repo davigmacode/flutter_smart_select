@@ -41,7 +41,7 @@ class S2Choices<T> extends StatelessWidget {
             config: config,
             builder: builder,
           )
-      : builder.choiceEmptyBuilder?.call(context, query)
+      : builder.choiceEmpty?.call(context, query)
         ?? const S2ChoicesEmpty();
   }
 

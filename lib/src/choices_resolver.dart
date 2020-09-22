@@ -20,7 +20,7 @@ class S2ChoiceResolver<T> {
   });
 
   S2ChoiceBuilder<T> get choiceBuilder {
-    return builder.choiceBuilder ?? defaultChoiceBuilder;
+    return builder.choice ?? defaultChoiceBuilder;
   }
 
   S2ChoiceBuilder<T> get defaultChoiceBuilder {
@@ -141,8 +141,8 @@ class S2ChoiceResolver<T> {
   // build title widget
   Widget getTitle(BuildContext context, S2Choice<T> choice, String searchText) {
     return choice.title != null
-    ? builder.choiceTitleBuilder != null
-      ? builder.choiceTitleBuilder(context, choice, searchText)
+    ? builder.choiceTitle != null
+      ? builder.choiceTitle(context, choice, searchText)
       : S2Text(
           text: choice.title,
           style: style.titleStyle,
@@ -155,8 +155,8 @@ class S2ChoiceResolver<T> {
   // build subtitle widget
   Widget getSubtitle(BuildContext context, S2Choice<T> choice, String searchText) {
     return choice.subtitle != null
-      ? builder.choiceSubtitleBuilder != null
-        ? builder.choiceSubtitleBuilder(context, choice, searchText)
+      ? builder.choiceSubtitle != null
+        ? builder.choiceSubtitle(context, choice, searchText)
         : S2Text(
             text: choice.subtitle,
             style: style.subtitleStyle,
@@ -168,6 +168,6 @@ class S2ChoiceResolver<T> {
 
   // build secondary/avatar widget
   Widget getSecondary(BuildContext context, S2Choice<T> choice, String searchText) {
-    return builder.choiceSecondaryBuilder?.call(context, choice, searchText);
+    return builder.choiceSecondary?.call(context, choice, searchText);
   }
 }

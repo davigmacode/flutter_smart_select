@@ -44,7 +44,7 @@ class S2ChoicesGrouped<T> extends StatelessWidget {
                 count: groupItems.length,
                 style: config.headerStyle,
               );
-              final Widget groupHeader = builder.choiceHeaderBuilder?.call(context, group, query)
+              final Widget groupHeader = builder.choiceHeader?.call(context, group, query)
                 ?? SmartSelectChoicesGroupedHeader(
                     group: group,
                     query: query,
@@ -55,7 +55,7 @@ class S2ChoicesGrouped<T> extends StatelessWidget {
                 items: groupItems,
                 itemBuilder: itemBuilder,
               );
-              return builder.choiceGroupBuilder?.call(context, groupHeader, groupChoices)
+              return builder.choiceGroup?.call(context, groupHeader, groupChoices)
                 ?? Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
