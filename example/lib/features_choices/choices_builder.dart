@@ -14,7 +14,7 @@ class _FeaturesChoicesBuilderState extends State<FeaturesChoicesBuilder> {
 
   List<String> _user;
   List<S2Choice<String>> _users = [];
-  bool _usersIsLoading;
+  bool _usersIsLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -78,6 +78,16 @@ class _FeaturesChoicesBuilderState extends State<FeaturesChoicesBuilder> {
               isTwoLine: true,
               leading: CircleAvatar(
                 backgroundImage: NetworkImage(avatar),
+                child: _usersIsLoading == true
+                  ? const SizedBox(
+                      child: CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                        strokeWidth: 1.5,
+                      ),
+                      height: 18.0,
+                      width: 18.0,
+                    )
+                  : null,
               ),
             );
           },
