@@ -1,3 +1,9 @@
+## [4.0.1] - 2020-09-23
+
+* edit package description, change meta import source
+* example: Fixes missing MainActivity
+* example: progress indicator on chips tile
+
 ## [4.0.0] - 2020-09-23
 
 * Validate before confirm
