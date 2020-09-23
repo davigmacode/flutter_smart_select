@@ -1,4 +1,4 @@
-import 'package:meta/meta.dart';
+import 'package:flutter/foundation.dart';
 import 'package:smart_select/src/utils/accent.dart';
 
 // typedef Future<List<S2Choice<T>>> S2ChoiceLoader<T>(
