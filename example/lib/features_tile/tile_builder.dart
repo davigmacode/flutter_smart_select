@@ -90,21 +90,22 @@ class _FeaturesTileBuilderState extends State<FeaturesTileBuilder> {
                 shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(5.0)),
                 ),
-                child: S2ChipsTile<String>.fromState(
+                child: S2Tile.fromState(
                   state,
+                  hideValue: true,
                   title: const Text('Cars'),
-                  // subtitle: Text('lorem impsum'),
-                  // leading: CircleAvatar(
-                  //   backgroundImage: NetworkImage('https://source.unsplash.com/8I-ht65iRww/100x100'),
-                  // ),
                   trailing: const Icon(Icons.add_circle_outline),
-                  // scrollable: true,
-                  // divider: Divider(height: 1),
-                  chipColor: Colors.red,
-                  chipBrightness: Brightness.dark,
-                  chipOnDelete: (value) {
-                    setState(() => _cars.remove(value));
-                  },
+                  body: S2TileChips(
+                    chipLength: state.valueObject.length,
+                    chipLabelBuilder: (context, i) {
+                      return Text(state.valueObject[i].title);
+                    },
+                    chipOnDelete: (i) {
+                      setState(() => _cars.remove(state.valueObject[i].value));
+                    },
+                    chipColor: Colors.red,
+                    chipBrightness: Brightness.dark,
+                  ),
                 ),
               );
             },

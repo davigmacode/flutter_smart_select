@@ -23,7 +23,7 @@ class _FeaturesModalValidationState extends State<FeaturesModalValidation> {
           choiceItems: choices.fruits,
           modalType: S2ModalType.popupDialog,
           modalConfirm: true,
-          modalValidation: (value) => value.length > 0,
+          modalValidation: (value) => value.length > 0 ? null : 'Select at least one',
           tileBuilder: (context, state) {
             return S2Tile.fromState(
               state,
@@ -45,8 +45,8 @@ class _FeaturesModalValidationState extends State<FeaturesModalValidation> {
                   const Spacer(),
                   Visibility(
                     visible: !state.changes.valid,
-                    child: const Text(
-                      'Select at least one',
+                    child: Text(
+                      state.changes?.error ?? '',
                       style: TextStyle(
                         color: Colors.red
                       ),

@@ -1,3 +1,10 @@
+## [4.2.0] - 2020-09-30
+
+* `modalValidation` function nows should return `String` to indicates the changes value is not valid and `null` or empty `String` to indicates the changes value is valid
+* `state.changes.error` to access the validation error
+* To display tile with chips use param `S2Tile.body` and `S2TileChips`, instead of `S2ChipsTile`
+* Add animated demo screenshot
+
 ## [4.0.1] - 2020-09-23
 
 * edit package description, change meta import source

@@ -111,7 +111,7 @@ class _FeaturesModalWidgetState extends State<FeaturesModalWidget> {
           ),
           modalConfirm: true,
           modalType: S2ModalType.bottomSheet,
-          modalValidation: (value) => value.length > 0,
+          modalValidation: (value) => value.length > 0 ? null : 'Select at least one',
           modalHeaderBuilder: (context, state) {
             return Container(
               padding: const EdgeInsets.fromLTRB(25, 20, 25, 10),
@@ -146,9 +146,9 @@ class _FeaturesModalWidgetState extends State<FeaturesModalWidget> {
               ),
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(0, 7, 0, 7),
-                child: S2ChipsTile<int>.fromState(
+                child: S2Tile.fromState(
                   state,
-                  // subtitle: Text('lorem impsum'),
+                  hideValue: true,
                   leading: CircleAvatar(
                     backgroundColor: _question2 == null ? Colors.grey : Colors.blue,
                     child: const Text(
@@ -156,12 +156,15 @@ class _FeaturesModalWidgetState extends State<FeaturesModalWidget> {
                       style: TextStyle(color: Colors.white)
                     ),
                   ),
-                  // trailing: Icon(Icons.add_circle_outline),
-                  // scrollable: true,
-                  // divider: Divider(height: 1),
-                  placeholderIgnore: true,
-                  chipColor: Colors.blue,
-                  chipBrightness: Brightness.dark,
+                  body: S2TileChips(
+                    chipLength: state.valueObject.length,
+                    chipLabelBuilder: (context, i) {
+                      return Text(state.valueObject[i].title);
+                    },
+                    chipColor: Colors.blue,
+                    chipBrightness: Brightness.dark,
+                    // placeholder: Container(),
+                  ),
                 ),
               ),
             );

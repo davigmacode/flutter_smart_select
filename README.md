@@ -1,12 +1,10 @@
-# smart_select
-
 ![Pub Version](https://img.shields.io/pub/v/smart_select) ![GitHub](https://img.shields.io/github/license/davigmacode/flutter_smart_select)
 
 <a href="https://www.buymeacoffee.com/davigmacode" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" width="195" height="55"></a>
 
 SmartSelect allows you to easily convert your usual form select or dropdown into dynamic page, popup dialog, or sliding bottom sheet with various choices input such as radio, checkbox, switch, chips, or even custom input. Supports single and multiple choice. Inspired by Smart Select component from [Framework7](https://framework7.io/).
 
-## What's New in Version 4.0.0
+## What's New in Version 4.x.x
 
 - Customizable every part on modal widget (header, footer, searchbar, confirm button, searchbar toggle) using style configuration or widget builder
 - Validate before confirm
@@ -24,13 +22,19 @@ SmartSelect allows you to easily convert your usual form select or dropdown into
 
 ## To Do
 
-- Right-To-Left support
+- Right-To-Left parameter support, currently this can be achieved using widget builder
 - Internally handle async choice items loader
 - Custom search handler
 - Choice items pagination (pull to refresh and pull to load more)
 - Add more test
 
-## Migration from 3.0.x to 4.x.x
+## Migration from 4.0.0 to 4.2.0
+
+- `modalValidation` function nows should return `String` to indicates the changes value is not valid and `null` or empty `String` to indicates the changes value is valid
+
+- To display tile with chips use param `S2Tile.body` and `S2TileChips`, instead of `S2ChipsTile`
+
+## Migration from 3.0.x to 4.0.0
 
 - The parameter `options` is removed, instead use `choiceItems`
 
@@ -87,7 +91,7 @@ SmartSelect allows you to easily convert your usual form select or dropdown into
   SmartSelect<T>.single/multiple(
     ...,
     ...,
-    groupBuilder: (context, header, choices) {
+    choiceGroupBuilder: (context, header, choices) {
       return StickyHeader(
         header: header,
         content: choices,
@@ -96,15 +100,106 @@ SmartSelect allows you to easily convert your usual form select or dropdown into
   );
   ```
 
-# Demo
+# Preview
 
-## Preview
-
-[![Watch the demo](https://img.youtube.com/vi/bcHELDM8hWg/maxresdefault.jpg)](https://youtu.be/bcHELDM8hWg)
-
-## Download
-
-[![Demo App](https://github.com/davigmacode/flutter_smart_select/raw/master/example/art/qr/apk.png "Demo App")](https://github.com/davigmacode/flutter_smart_select/blob/master/example/art/demo/SmartSelect.apk?raw=true)
+<table>
+<thead>
+  <tr>
+    <th align="left"></th>
+    <th align="center">Single Choice</th>
+    <th align="center">Multiple Choice</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td align="left">Modal Type</td>
+    <td align="center">
+      <image alt="Single Choice Modal" src="https://raw.githubusercontent.com/davigmacode/flutter_smart_select/master/demo/screens/single-modal.gif"/>
+    </td>
+    <td align="center">
+      <image alt="Multiple Choice Modal" src="https://raw.githubusercontent.com/davigmacode/flutter_smart_select/master/demo/screens/multiple-modal.gif"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="left">Chips Widget</td>
+    <td align="center">
+      <image alt="Single Choice Chips" src="https://raw.githubusercontent.com/davigmacode/flutter_smart_select/master/demo/screens/single-chips.gif"/>
+    </td>
+    <td align="center">
+      <image alt="Multiple Choice Chips" src="https://raw.githubusercontent.com/davigmacode/flutter_smart_select/master/demo/screens/multiple-chips.gif"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="left">Switch Widget</td>
+    <td align="center">
+      None
+    </td>
+    <td align="center">
+      <image alt="Multiple Choice Switch" src="https://raw.githubusercontent.com/davigmacode/flutter_smart_select/master/demo/screens/multiple-switches.gif"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="left">Custom Tile</td>
+    <td align="center" colspan="2">
+      <image alt="Customize Tile" src="https://raw.githubusercontent.com/davigmacode/flutter_smart_select/master/demo/screens/custom-tile.gif"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="left">Modal Filter</td>
+    <td align="center" colspan="2">
+      <image alt="Modal Filter" src="https://raw.githubusercontent.com/davigmacode/flutter_smart_select/master/demo/screens/modal-filter.gif"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="left">Modal Confirm</td>
+    <td align="center" colspan="2">
+      <image alt="Modal Confirm" src="https://raw.githubusercontent.com/davigmacode/flutter_smart_select/master/demo/screens/modal-confirm.gif"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="left">Modal Validation</td>
+    <td align="center" colspan="2">
+      <image alt="Modal Validation" src="https://raw.githubusercontent.com/davigmacode/flutter_smart_select/master/demo/screens/modal-validation.gif"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="left">Modal Selector</td>
+    <td align="center" colspan="2">
+      <image alt="Modal Selector" src="https://raw.githubusercontent.com/davigmacode/flutter_smart_select/master/demo/screens/modal-selector.gif"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="left">Modal Shape</td>
+    <td align="center" colspan="2">
+      <image alt="Modal Shape" src="https://raw.githubusercontent.com/davigmacode/flutter_smart_select/master/demo/screens/modal-shape.gif"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="left">Choice Items</td>
+    <td align="center" colspan="2">
+      <image alt="Choice Items" src="https://raw.githubusercontent.com/davigmacode/flutter_smart_select/master/demo/screens/choice-item.gif"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="left">Choice Grouped</td>
+    <td align="center" colspan="2">
+      <image alt="Choice Grouped" src="https://raw.githubusercontent.com/davigmacode/flutter_smart_select/master/demo/screens/choice-grouped.gif"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="left">Choice Builder</td>
+    <td align="center" colspan="2">
+      <image alt="Choice Builder" src="https://raw.githubusercontent.com/davigmacode/flutter_smart_select/master/demo/screens/choice-builder.gif"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="left">Download APK</td>
+    <td align="center" colspan="2">
+      <a href="https://raw.githubusercontent.com/davigmacode/flutter_smart_select/master/demo/build/SmartSelect.apk"><image alt="Demo App" src="https://raw.githubusercontent.com/davigmacode/flutter_smart_select/master/demo/build/qr-apk.png"/></a>
+    </td>
+  </tr>
+</tbody>
+</table>
 
 # Features
 
@@ -128,7 +223,7 @@ SmartSelect allows you to easily convert your usual form select or dropdown into
 
 For a complete usage, please see the [example](https://pub.dev/packages/smart_select#-example-tab-).
 
-To read more about classes and other references used by `smart_select`, see the [API Reference](https://pub.dev/documentation/smart_select/4.0.0/).
+To read more about classes and other references used by `smart_select`, see the [API Reference](https://pub.dev/documentation/smart_select/latest/).
 
 ## Single Choice
 
@@ -305,6 +400,9 @@ SmartSelect<T>.[single|multiple]({
   // other configuration
   ...,
   ...,
+
+  // Modal validation of single choice widget
+  ValidationCallback<T> modalValidation,
 
   // Modal configuration
   S2ModalConfig modalConfig,
@@ -834,6 +932,10 @@ S2Tile<T>({
   // Called when the user taps this list tile.
   GestureTapCallback onTap,
 
+  // widget to display below the tile
+  // usually used to display chips with S2TileChips
+  Widget body,
+
 })
 ```
 
@@ -865,48 +967,26 @@ SmartSelect<T>.multiple(
 );
 ```
 
-### Chips Tile
+### Tile With Chips
 
 ```dart
 // Chips tile/trigger widget
-S2ChipsTile<T>({
+S2TileChips({
 
   // List of value of the selected choices.
-  List<S2Choice<T>> values,
+  int chipLength,
 
-  // Called when the user taps this list tile.
-  //
-  // Inoperative if [enabled] is false.
-  GestureTapCallback onTap,
+  // Widget builder for chip label item
+  IndexedWidgetBuilder chipLabelBuilder,
 
-  // The primary content of the list tile.
-  Widget title,
+  // Widget builder for chip avatar item
+  IndexedWidgetBuilder chipAvatarBuilder,
 
-  // Additional content displayed below the title.
-  Widget subtitle,
+  // Widget builder for chip item
+  IndexedWidgetBuilder chipBuilder,
 
-  // A widget to display before the title.
-  //
-  // Typically an [Icon] or a [CircleAvatar] widget.
-  Widget leading,
-
-  // A widget to display after the title.
-  Widget trailing,
-
-  // Divider widget
-  Widget divider,
-
-  // The [Widget] displayed when the [values] is null
-  Widget placeholder,
-
-  // Hide placeholder when the [values] is null
-  bool placeholderIgnore,
-
-  // Whether the chip list is scrollable or not
-  bool scrollable,
-
-  // Chip list padding
-  EdgeInsetsGeometry padding,
+  // Called when the user delete the chip item.
+  ValueChanged<int> chipOnDelete,
 
   // Chip color
   Color chipColor,
@@ -932,17 +1012,15 @@ S2ChipsTile<T>({
   // Chip shape border
   ShapeBorder chipShape,
 
-  // Widget builder for chip item
-  IndexedWidgetBuilder chipBuilder,
+  // The [Widget] displayed when the [values] is null
+  Widget placeholder,
 
-  // Widget builder for chip label item
-  IndexedWidgetBuilder chipLabelBuilder,
+  // Whether the chip list is scrollable or not
+  bool scrollable,
 
-  // Widget builder for chip avatar item
-  IndexedWidgetBuilder chipAvatarBuilder,
+  // Chip list padding
+  EdgeInsetsGeometry padding,
 
-  // Called when the user delete the chip item.
-  ValueChanged<T> chipOnDelete,
 })
 ```
 
@@ -951,47 +1029,28 @@ S2ChipsTile<T>({
 SmartSelect<String>.multiple(
   ...,
   ...,
-  value: cars,
+  value: users,
   tileBuilder: (context, state) {
-    return S2ChipsTile<String>(
-      title: state.titleWidget,
-      values: state.valueObject,
-      onTap: state.showModal,
-      subtitle: const Text('lorem impsum'),
-      leading: const CircleAvatar(
-        backgroundImage: NetworkImage('https://source.unsplash.com/8I-ht65iRww/100x100'),
-      ),
-      trailing: const Icon(Icons.add_circle_outline),
-      scrollable: true,
-      divider: const Divider(height: 1),
-      chipColor: Colors.red,
-      chipBrightness: Brightness.dark,
-      onDeleted: (value) {
-        setState(() => cars.remove(value));
-      },
-    );
-  },
-);
-
-/// usage example from state
-SmartSelect<String>.multiple(
-  ...,
-  ...,
-  value: cars,
-  tileBuilder: (context, state) {
-    return S2ChipsTile<String>.fromState(
+    return S2Tile.fromState(
       state,
-      subtitle: const Text('lorem impsum'),
-      leading: const CircleAvatar(
-        backgroundImage: NetworkImage('https://source.unsplash.com/8I-ht65iRww/100x100'),
+      hideValue: true,
+      body: S2TileChips(
+        chipLength: state.valueObject.length,
+        chipLabelBuilder: (context, i) {
+          return Text(state.valueObject[i].title);
+        },
+        chipAvatarBuilder: (context, i) {
+          return CircleAvatar(
+            backgroundImage: NetworkImage(state.valueObject[i].meta['picture']['thumbnail'])
+          );
+        },
+        chipOnDelete: (i) {
+          setState(() => users.remove(state.valueObject[i].value));
+        },
+        chipColor: Colors.blue,
+        chipBrightness: Brightness.dark,
+        chipBorderOpacity: .5,
       ),
-      trailing: const Icon(Icons.add_circle_outline),
-      divider: const Divider(height: 1),
-      chipColor: Colors.red,
-      chipBrightness: Brightness.dark,
-      onDeleted: (value) {
-        setState(() => cars.remove(value));
-      },
     );
   },
 );

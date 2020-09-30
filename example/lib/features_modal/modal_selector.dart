@@ -24,7 +24,7 @@ class _FeaturesModalSelectorState extends State<FeaturesModalSelector> {
           choiceItems: choices.fruits,
           modalType: S2ModalType.popupDialog,
           modalConfirm: true,
-          modalValidation: (value) => value.length > 0,
+          modalValidation: (value) => value.length > 0 ? null : 'Select at least one',
           tileBuilder: (context, state) {
             return S2Tile.fromState(
               state,
@@ -133,19 +133,40 @@ class _FeaturesModalSelectorState extends State<FeaturesModalSelector> {
             );
           },
           tileBuilder: (context, state) {
-            return S2ChipsTile<String>.fromState(
+            return S2Tile.fromState(
               state,
+              hideValue: true,
               trailing: const Icon(Icons.add_circle_outline),
               leading: const CircleAvatar(
                 backgroundImage: NetworkImage('https://source.unsplash.com/xsGxhtAsfSA/100x100'),
               ),
-              chipColor: Colors.blue,
-              chipBorderOpacity: .3,
-              chipBrightness: Brightness.light,
-              chipOnDelete: (value) {
-                setState(() => _smartphone.remove(value));
-              },
+              body: S2TileChips(
+                chipLength: state.valueObject.length,
+                chipLabelBuilder: (context, i) {
+                  return Text(state.valueObject[i].title);
+                },
+                chipOnDelete: (i) {
+                  setState(() => _smartphone.remove(state.valueObject[i].value));
+                },
+                chipColor: Colors.blue,
+                chipBrightness: Brightness.light,
+                chipBorderOpacity: .3,
+                // placeholder: Container(),
+              ),
             );
+            // return S2ChipsTile<String>.fromState(
+            //   state,
+            //   trailing: const Icon(Icons.add_circle_outline),
+            //   leading: const CircleAvatar(
+            //     backgroundImage: NetworkImage('https://source.unsplash.com/xsGxhtAsfSA/100x100'),
+            //   ),
+            //   chipColor: Colors.blue,
+            //   chipBorderOpacity: .3,
+            //   chipBrightness: Brightness.light,
+            //   chipOnDelete: (value) {
+            //     setState(() => _smartphone.remove(value));
+            //   },
+            // );
           }
         ),
         const SizedBox(height: 7),

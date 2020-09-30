@@ -78,16 +78,6 @@ class _FeaturesChoicesBuilderState extends State<FeaturesChoicesBuilder> {
               isTwoLine: true,
               leading: CircleAvatar(
                 backgroundImage: NetworkImage(avatar),
-                child: _usersIsLoading == true
-                  ? const SizedBox(
-                      child: CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                        strokeWidth: 1.5,
-                      ),
-                      height: 18.0,
-                      width: 18.0,
-                    )
-                  : null,
               ),
             );
           },
@@ -143,19 +133,45 @@ class _FeaturesChoicesBuilderState extends State<FeaturesChoicesBuilder> {
             );
           },
           tileBuilder: (context, state) {
-            return S2ChipsTile<String>.fromState(
+            return S2Tile.fromState(
               state,
-              trailing: const Icon(Icons.add_circle_outline),
-              chipColor: Colors.blue,
-              chipBorderOpacity: .5,
-              chipBrightness: Brightness.light,
-              chipAvatarBuilder: (context, i) => CircleAvatar(
-                backgroundImage: NetworkImage(state.valueObject[i].meta['picture']['thumbnail'])
+              isLoading: _usersIsLoading,
+              hideValue: true,
+              body: S2TileChips(
+                chipLength: state.valueObject.length,
+                chipLabelBuilder: (context, i) {
+                  return Text(state.valueObject[i].title);
+                },
+                chipAvatarBuilder: (context, i) => CircleAvatar(
+                  backgroundImage: NetworkImage(state.valueObject[i].meta['picture']['thumbnail'])
+                ),
+                chipOnDelete: (i) {
+                  setState(() => _user.remove(state.valueObject[i].value));
+                },
+                chipColor: Colors.blue,
+                chipBrightness: Brightness.dark,
+                chipBorderOpacity: .5,
+                placeholder: Container(),
               ),
-              chipOnDelete: (value) {
-                setState(() => _user.remove(value));
-              },
             );
+            // return S2ChipsTile<String>.fromState(
+            //   state,
+            //   trailing: _usersIsLoading == true
+            //     ? const CircularProgressIndicator(
+            //         valueColor: AlwaysStoppedAnimation<Color>(Colors.grey),
+            //         strokeWidth: 1.5,
+            //       )
+            //     : const Icon(Icons.add_circle_outline),
+            //   chipColor: Colors.blue,
+            //   chipBorderOpacity: .5,
+            //   chipBrightness: Brightness.light,
+            //   chipAvatarBuilder: (context, i) => CircleAvatar(
+            //     backgroundImage: NetworkImage(state.valueObject[i].meta['picture']['thumbnail'])
+            //   ),
+            //   chipOnDelete: (value) {
+            //     setState(() => _user.remove(value));
+            //   },
+            // );
           },
         ),
         const SizedBox(height: 7),
