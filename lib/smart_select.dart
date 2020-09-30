@@ -9,5 +9,6 @@ export 'src/model/choice_config.dart';
 export 'src/model/choice_theme.dart';
 export 'src/model/choice_item.dart';
 export 'src/model/choice_group.dart';
-export 'src/tile/default_tile.dart';
+export 'src/tile/tile.dart';
+export 'src/tile/tile_chips.dart';
 export 'src/tile/chips_tile.dart';
