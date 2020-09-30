@@ -71,6 +71,10 @@ class S2Tile<T> extends StatelessWidget {
   /// If null, `EdgeInsets.symmetric(horizontal: 16.0)` is used.
   final EdgeInsetsGeometry padding;
 
+  /// widget to display below the tile
+  /// usually used to display chips with S2TileChips
+  final Widget body;
+
   /// Create a default trigger widget
   S2Tile({
     Key key,
@@ -87,6 +91,7 @@ class S2Tile<T> extends StatelessWidget {
     this.dense = false,
     this.hideValue = false,
     this.padding,
+    this.body,
   }) : super(key: key);
 
   /// Create a default trigger widget from state
@@ -106,6 +111,7 @@ class S2Tile<T> extends StatelessWidget {
     this.dense = false,
     this.hideValue = false,
     this.padding,
+    this.body,
   }) :
     title = title ?? state.titleWidget,
     value = value ?? state.valueDisplay,
@@ -114,6 +120,18 @@ class S2Tile<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return body == null
+      ? _tileWidget
+      : Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            _tileWidget,
+            body,
+          ],
+        );
+  }
+
+  Widget get _tileWidget {
     return ListTile(
       dense: dense,
       enabled: enabled && isLoading != true,
