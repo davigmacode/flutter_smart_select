@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 /// Validation callback
-typedef bool ValidationCallback<T>(T value);
+typedef String ValidationCallback<T>(T value);
 
 /// State of value changes
 abstract class S2Changes<T> extends ChangeNotifier {
@@ -15,8 +15,11 @@ abstract class S2Changes<T> extends ChangeNotifier {
   /// validate value by validation function
   void validate();
 
+  /// Validation error message
+  String error;
+
   /// whether the changes value is valid or not
-  bool valid;
+  bool get valid => error == null || error?.length == 0;
 
   /// get length of selected value
   int get length;
@@ -58,7 +61,7 @@ class S2SingleChanges<T> extends S2Changes<T> {
   /// validate value by validation function
   @override
   void validate() {
-    valid = validation?.call(value);
+    error = validation?.call(value);
     notifyListeners();
   }
 
@@ -136,7 +139,7 @@ class S2MultiChanges<T> extends S2Changes<T> {
   /// validate value by validation function
   @override
   void validate() {
-    valid = validation?.call(value);
+    error = validation?.call(value);
     notifyListeners();
   }
 
