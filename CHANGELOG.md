@@ -1,3 +1,7 @@
+## [4.2.1] - 2020-10-09
+
+* Fixed issue #24
+
 ## [4.2.0] - 2020-09-30
 
 * `modalValidation` function nows should return `String` to indicates the changes value is not valid and `null` or empty `String` to indicates the changes value is valid

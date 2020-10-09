@@ -215,8 +215,8 @@ SmartSelect allows you to easily convert your usual form select or dropdown into
 * Customizable modal header style
 * Customizable modal footer
 * Customizable choices style
-* Flexible choices source type
-* Easy async choices loader
+* Build choice items from any `List`
+* Easy load async choice items
 * and many more
 
 # Usage
