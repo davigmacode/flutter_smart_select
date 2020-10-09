@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 
 /// Default widget for empty choices list
 class S2ChoicesEmpty extends StatelessWidget {
@@ -13,25 +13,25 @@ class S2ChoicesEmpty extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Icon(
-              IconData(0xe8b6, fontFamily: 'MaterialIcons'),
-              color: Color(0x1F000000),
+            const Icon(
+              Icons.search,
+              color: Colors.grey,
               size: 120.0,
             ),
             Container(height: 25),
-            Text(
+            const Text(
               'Whoops, no matches',
-              style: TextStyle(color: Color(0x8A000000)),
+              style: TextStyle(color: Colors.grey),
             ),
             Container(height: 7),
-            Text(
+            const Text(
               "We couldn't find any search result",
-              style: TextStyle(color: Color(0x8A000000)),
+              style: TextStyle(color: Colors.grey),
             ),
             Container(height: 7),
-            Text(
+            const Text(
               "Give it another go",
-              style: TextStyle(color: Color(0x8A000000)),
+              style: TextStyle(color: Colors.grey),
             )
           ],
         ),
