@@ -14,7 +14,7 @@ class S2ChoicesEmpty extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Icon(
-              IconData(0xe8b6, fontFamily: 'MaterialIcons'),
+              const IconData(0xe8b6, fontFamily: 'MaterialIcons'),
               color: Color(0x1F000000),
               size: 120.0,
             ),
