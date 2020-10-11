@@ -688,17 +688,41 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
 
   /// get default modal widget
   Widget get defaultModal {
-    return S2Modal(
-      config: modalConfig,
-      choices: choiceItems,
-      header: modalHeader,
-      divider: modalDivider,
-      footer: modalFooter,
+    return WillPopScope(
+      onWillPop: () async => changes.valid,
+      child: modalConfig.isFullPage == true
+        ? Scaffold(
+            backgroundColor: modalConfig.style.backgroundColor,
+            appBar: PreferredSize(
+              child: modalHeader,
+              preferredSize: Size.fromHeight(kToolbarHeight)
+            ),
+            body: modalBody,
+          )
+        : SafeArea(child: modalBody),
     );
   }
 
   /// get custom modal
   Widget get _customModal;
+
+  /// return the modal body
+  Widget get modalBody {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        modalConfig.isFullPage != true ? modalHeader : null,
+        modalDivider,
+        Flexible(
+          fit: modalConfig.isFullPage == true ? FlexFit.tight : FlexFit.loose,
+          child: choiceItems,
+        ),
+        modalDivider,
+        modalFooter,
+      ]..removeWhere((child) => child == null),
+    );
+  }
 
   /// get modal divider
   Widget get modalDivider;
@@ -770,9 +794,7 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
 
   /// get confirm button widget
   Widget get confirmButton {
-    return modalConfig.useConfirm && !filter.activated
-      ? _customConfirmButton ?? defaultConfirmButton
-      : null;
+    return _customConfirmButton ?? defaultConfirmButton;
   }
 
   /// get custom confirm button widget
@@ -780,10 +802,55 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
 
   /// get default confirm button widget
   Widget get defaultConfirmButton {
-    return IconButton(
-      icon: Icon(Icons.check_circle_outline),
-      onPressed: () => closeModal(confirmed: true),
-    );
+    final VoidCallback onPressed = changes.valid
+      ? () => closeModal(confirmed: true)
+      : null;
+
+    if (modalConfig.confirmLabel != null) {
+      if (modalConfig.confirmIcon != null) {
+        return Center(
+          child: Padding(
+            padding: modalConfig.confirmMargin ?? const EdgeInsets.fromLTRB(0, 0, 10, 0),
+            child: FlatButton.icon(
+              icon: modalConfig.confirmIcon,
+              label: modalConfig.confirmLabel,
+              color: modalConfig.confirmBrightness == Brightness.dark
+                ? modalConfig.confirmColor ?? Colors.blueGrey
+                : null,
+              textColor: modalConfig.confirmBrightness == Brightness.light
+                ? modalConfig.confirmColor
+                : Colors.white,
+              onPressed: onPressed,
+            ),
+          ),
+        );
+      } else {
+        return Center(
+          child: Padding(
+            padding: modalConfig.confirmMargin ?? const EdgeInsets.fromLTRB(0, 0, 10, 0),
+            child: FlatButton(
+              child: modalConfig.confirmLabel,
+              color: modalConfig.confirmBrightness == Brightness.dark
+                ? modalConfig.confirmColor ?? Colors.blueGrey
+                : null,
+              textColor: modalConfig.confirmBrightness == Brightness.light
+                ? modalConfig.confirmColor
+                : Colors.white,
+              onPressed: onPressed,
+            ),
+          ),
+        );
+      }
+    } else {
+      return Padding(
+        padding: modalConfig.confirmMargin ?? const EdgeInsets.all(0),
+        child: IconButton(
+          icon: modalConfig.confirmIcon ?? Icon(Icons.check_circle_outline),
+          color: modalConfig.confirmColor,
+          onPressed: onPressed,
+        ),
+      );
+    }
   }
 
   /// get modal header widget
@@ -808,7 +875,18 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
       centerTitle: modalHeaderStyle.centerTitle,
       automaticallyImplyLeading: modalConfig.type == S2ModalType.fullPage || filter.activated,
       leading: filter.activated ? Icon(Icons.search) : null,
-      title: filter.activated == true ? modalFilter : modalTitle,
+      title: filter.activated == true
+        ? modalFilter
+        : Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(title, style: modalHeaderStyle.textStyle),
+              changes.valid != true
+                ? Text(changes.error, style: modalHeaderStyle.errorStyle)
+                : null,
+            ]..removeWhere((o) => o == null),
+          ),
       actions: modalActions,
     );
   }
@@ -825,7 +903,7 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
   List<Widget> get defaultModalActions {
     return <Widget>[
       modalFilterToggle,
-      confirmButton,
+      modalConfig.useConfirm && !filter.activated ? confirmButton : null,
     ];
   }
 
@@ -923,6 +1001,7 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
           elevation: modalStyle.elevation,
           isDismissible: modalConfig.barrierDismissible,
           barrierColor: modalConfig.barrierColor,
+          enableDrag: modalConfig.enableDrag,
           builder: (_) => modal,
         );
         break;
@@ -1256,80 +1335,4 @@ class S2MultiState<T> extends S2State<T> {
     }
   }
 
-}
-
-/// Smart Select default modal widget
-class S2Modal extends StatelessWidget {
-
-  /// the modal configuration
-  final S2ModalConfig config;
-
-  /// the modal header widget
-  final Widget header;
-
-  /// the modal choices widget
-  final Widget choices;
-
-  /// the modal divider widget
-  final Widget divider;
-
-  /// the modal footer widget
-  final Widget footer;
-
-  /// default constructor
-  S2Modal({
-    Key key,
-    @required this.config,
-    @required this.header,
-    @required this.choices,
-    @required this.divider,
-    @required this.footer,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    if (_isFullPage == true) {
-      return Scaffold(
-        backgroundColor: config.style.backgroundColor,
-        appBar: PreferredSize(
-          child: header,
-          preferredSize: Size.fromHeight(kToolbarHeight)
-        ),
-        body: _modalBody,
-      );
-    } else {
-      return SafeArea(child: _modalBody);
-      // return SafeArea(
-      //   child: Material(
-      //     color: config.style.backgroundColor,
-      //     elevation: config.style.elevation ?? 0.1,
-      //     shape: config.style.shape,
-      //     type: config.type == S2ModalType.popupDialog ? MaterialType.card : MaterialType.canvas,
-      //     clipBehavior: config.style.clipBehavior,
-      //     child: _modalBody
-      //   )
-      // );
-    }
-  }
-
-  bool get _isFullPage {
-    return config.type == S2ModalType.fullPage;
-  }
-
-  Widget get _modalBody {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: <Widget>[
-        _isFullPage != true ? header : null,
-        divider,
-        Flexible(
-          fit: _isFullPage == true ? FlexFit.tight : FlexFit.loose,
-          child: choices,
-        ),
-        divider,
-        footer,
-      ]..removeWhere((child) => child == null),
-    );
-  }
 }

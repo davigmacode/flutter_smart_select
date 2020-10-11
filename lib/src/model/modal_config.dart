@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/widgets.dart';
 import './modal_theme.dart';
 
@@ -30,6 +31,18 @@ class S2ModalConfig {
   /// custom confirmation icon
   final Icon confirmIcon;
 
+  /// custom confirmation label
+  final Widget confirmLabel;
+
+  /// custom confirmation color
+  final Color confirmColor;
+
+  /// custom confirmation padding
+  final EdgeInsetsGeometry confirmMargin;
+
+  /// custom confirmation brightness
+  final Brightness confirmBrightness;
+
   /// Whether the option list is filterable or not
   final bool useFilter;
 
@@ -41,6 +54,9 @@ class S2ModalConfig {
 
   /// The filter autocomplete delay
   final Duration filterDelay;
+
+  /// If [type] is [S2ModalType.bottomSheet], specifies whether the bottom sheet can be dragged up and down and dismissed by swiping downwards.
+  final bool enableDrag;
 
   /// The `barrierDismissible` argument is used to indicate whether tapping on the
   /// barrier will dismiss the dialog. It is `true` by default and can not be `null`.
@@ -64,10 +80,15 @@ class S2ModalConfig {
     this.useHeader = true,
     this.useConfirm = false,
     this.confirmIcon,
+    this.confirmLabel,
+    this.confirmColor,
+    this.confirmMargin,
+    this.confirmBrightness = Brightness.light,
     this.useFilter = false,
     this.filterAuto = false,
     this.filterDelay = const Duration(milliseconds: 300),
     this.filterHint,
+    this.enableDrag = true,
     this.barrierDismissible = true,
     this.barrierColor,
     this.style = const S2ModalStyle(),
@@ -77,9 +98,16 @@ class S2ModalConfig {
     assert(useConfirm != null),
     assert(useFilter != null),
     assert(filterAuto != null),
+    assert(enableDrag != null),
     assert(barrierDismissible != null),
+    assert(confirmBrightness != null),
     assert(style != null),
     assert(headerStyle != null);
+
+  /// whether the modal is full page or not
+  bool get isFullPage {
+    return type == S2ModalType.fullPage;
+  }
 
   /// Creates a copy of this [S2ModalConfig] but with
   /// the given fields replaced with the new values.
@@ -89,10 +117,17 @@ class S2ModalConfig {
     bool useHeader,
     bool useConfirm,
     Icon confirmIcon,
+    Widget confirmLabel,
+    Color confirmColor,
+    EdgeInsetsGeometry confirmMargin,
+    Brightness confirmBrightness,
     bool useFilter,
     bool filterAuto,
     Duration filterDelay,
     String filterHint,
+    bool enableDrag,
+    bool barrierDismissible,
+    Color barrierColor,
     S2ModalStyle style,
     S2ModalHeaderStyle headerStyle,
   }) {
@@ -102,10 +137,17 @@ class S2ModalConfig {
       useHeader: useHeader ?? this.useHeader,
       useConfirm: useConfirm ?? this.useConfirm,
       confirmIcon: confirmIcon ?? this.confirmIcon,
+      confirmLabel: confirmLabel ?? this.confirmLabel,
+      confirmColor: confirmColor ?? this.confirmColor,
+      confirmMargin: confirmMargin ?? this.confirmMargin,
+      confirmBrightness: confirmBrightness ?? this.confirmBrightness,
       useFilter: useFilter ?? this.useFilter,
       filterAuto: filterAuto ?? this.filterAuto,
       filterDelay: filterDelay ?? this.filterDelay,
       filterHint: filterHint ?? this.filterHint,
+      enableDrag: enableDrag ?? this.enableDrag,
+      barrierDismissible: barrierDismissible ?? this.barrierDismissible,
+      barrierColor: barrierColor ?? this.barrierColor,
       style: style ?? this.style,
       headerStyle: headerStyle ?? this.headerStyle,
     );
@@ -123,10 +165,17 @@ class S2ModalConfig {
       useHeader: other.useHeader,
       useConfirm: other.useConfirm,
       confirmIcon: other.confirmIcon,
+      confirmLabel: other.confirmLabel,
+      confirmColor: other.confirmColor,
+      confirmMargin: confirmMargin,
+      confirmBrightness: other.confirmBrightness,
       useFilter: other.useFilter,
       filterAuto: other.filterAuto,
       filterDelay: other.filterDelay,
       filterHint: other.filterHint,
+      enableDrag: other.enableDrag,
+      barrierDismissible: other.barrierDismissible,
+      barrierColor: other.barrierColor,
       style: other.style,
       headerStyle: other.headerStyle,
     );

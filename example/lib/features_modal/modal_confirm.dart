@@ -100,7 +100,18 @@ class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
             activeColor: Colors.redAccent
           ),
           modalType: S2ModalType.bottomSheet,
-          modalConfirm: true,
+          modalValidation: (value) {
+            if (value.length == 0) return 'Select at least one';
+            if (value == 'iro') return 'Ironman is busy';
+            return null;
+          },
+          modalConfig: S2ModalConfig(
+            useConfirm: true,
+            confirmLabel: const Text('Send'),
+            // confirmIcon: const Icon(Icons.send),
+            confirmColor: Colors.redAccent,
+            confirmBrightness: Brightness.dark
+          ),
           tileBuilder: (context, state) {
             return S2Tile.fromState(
               state,
@@ -110,19 +121,19 @@ class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
               ),
             );
           },
-          modalConfirmBuilder: (context, state) {
-            return Center(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-                child: FlatButton(
-                  child: const Text('Send'),
-                  color: Colors.redAccent,
-                  textColor: Colors.white,
-                  onPressed: () => state.closeModal(confirmed: true),
-                ),
-              ),
-            );
-          },
+          // modalConfirmBuilder: (context, state) {
+          //   return Center(
+          //     child: Padding(
+          //       padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+          //       child: FlatButton(
+          //         child: const Text('Send'),
+          //         color: Colors.redAccent,
+          //         textColor: Colors.white,
+          //         onPressed: () => state.closeModal(confirmed: true),
+          //       ),
+          //     ),
+          //   );
+          // },
         ),
         const SizedBox(height: 7),
       ],

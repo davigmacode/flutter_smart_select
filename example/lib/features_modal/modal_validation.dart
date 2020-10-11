@@ -9,6 +9,8 @@ class FeaturesModalValidation extends StatefulWidget {
 
 class _FeaturesModalValidationState extends State<FeaturesModalValidation> {
 
+  String _day;
+  List<String> _days = ['fri'];
   List<String> _fruit;
 
   @override
@@ -16,6 +18,46 @@ class _FeaturesModalValidationState extends State<FeaturesModalValidation> {
     return Column(
       children: <Widget>[
         const SizedBox(height: 7),
+        SmartSelect<String>.single(
+          title: 'Days',
+          value: _day,
+          onChange: (state) => setState(() => _day = state.value),
+          choiceItems: choices.days,
+          modalType: S2ModalType.bottomSheet,
+          modalValidation: (value) => value == null ? 'Select at least one' : null,
+        ),
+        const Divider(indent: 20),
+        SmartSelect<String>.multiple(
+          title: 'Days',
+          value: _days,
+          onChange: (state) => setState(() => _days = state.value),
+          choiceItems: choices.days,
+          modalType: S2ModalType.bottomSheet,
+          modalValidation: (value) => value.length > 0 ? null : 'Select at least one',
+          modalConfirm: true,
+          choiceTitleBuilder: (context, item, filter) {
+            return S2Text(
+              text: item.title,
+              style: TextStyle(
+                color: item.selected ? Colors.blueAccent : Colors.black54
+              ),
+              highlight: filter,
+              highlightColor: Colors.redAccent.withOpacity(.7),
+            );
+          },
+          tileBuilder: (context, state) {
+            return S2Tile(
+              title: state.titleWidget,
+              value: state.valueDisplay,
+              onTap: state.showModal,
+              isTwoLine: true,
+              leading: const CircleAvatar(
+                backgroundImage: NetworkImage('https://source.unsplash.com/xsGxhtAsfSA/100x100'),
+              ),
+            );
+          }
+        ),
+        const Divider(indent: 20),
         SmartSelect<String>.multiple(
           title: 'Fruit',
           value: _fruit,
@@ -73,8 +115,10 @@ class _FeaturesModalValidationState extends State<FeaturesModalValidation> {
                     onPressed: () => state.closeModal(confirmed: false),
                   ),
                   const SizedBox(width: 5),
-                  FlatButton(
-                    child: Text('OK (${state.changes.length})'),
+                  FlatButton.icon(
+                    icon: Icon(Icons.check),
+                    label: Text('OK (${state.changes.length})'),
+                    // child: Text('OK (${state.changes.length})'),
                     color: Colors.blue,
                     textColor: Colors.white,
                     onPressed: state.changes.valid

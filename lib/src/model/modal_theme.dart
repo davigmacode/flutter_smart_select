@@ -82,6 +82,9 @@ class S2ModalHeaderStyle {
   /// used by title and search field
   final TextStyle textStyle;
 
+  /// Error text style
+  final TextStyle errorStyle;
+
   /// Header icon theme
   final IconThemeData iconTheme;
 
@@ -95,6 +98,7 @@ class S2ModalHeaderStyle {
     this.useLeading,
     this.centerTitle = false,
     this.textStyle = const TextStyle(color: Color(0x8A000000)),
+    this.errorStyle = const TextStyle(color: Color(0xFFF44336), fontSize: 13.5, fontWeight: FontWeight.w500),
     this.iconTheme = const IconThemeData(color: Color(0x8A000000)),
     this.actionsIconTheme = const IconThemeData(color: Color(0x8A000000)),
     this.backgroundColor = const Color(0xFFFFFFFF),
@@ -113,6 +117,7 @@ class S2ModalHeaderStyle {
     bool useLeading,
     bool centerTitle,
     TextStyle textStyle,
+    TextStyle errorStyle,
     IconThemeData iconTheme,
     IconThemeData actionsIconTheme,
   }) {
@@ -124,6 +129,7 @@ class S2ModalHeaderStyle {
       useLeading: useLeading ?? this.useLeading,
       centerTitle: centerTitle ?? this.centerTitle,
       textStyle: textStyle ?? this.textStyle,
+      errorStyle: errorStyle ?? this.errorStyle,
       iconTheme: iconTheme ?? this.iconTheme,
       actionsIconTheme: actionsIconTheme ?? this.actionsIconTheme,
     );
@@ -143,6 +149,7 @@ class S2ModalHeaderStyle {
       useLeading: other.useLeading,
       centerTitle: other.centerTitle,
       textStyle: other.textStyle,
+      errorStyle: other.errorStyle,
       iconTheme: other.iconTheme,
       actionsIconTheme: other.actionsIconTheme,
     );
