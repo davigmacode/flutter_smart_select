@@ -1,3 +1,9 @@
+## [4.3.2] - 2020-10-09
+
+* Prevent poping the modal when changes value is not valid
+* Added default modal error message
+* Configurable default confirm button
+
 ## [4.2.1] - 2020-10-09
 
 * Fixed issue #24
