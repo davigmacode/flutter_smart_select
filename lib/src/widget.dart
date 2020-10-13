@@ -732,8 +732,21 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
 
   /// build title widget
   Widget get modalTitle {
-    String title = modalConfig?.title ?? widget.title ?? widget.placeholder;
-    return Text(title, style: modalHeaderStyle.textStyle);
+    String _title = modalConfig?.title ?? widget.title ?? widget.placeholder;
+    return Text(_title, style: modalHeaderStyle.textStyle);
+  }
+
+  /// build error widget
+  Widget get modalError {
+    return AnimatedCrossFade(
+      firstChild: Container(height: 0.0, width: 0.0),
+      secondChild: Text(changes?.error ?? '', style: modalHeaderStyle.errorStyle),
+      duration: const Duration(milliseconds: 300),
+      firstCurve: const Interval(0.0, 0.6, curve: Curves.fastOutSlowIn),
+      secondCurve: const Interval(0.4, 1.0, curve: Curves.fastOutSlowIn),
+      sizeCurve: Curves.fastOutSlowIn,
+      crossFadeState: changes.valid ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+    );
   }
 
   /// get filter widget
@@ -878,14 +891,12 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
       title: filter.activated == true
         ? modalFilter
         : Column(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(title, style: modalHeaderStyle.textStyle),
-              changes.valid != true
-                ? Text(changes.error, style: modalHeaderStyle.errorStyle)
-                : null,
-            ]..removeWhere((o) => o == null),
+              modalTitle,
+              modalError,
+            ],
           ),
       actions: modalActions,
     );

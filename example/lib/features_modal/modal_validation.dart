@@ -35,6 +35,7 @@ class _FeaturesModalValidationState extends State<FeaturesModalValidation> {
           modalType: S2ModalType.bottomSheet,
           modalValidation: (value) => value.length > 0 ? null : 'Select at least one',
           modalConfirm: true,
+          modalFilter: true,
           choiceTitleBuilder: (context, item, filter) {
             return S2Text(
               text: item.title,
@@ -118,7 +119,6 @@ class _FeaturesModalValidationState extends State<FeaturesModalValidation> {
                   FlatButton.icon(
                     icon: Icon(Icons.check),
                     label: Text('OK (${state.changes.length})'),
-                    // child: Text('OK (${state.changes.length})'),
                     color: Colors.blue,
                     textColor: Colors.white,
                     onPressed: state.changes.valid
