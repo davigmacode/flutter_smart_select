@@ -4,6 +4,7 @@ import './single_page.dart';
 import './single_sheet.dart';
 import './single_popup.dart';
 import './single_chips.dart';
+import './single_switches.dart';
 import '../features_header.dart';
 import '../keep_alive.dart';
 
@@ -37,6 +38,12 @@ class FeaturesSingle extends StatelessWidget {
             child: StickyHeader(
               header: const FeaturesHeader('Use Chips'),
               content: FeaturesSingleChips(),
+            ),
+          ),
+          KeepAliveWidget(
+            child: StickyHeader(
+              header: const FeaturesHeader('Use Switches'),
+              content: FeaturesSingleSwitches(),
             ),
           ),
         ],

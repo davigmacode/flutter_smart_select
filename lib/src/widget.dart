@@ -87,8 +87,8 @@ class SmartSelect<T> extends StatefulWidget {
       , isMultiChoice ? 'multiValue, multiOnChange, and multiBuilder must be not null in multiple choice' : 'singleValue, singleOnChange, and singleBuilder must be not null in single choice'
     ),
     assert(
-      (isMultiChoice && (choiceConfig.type == S2ChoiceType.checkboxes || choiceConfig.type == S2ChoiceType.switches || choiceConfig.type == S2ChoiceType.chips)) || (!isMultiChoice && (choiceConfig.type == S2ChoiceType.radios || choiceConfig.type == S2ChoiceType.chips)),
-      isMultiChoice ? 'multiple choice only support SmartSelectChoiceType.checkboxes, SmartSelectChoiceType.switches and SmartSelectChoiceType.chips' : 'Single choice only support SmartSelectChoiceType.radios and SmartSelectChoiceType.chips'
+      (isMultiChoice && choiceConfig.type != S2ChoiceType.radios) || (!isMultiChoice && choiceConfig.type != S2ChoiceType.checkboxes),
+      isMultiChoice ? 'multiple choice can\'t use S2ChoiceType.radios' : 'Single choice can\'t use S2ChoiceType.checkboxes'
     ),
     assert(choiceItems != null, '`choiceItems` must not be null'),
     super(key: key);
