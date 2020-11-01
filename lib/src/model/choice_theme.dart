@@ -1,4 +1,5 @@
 import 'package:flutter/painting.dart';
+import 'package:flutter/foundation.dart';
 import 'dart:ui';
 
 /// Where to place the control in widgets that use [ListTile] to position a
@@ -24,7 +25,8 @@ enum S2ChoiceControl {
 }
 
 /// Configure choices group header style
-class S2ChoiceHeaderStyle {
+@immutable
+class S2ChoiceHeaderStyle with Diagnosticable {
 
   /// Group header background color
   final Color backgroundColor;
@@ -85,18 +87,11 @@ class S2ChoiceHeaderStyle {
 }
 
 /// Configure choices item style
-class S2ChoiceStyle {
+@immutable
+class S2ChoiceStyle with Diagnosticable {
 
-  /// How much space to place between children in a run in the main axis.
-  /// When use [SmartSelectChoiceType.chips] or [useWrap] is [true]
-  final double spacing;
-
-  /// How much space to place between the runs themselves in the cross axis.
-  /// When use [SmartSelectChoiceType.chips] or [useWrap] is [true]
-  final double runSpacing;
-
-  /// choices wrapper padding
-  final EdgeInsetsGeometry wrapperPadding;
+  /// Choices item margin
+  final EdgeInsetsGeometry margin;
 
   /// Choices item padding
   final EdgeInsetsGeometry padding;
@@ -107,37 +102,24 @@ class S2ChoiceStyle {
   /// choices item subtitle style
   final TextStyle subtitleStyle;
 
-  /// whether the chips use checkmark or not
+  /// Whether the chips use checkmark or not
   final bool showCheckmark;
-
-  /// Where to place the control in widgets that use
-  /// [ListTile] to position a control next to a label.
-  final S2ChoiceControl control;
-
-  /// Highlight color
-  final Color highlightColor;
-
-  /// Primary color of selected choice item
-  final Color activeColor;
 
   /// Primary color of unselected choice item
   final Color color;
 
-  /// Secondary color of selected choice item
-  final Color activeAccentColor;
-
   /// Secondary color of unselected choice item
   final Color accentColor;
 
-  /// Brightness for selected Chip
-  final Brightness activeBrightness;
+  /// Highlighted text color
+  final Color highlightColor;
 
   /// Brightness for unselected Chip
   final Brightness brightness;
 
-  /// Opacity for selected Chip border, only effect when
-  /// [activeBrightness] is [Brightness.light]
-  final double activeBorderOpacity;
+  /// Where to place the control in widgets that use
+  /// [ListTile] to position a control next to a label.
+  final S2ChoiceControl control;
 
   /// Opacity for unselected chip border, only effect when
   /// [brightness] is [Brightness.light]
@@ -148,34 +130,32 @@ class S2ChoiceStyle {
 
   /// Create a configuration of choices item style
   const S2ChoiceStyle({
-    this.titleStyle = const TextStyle(),
-    this.subtitleStyle = const TextStyle(),
-    this.spacing,
-    this.runSpacing,
-    this.wrapperPadding,
+    this.titleStyle,
+    this.subtitleStyle,
+    this.margin,
     this.padding,
     this.showCheckmark,
-    this.control = S2ChoiceControl.platform,
-    this.highlightColor,
-    this.activeColor,
     this.color,
-    this.activeAccentColor,
     this.accentColor,
-    this.activeBrightness = Brightness.light,
-    this.brightness = Brightness.light,
-    this.activeBorderOpacity,
+    this.highlightColor,
+    this.brightness,
+    this.control,
     this.borderOpacity,
     this.clipBehavior,
   });
+
+  /// Whether the brightness is dark or not
+  bool get isDark => brightness == Brightness.dark;
+
+  /// Whether the brightness is light or not
+  bool get isLight => brightness == Brightness.light;
 
   /// Creates a copy of this [S2ChoiceStyle] but with
   /// the given fields replaced with the new values.
   S2ChoiceStyle copyWith({
     TextStyle titleStyle,
     TextStyle subtitleStyle,
-    double spacing,
-    double runSpacing,
-    EdgeInsetsGeometry wrapperPadding,
+    EdgeInsetsGeometry margin,
     EdgeInsetsGeometry padding,
     bool showCheckmark,
     S2ChoiceControl control,
@@ -193,20 +173,14 @@ class S2ChoiceStyle {
     return S2ChoiceStyle(
       titleStyle: titleStyle ?? this.titleStyle,
       subtitleStyle: subtitleStyle ?? this.subtitleStyle,
-      spacing: spacing ?? this.spacing,
-      runSpacing: runSpacing ?? this.runSpacing,
-      wrapperPadding: wrapperPadding ?? this.wrapperPadding,
+      margin: margin ?? this.margin,
       padding: padding ?? this.padding,
       showCheckmark: showCheckmark ?? this.showCheckmark,
       control: control ?? this.control,
       highlightColor: highlightColor ?? this.highlightColor,
-      activeColor: activeColor ?? this.activeColor,
       color: color ?? this.color,
-      activeAccentColor: activeAccentColor ?? this.activeAccentColor,
       accentColor: accentColor ?? this.accentColor,
-      activeBrightness: activeBrightness ?? this.activeBrightness,
       brightness: brightness ?? this.brightness,
-      activeBorderOpacity: activeBorderOpacity ?? this.activeBorderOpacity,
       borderOpacity: borderOpacity ?? this.borderOpacity,
       clipBehavior: clipBehavior ?? this.clipBehavior,
     );
@@ -221,20 +195,14 @@ class S2ChoiceStyle {
     return copyWith(
       titleStyle: other.titleStyle,
       subtitleStyle: other.subtitleStyle,
-      spacing: other.spacing,
-      runSpacing: other.runSpacing,
-      wrapperPadding: other.wrapperPadding,
+      margin: other.margin,
       padding: other.padding,
       showCheckmark: other.showCheckmark,
       control: other.control,
       highlightColor: other.highlightColor,
-      activeColor: other.activeColor,
       color: other.color,
-      activeAccentColor: other.activeAccentColor,
       accentColor: other.accentColor,
-      activeBrightness: other.activeBrightness,
       brightness: other.brightness,
-      activeBorderOpacity: other.activeBorderOpacity,
       borderOpacity: other.borderOpacity,
       clipBehavior: other.clipBehavior,
     );

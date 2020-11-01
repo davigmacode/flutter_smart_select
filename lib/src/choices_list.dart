@@ -43,7 +43,7 @@ class S2ChoicesList<T> extends StatelessWidget {
             axisDirection: config.direction == Axis.vertical
               ? AxisDirection.down
               : AxisDirection.right,
-            color: config.overscrollColor ?? config.style?.activeColor,
+            color: config.overscrollColor ?? config.activeStyle?.color ?? config.style?.color,
             child: config.layout == S2ChoiceLayout.wrap || config.type == S2ChoiceType.chips
               ? _listWrap()
               : config.layout == S2ChoiceLayout.grid
@@ -65,15 +65,15 @@ class S2ChoicesList<T> extends StatelessWidget {
     return SingleChildScrollView(
       physics: const ScrollPhysics(),
       scrollDirection: config.direction,
-      padding: style.wrapperPadding ?? const EdgeInsets.symmetric(
+      padding: config.padding ?? const EdgeInsets.symmetric(
         vertical: 10.0,
         horizontal: 15.0,
       ),
       child: Align(
         alignment: Alignment.topLeft,
         child: Wrap(
-          spacing: style.spacing ?? 12.0, // gap between adjacent chips
-          runSpacing: style.runSpacing ?? 0.0, // gap between lines
+          spacing: config.spacing ?? 12.0, // gap between adjacent chips
+          runSpacing: config.runSpacing ?? 0.0, // gap between lines
           children: List<Widget>.generate(
             items.length,
             (i) => itemBuilder(items[i]),
@@ -88,7 +88,7 @@ class S2ChoicesList<T> extends StatelessWidget {
       shrinkWrap: true,
       physics: const ScrollPhysics(),
       scrollDirection: config.direction,
-      padding: style.wrapperPadding ?? const EdgeInsets.symmetric(vertical: 10.0),
+      padding: config.padding ?? const EdgeInsets.symmetric(vertical: 10.0),
       itemCount: items.length,
       itemBuilder: (context, i) => itemBuilder(items[i]),
     );
@@ -99,7 +99,7 @@ class S2ChoicesList<T> extends StatelessWidget {
       shrinkWrap: true,
       physics: const ScrollPhysics(),
       scrollDirection: config.direction,
-      padding: style.wrapperPadding ?? const EdgeInsets.symmetric(vertical: 10.0),
+      padding: config.padding ?? const EdgeInsets.symmetric(vertical: 10.0),
       itemCount: items.length,
       itemBuilder: (context, i) => itemBuilder(items[i]),
       separatorBuilder: builder.choiceDivider ?? _dividerBuilderDefault,
@@ -111,7 +111,7 @@ class S2ChoicesList<T> extends StatelessWidget {
       shrinkWrap: true,
       physics: const ScrollPhysics(),
       scrollDirection: config.direction,
-      padding: style.wrapperPadding ?? const EdgeInsets.all(10.0),
+      padding: config.padding ?? const EdgeInsets.all(10.0),
       itemCount: items.length,
       itemBuilder: (context, i) => itemBuilder(items[i]),
       gridDelegate: config.gridDelegate ?? SliverGridDelegateWithFixedCrossAxisCount(
@@ -121,7 +121,7 @@ class S2ChoicesList<T> extends StatelessWidget {
   }
 
   Widget _dividerBuilderDefault(BuildContext context, int index) {
-    return S2Divider();
+    return const S2Divider();
   }
 }
 
@@ -157,7 +157,7 @@ class S2Divider extends StatelessWidget {
           decoration: BoxDecoration(
             border: Border(
               bottom: BorderSide(
-                color: color ?? Color(0xFFEEEEEE),
+                color: color ?? const Color(0xFFEEEEEE),
                 width: height ?? 1,
               ),
             ),

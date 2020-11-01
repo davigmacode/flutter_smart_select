@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import './model/builder.dart';
 import './model/choice_item.dart';
 import './model/choice_config.dart';
@@ -37,23 +37,35 @@ class S2Choices<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _filteredItems.length > 0
-      ? _isGrouped == true
-        ? S2ChoicesGrouped<T>(
-            items: _filteredItems,
-            itemBuilder: itemBuilder,
-            groupKeys: _groupKeys,
-            config: config,
-            builder: builder,
-            query: query,
-          )
-        : S2ChoicesList<T>(
-            items: _filteredItems,
-            itemBuilder: itemBuilder,
-            config: config,
-            builder: builder,
-          )
+      ? choices
       : builder.choiceEmpty?.call(context, query)
         ?? const S2ChoicesEmpty();
+  }
+
+  Widget get choices {
+    return ListTileTheme(
+      contentPadding: config.style?.padding,
+      child: Theme(
+        data: ThemeData(
+          unselectedWidgetColor: config.style?.color,
+        ),
+        child: _isGrouped == true
+          ? S2ChoicesGrouped<T>(
+              items: _filteredItems,
+              itemBuilder: itemBuilder,
+              groupKeys: _groupKeys,
+              config: config,
+              builder: builder,
+              query: query,
+            )
+          : S2ChoicesList<T>(
+              items: _filteredItems,
+              itemBuilder: itemBuilder,
+              config: config,
+              builder: builder,
+            )
+      ),
+    );
   }
 
   /// return a filtered list of options

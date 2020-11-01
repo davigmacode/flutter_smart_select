@@ -1,7 +1,9 @@
+import 'package:flutter/foundation.dart';
 import './choice_theme.dart';
 
 /// choice group data
-class S2ChoiceGroup {
+@immutable
+class S2ChoiceGroup with Diagnosticable {
 
   /// Group name
   final String name;

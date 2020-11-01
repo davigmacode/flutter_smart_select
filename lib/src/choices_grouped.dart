@@ -46,7 +46,7 @@ class S2ChoicesGrouped<T> extends StatelessWidget {
         behavior: const ScrollBehavior(),
         child: GlowingOverscrollIndicator(
           axisDirection: AxisDirection.down,
-          color: config.overscrollColor ?? config.style?.activeColor,
+          color: config.overscrollColor ?? config.activeStyle?.color ?? config.style?.color,
           child: ListView.builder(
             itemCount: groupKeys.length,
             itemBuilder: (BuildContext context, int i) {

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import '../state/filter.dart';
 import '../widget.dart';
@@ -48,7 +49,8 @@ typedef Widget S2ChoiceHeaderBuilder(
 );
 
 /// collection of builder
-class S2Builder<T> {
+@immutable
+class S2Builder<T> with Diagnosticable {
   /// Builder for modal filter
   final S2WidgetBuilder<S2Filter> modalFilter;
 

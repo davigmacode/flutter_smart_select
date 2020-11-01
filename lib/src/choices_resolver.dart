@@ -14,9 +14,6 @@ class S2ChoiceResolver<T> {
   /// the choice type
   final S2ChoiceType type;
 
-  /// the choice style
-  final S2ChoiceStyle style;
-
   /// the collection of available builder widget
   final S2Builder<T> builder;
 
@@ -24,7 +21,6 @@ class S2ChoiceResolver<T> {
   S2ChoiceResolver({
     @required this.isMultiChoice,
     @required this.type,
-    @required this.style,
     @required this.builder,
   });
 
@@ -55,8 +51,8 @@ class S2ChoiceResolver<T> {
         title: getTitle(context, choice, searchText),
         subtitle: getSubtitle(context, choice, searchText),
         secondary: getSecondary(context, choice, searchText),
-        activeColor: style.activeColor,
-        controlAffinity: ListTileControlAffinity.values[style.control?.index ?? 2],
+        activeColor: choice.activeStyle.color,
+        controlAffinity: ListTileControlAffinity.values[choice.effectiveStyle.control?.index ?? 2],
         onChanged: choice.disabled != true ? (val) => choice.select(true) : null,
         groupValue: choice.selected == true ? choice.value : null,
         value: choice.value,
@@ -71,10 +67,12 @@ class S2ChoiceResolver<T> {
         title: getTitle(context, choice, searchText),
         subtitle: getSubtitle(context, choice, searchText),
         secondary: getSecondary(context, choice, searchText),
-        activeColor: style.activeAccentColor ?? style.activeColor,
-        activeTrackColor: style.activeColor?.withAlpha(0x80),
-        inactiveThumbColor: style.accentColor,
-        inactiveTrackColor: style.color?.withAlpha(0x80),
+        activeColor: choice.activeStyle.accentColor ?? choice.activeStyle.color,
+        activeTrackColor: choice.activeStyle.color?.withAlpha(0x80),
+        inactiveThumbColor: choice.style.accentColor,
+        inactiveTrackColor: choice.style.color?.withAlpha(0x80),
+        contentPadding: choice.effectiveStyle.padding,
+        controlAffinity: ListTileControlAffinity.values[choice.effectiveStyle.control?.index ?? 2],
         onChanged: choice.disabled != true
           ? (selected) => choice.select(selected)
           : null,
@@ -90,8 +88,9 @@ class S2ChoiceResolver<T> {
         title: getTitle(context, choice, searchText),
         subtitle: getSubtitle(context, choice, searchText),
         secondary: getSecondary(context, choice, searchText),
-        activeColor: style.activeColor,
-        controlAffinity: ListTileControlAffinity.values[style.control?.index ?? 2],
+        activeColor: choice.activeStyle.color,
+        contentPadding: choice.effectiveStyle.padding,
+        controlAffinity: ListTileControlAffinity.values[choice.effectiveStyle.control?.index ?? 2],
         onChanged: choice.disabled != true
           ? (selected) => choice.select(selected)
           : null,
@@ -104,52 +103,49 @@ class S2ChoiceResolver<T> {
     S2Choice<T> choice,
     String searchText,
   ) {
-    final bool isDark = choice.selected
-      ? style.activeBrightness == Brightness.dark
-      : style.brightness == Brightness.dark;
+    final S2ChoiceStyle effectiveStyle = choice.effectiveStyle;
 
-    final Color textColor = isDark
+    final Color textColor = choice.effectiveStyle.isDark
       ? Colors.white
-      : choice.selected ? style.activeColor : style.color;
+      : effectiveStyle.color;
 
-    final Color borderColor = isDark
+    final Color borderColor = effectiveStyle.isDark
       ? Colors.transparent
-      : choice.selected
-        ? (style.activeAccentColor ?? style.activeColor)?.withOpacity(style.activeBorderOpacity ?? .2)
-        : (style.accentColor ?? style.color)?.withOpacity(style.borderOpacity ?? .2);
+      : (effectiveStyle.accentColor ?? textColor)?.withOpacity(effectiveStyle.borderOpacity ?? .2);
 
-    final Color checkmarkColor = isDark
+    final Color checkmarkColor = effectiveStyle.isDark
       ? textColor
-      : style.activeColor;
+      : choice.activeStyle.color;
 
-    final Color backgroundColor = isDark
-      ? style.color
+    final Color backgroundColor = effectiveStyle.isDark
+      ? choice.style.color
       : Colors.transparent;
 
-    final Color selectedBackgroundColor = isDark
-      ? style.activeColor
+    final Color selectedBackgroundColor = effectiveStyle.isDark
+      ? choice.activeStyle.color
       : Colors.transparent;
 
-    return FilterChip(
-      label: getTitle(context, choice, searchText),
-      avatar: getSecondary(context, choice, searchText),
-      shape: StadiumBorder(
-        side: BorderSide(color: borderColor),
+    return Padding(
+      padding: effectiveStyle?.margin ?? const EdgeInsets.all(0),
+      child: RawChip(
+        padding: effectiveStyle?.padding ?? const EdgeInsets.all(4),
+        label: getTitle(context, choice, searchText),
+        labelStyle: TextStyle(color: textColor).merge(effectiveStyle.titleStyle),
+        avatar: getSecondary(context, choice, searchText),
+        shape: StadiumBorder(
+          side: BorderSide(color: borderColor),
+        ),
+        clipBehavior: choice.style.clipBehavior ?? Clip.none,
+        showCheckmark: choice.effectiveStyle.showCheckmark ?? isMultiChoice,
+        checkmarkColor: checkmarkColor,
+        shadowColor: choice.style.color,
+        selectedShadowColor: choice.activeStyle.color,
+        backgroundColor: backgroundColor,
+        selectedColor: selectedBackgroundColor,
+        isEnabled: choice.disabled != true,
+        onSelected: (selected) => choice.select(selected),
+        selected: choice.selected,
       ),
-      labelStyle: TextStyle(
-        color: textColor
-      ),
-      clipBehavior: style.clipBehavior ?? Clip.none,
-      showCheckmark: style.showCheckmark ?? isMultiChoice ? true : false,
-      checkmarkColor: checkmarkColor,
-      shadowColor: style.color,
-      selectedShadowColor: style.activeColor,
-      backgroundColor: backgroundColor,
-      selectedColor: selectedBackgroundColor,
-      onSelected: choice.disabled != true
-        ? (selected) => choice.select(selected)
-        : null,
-      selected: choice.selected,
     );
   };
 
@@ -160,9 +156,9 @@ class S2ChoiceResolver<T> {
       ? builder.choiceTitle(context, choice, searchText)
       : S2Text(
           text: choice.title,
-          style: style.titleStyle,
+          style: choice.effectiveStyle.titleStyle,
           highlight: searchText,
-          highlightColor: style.highlightColor ?? Colors.yellow.withOpacity(.7),
+          highlightColor: choice.effectiveStyle.highlightColor ?? Colors.yellow.withOpacity(.7),
         )
     : null;
   }
@@ -174,9 +170,9 @@ class S2ChoiceResolver<T> {
         ? builder.choiceSubtitle(context, choice, searchText)
         : S2Text(
             text: choice.subtitle,
-            style: style.subtitleStyle,
+            style: choice.effectiveStyle.subtitleStyle,
             highlight: searchText,
-            highlightColor: style.highlightColor ?? Colors.yellow.withOpacity(.7),
+            highlightColor: choice.effectiveStyle.highlightColor ?? Colors.yellow.withOpacity(.7),
           )
       : null;
   }

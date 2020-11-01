@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import './modal_theme.dart';
 
@@ -13,7 +14,8 @@ enum S2ModalType {
 }
 
 /// Modal configuration
-class S2ModalConfig {
+@immutable
+class S2ModalConfig with Diagnosticable  {
 
   /// Modal type to display choices
   final S2ModalType type;

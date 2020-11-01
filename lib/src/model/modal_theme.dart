@@ -1,8 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'dart:ui';
 
 /// Configure modal style
-class S2ModalStyle {
+@immutable
+class S2ModalStyle with Diagnosticable {
 
   /// Modal border shape
   /// used in popup dialog and bottom sheet
@@ -58,7 +60,8 @@ class S2ModalStyle {
 }
 
 /// Configure modal option header style
-class S2ModalHeaderStyle {
+@immutable
+class S2ModalHeaderStyle with Diagnosticable {
 
   /// Header border shape
   final ShapeBorder shape;
