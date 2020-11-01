@@ -47,7 +47,9 @@ class _FeaturesChoicesThemeState extends State<FeaturesChoicesTheme> {
                 fontSize: 18,
               ),
               color: Colors.white,
-              activeColor: Colors.green,
+            ),
+            activeStyle: const S2ChoiceStyle(
+              color: Colors.green,
             ),
             headerStyle: S2ChoiceHeaderStyle(
               backgroundColor: Colors.blueGrey[600],
@@ -95,11 +97,11 @@ class _FeaturesChoicesThemeState extends State<FeaturesChoicesTheme> {
             title: (i, v) => v[0]
           ),
           choiceStyle: S2ChoiceStyle(
-            titleStyle: const TextStyle(
-              color: Colors.white
-            ),
+            titleStyle: const TextStyle(color: Colors.white),
             color: Colors.white.withOpacity(.5),
-            activeColor: Colors.white,
+          ),
+          choiceActiveStyle: S2ChoiceStyle(
+            color: Colors.white,
           ),
           modalConfirmBuilder: (context, state) {
             return FlatButton(

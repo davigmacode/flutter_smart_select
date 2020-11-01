@@ -24,8 +24,8 @@ class _FeaturesModalHeaderState extends State<FeaturesModalHeader> {
           value: _month,
           onChange: (state) => setState(() => _month = state.value),
           choiceItems: choices.months,
-          choiceStyle: S2ChoiceStyle(
-            activeColor: Colors.red
+          choiceActiveStyle: const S2ChoiceStyle(
+            color: Colors.red
           ),
           modalFilter: true,
           modalHeaderStyle: const S2ModalHeaderStyle(

@@ -56,8 +56,8 @@ class _FeaturesChoicesGroupedState extends State<FeaturesChoicesGrouped> {
             group: (index, item) => item['body'],
           ),
           choiceGrouped: true,
-          choiceStyle: const S2ChoiceStyle(
-            activeColor: Colors.redAccent
+          choiceActiveStyle: const S2ChoiceStyle(
+            color: Colors.redAccent
           ),
           modalType: S2ModalType.bottomSheet,
           modalConfirm: true,

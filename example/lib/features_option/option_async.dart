@@ -32,8 +32,10 @@ class _FeaturesOptionAsyncState extends State<FeaturesOptionAsync> {
           choiceGrouped: true,
           choiceStyle: S2ChoiceStyle(
             showCheckmark: true,
-            activeBrightness: Brightness.dark,
             highlightColor: Colors.redAccent.withOpacity(.4)
+          ),
+          choiceActiveStyle: const S2ChoiceStyle(
+            brightness: Brightness.dark,
           ),
           choiceSecondaryBuilder: (context, choice, filterText) => CircleAvatar(
             backgroundImage: NetworkImage(choice.meta['picture']['thumbnail']),

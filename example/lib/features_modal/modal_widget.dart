@@ -98,6 +98,7 @@ class _FeaturesModalWidgetState extends State<FeaturesModalWidget> {
           choiceConfig: S2ChoiceConfig(
             type: S2ChoiceType.checkboxes,
             layout: S2ChoiceLayout.grid,
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               childAspectRatio: 3.5,
               mainAxisSpacing: 0,
@@ -106,7 +107,6 @@ class _FeaturesModalWidgetState extends State<FeaturesModalWidget> {
             ),
             style: S2ChoiceStyle(
               control: S2ChoiceControl.leading,
-              wrapperPadding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
             ),
           ),
           modalConfirm: true,

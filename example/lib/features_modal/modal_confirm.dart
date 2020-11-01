@@ -96,8 +96,8 @@ class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
           value: _hero,
           onChange: (state) => setState(() => _hero = state.value),
           choiceItems: choices.heroes,
-          choiceStyle: const S2ChoiceStyle(
-            activeColor: Colors.redAccent
+          choiceActiveStyle: const S2ChoiceStyle(
+            color: Colors.redAccent
           ),
           modalType: S2ModalType.bottomSheet,
           modalValidation: (value) {
