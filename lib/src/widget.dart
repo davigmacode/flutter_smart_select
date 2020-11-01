@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import './model/builder.dart';
 import './model/modal_theme.dart';
@@ -678,7 +679,10 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
               child: modalHeader,
               preferredSize: Size.fromHeight(kToolbarHeight)
             ),
-            body: modalBody,
+            body: SafeArea(
+              maintainBottomViewPadding: true,
+              child: modalBody
+            ),
           )
         : SafeArea(child: modalBody),
     );
@@ -996,7 +1000,25 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
           isDismissible: modalConfig.barrierDismissible,
           barrierColor: modalConfig.barrierColor,
           enableDrag: modalConfig.enableDrag,
-          builder: (_) => modal,
+          isScrollControlled: true,
+          builder: (_) {
+            final MediaQueryData mediaQuery = MediaQueryData.fromWindow(window);
+            final double statusbarHeight = mediaQuery.viewPadding.top;
+            final double keyboardHeight = mediaQuery.viewInsets.bottom;
+            final double deviceHeight = mediaQuery.size.height;
+            final double modalHeight = (deviceHeight * .6) + keyboardHeight;
+            return Container(
+              padding: EdgeInsets.only(
+                bottom: keyboardHeight
+              ),
+              constraints: BoxConstraints(
+                maxHeight: modalHeight > deviceHeight
+                  ? deviceHeight - statusbarHeight
+                  : modalHeight
+              ),
+              child: modal,
+            );
+          },
         );
         break;
       case S2ModalType.popupDialog:
