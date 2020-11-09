@@ -24,6 +24,11 @@ class S2ChoiceResolver<T> {
     @required this.builder,
   });
 
+  /// get default brightness for chips widget
+  Brightness get defaultBrightness => isMultiChoice == true
+    ? Brightness.light
+    : Brightness.dark;
+
   /// get the choice builder
   S2ChoiceBuilder<T> get choiceBuilder {
     return builder.choice ?? defaultChoiceBuilder;
@@ -104,25 +109,27 @@ class S2ChoiceResolver<T> {
     String searchText,
   ) {
     final S2ChoiceStyle effectiveStyle = choice.effectiveStyle;
+    final Brightness effectiveBrightness = effectiveStyle.brightness ?? defaultBrightness;
+    final isDark = effectiveBrightness == Brightness.dark;
 
-    final Color textColor = choice.effectiveStyle.isDark
+    final Color textColor = isDark == true
       ? Colors.white
-      : effectiveStyle.color;
+      : effectiveStyle?.color ?? (choice.selected == true
+        ? Theme.of(context).primaryColor
+        : Theme.of(context).unselectedWidgetColor);
 
-    final Color borderColor = effectiveStyle.isDark
+    final Color borderColor = isDark == true
       ? Colors.transparent
-      : (effectiveStyle.accentColor ?? textColor)?.withOpacity(effectiveStyle.borderOpacity ?? .2);
+      : (effectiveStyle?.accentColor ?? textColor)?.withOpacity(effectiveStyle?.borderOpacity ?? .2);
 
-    final Color checkmarkColor = effectiveStyle.isDark
-      ? textColor
-      : choice.activeStyle.color;
+    final Color checkmarkColor = textColor;
 
-    final Color backgroundColor = effectiveStyle.isDark
-      ? choice.style.color
+    final Color backgroundColor = isDark == true
+      ? choice.style?.color ?? Theme.of(context).unselectedWidgetColor
       : Colors.transparent;
 
-    final Color selectedBackgroundColor = effectiveStyle.isDark
-      ? choice.activeStyle.color
+    final Color selectedBackgroundColor = isDark == true
+      ? choice.activeStyle?.color ?? Theme.of(context).primaryColor
       : Colors.transparent;
 
     return Padding(
@@ -130,16 +137,16 @@ class S2ChoiceResolver<T> {
       child: RawChip(
         padding: effectiveStyle?.padding ?? const EdgeInsets.all(4),
         label: getTitle(context, choice, searchText),
-        labelStyle: TextStyle(color: textColor).merge(effectiveStyle.titleStyle),
+        labelStyle: TextStyle(color: textColor).merge(effectiveStyle?.titleStyle),
         avatar: getSecondary(context, choice, searchText),
         shape: StadiumBorder(
           side: BorderSide(color: borderColor),
         ),
-        clipBehavior: choice.style.clipBehavior ?? Clip.none,
-        showCheckmark: choice.effectiveStyle.showCheckmark ?? isMultiChoice,
+        clipBehavior: choice.style?.clipBehavior ?? Clip.none,
+        showCheckmark: choice.effectiveStyle?.showCheckmark ?? isMultiChoice,
         checkmarkColor: checkmarkColor,
-        shadowColor: choice.style.color,
-        selectedShadowColor: choice.activeStyle.color,
+        shadowColor: choice.style?.color,
+        selectedShadowColor: choice.activeStyle?.color,
         backgroundColor: backgroundColor,
         selectedColor: selectedBackgroundColor,
         isEnabled: choice.disabled != true,
@@ -158,7 +165,7 @@ class S2ChoiceResolver<T> {
           text: choice.title,
           style: choice.effectiveStyle.titleStyle,
           highlight: searchText,
-          highlightColor: choice.effectiveStyle.highlightColor ?? Colors.yellow.withOpacity(.7),
+          highlightColor: choice.effectiveStyle.highlightColor,
         )
     : null;
   }
@@ -172,7 +179,7 @@ class S2ChoiceResolver<T> {
             text: choice.subtitle,
             style: choice.effectiveStyle.subtitleStyle,
             highlight: searchText,
-            highlightColor: choice.effectiveStyle.highlightColor ?? Colors.yellow.withOpacity(.7),
+            highlightColor: choice.effectiveStyle.highlightColor,
           )
       : null;
   }

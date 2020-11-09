@@ -42,43 +42,36 @@ class S2ChoicesGrouped<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scrollbar(
-      child: ScrollConfiguration(
-        behavior: const ScrollBehavior(),
-        child: GlowingOverscrollIndicator(
-          axisDirection: AxisDirection.down,
-          color: config.overscrollColor ?? config.activeStyle?.color ?? config.style?.color,
-          child: ListView.builder(
-            itemCount: groupKeys.length,
-            itemBuilder: (BuildContext context, int i) {
-              final String groupKey = groupKeys[i];
-              final List<S2Choice<T>> groupItems = _groupItems(groupKey);
-              final S2ChoiceGroup group = S2ChoiceGroup(
-                name: groupKey,
-                count: groupItems.length,
-                style: config.headerStyle,
+      child: ListView.builder(
+        itemCount: groupKeys.length,
+        itemBuilder: (BuildContext context, int i) {
+          final String groupKey = groupKeys[i];
+          final List<S2Choice<T>> groupItems = _groupItems(groupKey);
+          final S2ChoiceGroup group = S2ChoiceGroup(
+            name: groupKey,
+            count: groupItems.length,
+            style: config.headerStyle,
+          );
+          final Widget groupHeader = builder.choiceHeader?.call(context, group, query)
+            ?? S2ChoicesGroupedHeader(
+                group: group,
+                query: query,
               );
-              final Widget groupHeader = builder.choiceHeader?.call(context, group, query)
-                ?? S2ChoicesGroupedHeader(
-                    group: group,
-                    query: query,
-                  );
-              final Widget groupChoices = S2ChoicesList<T>(
-                config: config,
-                builder: builder,
-                items: groupItems,
-                itemBuilder: itemBuilder,
-              );
-              return builder.choiceGroup?.call(context, groupHeader, groupChoices)
-                ?? Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    groupHeader,
-                    groupChoices,
-                  ],
-                );
-            },
-          ),
-        ),
+          final Widget groupChoices = S2ChoicesList<T>(
+            config: config,
+            builder: builder,
+            items: groupItems,
+            itemBuilder: itemBuilder,
+          );
+          return builder.choiceGroup?.call(context, groupHeader, groupChoices)
+            ?? Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                groupHeader,
+                groupChoices,
+              ],
+            );
+        },
       ),
     );
   }
@@ -113,8 +106,8 @@ class S2ChoicesGroupedHeader extends StatelessWidget {
       color: group.style.backgroundColor,
       padding: group.style.padding,
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: group.style.crossAxisAlignment ?? CrossAxisAlignment.center,
+        mainAxisAlignment: group.style.mainAxisAlignment ?? MainAxisAlignment.spaceBetween,
         children: <Widget>[
           S2Text(
             text: group.name,

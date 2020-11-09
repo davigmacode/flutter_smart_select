@@ -612,22 +612,23 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
   /// get theme data
   ThemeData get theme => Theme.of(context);
 
-  // default choice style
+  /// default style for unselected choice
   S2ChoiceStyle get defaultChoiceStyle => S2ChoiceStyle(
     titleStyle: const TextStyle(),
     subtitleStyle: const TextStyle(),
     control: S2ChoiceControl.platform,
-    brightness: Brightness.light,
-    color: theme.unselectedWidgetColor,
+    highlightColor: theme.highlightColor.withOpacity(.7)
   );
 
-  // default choice style
-  S2ChoiceStyle get defaultActiveChoiceStyle => defaultChoiceStyle.copyWith(
-    color: theme.primaryColor
-  );
+  /// default style for selected choice
+  S2ChoiceStyle get defaultActiveChoiceStyle => defaultChoiceStyle;
 
   /// get choice config
-  S2ChoiceConfig get choiceConfig => widget.choiceConfig;
+  S2ChoiceConfig get choiceConfig => widget.choiceConfig?.copyWith(
+    headerStyle: S2ChoiceHeaderStyle(
+      backgroundColor: theme.cardColor
+    ).merge(widget.choiceConfig?.headerStyle)
+  );
 
   /// get choice style
   S2ChoiceStyle get choiceStyle => choiceConfig?.style;
@@ -637,9 +638,17 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
 
   /// get modal config
   S2ModalConfig get modalConfig => widget.modalConfig?.copyWith(
-    headerStyle: widget.modalConfig?.headerStyle?.copyWith(
-      textStyle: theme.textTheme.headline6.merge(widget.modalConfig?.headerStyle?.textStyle)
-    ),
+    headerStyle: S2ModalHeaderStyle(
+      backgroundColor: widget.modalConfig?.isFullPage != true
+        ? theme.cardColor
+        : null,
+      textStyle: widget.modalConfig?.isFullPage != true
+        ? theme.textTheme.headline6
+        : theme.primaryTextTheme.headline6,
+      iconTheme: widget.modalConfig?.isFullPage != true
+        ? theme.iconTheme
+        : null,
+    ).merge(widget.modalConfig?.headerStyle)
   );
 
   /// get modal style
@@ -725,7 +734,7 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
   Widget get modalError {
     return AnimatedCrossFade(
       firstChild: Container(height: 0.0, width: 0.0),
-      secondChild: Text(changes?.error ?? '', style: modalHeaderStyle.errorStyle),
+      secondChild: Text(changes?.error ?? '', style: modalHeaderStyle.errorStyle.copyWith(color: theme.errorColor)),
       duration: const Duration(milliseconds: 300),
       firstCurve: const Interval(0.0, 0.6, curve: Curves.fastOutSlowIn),
       secondCurve: const Interval(0.4, 1.0, curve: Curves.fastOutSlowIn),
@@ -755,7 +764,7 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
         hintText: modalConfig.filterHint ?? 'Search on $title',
         hintStyle: modalHeaderStyle.textStyle,
       ),
-      textAlign: modalConfig?.headerStyle?.centerTitle ?? false
+      textAlign: modalConfig?.headerStyle?.centerTitle == true
         ? TextAlign.center
         : TextAlign.left,
       onSubmitted: modalConfig.filterAuto ? null : filter.apply,
@@ -813,7 +822,7 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
               icon: modalConfig.confirmIcon,
               label: modalConfig.confirmLabel,
               color: modalConfig.confirmBrightness == Brightness.dark
-                ? modalConfig.confirmColor ?? Colors.blueGrey
+                ? modalConfig.confirmColor
                 : null,
               textColor: modalConfig.confirmBrightness == Brightness.light
                 ? modalConfig.confirmColor
@@ -922,7 +931,7 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
     return (S2Choice<T> choice) {
       return AnimatedBuilder(
         animation: changes,
-        builder: (context, _) {
+        builder: (_, __) {
           return choiceBuilder(
             context,
             choice.copyWith(
@@ -1331,6 +1340,7 @@ class S2MultiState<T> extends S2State<T> {
   @override
   Widget get choiceSelector {
     return Checkbox(
+      activeColor: choiceActiveStyle?.color ?? defaultActiveChoiceStyle.color,
       value: changes.length == widget.choiceItems.length
         ? true
         : changes.length == 0

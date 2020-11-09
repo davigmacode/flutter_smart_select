@@ -37,22 +37,13 @@ class S2ChoicesList<T> extends StatelessWidget {
     Widget result = NotificationListener<ScrollNotification>(
       onNotification: (notification) => true,
       child: Scrollbar(
-        child: ScrollConfiguration(
-          behavior: const ScrollBehavior(),
-          child: GlowingOverscrollIndicator(
-            axisDirection: config.direction == Axis.vertical
-              ? AxisDirection.down
-              : AxisDirection.right,
-            color: config.overscrollColor ?? config.activeStyle?.color ?? config.style?.color,
-            child: config.layout == S2ChoiceLayout.wrap || config.type == S2ChoiceType.chips
-              ? _listWrap()
-              : config.layout == S2ChoiceLayout.grid
-                ? _listGrid()
-                : config.useDivider
-                  ? _listSeparated()
-                  : _listDefault()
-          ),
-        ),
+        child: config.isWrapLayout
+          ? _listWrap()
+          : config.isGridLayout
+            ? _listGrid()
+            : config.useDivider
+              ? _listSeparated()
+              : _listDefault(),
       ),
     );
 
@@ -63,7 +54,7 @@ class S2ChoicesList<T> extends StatelessWidget {
 
   Widget _listWrap() {
     return SingleChildScrollView(
-      physics: const ScrollPhysics(),
+      physics: config.physics,
       scrollDirection: config.direction,
       padding: config.padding ?? const EdgeInsets.symmetric(
         vertical: 10.0,
@@ -86,7 +77,7 @@ class S2ChoicesList<T> extends StatelessWidget {
   Widget _listDefault() {
     return ListView.builder(
       shrinkWrap: true,
-      physics: const ScrollPhysics(),
+      physics: config.physics,
       scrollDirection: config.direction,
       padding: config.padding ?? const EdgeInsets.symmetric(vertical: 10.0),
       itemCount: items.length,
@@ -97,7 +88,7 @@ class S2ChoicesList<T> extends StatelessWidget {
   Widget _listSeparated() {
     return ListView.separated(
       shrinkWrap: true,
-      physics: const ScrollPhysics(),
+      physics: config.physics,
       scrollDirection: config.direction,
       padding: config.padding ?? const EdgeInsets.symmetric(vertical: 10.0),
       itemCount: items.length,
@@ -109,19 +100,25 @@ class S2ChoicesList<T> extends StatelessWidget {
   Widget _listGrid() {
     return GridView.builder(
       shrinkWrap: true,
-      physics: const ScrollPhysics(),
+      physics: config.physics,
       scrollDirection: config.direction,
       padding: config.padding ?? const EdgeInsets.all(10.0),
       itemCount: items.length,
       itemBuilder: (context, i) => itemBuilder(items[i]),
       gridDelegate: config.gridDelegate ?? SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
+        crossAxisCount: config.gridCount,
+        crossAxisSpacing: config.gridSpacing,
+        mainAxisSpacing: config.gridSpacing,
       ),
     );
   }
 
   Widget _dividerBuilderDefault(BuildContext context, int index) {
-    return const S2Divider();
+    return S2Divider(
+      color: config.dividerColor,
+      spacing: config.dividerSpacing,
+      thickness: config.dividerThickness,
+    );
   }
 }
 
@@ -131,8 +128,8 @@ class S2Divider extends StatelessWidget {
   /// divider color
   final Color color;
 
-  /// divider height
-  final double height;
+  /// divider thickness
+  final double thickness;
 
   /// divider spacing
   final double spacing;
@@ -141,24 +138,33 @@ class S2Divider extends StatelessWidget {
   const S2Divider({
     Key key,
     this.color,
-    this.height,
+    this.thickness,
     this.spacing,
   }) : super(key: key);
+
+  /// Default color of the divider widget
+  static const Color defaultColor = const Color(0xFFEEEEEE);
+
+  /// Default spacing of the divider widget
+  static const double defaultSpacing = 4.0;
+
+  /// Default thickness of the divider widget
+  static const double defaultThickness = 1.0;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(
-        vertical: spacing ?? 4.0
+        vertical: spacing ?? S2Divider.defaultSpacing
       ),
       child: SizedBox(
-        height: height ?? 1,
+        height: thickness ?? S2Divider.defaultThickness,
         child: DecoratedBox(
           decoration: BoxDecoration(
             border: Border(
               bottom: BorderSide(
-                color: color ?? const Color(0xFFEEEEEE),
-                width: height ?? 1,
+                color: color ?? S2Divider.defaultColor,
+                width: thickness ?? S2Divider.defaultThickness,
               ),
             ),
           ),

@@ -45,26 +45,21 @@ class S2Choices<T> extends StatelessWidget {
   Widget get choices {
     return ListTileTheme(
       contentPadding: config.style?.padding,
-      child: Theme(
-        data: ThemeData(
-          unselectedWidgetColor: config.style?.color,
-        ),
-        child: _isGrouped == true
-          ? S2ChoicesGrouped<T>(
-              items: _filteredItems,
-              itemBuilder: itemBuilder,
-              groupKeys: _groupKeys,
-              config: config,
-              builder: builder,
-              query: query,
-            )
-          : S2ChoicesList<T>(
-              items: _filteredItems,
-              itemBuilder: itemBuilder,
-              config: config,
-              builder: builder,
-            )
-      ),
+      child: _isGrouped == true
+        ? S2ChoicesGrouped<T>(
+            items: _filteredItems,
+            itemBuilder: itemBuilder,
+            groupKeys: _groupKeys,
+            config: config,
+            builder: builder,
+            query: query,
+          )
+        : S2ChoicesList<T>(
+            items: _filteredItems,
+            itemBuilder: itemBuilder,
+            config: config,
+            builder: builder,
+          ),
     );
   }
 

@@ -28,6 +28,11 @@ class S2Text extends StatelessWidget {
     this.caseSensitive = false,
   }) : super(key: key);
 
+  /// default hightlight color
+  ///
+  /// defaults to yellow
+  static const Color defaultHightlightColor = Color(0xFFFBC02D);
+
   @override
   Widget build(BuildContext context) {
     if ((highlight?.isEmpty ?? true) || text.isEmpty) {
@@ -62,7 +67,12 @@ class S2Text extends StatelessWidget {
   }
 
   TextSpan _highlightSpan(String content) {
-    return TextSpan(text: content, style: style.copyWith(backgroundColor: highlightColor));
+    return TextSpan(
+      text: content,
+      style: style.copyWith(
+        backgroundColor: highlightColor ?? defaultHightlightColor
+      )
+    );
   }
 
   TextSpan _normalSpan(String content) {
