@@ -107,9 +107,13 @@ class S2ModalConfig with Diagnosticable  {
     assert(headerStyle != null);
 
   /// whether the modal is full page or not
-  bool get isFullPage {
-    return type == S2ModalType.fullPage;
-  }
+  bool get isFullPage => type == S2ModalType.fullPage;
+
+  /// whether the modal is bottom sheet or not
+  bool get isBottomSheet => type == S2ModalType.bottomSheet;
+
+  /// whether the modal is bottom sheet or not
+  bool get isPopupDialog => type == S2ModalType.popupDialog;
 
   /// Creates a copy of this [S2ModalConfig] but with
   /// the given fields replaced with the new values.
@@ -150,8 +154,8 @@ class S2ModalConfig with Diagnosticable  {
       enableDrag: enableDrag ?? this.enableDrag,
       barrierDismissible: barrierDismissible ?? this.barrierDismissible,
       barrierColor: barrierColor ?? this.barrierColor,
-      style: style ?? this.style,
-      headerStyle: headerStyle ?? this.headerStyle,
+      style: this.style?.merge(style) ?? style,
+      headerStyle: this.headerStyle?.merge(headerStyle) ?? headerStyle,
     );
   }
 
@@ -169,7 +173,7 @@ class S2ModalConfig with Diagnosticable  {
       confirmIcon: other.confirmIcon,
       confirmLabel: other.confirmLabel,
       confirmColor: other.confirmColor,
-      confirmMargin: confirmMargin,
+      confirmMargin: other.confirmMargin,
       confirmBrightness: other.confirmBrightness,
       useFilter: other.useFilter,
       filterAuto: other.filterAuto,

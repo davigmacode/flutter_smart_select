@@ -1,5 +1,6 @@
 import 'package:flutter/painting.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/rendering.dart';
 import 'dart:ui';
 
 /// Where to place the control in widgets that use [ListTile] to position a
@@ -43,13 +44,21 @@ class S2ChoiceHeaderStyle with Diagnosticable {
   /// Group header height
   final double height;
 
+  /// Group header cross axis alignment
+  final CrossAxisAlignment crossAxisAlignment;
+
+  /// Group header main axis alignment
+  final MainAxisAlignment mainAxisAlignment;
+
   /// Create a configuration of choices group header style
   const S2ChoiceHeaderStyle({
     this.highlightColor,
-    this.backgroundColor = const Color(0xFFECEFF1),
-    this.textStyle = const TextStyle(color: Color(0x8A000000)),
+    this.backgroundColor,
+    this.textStyle,
     this.padding = const EdgeInsets.symmetric(horizontal: 16.0),
     this.height = 45.0,
+    this.crossAxisAlignment,
+    this.mainAxisAlignment,
   });
 
   /// Creates a copy of this [S2ChoiceHeaderStyle] but with
@@ -60,13 +69,17 @@ class S2ChoiceHeaderStyle with Diagnosticable {
     TextStyle textStyle,
     EdgeInsetsGeometry padding,
     double height,
+    CrossAxisAlignment crossAxisAlignment,
+    MainAxisAlignment mainAxisAlignment,
   }) {
     return S2ChoiceHeaderStyle(
       backgroundColor: backgroundColor ?? this.backgroundColor,
       highlightColor: highlightColor ?? this.highlightColor,
-      textStyle: textStyle ?? this.textStyle,
+      textStyle: this.textStyle?.merge(textStyle) ?? textStyle,
       padding: padding ?? this.padding,
       height: height ?? this.height,
+      crossAxisAlignment: crossAxisAlignment ?? this.crossAxisAlignment,
+      mainAxisAlignment: mainAxisAlignment ?? this.mainAxisAlignment,
     );
   }
 
@@ -76,12 +89,14 @@ class S2ChoiceHeaderStyle with Diagnosticable {
     // if null return current object
     if (other == null) return this;
 
-    return S2ChoiceHeaderStyle(
+    return copyWith(
       backgroundColor: other.backgroundColor,
       highlightColor: other.highlightColor,
       textStyle: other.textStyle,
       padding: other.padding,
       height: other.height,
+      crossAxisAlignment: other.crossAxisAlignment,
+      mainAxisAlignment: other.mainAxisAlignment,
     );
   }
 }
@@ -171,8 +186,8 @@ class S2ChoiceStyle with Diagnosticable {
     Clip clipBehavior,
   }) {
     return S2ChoiceStyle(
-      titleStyle: titleStyle ?? this.titleStyle,
-      subtitleStyle: subtitleStyle ?? this.subtitleStyle,
+      titleStyle: this.titleStyle?.merge(titleStyle) ?? titleStyle,
+      subtitleStyle: this.subtitleStyle?.merge(subtitleStyle) ?? subtitleStyle,
       margin: margin ?? this.margin,
       padding: padding ?? this.padding,
       showCheckmark: showCheckmark ?? this.showCheckmark,

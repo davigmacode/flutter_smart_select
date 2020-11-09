@@ -78,7 +78,7 @@ class S2ModalHeaderStyle with Diagnosticable {
   /// Whether the header title is centered
   final bool centerTitle;
 
-  /// Whether the header use automaticallyImplyLeading or not
+  /// Whether the [automaticallyImplyLeading] is [true] or [false]
   final bool useLeading;
 
   /// Header text style
@@ -100,11 +100,11 @@ class S2ModalHeaderStyle with Diagnosticable {
     this.elevation = 0.5,
     this.useLeading,
     this.centerTitle = false,
-    this.textStyle = const TextStyle(color: Color(0x8A000000)),
+    this.textStyle,
     this.errorStyle = const TextStyle(color: Color(0xFFF44336), fontSize: 13.5, fontWeight: FontWeight.w500),
-    this.iconTheme = const IconThemeData(color: Color(0x8A000000)),
-    this.actionsIconTheme = const IconThemeData(color: Color(0x8A000000)),
-    this.backgroundColor = const Color(0xFFFFFFFF),
+    this.iconTheme,
+    this.actionsIconTheme,
+    this.backgroundColor,
     this.brightness,
   }) :
     assert(elevation != null),
@@ -131,10 +131,10 @@ class S2ModalHeaderStyle with Diagnosticable {
       brightness: brightness ?? this.brightness,
       useLeading: useLeading ?? this.useLeading,
       centerTitle: centerTitle ?? this.centerTitle,
-      textStyle: textStyle ?? this.textStyle,
-      errorStyle: errorStyle ?? this.errorStyle,
-      iconTheme: iconTheme ?? this.iconTheme,
-      actionsIconTheme: actionsIconTheme ?? this.actionsIconTheme,
+      textStyle: this.textStyle?.merge(textStyle) ?? textStyle,
+      errorStyle: this.errorStyle?.merge(errorStyle) ?? errorStyle,
+      iconTheme: this.iconTheme?.merge(iconTheme) ?? iconTheme,
+      actionsIconTheme: this.actionsIconTheme?.merge(actionsIconTheme) ?? actionsIconTheme,
     );
   }
 
