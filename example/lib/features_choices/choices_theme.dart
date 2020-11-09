@@ -12,14 +12,6 @@ class _FeaturesChoicesThemeState extends State<FeaturesChoicesTheme> {
 
   List<String> _smartphones = [];
 
-  Color _background = Colors.blue;
-  List<List> _backgrounds = [
-    ['Blue', Colors.blue],
-    ['Green', Colors.green],
-    ['Orange', Colors.deepOrange],
-    ['Red', Colors.redAccent],
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -82,59 +74,11 @@ class _FeaturesChoicesThemeState extends State<FeaturesChoicesTheme> {
               isTwoLine: true,
               leading: IconBadge(
                 icon: const Icon(Icons.shopping_cart),
+                color: Theme.of(context).primaryColor,
                 counter: _smartphones.length,
               ),
             );
           }
-        ),
-        const Divider(indent: 20),
-        SmartSelect<Color>.single(
-          title: 'Color',
-          value: _background,
-          choiceItems: S2Choice.listFrom<Color, List>(
-            source: _backgrounds,
-            value: (i, v) => v[1],
-            title: (i, v) => v[0]
-          ),
-          choiceStyle: S2ChoiceStyle(
-            titleStyle: const TextStyle(color: Colors.white),
-            color: Colors.white.withOpacity(.5),
-          ),
-          choiceActiveStyle: S2ChoiceStyle(
-            color: Colors.white,
-          ),
-          modalConfirmBuilder: (context, state) {
-            return FlatButton(
-              onPressed: () => state.closeModal(confirmed: true),
-              child: const Text(
-                'Change',
-                style: TextStyle(
-                  color: Colors.white
-                ),
-              ),
-            );
-          },
-          modalStyle: S2ModalStyle(
-            backgroundColor: _background,
-          ),
-          modalHeaderStyle: S2ModalHeaderStyle(
-            elevation: 0,
-            backgroundColor: _background,
-            textStyle: TextStyle(
-              color: Colors.white
-            )
-          ),
-          modalType: S2ModalType.popupDialog,
-          onChange: (state) => setState(() => _background = state.value),
-          tileBuilder: (context, state) {
-            return S2Tile<Color>.fromState(
-              state,
-              isTwoLine: true,
-              leading: CircleAvatar(
-                backgroundColor: state.value,
-              ),
-            );
-          },
         ),
         const SizedBox(height: 7),
       ],

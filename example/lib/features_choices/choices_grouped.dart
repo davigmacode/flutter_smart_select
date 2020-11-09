@@ -13,6 +13,8 @@ class _FeaturesChoicesGroupedState extends State<FeaturesChoicesGrouped> {
   String _smartphone = '';
   List<String> _car = [];
 
+  Color get primaryColor => Theme.of(context).primaryColor;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -70,7 +72,7 @@ class _FeaturesChoicesGroupedState extends State<FeaturesChoicesGrouped> {
           },
           choiceHeaderBuilder: (context, group, searchText) {
             return Container(
-              color: Colors.redAccent,
+              color: primaryColor,
               padding: const EdgeInsets.all(15),
               alignment: Alignment.centerLeft,
               child: S2Text(

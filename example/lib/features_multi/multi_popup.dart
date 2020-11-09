@@ -52,7 +52,7 @@ class _FeaturesMultiPopupState extends State<FeaturesMultiPopup> {
                 maxLines: 1,
               ),
               leading: CircleAvatar(
-                backgroundColor: Colors.blue,
+                backgroundColor: Theme.of(context).primaryColor,
                 child: Text(
                   _framework.length.toString(),
                   style: TextStyle(color: Colors.white)

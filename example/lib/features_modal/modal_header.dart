@@ -56,7 +56,8 @@ class _FeaturesModalHeaderState extends State<FeaturesModalHeader> {
           modalConfig: S2ModalConfig(
             type: S2ModalType.popupDialog,
             headerStyle: S2ModalHeaderStyle(
-              backgroundColor: Colors.blueGrey[50],
+              backgroundColor: Theme.of(context).primaryColor,
+              textStyle: Theme.of(context).primaryTextTheme.headline6,
               centerTitle: true,
               elevation: 0,
             ),
@@ -66,7 +67,6 @@ class _FeaturesModalHeaderState extends State<FeaturesModalHeader> {
               state,
               isTwoLine: true,
               leading: CircleAvatar(
-                backgroundColor: Colors.blue,
                 child: Text(
                   '${state.valueDisplay[0]}',
                   style: TextStyle(color: Colors.white)

@@ -69,7 +69,9 @@ class _FeaturesModalWidgetState extends State<FeaturesModalWidget> {
                   state,
                   hideValue: true,
                   leading: CircleAvatar(
-                    backgroundColor: _question1 == null ? Colors.grey : Colors.blue,
+                    backgroundColor: _question1 == null
+                      ? Colors.grey
+                      : Theme.of(context).primaryColor,
                     child: const Text(
                       '1',
                       style: TextStyle(color: Colors.white)
@@ -125,7 +127,7 @@ class _FeaturesModalWidgetState extends State<FeaturesModalWidget> {
                 minWidth: double.infinity,
                 child: FlatButton(
                   child: Text('Submit (${state.changes.length})'),
-                  color: Colors.blue,
+                  color: Theme.of(context).primaryColor,
                   textColor: Colors.white,
                   onPressed: state.changes.valid
                     ? () => state.closeModal(confirmed: true)
@@ -150,7 +152,9 @@ class _FeaturesModalWidgetState extends State<FeaturesModalWidget> {
                   state,
                   hideValue: true,
                   leading: CircleAvatar(
-                    backgroundColor: _question2 == null ? Colors.grey : Colors.blue,
+                    backgroundColor: _question2 == null
+                      ? Colors.grey
+                      : Theme.of(context).primaryColor,
                     child: const Text(
                       '2',
                       style: TextStyle(color: Colors.white)
@@ -161,7 +165,7 @@ class _FeaturesModalWidgetState extends State<FeaturesModalWidget> {
                     chipLabelBuilder: (context, i) {
                       return Text(state.valueObject[i].title);
                     },
-                    chipColor: Colors.blue,
+                    chipColor: Theme.of(context).primaryColor,
                     chipBrightness: Brightness.dark,
                     // placeholder: Container(),
                   ),

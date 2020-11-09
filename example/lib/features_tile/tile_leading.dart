@@ -15,6 +15,8 @@ class _FeaturesTileLeadingState extends State<FeaturesTileLeading> {
   String _framework = 'flu';
   List<String> _hero = ['bat', 'spi'];
 
+  Color get primaryColor => Theme.of(context).primaryColor;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -60,7 +62,7 @@ class _FeaturesTileLeadingState extends State<FeaturesTileLeading> {
             return S2Tile.fromState(
               state,
               leading: CircleAvatar(
-                backgroundColor: Colors.blue,
+                backgroundColor: primaryColor,
                 child: Text(
                   '${state.valueDisplay[0]}',
                   style: TextStyle(color: Colors.white)

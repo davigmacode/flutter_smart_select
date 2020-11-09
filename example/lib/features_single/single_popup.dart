@@ -47,7 +47,7 @@ class _FeaturesSinglePopupState extends State<FeaturesSinglePopup> {
                 maxLines: 1,
               ),
               leading: CircleAvatar(
-                backgroundColor: Colors.blue,
+                backgroundColor: Theme.of(context).primaryColor,
                 child: Text(
                   '${state.valueDisplay[0]}',
                   style: TextStyle(color: Colors.white)

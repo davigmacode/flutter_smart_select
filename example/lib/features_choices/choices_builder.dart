@@ -16,6 +16,8 @@ class _FeaturesChoicesBuilderState extends State<FeaturesChoicesBuilder> {
   List<S2Choice<String>> _users = [];
   bool _usersIsLoading = false;
 
+  ThemeData get theme => Theme.of(context);
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -40,7 +42,7 @@ class _FeaturesChoicesBuilderState extends State<FeaturesChoicesBuilder> {
           choiceBuilder: (context, choice, query) {
             return Card(
               margin: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-              color: choice.selected ? Colors.blue : Colors.white,
+              color: choice.selected ? theme.primaryColor : theme.cardColor,
               child: InkWell(
                 onTap: () => choice.select(true),
                 child: SizedBox(
@@ -61,7 +63,7 @@ class _FeaturesChoicesBuilderState extends State<FeaturesChoicesBuilder> {
                         Text(
                           choice.title,
                           style: TextStyle(
-                            color: choice.selected ? Colors.white : Colors.black87,
+                            color: choice.selected ? Colors.white : null,
                           ),
                         ),
                       ],
@@ -98,7 +100,7 @@ class _FeaturesChoicesBuilderState extends State<FeaturesChoicesBuilder> {
           ),
           choiceBuilder: (context, choice, query) {
             return Card(
-              color: choice.selected ? Colors.green : Colors.white,
+              color: choice.selected ? theme.primaryColor : theme.cardColor,
               child: InkWell(
                 onTap: () => choice.select(!choice.selected),
                 child: Container(
@@ -115,14 +117,14 @@ class _FeaturesChoicesBuilderState extends State<FeaturesChoicesBuilder> {
                           backgroundImage: NetworkImage(choice.meta['picture']['thumbnail']),
                         ),
                       ),
-                      SizedBox(height: 5),
+                      const SizedBox(height: 5),
                       Text(
                         choice.title,
                         textAlign: TextAlign.center,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                          color: choice.selected ? Colors.white : Colors.black87,
+                          color: choice.selected ? Colors.white : null,
                           height: 1,
                         ),
                       )
@@ -137,6 +139,13 @@ class _FeaturesChoicesBuilderState extends State<FeaturesChoicesBuilder> {
               state,
               isLoading: _usersIsLoading,
               hideValue: true,
+              leading: CircleAvatar(
+                backgroundColor: theme.primaryColor,
+                child: Text(
+                  state.value?.length?.toString() ?? '0',
+                  style: TextStyle(color: Colors.white)
+                ),
+              ),
               body: S2TileChips(
                 chipLength: state.valueObject.length,
                 chipLabelBuilder: (context, i) {
@@ -148,30 +157,12 @@ class _FeaturesChoicesBuilderState extends State<FeaturesChoicesBuilder> {
                 chipOnDelete: (i) {
                   setState(() => _user.remove(state.valueObject[i].value));
                 },
-                chipColor: Colors.blue,
+                chipColor: Theme.of(context).primaryColor,
                 chipBrightness: Brightness.dark,
                 chipBorderOpacity: .5,
                 placeholder: Container(),
               ),
             );
-            // return S2ChipsTile<String>.fromState(
-            //   state,
-            //   trailing: _usersIsLoading == true
-            //     ? const CircularProgressIndicator(
-            //         valueColor: AlwaysStoppedAnimation<Color>(Colors.grey),
-            //         strokeWidth: 1.5,
-            //       )
-            //     : const Icon(Icons.add_circle_outline),
-            //   chipColor: Colors.blue,
-            //   chipBorderOpacity: .5,
-            //   chipBrightness: Brightness.light,
-            //   chipAvatarBuilder: (context, i) => CircleAvatar(
-            //     backgroundImage: NetworkImage(state.valueObject[i].meta['picture']['thumbnail'])
-            //   ),
-            //   chipOnDelete: (value) {
-            //     setState(() => _user.remove(value));
-            //   },
-            // );
           },
         ),
         const SizedBox(height: 7),

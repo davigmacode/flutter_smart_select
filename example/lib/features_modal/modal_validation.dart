@@ -40,10 +40,10 @@ class _FeaturesModalValidationState extends State<FeaturesModalValidation> {
             return S2Text(
               text: item.title,
               style: TextStyle(
-                color: item.selected ? Colors.blueAccent : Colors.black54
+                color: item.selected ? Theme.of(context).primaryColor : null
               ),
               highlight: filter,
-              highlightColor: Colors.redAccent.withOpacity(.7),
+              highlightColor: Theme.of(context).primaryColor.withOpacity(.7),
             );
           },
           tileBuilder: (context, state) {
@@ -119,7 +119,7 @@ class _FeaturesModalValidationState extends State<FeaturesModalValidation> {
                   FlatButton.icon(
                     icon: Icon(Icons.check),
                     label: Text('OK (${state.changes.length})'),
-                    color: Colors.blue,
+                    color: Theme.of(context).primaryColor,
                     textColor: Colors.white,
                     onPressed: state.changes.valid
                       ? () => state.closeModal(confirmed: true)

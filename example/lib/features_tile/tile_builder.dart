@@ -13,6 +13,8 @@ class _FeaturesTileBuilderState extends State<FeaturesTileBuilder> {
   List<String> _categories = [];
   String _sort = 'popular';
 
+  Color get primaryColor => Theme.of(context).primaryColor;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -103,7 +105,7 @@ class _FeaturesTileBuilderState extends State<FeaturesTileBuilder> {
                     chipOnDelete: (i) {
                       setState(() => _cars.remove(state.valueObject[i].value));
                     },
-                    chipColor: Colors.red,
+                    chipColor: primaryColor,
                     chipBrightness: Brightness.dark,
                   ),
                 ),

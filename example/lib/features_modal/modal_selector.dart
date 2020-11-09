@@ -25,6 +25,9 @@ class _FeaturesModalSelectorState extends State<FeaturesModalSelector> {
           modalType: S2ModalType.popupDialog,
           modalConfirm: true,
           modalValidation: (value) => value.length > 0 ? null : 'Select at least one',
+          modalHeaderStyle: S2ModalHeaderStyle(
+            backgroundColor: Theme.of(context).cardColor,
+          ),
           tileBuilder: (context, state) {
             return S2Tile.fromState(
               state,
@@ -63,7 +66,7 @@ class _FeaturesModalSelectorState extends State<FeaturesModalSelector> {
                   const SizedBox(width: 5),
                   FlatButton(
                     child: Text('OK (${state.changes.length})'),
-                    color: Colors.blue,
+                    color: Theme.of(context).primaryColor,
                     textColor: Colors.white,
                     onPressed: state.changes.valid
                       ? () => state.closeModal(confirmed: true)
@@ -88,6 +91,9 @@ class _FeaturesModalSelectorState extends State<FeaturesModalSelector> {
             meta: (index, item) => item,
           ),
           choiceType: S2ChoiceType.chips,
+          choiceActiveStyle: S2ChoiceStyle(
+            color: Theme.of(context).primaryColor
+          ),
           modalFilter: true,
           modalType: S2ModalType.fullPage,
           modalFooterBuilder: (context, state) {
@@ -148,25 +154,12 @@ class _FeaturesModalSelectorState extends State<FeaturesModalSelector> {
                 chipOnDelete: (i) {
                   setState(() => _smartphone.remove(state.valueObject[i].value));
                 },
-                chipColor: Colors.blue,
+                chipColor: Theme.of(context).primaryColor,
                 chipBrightness: Brightness.light,
                 chipBorderOpacity: .3,
                 // placeholder: Container(),
               ),
             );
-            // return S2ChipsTile<String>.fromState(
-            //   state,
-            //   trailing: const Icon(Icons.add_circle_outline),
-            //   leading: const CircleAvatar(
-            //     backgroundImage: NetworkImage('https://source.unsplash.com/xsGxhtAsfSA/100x100'),
-            //   ),
-            //   chipColor: Colors.blue,
-            //   chipBorderOpacity: .3,
-            //   chipBrightness: Brightness.light,
-            //   chipOnDelete: (value) {
-            //     setState(() => _smartphone.remove(value));
-            //   },
-            // );
           }
         ),
         const SizedBox(height: 7),
@@ -190,7 +183,7 @@ class ActionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return FlatButton(
       child: label,
-      color: Colors.blue,
+      color: Theme.of(context).primaryColor,
       textColor: Colors.white,
       onPressed: onTap,
     );

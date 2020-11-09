@@ -31,10 +31,6 @@ class _FeaturesSingleChipsState extends State<FeaturesSingleChips> {
           choiceType: S2ChoiceType.chips,
           choiceGrouped: true,
           choiceDirection: Axis.horizontal,
-          choiceActiveStyle: const S2ChoiceStyle(
-            showCheckmark: false,
-            brightness: Brightness.dark,
-          ),
           onChange: (state) => setState(() => _car = state.value),
           tileBuilder: (context, state) => S2Tile(
             title: const Text('Car'),
@@ -53,8 +49,12 @@ class _FeaturesSingleChipsState extends State<FeaturesSingleChips> {
           choiceItems: choices.categories,
           modalType: S2ModalType.bottomSheet,
           choiceType: S2ChoiceType.chips,
+          choiceStyle: S2ChoiceStyle(
+            brightness: Brightness.light
+          ),
           choiceActiveStyle: S2ChoiceStyle(
-            showCheckmark: true,
+            brightness: Brightness.dark,
+            showCheckmark: true
           ),
           onChange: (state) => setState(() => _category = state.value),
           tileBuilder: (context, state) => S2Tile.fromState(

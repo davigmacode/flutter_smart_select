@@ -38,7 +38,6 @@ class _FeaturesModalShapeState extends State<FeaturesModalShape> {
               state,
               isTwoLine: true,
               leading: CircleAvatar(
-                backgroundColor: Colors.blue,
                 child: Text(
                   '${state.valueDisplay[0]}',
                   style: TextStyle(color: Colors.white)
@@ -57,7 +56,6 @@ class _FeaturesModalShapeState extends State<FeaturesModalShape> {
           modalType: S2ModalType.bottomSheet,
           modalConfig: const S2ModalConfig(
             style: S2ModalStyle(
-              backgroundColor: Colors.white,
               clipBehavior: Clip.antiAlias,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(

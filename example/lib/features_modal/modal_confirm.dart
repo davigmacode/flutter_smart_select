@@ -46,6 +46,9 @@ class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
           modalType: S2ModalType.popupDialog,
           modalConfirm: true,
           modalValidation: (value) => value.length > 0 ? null : 'Select at least one',
+          modalHeaderStyle: S2ModalHeaderStyle(
+            backgroundColor: Theme.of(context).cardColor,
+          ),
           tileBuilder: (context, state) {
             return S2Tile.fromState(
               state,
@@ -79,7 +82,7 @@ class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
                   const SizedBox(width: 5),
                   FlatButton(
                     child: Text('OK (${state.changes.length})'),
-                    color: Colors.blue,
+                    color: Theme.of(context).primaryColor,
                     textColor: Colors.white,
                     onPressed: state.changes.valid
                       ? () => state.closeModal(confirmed: true)
@@ -108,9 +111,7 @@ class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
           modalConfig: S2ModalConfig(
             useConfirm: true,
             confirmLabel: const Text('Send'),
-            // confirmIcon: const Icon(Icons.send),
-            confirmColor: Colors.redAccent,
-            confirmBrightness: Brightness.dark
+            confirmIcon: const Icon(Icons.send),
           ),
           tileBuilder: (context, state) {
             return S2Tile.fromState(
