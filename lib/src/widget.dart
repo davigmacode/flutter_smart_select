@@ -693,7 +693,7 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
               child: modalBody
             ),
           )
-        : SafeArea(child: modalBody),
+        : modalBody,
     );
   }
 
@@ -873,6 +873,7 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
   /// get default modal header widget
   Widget get defaultModalHeader {
     return AppBar(
+      primary: true,
       shape: modalHeaderStyle.shape,
       elevation: modalHeaderStyle.elevation,
       brightness: modalHeaderStyle.brightness,
@@ -1011,19 +1012,22 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
           enableDrag: modalConfig.enableDrag,
           isScrollControlled: true,
           builder: (_) {
-            final MediaQueryData mediaQuery = MediaQueryData.fromWindow(window);
-            final double statusbarHeight = mediaQuery.viewPadding.top;
+            final MediaQueryData mediaQuery = MediaQueryData.fromWindow(WidgetsBinding.instance.window);
+            final double topObstructions = mediaQuery.viewPadding.top;
+            final double bottomObstructions = mediaQuery.viewPadding.bottom;
             final double keyboardHeight = mediaQuery.viewInsets.bottom;
             final double deviceHeight = mediaQuery.size.height;
-            final double modalHeight = (deviceHeight * .6) + keyboardHeight;
+            final bool isKeyboardOpen = keyboardHeight > 0;
+            final double maxHeightFactor = isKeyboardOpen ? 1 : modalConfig.maxHeightFactor;
+            final double modalHeight = (deviceHeight * maxHeightFactor) + keyboardHeight;
+            final bool isFullHeight = modalHeight >= deviceHeight;
             return Container(
               padding: EdgeInsets.only(
-                bottom: keyboardHeight
+                top: isFullHeight ? topObstructions : 0,
+                bottom: keyboardHeight + bottomObstructions
               ),
               constraints: BoxConstraints(
-                maxHeight: modalHeight > deviceHeight
-                  ? deviceHeight - statusbarHeight
-                  : modalHeight
+                maxHeight: isFullHeight ? double.infinity : modalHeight
               ),
               child: modal,
             );
@@ -1033,6 +1037,7 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
       case S2ModalType.popupDialog:
         confirmed = await showDialog(
           context: context,
+          useSafeArea: true,
           barrierDismissible: modalConfig.barrierDismissible,
           barrierColor: modalConfig.barrierColor,
           builder: (_) => Dialog(

@@ -52,8 +52,11 @@ class _FeaturesMultiChipsState extends State<FeaturesMultiChips> {
             value: (index, item) => item['id'],
             title: (index, item) => item['name'],
           ),
-          modalType: S2ModalType.bottomSheet,
-          modalFilter: true,
+          modalConfig: S2ModalConfig(
+            type: S2ModalType.bottomSheet,
+            useFilter: true,
+            maxHeightFactor: .7
+          ),
           tileBuilder: (context, state) {
             return S2Tile.fromState(
               state,

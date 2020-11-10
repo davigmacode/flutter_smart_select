@@ -82,10 +82,32 @@ class _FeaturesModalHeaderState extends State<FeaturesModalHeader> {
           onChange: (state) => setState(() => _hero = state.value),
           choiceItems: choices.heroes,
           modalType: S2ModalType.bottomSheet,
-          modalFilter: true,
-          modalHeaderStyle: const S2ModalHeaderStyle(
-            centerTitle: true,
+          modalStyle: S2ModalStyle(
+            clipBehavior: Clip.antiAlias,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(45.0),
+                topRight: Radius.circular(45.0)
+              ),
+            ),
           ),
+          modalHeaderBuilder: (context, state) {
+            return Column(
+              children: [
+                Container(
+                  height: 5,
+                  width: 30,
+                  decoration: BoxDecoration(
+                    color: Colors.grey[300],
+                    borderRadius: BorderRadius.circular(16)
+                  ),
+                  margin: EdgeInsets.only(top: 15, bottom: 10),
+                ),
+                state.modalTitle,
+                SizedBox(height: 15),
+              ],
+            );
+          },
           tileBuilder: (context, state) {
             return S2Tile.fromState(
               state,
