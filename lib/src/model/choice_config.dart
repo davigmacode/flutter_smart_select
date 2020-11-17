@@ -78,6 +78,9 @@ class S2ChoiceConfig with Diagnosticable {
   /// Whether the choices list is grouped or not, based on [S2Choice.group]
   final bool isGrouped;
 
+  /// Whether the choices list is sorted or not (only applies to grouped choices)
+  final bool sortedKeys;
+
   /// Whether the choices item use divider or not
   final bool useDivider;
 
@@ -117,6 +120,7 @@ class S2ChoiceConfig with Diagnosticable {
     this.gridCount = 2,
     this.gridSpacing = 0,
     this.isGrouped = false,
+    this.sortedKeys = true,
     this.useDivider = false,
     this.dividerColor,
     this.dividerSpacing,
@@ -128,6 +132,7 @@ class S2ChoiceConfig with Diagnosticable {
     this.physics = const ScrollPhysics(),
   }) :
     assert(isGrouped != null),
+    assert(sortedKeys != null),
     assert(physics != null),
     assert(useDivider != null);
 
@@ -153,6 +158,7 @@ class S2ChoiceConfig with Diagnosticable {
     int gridCount,
     double gridSpacing,
     bool isGrouped,
+    bool sortedKeys,
     bool useDivider,
     Color dividerColor,
     double dividerSpacing,
@@ -174,6 +180,7 @@ class S2ChoiceConfig with Diagnosticable {
       gridCount: gridCount ?? this.gridCount,
       gridSpacing: gridSpacing ?? this.gridSpacing,
       isGrouped: isGrouped ?? this.isGrouped,
+      sortedKeys: sortedKeys ?? this.sortedKeys,
       useDivider: useDivider ?? this.useDivider,
       dividerColor: dividerColor ?? this.dividerColor,
       dividerSpacing: dividerSpacing ?? this.dividerSpacing,
@@ -203,6 +210,7 @@ class S2ChoiceConfig with Diagnosticable {
       gridCount: other.gridCount,
       gridSpacing: other.gridSpacing,
       isGrouped: other.isGrouped,
+      sortedKeys: other.sortedKeys,
       useDivider: other.useDivider,
       dividerColor: other.dividerColor,
       dividerSpacing: other.dividerSpacing,
