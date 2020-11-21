@@ -28,6 +28,9 @@ enum S2ChoiceLayout {
   grid
 }
 
+/// Comparator function to sort the group keys
+typedef int SortFn<E>(E a, E b);
+
 /// Choices configuration
 @immutable
 class S2ChoiceConfig with Diagnosticable {
@@ -78,6 +81,11 @@ class S2ChoiceConfig with Diagnosticable {
   /// Whether the choices list is grouped or not, based on [S2Choice.group]
   final bool isGrouped;
 
+  /// Comparator function to sort the group keys, if [isGrouped] is `true`
+  ///
+  /// Defaults to `null`, and it means disabled the sorting
+  final SortFn<String> groupSortFn;
+
   /// Whether the choices item use divider or not
   final bool useDivider;
 
@@ -117,6 +125,7 @@ class S2ChoiceConfig with Diagnosticable {
     this.gridCount = 2,
     this.gridSpacing = 0,
     this.isGrouped = false,
+    this.groupSortFn,
     this.useDivider = false,
     this.dividerColor,
     this.dividerSpacing,
@@ -130,6 +139,16 @@ class S2ChoiceConfig with Diagnosticable {
     assert(isGrouped != null),
     assert(physics != null),
     assert(useDivider != null);
+
+  /// Function to sort the group keys alphabetically in ascending order
+  static final SortFn<String> groupSortAsc = (String a, String b) {
+    return a.toLowerCase().compareTo(b.toLowerCase());
+  };
+
+  /// Function to sort the group keys alphabetically in descending order
+  static final SortFn<String> groupSortDesc = (String a, String b) {
+    return b.toLowerCase().compareTo(a.toLowerCase());
+  };
 
   /// Whether the [layout] is [S2ChoiceLayout.wrap] or [type] is [S2ChoiceType.chips]
   bool get isWrapLayout => layout == S2ChoiceLayout.wrap || type == S2ChoiceType.chips;
@@ -153,6 +172,7 @@ class S2ChoiceConfig with Diagnosticable {
     int gridCount,
     double gridSpacing,
     bool isGrouped,
+    SortFn<String> groupSortFn,
     bool useDivider,
     Color dividerColor,
     double dividerSpacing,
@@ -174,6 +194,7 @@ class S2ChoiceConfig with Diagnosticable {
       gridCount: gridCount ?? this.gridCount,
       gridSpacing: gridSpacing ?? this.gridSpacing,
       isGrouped: isGrouped ?? this.isGrouped,
+      groupSortFn: groupSortFn ?? this.groupSortFn,
       useDivider: useDivider ?? this.useDivider,
       dividerColor: dividerColor ?? this.dividerColor,
       dividerSpacing: dividerSpacing ?? this.dividerSpacing,
@@ -203,6 +224,7 @@ class S2ChoiceConfig with Diagnosticable {
       gridCount: other.gridCount,
       gridSpacing: other.gridSpacing,
       isGrouped: other.isGrouped,
+      groupSortFn: other.groupSortFn,
       useDivider: other.useDivider,
       dividerColor: other.dividerColor,
       dividerSpacing: other.dividerSpacing,

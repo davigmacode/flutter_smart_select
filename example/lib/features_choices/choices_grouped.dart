@@ -31,7 +31,10 @@ class _FeaturesChoicesGroupedState extends State<FeaturesChoicesGrouped> {
             title: (index, item) => item['name'],
             group: (index, item) => item['brand'],
           ),
-          choiceGrouped: true,
+          choiceConfig: S2ChoiceConfig(
+            isGrouped: true,
+            groupSortFn: S2ChoiceConfig.groupSortAsc
+          ),
           modalType: S2ModalType.bottomSheet,
           tileBuilder: (context, state) {
             return S2Tile(
@@ -57,9 +60,12 @@ class _FeaturesChoicesGroupedState extends State<FeaturesChoicesGrouped> {
             title: (index, item) => item['title'],
             group: (index, item) => item['body'],
           ),
-          choiceGrouped: true,
-          choiceActiveStyle: const S2ChoiceStyle(
-            color: Colors.redAccent
+          choiceConfig: S2ChoiceConfig(
+            isGrouped: true,
+            groupSortFn: S2ChoiceConfig.groupSortDesc,
+            activeStyle: const S2ChoiceStyle(
+              color: Colors.redAccent
+            ),
           ),
           modalType: S2ModalType.bottomSheet,
           modalConfirm: true,

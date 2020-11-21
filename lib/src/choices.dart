@@ -79,15 +79,20 @@ class S2Choices<T> extends StatelessWidget {
       .toList().cast<S2Choice<T>>();
   }
 
-  /// return a sorted list of group keys
+  /// return a list of group keys
   List<String> get _groupKeys {
-    Set groups = Set();
-    _filteredItems.forEach((S2Choice<T> item) => groups.add(item.group));
-
-    return groups
+    // return unique list
+    final List<String> groups = _filteredItems
+      .map((S2Choice<T> item) => item.group)
+      .toSet()
       .toList()
-      .cast<String>()
-      ..sort((a, b) => a.toLowerCase().compareTo(b.toLowerCase()));
+      .cast<String>();
+
+    // sort the list when the comparator is provided
+    if (config.groupSortFn != null)
+      return groups..sort(config.groupSortFn);
+
+    return groups;
   }
 
   /// whether the list need to be grouped or not
