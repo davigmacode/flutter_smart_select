@@ -3,6 +3,7 @@ import 'model/builder.dart';
 import 'model/choice_config.dart';
 import 'model/choice_theme.dart';
 import 'model/choice_item.dart';
+import 'chip_theme.dart';
 import 'text.dart';
 
 /// resolve the choice builder based on choice type
@@ -23,11 +24,6 @@ class S2ChoiceResolver<T> {
     @required this.type,
     @required this.builder,
   });
-
-  /// get default brightness for chips widget
-  Brightness get defaultBrightness => isMultiChoice == true
-    ? Brightness.light
-    : Brightness.dark;
 
   /// get the choice builder
   S2ChoiceBuilder<T> get choiceBuilder {
@@ -109,49 +105,28 @@ class S2ChoiceResolver<T> {
     String searchText,
   ) {
     final S2ChoiceStyle effectiveStyle = choice.effectiveStyle;
-    final Brightness effectiveBrightness = effectiveStyle.brightness ?? defaultBrightness;
-    final isDark = effectiveBrightness == Brightness.dark;
 
-    final Color textColor = isDark == true
-      ? Colors.white
-      : effectiveStyle?.color ?? (choice.selected == true
-        ? Theme.of(context).primaryColor
-        : Theme.of(context).unselectedWidgetColor);
-
-    final Color borderColor = isDark == true
-      ? Colors.transparent
-      : (effectiveStyle?.accentColor ?? textColor)?.withOpacity(effectiveStyle?.borderOpacity ?? .2);
-
-    final Color checkmarkColor = textColor;
-
-    final Color backgroundColor = isDark == true
-      ? choice.style?.color ?? Theme.of(context).unselectedWidgetColor
-      : Colors.transparent;
-
-    final Color selectedBackgroundColor = isDark == true
-      ? choice.activeStyle?.color ?? Theme.of(context).primaryColor
-      : Colors.transparent;
-
-    return Padding(
-      padding: effectiveStyle?.margin ?? const EdgeInsets.all(0),
-      child: RawChip(
-        padding: effectiveStyle?.padding ?? const EdgeInsets.all(4),
-        label: getTitle(context, choice, searchText),
-        labelStyle: TextStyle(color: textColor).merge(effectiveStyle?.titleStyle),
-        avatar: getSecondary(context, choice, searchText),
-        shape: StadiumBorder(
-          side: BorderSide(color: borderColor),
+    return S2ChipTheme(
+      color: effectiveStyle.color,
+      outlined: effectiveStyle.outlined,
+      raised: effectiveStyle.raised,
+      elevation: effectiveStyle.elevation,
+      opacity: effectiveStyle.elevation,
+      shape: effectiveStyle.shape,
+      labelStyle: effectiveStyle.titleStyle,
+      selected: choice.selected,
+      child: Padding(
+        padding: effectiveStyle?.margin ?? const EdgeInsets.all(0),
+        child: RawChip(
+          padding: effectiveStyle?.padding ?? const EdgeInsets.all(4),
+          label: getTitle(context, choice, searchText),
+          avatar: getSecondary(context, choice, searchText),
+          clipBehavior: effectiveStyle?.clipBehavior ?? Clip.none,
+          showCheckmark: effectiveStyle?.showCheckmark ?? isMultiChoice,
+          isEnabled: choice.disabled != true,
+          onSelected: (selected) => choice.select(selected),
+          selected: choice.selected,
         ),
-        clipBehavior: choice.style?.clipBehavior ?? Clip.none,
-        showCheckmark: choice.effectiveStyle?.showCheckmark ?? isMultiChoice,
-        checkmarkColor: checkmarkColor,
-        shadowColor: choice.style?.color,
-        selectedShadowColor: choice.activeStyle?.color,
-        backgroundColor: backgroundColor,
-        selectedColor: selectedBackgroundColor,
-        isEnabled: choice.disabled != true,
-        onSelected: (selected) => choice.select(selected),
-        selected: choice.selected,
       ),
     );
   };

@@ -158,8 +158,7 @@ class _FeaturesChoicesBuilderState extends State<FeaturesChoicesBuilder> {
                   setState(() => _user.remove(state.valueObject[i].value));
                 },
                 chipColor: Theme.of(context).primaryColor,
-                chipBrightness: Brightness.dark,
-                chipBorderOpacity: .5,
+                chipRaised: true,
                 placeholder: Container(),
               ),
             );

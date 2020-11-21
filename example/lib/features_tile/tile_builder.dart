@@ -106,7 +106,7 @@ class _FeaturesTileBuilderState extends State<FeaturesTileBuilder> {
                       setState(() => _cars.remove(state.valueObject[i].value));
                     },
                     chipColor: primaryColor,
-                    chipBrightness: Brightness.dark,
+                    chipRaised: true,
                   ),
                 ),
               );

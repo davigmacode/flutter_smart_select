@@ -147,6 +147,7 @@ class _FeaturesModalSelectorState extends State<FeaturesModalSelector> {
                 backgroundImage: NetworkImage('https://source.unsplash.com/xsGxhtAsfSA/100x100'),
               ),
               body: S2TileChips(
+                chipColor: Theme.of(context).primaryColor,
                 chipLength: state.valueObject.length,
                 chipLabelBuilder: (context, i) {
                   return Text(state.valueObject[i].title);
@@ -154,9 +155,6 @@ class _FeaturesModalSelectorState extends State<FeaturesModalSelector> {
                 chipOnDelete: (i) {
                   setState(() => _smartphone.remove(state.valueObject[i].value));
                 },
-                chipColor: Theme.of(context).primaryColor,
-                chipBrightness: Brightness.light,
-                chipBorderOpacity: .3,
                 // placeholder: Container(),
               ),
             );

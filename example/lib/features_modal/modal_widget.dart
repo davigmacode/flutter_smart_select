@@ -166,7 +166,7 @@ class _FeaturesModalWidgetState extends State<FeaturesModalWidget> {
                       return Text(state.valueObject[i].title);
                     },
                     chipColor: Theme.of(context).primaryColor,
-                    chipBrightness: Brightness.dark,
+                    chipRaised: true,
                     // placeholder: Container(),
                   ),
                 ),

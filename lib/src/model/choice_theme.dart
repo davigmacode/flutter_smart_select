@@ -129,19 +129,29 @@ class S2ChoiceStyle with Diagnosticable {
   /// Highlighted text color
   final Color highlightColor;
 
-  /// Brightness for unselected Chip
-  final Brightness brightness;
-
   /// Where to place the control in widgets that use
   /// [ListTile] to position a control next to a label.
   final S2ChoiceControl control;
 
-  /// Opacity for unselected chip border, only effect when
-  /// [brightness] is [Brightness.light]
-  final double borderOpacity;
-
   /// Shape clip behavior
   final Clip clipBehavior;
+
+  /// Whether the chip is outlined or not
+  final bool outlined;
+
+  /// Whether the chip is raised or not
+  final bool raised;
+
+  /// If [raised] is [true], define the elevation of the raised chip widget
+  final double elevation;
+
+  /// If [outlined] is [true] this value becomes the border opacity, defaults to `0.3`
+  ///
+  /// If [outlined] is [false] this value becomes the background opacity, defaults to `0.12`
+  final double opacity;
+
+  /// Shape of the chip widget
+  final ShapeBorder shape;
 
   /// Create a configuration of choices item style
   const S2ChoiceStyle({
@@ -153,17 +163,14 @@ class S2ChoiceStyle with Diagnosticable {
     this.color,
     this.accentColor,
     this.highlightColor,
-    this.brightness,
     this.control,
-    this.borderOpacity,
     this.clipBehavior,
+    this.outlined,
+    this.raised,
+    this.opacity,
+    this.elevation,
+    this.shape,
   });
-
-  /// Whether the brightness is dark or not
-  bool get isDark => brightness == Brightness.dark;
-
-  /// Whether the brightness is light or not
-  bool get isLight => brightness == Brightness.light;
 
   /// Creates a copy of this [S2ChoiceStyle] but with
   /// the given fields replaced with the new values.
@@ -175,15 +182,14 @@ class S2ChoiceStyle with Diagnosticable {
     bool showCheckmark,
     S2ChoiceControl control,
     Color highlightColor,
-    Color activeColor,
     Color color,
-    Color activeAccentColor,
     Color accentColor,
-    Brightness activeBrightness,
-    Brightness brightness,
-    double activeBorderOpacity,
-    double borderOpacity,
     Clip clipBehavior,
+    bool outlined,
+    bool raised,
+    double opacity,
+    double elevation,
+    ShapeBorder shape,
   }) {
     return S2ChoiceStyle(
       titleStyle: this.titleStyle?.merge(titleStyle) ?? titleStyle,
@@ -195,9 +201,12 @@ class S2ChoiceStyle with Diagnosticable {
       highlightColor: highlightColor ?? this.highlightColor,
       color: color ?? this.color,
       accentColor: accentColor ?? this.accentColor,
-      brightness: brightness ?? this.brightness,
-      borderOpacity: borderOpacity ?? this.borderOpacity,
       clipBehavior: clipBehavior ?? this.clipBehavior,
+      outlined: outlined ?? this.outlined,
+      raised: raised ?? this.raised,
+      opacity: opacity ?? this.opacity,
+      elevation: elevation ?? this.elevation,
+      shape: shape ?? this.shape,
     );
   }
 
@@ -217,9 +226,12 @@ class S2ChoiceStyle with Diagnosticable {
       highlightColor: other.highlightColor,
       color: other.color,
       accentColor: other.accentColor,
-      brightness: other.brightness,
-      borderOpacity: other.borderOpacity,
       clipBehavior: other.clipBehavior,
+      outlined: other.outlined,
+      raised: other.raised,
+      opacity: other.opacity,
+      elevation: other.elevation,
+      shape: other.shape,
     );
   }
 }

@@ -52,6 +52,12 @@ class _FeaturesMultiChipsState extends State<FeaturesMultiChips> {
             value: (index, item) => item['id'],
             title: (index, item) => item['name'],
           ),
+          choiceStyle: S2ChoiceStyle(
+            outlined: true
+          ),
+          choiceActiveStyle: S2ChoiceStyle(
+            outlined: true
+          ),
           modalConfig: S2ModalConfig(
             type: S2ModalType.bottomSheet,
             useFilter: true,
@@ -74,10 +80,17 @@ class _FeaturesMultiChipsState extends State<FeaturesMultiChips> {
           onChange: (state) => setState(() => _day = state.value),
           choiceItems: choices.days,
           choiceType: S2ChoiceType.chips,
+          choiceStyle: S2ChoiceStyle(
+            outlined: true,
+          ),
+          choiceActiveStyle: S2ChoiceStyle(
+            raised: true,
+          ),
           modalType: S2ModalType.popupDialog,
           tileBuilder: (context, state) {
             return S2Tile.fromState(
               state,
+              isTwoLine: true,
               leading: Container(
                 width: 40,
                 alignment: Alignment.center,

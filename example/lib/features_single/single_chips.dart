@@ -50,10 +50,7 @@ class _FeaturesSingleChipsState extends State<FeaturesSingleChips> {
           modalType: S2ModalType.bottomSheet,
           choiceType: S2ChoiceType.chips,
           choiceStyle: S2ChoiceStyle(
-            brightness: Brightness.light
-          ),
-          choiceActiveStyle: S2ChoiceStyle(
-            brightness: Brightness.dark,
+            outlined: true,
             showCheckmark: true
           ),
           onChange: (state) => setState(() => _category = state.value),
@@ -76,11 +73,12 @@ class _FeaturesSingleChipsState extends State<FeaturesSingleChips> {
           modalType: S2ModalType.popupDialog,
           choiceType: S2ChoiceType.chips,
           choiceStyle: S2ChoiceStyle(
-            color: Colors.blueGrey[400],
-            brightness: Brightness.dark,
+            color: Colors.blueGrey,
+            raised: true,
           ),
           choiceActiveStyle: S2ChoiceStyle(
-            color: Theme.of(context).primaryColor
+            color: Theme.of(context).primaryColor,
+            raised: true,
           ),
           tileBuilder: (context, state) => S2Tile.fromState(
             state,

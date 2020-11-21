@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../chip_theme.dart';
 
 /// Chips tile/trigger widget
 class S2TileChips extends StatelessWidget {
@@ -18,19 +19,20 @@ class S2TileChips extends StatelessWidget {
   /// Called when the user delete the chip item.
   final ValueChanged<int> chipOnDelete;
 
-  /// Chip color
+  /// The primary color of the chip item
   final Color chipColor;
 
-  /// Chip border opacity
-  final double chipBorderOpacity;
+  /// Whether the chip is outlined or not
+  final bool chipOutlined;
 
-  /// Chip brightness
-  final Brightness chipBrightness;
+  /// Whether the chip is raised or not
+  final bool chipRaised;
 
-  /// Chip delete button color
-  final Color chipDeleteColor;
+  /// If [chipOutlined] is [true] this value becomes the border opacity,
+  /// If [chipOutlined] is [false] this value becomes the background opacity
+  final double chipOpacity;
 
-  /// Chip delete button icon
+  /// The icon of the delete button
   final Icon chipDeleteIcon;
 
   /// Chip spacing
@@ -41,6 +43,12 @@ class S2TileChips extends StatelessWidget {
 
   /// Chip shape border
   final ShapeBorder chipShape;
+
+  /// The [TextStyle] of the chip label
+  final TextStyle chipLabelStyle;
+
+  /// The elevation of the chip widget
+  final double chipElevation;
 
   /// The [Widget] displayed when the [values] is null
   final Widget placeholder;
@@ -59,27 +67,30 @@ class S2TileChips extends StatelessWidget {
     this.chipAvatarBuilder,
     this.chipBuilder,
     this.chipOnDelete,
-    this.chipColor = Colors.black87,
-    this.chipBorderOpacity,
-    this.chipBrightness,
-    this.chipDeleteColor,
+    this.chipColor,
+    this.chipOutlined = false,
+    this.chipRaised = false,
+    this.chipOpacity,
     this.chipDeleteIcon,
     this.chipSpacing,
     this.chipRunSpacing,
     this.chipShape,
+    this.chipLabelStyle,
+    this.chipElevation = 1,
     this.placeholder,
     this.scrollable = false,
     this.padding,
-  }) : super(key: key);
+  }) :
+    assert(chipOutlined != null),
+    assert(chipRaised != null),
+    assert(scrollable != null),
+    super(key: key);
 
   /// default padding
-  static EdgeInsetsGeometry defaultPadding = const EdgeInsets.fromLTRB(15, 0, 15, 10);
+  static const EdgeInsetsGeometry defaultPadding = EdgeInsets.fromLTRB(15, 0, 15, 10);
 
   /// default placeholder
-  static Widget defaultPlaceholder = Container();
-
-  /// chip is dark brightness
-  bool get chipIsDark => chipBrightness == Brightness.dark;
+  static final Widget defaultPlaceholder = Container();
 
   @override
   Widget build(BuildContext context) {
@@ -91,15 +102,24 @@ class S2TileChips extends StatelessWidget {
   }
 
   Widget _chipWrapped(BuildContext context) {
-    return Padding(
-      padding: padding ?? defaultPadding,
-      child: Wrap(
-        runAlignment: WrapAlignment.start,
-        alignment: WrapAlignment.start,
-        spacing: chipSpacing ?? 7,
-        runSpacing: chipRunSpacing ?? -5,
-        children: _chipList(context),
-      ),
+    return S2ChipTheme(
+      color: chipColor,
+      outlined: chipOutlined,
+      raised: chipRaised,
+      elevation: chipElevation,
+      opacity: chipOpacity,
+      shape: chipShape,
+      labelStyle: chipLabelStyle,
+      child: Padding(
+        padding: padding ?? defaultPadding,
+        child: Wrap(
+          runAlignment: WrapAlignment.start,
+          alignment: WrapAlignment.start,
+          spacing: chipSpacing ?? 7,
+          runSpacing: chipRunSpacing ?? -5,
+          children: _chipList(context),
+        ),
+      )
     );
   }
 
@@ -145,20 +165,8 @@ class S2TileChips extends StatelessWidget {
   Widget _chipGenerator(BuildContext context, int i) {
     return Chip(
       label: chipLabelBuilder?.call(context, i),
-      labelStyle: TextStyle(
-        color: chipIsDark ? Colors.white : chipColor
-      ),
       avatar: chipAvatarBuilder?.call(context, i),
-      backgroundColor: chipIsDark ? chipColor : Colors.white,
-      deleteIconColor: chipDeleteColor ?? chipIsDark ? Colors.white : chipColor,
       deleteIcon: chipDeleteIcon,
-      shape: chipShape ?? StadiumBorder(
-        side: BorderSide(
-          color: chipIsDark
-            ? chipColor
-            : chipColor.withOpacity(chipBorderOpacity ?? .1),
-        ),
-      ),
       onDeleted: chipOnDelete != null
         ? () => chipOnDelete(i)
         : null,
