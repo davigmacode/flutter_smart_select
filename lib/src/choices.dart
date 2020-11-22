@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import './model/builder.dart';
 import './model/choice_item.dart';
+import './model/choice_group.dart';
 import './model/choice_config.dart';
 import './choices_grouped.dart';
 import './choices_list.dart';
@@ -42,14 +43,14 @@ class S2Choices<T> extends StatelessWidget {
         ?? const S2ChoicesEmpty();
   }
 
+  /// Determine the choices widget is grouped or not
   Widget get choices {
     return ListTileTheme(
       contentPadding: config.style?.padding,
       child: _isGrouped == true
         ? S2ChoicesGrouped<T>(
-            items: _filteredItems,
             itemBuilder: itemBuilder,
-            groupKeys: _groupKeys,
+            groups: _groups,
             config: config,
             builder: builder,
             query: query,
@@ -79,20 +80,40 @@ class S2Choices<T> extends StatelessWidget {
       .toList().cast<S2Choice<T>>();
   }
 
-  /// return a list of group keys
+  /// return a list of group
+  List<S2ChoiceGroup> get _groups {
+    final List<S2ChoiceGroup> groups = _groupKeys
+      .map((String groupKey) {
+        final List<S2Choice<T>> groupItems = _groupItems(groupKey);
+        return S2ChoiceGroup(
+          name: groupKey,
+          items: groupItems,
+          count: groupItems?.length ?? 0,
+          style: config.headerStyle,
+        );
+      })
+      .toList()
+      .cast<S2ChoiceGroup>();
+
+    // sort the list when the comparator is provided
+    if (config.groupSort != null)
+      return groups..sort(config.groupSort.compare);
+
+    return groups;
+  }
+
+  /// return a unique list of group keys
   List<String> get _groupKeys {
-    // return unique list
-    final List<String> groups = _filteredItems
+    return _filteredItems
       .map((S2Choice<T> item) => item.group)
       .toSet()
       .toList()
       .cast<String>();
+  }
 
-    // sort the list when the comparator is provided
-    if (config.groupSortFn != null)
-      return groups..sort(config.groupSortFn);
-
-    return groups;
+  /// return a list of group items
+  List<S2Choice<T>> _groupItems(String key) {
+    return _filteredItems.where((S2Choice<T> item) => item.group == key).toList();
   }
 
   /// whether the list need to be grouped or not

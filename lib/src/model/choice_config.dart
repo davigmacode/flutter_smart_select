@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import './choice_theme.dart';
+import './choice_group.dart';
 
 /// Type of choice input
 enum S2ChoiceType {
@@ -28,8 +29,39 @@ enum S2ChoiceLayout {
   grid
 }
 
-/// Comparator function to sort the group keys
-typedef int SortFn<E>(E a, E b);
+/// Comparator function to use in [List.sort]
+typedef int S2SortComparator<E>(E a, E b);
+
+/// Comparator function to sort the choice group enhanced with predefined function
+@immutable
+class S2GroupSort with Diagnosticable {
+
+  /// Comparator function to sort the group
+  final S2SortComparator<S2ChoiceGroup> compare;
+
+  /// Default constructor
+  S2GroupSort(this.compare) : assert(compare != null);
+
+  /// Function to sort the group keys alphabetically by name in ascending order
+  factory S2GroupSort.byNameInAsc() => S2GroupSort((S2ChoiceGroup a, S2ChoiceGroup b) {
+    return a.name.toLowerCase().compareTo(b.name.toLowerCase());
+  });
+
+  /// Function to sort the group keys alphabetically by name in descending order
+  factory S2GroupSort.byNameInDesc() => S2GroupSort((S2ChoiceGroup a, S2ChoiceGroup b) {
+    return b.name.toLowerCase().compareTo(a.name.toLowerCase());
+  });
+
+  /// Function to sort the group keys by items count in ascending order
+  factory S2GroupSort.byCountInAsc() => S2GroupSort((S2ChoiceGroup a, S2ChoiceGroup b) {
+    return a.count.compareTo(b.count);
+  });
+
+  /// Function to sort the group keys by items count in descending order
+  factory S2GroupSort.byCountInDesc() => S2GroupSort((S2ChoiceGroup a, S2ChoiceGroup b) {
+    return b.count.compareTo(a.count);
+  });
+}
 
 /// Choices configuration
 @immutable
@@ -84,7 +116,7 @@ class S2ChoiceConfig with Diagnosticable {
   /// Comparator function to sort the group keys, if [isGrouped] is `true`
   ///
   /// Defaults to `null`, and it means disabled the sorting
-  final SortFn<String> groupSortFn;
+  final S2GroupSort groupSort;
 
   /// Whether the choices item use divider or not
   final bool useDivider;
@@ -125,7 +157,7 @@ class S2ChoiceConfig with Diagnosticable {
     this.gridCount = 2,
     this.gridSpacing = 0,
     this.isGrouped = false,
-    this.groupSortFn,
+    this.groupSort,
     this.useDivider = false,
     this.dividerColor,
     this.dividerSpacing,
@@ -139,16 +171,6 @@ class S2ChoiceConfig with Diagnosticable {
     assert(isGrouped != null),
     assert(physics != null),
     assert(useDivider != null);
-
-  /// Function to sort the group keys alphabetically in ascending order
-  static final SortFn<String> groupSortAsc = (String a, String b) {
-    return a.toLowerCase().compareTo(b.toLowerCase());
-  };
-
-  /// Function to sort the group keys alphabetically in descending order
-  static final SortFn<String> groupSortDesc = (String a, String b) {
-    return b.toLowerCase().compareTo(a.toLowerCase());
-  };
 
   /// Whether the [layout] is [S2ChoiceLayout.wrap] or [type] is [S2ChoiceType.chips]
   bool get isWrapLayout => layout == S2ChoiceLayout.wrap || type == S2ChoiceType.chips;
@@ -172,7 +194,7 @@ class S2ChoiceConfig with Diagnosticable {
     int gridCount,
     double gridSpacing,
     bool isGrouped,
-    SortFn<String> groupSortFn,
+    S2GroupSort groupSort,
     bool useDivider,
     Color dividerColor,
     double dividerSpacing,
@@ -194,7 +216,7 @@ class S2ChoiceConfig with Diagnosticable {
       gridCount: gridCount ?? this.gridCount,
       gridSpacing: gridSpacing ?? this.gridSpacing,
       isGrouped: isGrouped ?? this.isGrouped,
-      groupSortFn: groupSortFn ?? this.groupSortFn,
+      groupSort: groupSort ?? this.groupSort,
       useDivider: useDivider ?? this.useDivider,
       dividerColor: dividerColor ?? this.dividerColor,
       dividerSpacing: dividerSpacing ?? this.dividerSpacing,
@@ -224,7 +246,7 @@ class S2ChoiceConfig with Diagnosticable {
       gridCount: other.gridCount,
       gridSpacing: other.gridSpacing,
       isGrouped: other.isGrouped,
-      groupSortFn: other.groupSortFn,
+      groupSort: other.groupSort,
       useDivider: other.useDivider,
       dividerColor: other.dividerColor,
       dividerSpacing: other.dividerSpacing,

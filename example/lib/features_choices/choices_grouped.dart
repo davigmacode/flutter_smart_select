@@ -33,7 +33,7 @@ class _FeaturesChoicesGroupedState extends State<FeaturesChoicesGrouped> {
           ),
           choiceConfig: S2ChoiceConfig(
             isGrouped: true,
-            groupSortFn: S2ChoiceConfig.groupSortAsc
+            groupSort: S2GroupSort.byCountInDesc(),
           ),
           modalType: S2ModalType.bottomSheet,
           tileBuilder: (context, state) {
@@ -62,7 +62,7 @@ class _FeaturesChoicesGroupedState extends State<FeaturesChoicesGrouped> {
           ),
           choiceConfig: S2ChoiceConfig(
             isGrouped: true,
-            groupSortFn: S2ChoiceConfig.groupSortDesc,
+            groupSort: S2GroupSort.byNameInAsc(),
             activeStyle: const S2ChoiceStyle(
               color: Colors.redAccent
             ),
