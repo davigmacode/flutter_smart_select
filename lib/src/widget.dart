@@ -13,6 +13,7 @@ import './choices_resolver.dart';
 import './tile/tile.dart';
 import './utils/debouncer.dart';
 import './choices_empty.dart';
+import './stateful_builder.dart';
 
 /// SmartSelect allows you to easily convert your usual form select or dropdown
 /// into dynamic page, popup dialog, or sliding bottom sheet with various choices input
@@ -573,6 +574,9 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
   /// modal build context
   BuildContext modalContext;
 
+  /// modal state setter
+  StateSetter modalSetState;
+
   /// get final modal validation
   get modalValidation;
 
@@ -604,10 +608,10 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
   get builder;
 
   // filter listener handler
-  void _filterHandler() => setState(() {});
+  void _filterHandler() => modalSetState?.call(() {});
 
   // changes listener handler
-  void _changesHandler() => setState(() {});
+  void _changesHandler() => modalSetState?.call(() {});
 
   /// get theme data
   ThemeData get theme => Theme.of(context);
@@ -665,14 +669,11 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
 
   /// get modal widget
   Widget get modal {
-    return AnimatedBuilder(
-      animation: filter,
-      builder: (context, _) {
+    return S2StatefulBuilder(
+      builder: (BuildContext context, StateSetter setState) {
         modalContext = context;
-        return AnimatedBuilder(
-          animation: changes,
-          builder: (context, _) => _customModal ?? defaultModal,
-        );
+        modalSetState = setState;
+        return _customModal ?? defaultModal;
       }
     );
   }
@@ -930,38 +931,33 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
   /// by it's current state
   S2ChoiceItemBuilder<T> get choiceItemBuilder {
     return (S2Choice<T> choice) {
-      return AnimatedBuilder(
-        animation: changes,
-        builder: (_, __) {
-          return choiceBuilder(
-            context,
-            choice.copyWith(
-              selected: changes.contains(choice.value),
-              select: ([bool selected = true]) {
-                // set temporary value
-                changes.commit(choice.value, selected: selected);
-                // for single choice check if is filtering and use confirmation
-                if (widget.isMultiChoice != true) {
-                  // Pop filtering status
-                  if (filter.activated)
-                    Navigator.pop(context);
-                  // Pop navigator with confirmed return value
-                  if (!modalConfig.useConfirm)
-                    Navigator.pop(context, true);
-                }
-              },
-              style: defaultChoiceStyle
-                .merge(choiceStyle)
-                .merge(choice.style),
-              activeStyle: defaultActiveChoiceStyle
-                .merge(choiceStyle)
-                .merge(choice.style)
-                .merge(choiceActiveStyle)
-                .merge(choice.activeStyle)
-            ),
-            filter.query
-          );
-        },
+      return choiceBuilder(
+        context,
+        choice.copyWith(
+          selected: changes.contains(choice.value),
+          select: ([bool selected = true]) {
+            // set temporary value
+            changes.commit(choice.value, selected: selected);
+            // for single choice check if is filtering and use confirmation
+            if (widget.isMultiChoice != true) {
+              // Pop filtering status
+              if (filter.activated)
+                Navigator.pop(context);
+              // Pop navigator with confirmed return value
+              if (!modalConfig.useConfirm)
+                Navigator.pop(context, true);
+            }
+          },
+          style: defaultChoiceStyle
+            .merge(choiceStyle)
+            .merge(choice.style),
+          activeStyle: defaultActiveChoiceStyle
+            .merge(choiceStyle)
+            .merge(choice.style)
+            .merge(choiceActiveStyle)
+            .merge(choice.activeStyle)
+        ),
+        filter.query
       );
     };
   }
@@ -1091,22 +1087,19 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
   void didUpdateWidget(SmartSelect<T> oldWidget) {
     super.didUpdateWidget(oldWidget);
 
+    // reset the initial value
     if (widget.isMultiChoice) {
-      if (oldWidget.multiValue != widget.multiValue) {
-        // reset the initial value
-        initValue();
-      }
+      if (oldWidget.multiValue != widget.multiValue) initValue();
     } else {
-      if (oldWidget.singleValue != widget.singleValue) {
-        // reset the initial value
-        initValue();
-      }
+      if (oldWidget.singleValue != widget.singleValue) initValue();
     }
   }
 
   @override
   void dispose() {
     // dispose everything
+    filter?.removeListener(_filterHandler);
+    changes?.removeListener(_changesHandler);
     filter?.dispose();
     changes?.dispose();
     super.dispose();

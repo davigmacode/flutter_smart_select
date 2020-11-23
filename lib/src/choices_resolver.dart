@@ -48,7 +48,8 @@ class S2ChoiceResolver<T> {
     BuildContext context,
     S2Choice<T> choice,
     String searchText,
-  ) => RadioListTile(
+  ) => RadioListTile<T>(
+        key: ValueKey(choice.value),
         title: getTitle(context, choice, searchText),
         subtitle: getSubtitle(context, choice, searchText),
         secondary: getSecondary(context, choice, searchText),
@@ -65,6 +66,7 @@ class S2ChoiceResolver<T> {
     S2Choice<T> choice,
     String searchText,
   ) => SwitchListTile(
+        key: ValueKey(choice.value),
         title: getTitle(context, choice, searchText),
         subtitle: getSubtitle(context, choice, searchText),
         secondary: getSecondary(context, choice, searchText),
@@ -86,6 +88,7 @@ class S2ChoiceResolver<T> {
     S2Choice<T> choice,
     String searchText,
   ) => CheckboxListTile(
+        key: ValueKey(choice.value),
         title: getTitle(context, choice, searchText),
         subtitle: getSubtitle(context, choice, searchText),
         secondary: getSecondary(context, choice, searchText),
@@ -118,6 +121,7 @@ class S2ChoiceResolver<T> {
       child: Padding(
         padding: effectiveStyle?.margin ?? const EdgeInsets.all(0),
         child: RawChip(
+          key: ValueKey(choice.value),
           padding: effectiveStyle?.padding ?? const EdgeInsets.all(4),
           label: getTitle(context, choice, searchText),
           avatar: getSecondary(context, choice, searchText),
