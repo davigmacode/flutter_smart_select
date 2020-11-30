@@ -50,11 +50,10 @@ class S2ChipTheme extends StatelessWidget {
   Widget build(BuildContext context) {
     // These are Material Design defaults, and are used to derive
     // component Colors (with opacity) from base colors.
-    const double backgroundAlpha = .12; // 12%
-    const double borderAlpha = .3;
+    const double backgroundAlpha = .12; // 10%
+    const double borderAlpha = .21; // 20%
     const int foregroundAlpha = 0xde; // 87%
     const int disabledAlpha = 0x0c; // 38% * 12% = 5%
-    const int selectAlpha = 0x3d; // 12% + 12% = 24%
     const EdgeInsetsGeometry padding = EdgeInsets.all(4.0);
 
     final Brightness brightness = Theme.of(context).brightness;
@@ -73,7 +72,7 @@ class S2ChipTheme extends StatelessWidget {
       ? secondaryColor
       : outlined == true
         ? Colors.transparent
-        : secondaryColor.withAlpha(selectAlpha);
+        : secondaryColor.withOpacity(opacity ?? backgroundAlpha);
 
     final Color foregroundColor = raised == true
       ? Colors.white

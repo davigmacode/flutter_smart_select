@@ -38,7 +38,7 @@ class _FeaturesOptionAsyncState extends State<FeaturesOptionAsync> {
             raised: true,
             highlightColor: Theme.of(context).accentColor.withOpacity(.4)
           ),
-          choiceSecondaryBuilder: (context, choice, filterText) => CircleAvatar(
+          choiceSecondaryBuilder: (context, state, choice) => CircleAvatar(
             backgroundImage: NetworkImage(choice.meta['picture']['thumbnail']),
           ),
           tileBuilder: (context, state) {

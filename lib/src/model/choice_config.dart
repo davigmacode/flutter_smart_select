@@ -1,22 +1,19 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import './choice_theme.dart';
-import './choice_group.dart';
 
 /// Type of choice input
 enum S2ChoiceType {
-  /// use radio widget
-  /// for single choice
+  /// use radio as choice widget for single choice
   radios,
-  /// use checkbox widget
-  /// for multiple choice
+  /// use checkbox as choice widget for multiple choice
   checkboxes,
-  /// use switch widget
-  /// for multiple choice
+  /// use switch as choice widget  for single and multiple choice
   switches,
-  /// use chip widget
-  /// for single and multiple choice
-  chips
+  /// use chip as choice widget for single and multiple choice
+  chips,
+  /// use card as choice widget for single and multiple choice
+  cards,
 }
 
 /// Layout of choice item
@@ -27,40 +24,6 @@ enum S2ChoiceLayout {
   wrap,
   /// use grid view widget
   grid
-}
-
-/// Comparator function to use in [List.sort]
-typedef int S2SortComparator<E>(E a, E b);
-
-/// Comparator function to sort the choice group enhanced with predefined function
-@immutable
-class S2GroupSort with Diagnosticable {
-
-  /// Comparator function to sort the group
-  final S2SortComparator<S2ChoiceGroup> compare;
-
-  /// Default constructor
-  S2GroupSort(this.compare) : assert(compare != null);
-
-  /// Function to sort the group keys alphabetically by name in ascending order
-  factory S2GroupSort.byNameInAsc() => S2GroupSort((S2ChoiceGroup a, S2ChoiceGroup b) {
-    return a.name.toLowerCase().compareTo(b.name.toLowerCase());
-  });
-
-  /// Function to sort the group keys alphabetically by name in descending order
-  factory S2GroupSort.byNameInDesc() => S2GroupSort((S2ChoiceGroup a, S2ChoiceGroup b) {
-    return b.name.toLowerCase().compareTo(a.name.toLowerCase());
-  });
-
-  /// Function to sort the group keys by items count in ascending order
-  factory S2GroupSort.byCountInAsc() => S2GroupSort((S2ChoiceGroup a, S2ChoiceGroup b) {
-    return a.count.compareTo(b.count);
-  });
-
-  /// Function to sort the group keys by items count in descending order
-  factory S2GroupSort.byCountInDesc() => S2GroupSort((S2ChoiceGroup a, S2ChoiceGroup b) {
-    return b.count.compareTo(a.count);
-  });
 }
 
 /// Choices configuration
@@ -110,14 +73,6 @@ class S2ChoiceConfig with Diagnosticable {
   /// Ignored if [gridDelegate] is defined
   final double gridSpacing;
 
-  /// Whether the choices list is grouped or not, based on [S2Choice.group]
-  final bool isGrouped;
-
-  /// Comparator function to sort the group keys, if [isGrouped] is `true`
-  ///
-  /// Defaults to `null`, and it means disabled the sorting
-  final S2GroupSort groupSort;
-
   /// Whether the choices item use divider or not
   final bool useDivider;
 
@@ -139,9 +94,6 @@ class S2ChoiceConfig with Diagnosticable {
   /// Configure selected choices item style
   final S2ChoiceStyle activeStyle;
 
-  /// Configure choices group header theme
-  final S2ChoiceHeaderStyle headerStyle;
-
   /// Determines the physics of choices list widget
   final ScrollPhysics physics;
 
@@ -156,8 +108,6 @@ class S2ChoiceConfig with Diagnosticable {
     this.gridDelegate,
     this.gridCount = 2,
     this.gridSpacing = 0,
-    this.isGrouped = false,
-    this.groupSort,
     this.useDivider = false,
     this.dividerColor,
     this.dividerSpacing,
@@ -165,18 +115,16 @@ class S2ChoiceConfig with Diagnosticable {
     this.overscrollColor,
     this.style,
     this.activeStyle,
-    this.headerStyle = const S2ChoiceHeaderStyle(),
     this.physics = const ScrollPhysics(),
   }) :
-    assert(isGrouped != null),
     assert(physics != null),
     assert(useDivider != null);
 
   /// Whether the [layout] is [S2ChoiceLayout.wrap] or [type] is [S2ChoiceType.chips]
   bool get isWrapLayout => layout == S2ChoiceLayout.wrap || type == S2ChoiceType.chips;
 
-  /// Whether the [layout] is [S2ChoiceLayout.grid]
-  bool get isGridLayout => layout == S2ChoiceLayout.grid;
+  /// Whether the [layout] is [S2ChoiceLayout.grid] or [type] is [S2ChoiceType.cards]
+  bool get isGridLayout => layout == S2ChoiceLayout.grid || type == S2ChoiceType.cards;
 
   /// Whether the [layout] is [S2ChoiceLayout.list]
   bool get isListLayout => layout == S2ChoiceLayout.list;
@@ -193,8 +141,6 @@ class S2ChoiceConfig with Diagnosticable {
     SliverGridDelegate gridDelegate,
     int gridCount,
     double gridSpacing,
-    bool isGrouped,
-    S2GroupSort groupSort,
     bool useDivider,
     Color dividerColor,
     double dividerSpacing,
@@ -202,7 +148,6 @@ class S2ChoiceConfig with Diagnosticable {
     Color overscrollColor,
     S2ChoiceStyle style,
     S2ChoiceStyle activeStyle,
-    S2ChoiceHeaderStyle headerStyle,
     ScrollPhysics physics,
   }) {
     return S2ChoiceConfig(
@@ -215,8 +160,6 @@ class S2ChoiceConfig with Diagnosticable {
       gridDelegate: gridDelegate ?? this.gridDelegate,
       gridCount: gridCount ?? this.gridCount,
       gridSpacing: gridSpacing ?? this.gridSpacing,
-      isGrouped: isGrouped ?? this.isGrouped,
-      groupSort: groupSort ?? this.groupSort,
       useDivider: useDivider ?? this.useDivider,
       dividerColor: dividerColor ?? this.dividerColor,
       dividerSpacing: dividerSpacing ?? this.dividerSpacing,
@@ -224,7 +167,6 @@ class S2ChoiceConfig with Diagnosticable {
       overscrollColor: overscrollColor ?? this.overscrollColor,
       style: this.style?.merge(style) ?? style,
       activeStyle: this.activeStyle?.merge(activeStyle) ?? activeStyle,
-      headerStyle: this.headerStyle?.merge(headerStyle) ?? headerStyle,
       physics: physics ?? this.physics,
     );
   }
@@ -245,8 +187,6 @@ class S2ChoiceConfig with Diagnosticable {
       gridDelegate: other.gridDelegate,
       gridCount: other.gridCount,
       gridSpacing: other.gridSpacing,
-      isGrouped: other.isGrouped,
-      groupSort: other.groupSort,
       useDivider: other.useDivider,
       dividerColor: other.dividerColor,
       dividerSpacing: other.dividerSpacing,
@@ -254,7 +194,6 @@ class S2ChoiceConfig with Diagnosticable {
       overscrollColor: other.overscrollColor,
       style: other.style,
       activeStyle: other.activeStyle,
-      headerStyle: other.headerStyle,
       physics: other.physics,
     );
   }

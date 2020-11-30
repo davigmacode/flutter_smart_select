@@ -31,10 +31,8 @@ class _FeaturesChoicesGroupedState extends State<FeaturesChoicesGrouped> {
             title: (index, item) => item['name'],
             group: (index, item) => item['brand'],
           ),
-          choiceConfig: S2ChoiceConfig(
-            isGrouped: true,
-            groupSort: S2GroupSort.byCountInDesc(),
-          ),
+          groupEnabled: true,
+          groupSortBy: S2GroupSort.byCountInDesc(),
           modalType: S2ModalType.bottomSheet,
           tileBuilder: (context, state) {
             return S2Tile(
@@ -60,30 +58,28 @@ class _FeaturesChoicesGroupedState extends State<FeaturesChoicesGrouped> {
             title: (index, item) => item['title'],
             group: (index, item) => item['body'],
           ),
-          choiceConfig: S2ChoiceConfig(
-            isGrouped: true,
-            groupSort: S2GroupSort.byNameInAsc(),
-            activeStyle: const S2ChoiceStyle(
-              color: Colors.redAccent
-            ),
+          choiceActiveStyle: const S2ChoiceStyle(
+            color: Colors.redAccent
           ),
           modalType: S2ModalType.bottomSheet,
           modalConfirm: true,
           modalFilter: true,
-          choiceGroupBuilder: (context, header, choices) {
+          groupEnabled: true,
+          groupSortBy: S2GroupSort.byNameInAsc(),
+          groupBuilder: (context, state, group) {
             return StickyHeader(
-              header: header,
-              content: choices,
+              header: state.groupHeader(group),
+              content: state.groupChoices(group),
             );
           },
-          choiceHeaderBuilder: (context, group, searchText) {
+          groupHeaderBuilder: (context, state, group) {
             return Container(
               color: primaryColor,
               padding: const EdgeInsets.all(15),
               alignment: Alignment.centerLeft,
               child: S2Text(
                 text: group.name,
-                highlight: searchText,
+                highlight: state.filter.query,
                 highlightColor: Colors.teal,
                 style: const TextStyle(
                   color: Colors.white

@@ -1,22 +1,25 @@
 // import 'dart:async';
 // import 'package:flutter/foundation.dart';
 // import '../model/choice_item.dart';
+// import '../model/choice_loader.dart';
+// import '../model/group_data.dart';
+// import '../model/group_config.dart';
 
 // class S2Choices<T> extends ChangeNotifier {
 
-//   final List<S2Choice<T>> predefined;
-
 //   final S2ChoiceLoader<T> loader;
 
-//   final Duration delay;
+//   final List<S2Choice<T>> predefined;
 
-//   final bool grouped;
+//   final Duration delay;
 
 //   final int limit;
 
 //   int page = 1;
 
 //   List<S2Choice<T>> items;
+
+//   List<S2Group<T>> groups;
 
 //   String query;
 
@@ -25,12 +28,11 @@
 //   bool appending = false;
 
 //   S2Choices({
-//     this.predefined,
+//     List<S2Choice<T>> items,
 //     this.loader,
-//     this.grouped = false,
 //     this.delay = const Duration(milliseconds: 200),
 //     this.limit,
-//   });
+//   }) : predefined = items;
 
 //   bool get initializing => refreshing && items == null;
 
@@ -74,37 +76,68 @@
 //     }
 //   }
 
-//   // return a list of options
+//   /// return a list of options
 //   Future<List<S2Choice<T>>> find(S2ChoiceLoaderInfo<T> info) async {
 //     return loader != null
-//       ? _hide(await loader(info))
-//       : _filter(_hide(predefined), info.query);
+//       ? hide(await loader(info))
+//       : filter(hide(predefined), info.query);
 //   }
 
-//   // return a sorted list of group keys
-//   List<String> get groups {
-//     if (!grouped) return <String>[];
-
-//     Set groups = Set();
-//     items.forEach((S2Choice<T> item) => groups.add(item.group));
-
-//     return groups
-//       .toList()
-//       .cast<String>()
-//       ..sort((a, b) => a.toLowerCase().compareTo(b.toLowerCase()));
-//   }
-
-//   // filter option items
-//   List<S2Choice<T>> _filter(List<S2Choice<T>> items, String query) {
+//   /// filter choice items by search text
+//   List<S2Choice<T>> filter(List<S2Choice<T>> choices, String query) {
 //     return query != null
-//       ? items
-//           .where((S2Choice<T> item) => item.contains(query))
-//           .toList().cast<S2Choice<T>>()
-//       : items;
+//       ? choices
+//         .where((S2Choice<T> choice) => choice.contains(query))
+//         .toList().cast<S2Choice<T>>()
+//       : choices;
 //   }
 
-//   // remove hidden choice items
-//   List<S2Choice<T>> _hide(List<S2Choice<T>> items) {
-//     return items..removeWhere((S2Choice<T> item) => item.hidden == true);
+//   /// remove hidden choice items
+//   List<S2Choice<T>> hide(List<S2Choice<T>> choices) {
+//     return choices..removeWhere((S2Choice<T> choice) => choice.hidden == true);
+//   }
+
+//   /// whether the list need to be grouped or not
+//   bool isGrouped({
+//     List<String> keys,
+//     S2GroupConfig config,
+//   }) {
+//     return config.enabled && keys != null && keys.isNotEmpty;
+//   }
+
+//   /// return a list of group
+//   List<S2Group<T>> groupItems({
+//     List<String> keys,
+//     List<S2Choice<T>> choices,
+//     S2GroupConfig config,
+//   }) {
+//     final List<S2Group<T>> groups = keys
+//       .map((String groupKey) => S2Group<T>(
+//         name: groupKey,
+//         choices: groupChoices(groupKey, choices),
+//         headerStyle: config.headerStyle,
+//       ))
+//       .toList()
+//       .cast<S2Group<T>>();
+
+//     // sort the list when the comparator is provided
+//     if (config.sort != null)
+//       return groups..sort(config.sort.compare);
+
+//     return groups;
+//   }
+
+//   /// return a unique list of group keys
+//   List<String> groupKeys(List<S2Choice<T>> choices) {
+//     return choices
+//       .map((S2Choice<T> choice) => choice.group)
+//       .toSet()
+//       .toList()
+//       .cast<String>();
+//   }
+
+//   /// return a list of group choice items
+//   List<S2Choice<T>> groupChoices(String key, List<S2Choice<T>> choices) {
+//     return choices.where((S2Choice<T> choice) => choice.group == key).toList();
 //   }
 // }

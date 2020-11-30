@@ -32,34 +32,22 @@ class _FeaturesBrightnessState extends State<FeaturesBrightness> {
         meta: (i, v) => v[1],
       ),
       choiceConfig: const S2ChoiceConfig(
+        type: S2ChoiceType.cards,
         layout: S2ChoiceLayout.grid,
         gridCount: 3,
         gridSpacing: 5,
       ),
-      choiceBuilder: (context, choice, _) {
-        return Card(
-          elevation: 3,
-          color: choice.selected
-            ? theme.primaryColor
-            : theme.cardColor,
-          child: InkWell(
-            onTap: () => choice.select(true),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  choice.meta,
-                  size: 48,
-                  color: choice.selected ? Colors.white : null
-                ),
-                const SizedBox(height: 5),
-                Text(
-                  choice.title,
-                  style: TextStyle(color: choice.selected ? Colors.white : null)
-                ),
-              ],
-            ),
-          ),
+      choiceStyle: S2ChoiceStyle(
+        spacing: 7
+      ),
+      choiceActiveStyle: S2ChoiceStyle(
+        titleStyle: TextStyle(color: Colors.white)
+      ),
+      choiceSecondaryBuilder: (context, state, choice) {
+        return Icon(
+          choice.meta,
+          size: 48,
+          color: choice.selected ? Colors.white : null
         );
       },
       tileBuilder: (context, state) {

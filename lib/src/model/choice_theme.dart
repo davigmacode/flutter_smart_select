@@ -25,82 +25,6 @@ enum S2ChoiceControl {
   platform,
 }
 
-/// Configure choices group header style
-@immutable
-class S2ChoiceHeaderStyle with Diagnosticable {
-
-  /// Group header background color
-  final Color backgroundColor;
-
-  /// Highlight color
-  final Color highlightColor;
-
-  /// Group header text style
-  final TextStyle textStyle;
-
-  /// Group header padding
-  final EdgeInsetsGeometry padding;
-
-  /// Group header height
-  final double height;
-
-  /// Group header cross axis alignment
-  final CrossAxisAlignment crossAxisAlignment;
-
-  /// Group header main axis alignment
-  final MainAxisAlignment mainAxisAlignment;
-
-  /// Create a configuration of choices group header style
-  const S2ChoiceHeaderStyle({
-    this.highlightColor,
-    this.backgroundColor,
-    this.textStyle,
-    this.padding = const EdgeInsets.symmetric(horizontal: 16.0),
-    this.height = 45.0,
-    this.crossAxisAlignment,
-    this.mainAxisAlignment,
-  });
-
-  /// Creates a copy of this [S2ChoiceHeaderStyle] but with
-  /// the given fields replaced with the new values.
-  S2ChoiceHeaderStyle copyWith({
-    Color backgroundColor,
-    Color highlightColor,
-    TextStyle textStyle,
-    EdgeInsetsGeometry padding,
-    double height,
-    CrossAxisAlignment crossAxisAlignment,
-    MainAxisAlignment mainAxisAlignment,
-  }) {
-    return S2ChoiceHeaderStyle(
-      backgroundColor: backgroundColor ?? this.backgroundColor,
-      highlightColor: highlightColor ?? this.highlightColor,
-      textStyle: this.textStyle?.merge(textStyle) ?? textStyle,
-      padding: padding ?? this.padding,
-      height: height ?? this.height,
-      crossAxisAlignment: crossAxisAlignment ?? this.crossAxisAlignment,
-      mainAxisAlignment: mainAxisAlignment ?? this.mainAxisAlignment,
-    );
-  }
-
-  /// Returns a new [S2ChoiceHeaderStyle] that is
-  /// a combination of this object and the given [other] style.
-  S2ChoiceHeaderStyle merge(S2ChoiceHeaderStyle other) {
-    // if null return current object
-    if (other == null) return this;
-
-    return copyWith(
-      backgroundColor: other.backgroundColor,
-      highlightColor: other.highlightColor,
-      textStyle: other.textStyle,
-      padding: other.padding,
-      height: other.height,
-      crossAxisAlignment: other.crossAxisAlignment,
-      mainAxisAlignment: other.mainAxisAlignment,
-    );
-  }
-}
-
 /// Configure choices item style
 @immutable
 class S2ChoiceStyle with Diagnosticable {
@@ -110,6 +34,9 @@ class S2ChoiceStyle with Diagnosticable {
 
   /// Choices item padding
   final EdgeInsetsGeometry padding;
+
+  /// Spacing between the avatar/secondary widget and the text widget when [S2ChoiceConfig.type] is [S2ChoiceType.cards]
+  final double spacing;
 
   /// choices item title style
   final TextStyle titleStyle;
@@ -159,6 +86,7 @@ class S2ChoiceStyle with Diagnosticable {
     this.subtitleStyle,
     this.margin,
     this.padding,
+    this.spacing,
     this.showCheckmark,
     this.color,
     this.accentColor,
@@ -179,6 +107,7 @@ class S2ChoiceStyle with Diagnosticable {
     TextStyle subtitleStyle,
     EdgeInsetsGeometry margin,
     EdgeInsetsGeometry padding,
+    double spacing,
     bool showCheckmark,
     S2ChoiceControl control,
     Color highlightColor,
@@ -196,6 +125,7 @@ class S2ChoiceStyle with Diagnosticable {
       subtitleStyle: this.subtitleStyle?.merge(subtitleStyle) ?? subtitleStyle,
       margin: margin ?? this.margin,
       padding: padding ?? this.padding,
+      spacing: spacing ?? this.spacing,
       showCheckmark: showCheckmark ?? this.showCheckmark,
       control: control ?? this.control,
       highlightColor: highlightColor ?? this.highlightColor,
@@ -221,6 +151,7 @@ class S2ChoiceStyle with Diagnosticable {
       subtitleStyle: other.subtitleStyle,
       margin: other.margin,
       padding: other.padding,
+      spacing: other.spacing,
       showCheckmark: other.showCheckmark,
       control: other.control,
       highlightColor: other.highlightColor,

@@ -3,35 +3,34 @@ import 'model/builder.dart';
 import 'model/choice_config.dart';
 import 'model/choice_theme.dart';
 import 'model/choice_item.dart';
+// import 'utils/color.dart';
 import 'chip_theme.dart';
-import 'text.dart';
+import 'widget.dart';
 
 /// resolve the choice builder based on choice type
-class S2ChoiceResolver<T> {
+abstract class S2ChoiceResolver<T> {
 
-  /// whether single or multiple choice
-  final bool isMultiChoice;
+  // /// whether single or multiple choice
+  // final bool isMultiChoice;
 
-  /// the choice type
-  final S2ChoiceType type;
+  // /// the choice type
+  // final S2ChoiceType type;
 
-  /// the collection of available builder widget
-  final S2Builder<T> builder;
+  // final S2ChoiceBuilder<T> titleBuilder;
+  // final S2ChoiceBuilder<T> subtitleBuilder;
+  // final S2ChoiceBuilder<T> secondaryBuilder;
 
-  /// default constructor
-  S2ChoiceResolver({
-    @required this.isMultiChoice,
-    @required this.type,
-    @required this.builder,
-  });
-
-  /// get the choice builder
-  S2ChoiceBuilder<T> get choiceBuilder {
-    return builder.choice ?? defaultChoiceBuilder;
-  }
+  // /// default constructor
+  // S2ChoiceResolver({
+  //   @required this.isMultiChoice,
+  //   @required this.type,
+  //   @required this.titleBuilder,
+  //   @required this.secondaryBuilder,
+  //   @required this.subtitleBuilder,
+  // });
 
   /// get correct builder based on choice type
-  S2ChoiceBuilder<T> get defaultChoiceBuilder {
+  static S2ComplexWidgetBuilder<A, S2Choice<T>> choiceBuilder<A extends S2State, T>(S2ChoiceType type) {
     return type == S2ChoiceType.checkboxes
       ? checkboxBuilder
       : type == S2ChoiceType.switches
@@ -40,19 +39,21 @@ class S2ChoiceResolver<T> {
           ? chipBuilder
           : type == S2ChoiceType.radios
             ? radioBuilder
-            : null;
+            : type == S2ChoiceType.cards
+              ? cardBuilder
+              : null;
   }
 
   /// get radio builder
-  S2ChoiceBuilder<T> get radioBuilder => (
+  static Widget radioBuilder<A extends S2State, T>(
     BuildContext context,
+    A state,
     S2Choice<T> choice,
-    String searchText,
   ) => RadioListTile<T>(
         key: ValueKey(choice.value),
-        title: getTitle(context, choice, searchText),
-        subtitle: getSubtitle(context, choice, searchText),
-        secondary: getSecondary(context, choice, searchText),
+        title: state.choiceTitle(context, state, choice),
+        subtitle: state.choiceSubtitle(context, state, choice),
+        secondary: state.choiceSecondary(context, state, choice),
         activeColor: choice.activeStyle.color,
         controlAffinity: ListTileControlAffinity.values[choice.effectiveStyle.control?.index ?? 2],
         onChanged: choice.disabled != true ? (val) => choice.select(true) : null,
@@ -61,15 +62,15 @@ class S2ChoiceResolver<T> {
       );
 
   /// get switch builder
-  S2ChoiceBuilder<T> get switchBuilder => (
+  static Widget switchBuilder<A extends S2State, T>(
     BuildContext context,
+    A state,
     S2Choice<T> choice,
-    String searchText,
   ) => SwitchListTile(
         key: ValueKey(choice.value),
-        title: getTitle(context, choice, searchText),
-        subtitle: getSubtitle(context, choice, searchText),
-        secondary: getSecondary(context, choice, searchText),
+        title: state.choiceTitle(context, state, choice),
+        subtitle: state.choiceSubtitle(context, state, choice),
+        secondary: state.choiceSecondary(context, state, choice),
         activeColor: choice.activeStyle.accentColor ?? choice.activeStyle.color,
         activeTrackColor: choice.activeStyle.color?.withAlpha(0x80),
         inactiveThumbColor: choice.style.accentColor,
@@ -83,15 +84,15 @@ class S2ChoiceResolver<T> {
       );
 
   /// get checkbox builder
-  S2ChoiceBuilder<T> get checkboxBuilder => (
+  static Widget checkboxBuilder<A extends S2State, T>(
     BuildContext context,
+    A state,
     S2Choice<T> choice,
-    String searchText,
   ) => CheckboxListTile(
         key: ValueKey(choice.value),
-        title: getTitle(context, choice, searchText),
-        subtitle: getSubtitle(context, choice, searchText),
-        secondary: getSecondary(context, choice, searchText),
+        title: state.choiceTitle(context, state, choice),
+        subtitle: state.choiceSubtitle(context, state, choice),
+        secondary: state.choiceSecondary(context, state, choice),
         activeColor: choice.activeStyle.color,
         contentPadding: choice.effectiveStyle.padding,
         controlAffinity: ListTileControlAffinity.values[choice.effectiveStyle.control?.index ?? 2],
@@ -102,10 +103,10 @@ class S2ChoiceResolver<T> {
       );
 
   /// get chip builder
-  S2ChoiceBuilder<T> get chipBuilder => (
+  static Widget chipBuilder<A extends S2State, T>(
     BuildContext context,
+    A state,
     S2Choice<T> choice,
-    String searchText,
   ) {
     final S2ChoiceStyle effectiveStyle = choice.effectiveStyle;
 
@@ -123,48 +124,52 @@ class S2ChoiceResolver<T> {
         child: RawChip(
           key: ValueKey(choice.value),
           padding: effectiveStyle?.padding ?? const EdgeInsets.all(4),
-          label: getTitle(context, choice, searchText),
-          avatar: getSecondary(context, choice, searchText),
+          label: state.choiceTitle(context, state, choice),
+          avatar: state.choiceSecondary(context, state, choice),
           clipBehavior: effectiveStyle?.clipBehavior ?? Clip.none,
-          showCheckmark: effectiveStyle?.showCheckmark ?? isMultiChoice,
+          showCheckmark: effectiveStyle?.showCheckmark ?? state.isMultiChoice,
           isEnabled: choice.disabled != true,
           onSelected: (selected) => choice.select(selected),
           selected: choice.selected,
         ),
       ),
     );
-  };
-
-  /// build title widget
-  Widget getTitle(BuildContext context, S2Choice<T> choice, String searchText) {
-    return choice.title != null
-    ? builder.choiceTitle != null
-      ? builder.choiceTitle(context, choice, searchText)
-      : S2Text(
-          text: choice.title,
-          style: choice.effectiveStyle.titleStyle,
-          highlight: searchText,
-          highlightColor: choice.effectiveStyle.highlightColor,
-        )
-    : null;
   }
 
-  /// build subtitle widget
-  Widget getSubtitle(BuildContext context, S2Choice<T> choice, String searchText) {
-    return choice.subtitle != null
-      ? builder.choiceSubtitle != null
-        ? builder.choiceSubtitle(context, choice, searchText)
-        : S2Text(
-            text: choice.subtitle,
-            style: choice.effectiveStyle.subtitleStyle,
-            highlight: searchText,
-            highlightColor: choice.effectiveStyle.highlightColor,
-          )
-      : null;
-  }
+  /// get chip builder
+  static Widget cardBuilder<A extends S2State, T>(
+    BuildContext context,
+    A state,
+    S2Choice<T> choice,
+  ) {
+    // final Color backgroundColor = choice.selected
+    //   ? choice.activeStyle.color ?? state.theme.primaryColor
+    //   : choice.style.color ?? state.theme.cardColor;
+    // final Brightness backgroundBrightness = estimateBrightnessForColor(backgroundColor);
+    // final Color textColor = backgroundBrightness == Brightness.dark
+    //   ? Colors.white
+    //   : Colors.black;
 
-  /// build secondary/avatar widget
-  Widget getSecondary(BuildContext context, S2Choice<T> choice, String searchText) {
-    return builder.choiceSecondary?.call(context, choice, searchText);
+    return Card(
+      elevation: choice.effectiveStyle.elevation,
+      margin: choice.effectiveStyle.margin,
+      // margin: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+      color: choice.selected
+        ? choice.activeStyle.color ?? state.theme.primaryColor
+        : choice.style.color ?? state.theme.cardColor,
+      child: InkWell(
+        onTap: () => choice.select(true),
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              state.choiceSecondary(context, state, choice),
+              SizedBox(height: choice.effectiveStyle.spacing),
+              state.choiceTitle(context, state, choice),
+            ]..removeWhere((e) => e == null),
+          ),
+        ),
+      ),
+    );
   }
 }

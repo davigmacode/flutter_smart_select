@@ -1,9 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
-import '../state/filter.dart';
+// import '../state/filter.dart';
 import '../widget.dart';
 import 'choice_item.dart';
-import 'choice_group.dart';
+import 'group_data.dart';
 
 /// A common widget builder
 typedef Widget S2WidgetBuilder<T>(
@@ -18,68 +18,21 @@ typedef List<Widget> S2ListWidgetBuilder<T>(
 );
 
 /// A complex builder
-// typedef Widget S2ComplexWidgetBuilder<A, B>(
-//   BuildContext context,
-//   A value,
-//   B anotherValue,
-// );
+typedef Widget S2ComplexWidgetBuilder<A, B>(
+  BuildContext context,
+  A value,
+  B anotherValue,
+);
 
 /// A builder for choice list item widget
 typedef Widget S2ChoiceItemBuilder<T>(S2Choice<T> choice);
 
-/// A widget builder for custom each choices item
-typedef Widget S2ChoiceBuilder<T>(
-  BuildContext context,
-  S2Choice<T> choice,
-  String searchText,
-);
-
-/// A widget builder for custom choices group
-typedef Widget S2ChoiceGroupBuilder(
-  BuildContext context,
-  Widget header,
-  Widget choices,
-);
-
-/// A widget builder for custom header choices group
-typedef Widget S2ChoiceHeaderBuilder(
-  BuildContext context,
-  S2ChoiceGroup group,
-  String searchText,
-);
-
 /// collection of builder
 @immutable
 class S2Builder<T> with Diagnosticable {
-  /// Builder for modal filter
-  final S2WidgetBuilder<S2Filter> modalFilter;
-
-  /// Builder for modal filter toggle
-  final S2WidgetBuilder<S2Filter> modalFilterToggle;
-
-  /// Builder for each custom choices item
-  final S2ChoiceBuilder<T> choice;
-
-  /// Builder for each custom choices item subtitle
-  final S2ChoiceBuilder<T> choiceTitle;
-
-  /// Builder for each custom choices item subtitle
-  final S2ChoiceBuilder<T> choiceSubtitle;
-
-  /// Builder for each custom choices item secondary
-  final S2ChoiceBuilder<T> choiceSecondary;
 
   /// Builder for custom divider widget between choices item
   final IndexedWidgetBuilder choiceDivider;
-
-  /// Builder for custom empty display
-  final S2WidgetBuilder<String> choiceEmpty;
-
-  /// A widget builder for custom choices group
-  final S2ChoiceGroupBuilder choiceGroup;
-
-  /// A widget builder for custom header choices group
-  final S2ChoiceHeaderBuilder choiceHeader;
 
   // /// Builder for progress indicator on choice load
   // final WidgetBuilder choiceProgressBuilder;
@@ -89,16 +42,7 @@ class S2Builder<T> with Diagnosticable {
 
   /// default constructor
   const S2Builder({
-    this.modalFilter,
-    this.modalFilterToggle,
-    this.choice,
-    this.choiceTitle,
-    this.choiceSubtitle,
-    this.choiceSecondary,
     this.choiceDivider,
-    this.choiceEmpty,
-    this.choiceGroup,
-    this.choiceHeader,
     // this.choiceProgressBuilder,
     // this.choicePagerBuilder,
   });
@@ -116,6 +60,12 @@ class S2SingleBuilder<T> extends S2Builder<T> {
   /// Builder for custom modal header widget
   final S2WidgetBuilder<S2SingleState<T>> modalHeader;
 
+  /// Builder for modal filter
+  final S2WidgetBuilder<S2SingleState<T>> modalFilter;
+
+  /// Builder for modal filter toggle
+  final S2WidgetBuilder<S2SingleState<T>> modalFilterToggle;
+
   /// Builder for custom modal actions widget
   final S2ListWidgetBuilder<S2SingleState<T>> modalActions;
 
@@ -128,38 +78,50 @@ class S2SingleBuilder<T> extends S2Builder<T> {
   /// Builder for modal footer widget
   final S2WidgetBuilder<S2SingleState<T>> modalFooter;
 
+  /// A widget builder for custom choices group
+  final S2ComplexWidgetBuilder<S2SingleState<T>, S2Group<T>> group;
+
+  /// A widget builder for custom header choices group
+  final S2ComplexWidgetBuilder<S2SingleState<T>, S2Group<T>> groupHeader;
+
+  /// Builder for each custom choices item
+  final S2ComplexWidgetBuilder<S2SingleState<T>, S2Choice<T>> choice;
+
+  /// Builder for each custom choices item subtitle
+  final S2ComplexWidgetBuilder<S2SingleState<T>, S2Choice<T>> choiceTitle;
+
+  /// Builder for each custom choices item subtitle
+  final S2ComplexWidgetBuilder<S2SingleState<T>, S2Choice<T>> choiceSubtitle;
+
+  /// Builder for each custom choices item secondary
+  final S2ComplexWidgetBuilder<S2SingleState<T>, S2Choice<T>> choiceSecondary;
+
+  /// Builder for custom empty display
+  final S2WidgetBuilder<S2SingleState<T>> choiceEmpty;
+
   /// default contructor
   const S2SingleBuilder({
     this.tile,
     this.modal,
     this.modalHeader,
     this.modalActions,
+    this.modalFilter,
+    this.modalFilterToggle,
     this.modalConfirm,
     this.modalDivider,
     this.modalFooter,
-    S2WidgetBuilder<S2Filter> modalFilter,
-    S2WidgetBuilder<S2Filter> modalFilterToggle,
-    S2ChoiceBuilder<T> choice,
-    S2ChoiceBuilder<T> choiceTitle,
-    S2ChoiceBuilder<T> choiceSubtitle,
-    S2ChoiceBuilder<T> choiceSecondary,
+    this.group,
+    this.groupHeader,
+    this.choice,
+    this.choiceTitle,
+    this.choiceSubtitle,
+    this.choiceSecondary,
+    this.choiceEmpty,
     IndexedWidgetBuilder choiceDivider,
-    S2ChoiceGroupBuilder choiceGroup,
-    S2ChoiceHeaderBuilder choiceHeader,
-    S2WidgetBuilder<String> choiceEmpty,
     // WidgetBuilder choiceProgress,
     // S2ChoiceBuilder<T> choicePager,
   }) : super(
-    modalFilter: modalFilter,
-    modalFilterToggle: modalFilterToggle,
-    choice: choice,
-    choiceTitle: choiceTitle,
-    choiceSubtitle: choiceSubtitle,
-    choiceSecondary: choiceSecondary,
     choiceDivider: choiceDivider,
-    choiceGroup: choiceGroup,
-    choiceHeader: choiceHeader,
-    choiceEmpty: choiceEmpty,
     // choiceProgressBuilder: choiceProgressBuilder,
     // choicePagerBuilder: choicePagerBuilder,
   );
@@ -170,20 +132,20 @@ class S2SingleBuilder<T> extends S2Builder<T> {
     S2WidgetBuilder<S2SingleState<T>> tile,
     S2WidgetBuilder<S2SingleState<T>> modal,
     S2WidgetBuilder<S2SingleState<T>> modalHeader,
+    S2WidgetBuilder<S2SingleState<T>> modalFilter,
+    S2WidgetBuilder<S2SingleState<T>> modalFilterToggle,
     S2ListWidgetBuilder<S2SingleState<T>> modalActions,
     S2WidgetBuilder<S2SingleState<T>> modalConfirm,
     S2WidgetBuilder<S2SingleState<T>> modalDivider,
     S2WidgetBuilder<S2SingleState<T>> modalFooter,
-    S2WidgetBuilder<S2Filter> modalFilter,
-    S2WidgetBuilder<S2Filter> modalFilterToggle,
-    S2ChoiceBuilder<T> choice,
-    S2ChoiceBuilder<T> choiceTitle,
-    S2ChoiceBuilder<T> choiceSubtitle,
-    S2ChoiceBuilder<T> choiceSecondary,
+    S2ComplexWidgetBuilder<S2SingleState<T>, S2Group<T>> group,
+    S2ComplexWidgetBuilder<S2SingleState<T>, S2Group<T>> groupHeader,
+    S2ComplexWidgetBuilder<S2SingleState<T>, S2Choice<T>> choice,
+    S2ComplexWidgetBuilder<S2SingleState<T>, S2Choice<T>> choiceTitle,
+    S2ComplexWidgetBuilder<S2SingleState<T>, S2Choice<T>> choiceSubtitle,
+    S2ComplexWidgetBuilder<S2SingleState<T>, S2Choice<T>> choiceSecondary,
+    S2WidgetBuilder<S2SingleState<T>> choiceEmpty,
     IndexedWidgetBuilder choiceDivider,
-    S2ChoiceGroupBuilder choiceGroup,
-    S2ChoiceHeaderBuilder choiceHeader,
-    S2WidgetBuilder<String> choiceEmpty,
     // WidgetBuilder choiceProgress,
     // S2ChoiceBuilder<T> choicePager,
   }) {
@@ -192,19 +154,19 @@ class S2SingleBuilder<T> extends S2Builder<T> {
       modal: modal ?? this.modal,
       modalHeader: modalHeader ?? this.modalHeader,
       modalActions: modalActions ?? this.modalActions,
+      modalFilter: modalFilter ?? this.modalFilter,
+      modalFilterToggle: modalFilterToggle ?? this.modalFilterToggle,
       modalConfirm: modalConfirm ?? this.modalConfirm,
       modalDivider: modalDivider ?? this.modalDivider,
       modalFooter: modalFooter ?? this.modalFooter,
-      modalFilter: modalFilter ?? this.modalFilter,
-      modalFilterToggle: modalFilterToggle ?? this.modalFilterToggle,
+      group: group ?? this.group,
+      groupHeader: groupHeader ?? this.groupHeader,
       choice: choice ?? this.choice,
       choiceTitle: choiceTitle ?? this.choiceTitle,
       choiceSubtitle: choiceSubtitle ?? this.choiceSubtitle,
       choiceSecondary: choiceSecondary ?? this.choiceSecondary,
-      choiceDivider: choiceDivider ?? this.choiceDivider,
-      choiceGroup: choiceGroup ?? this.choiceGroup,
-      choiceHeader: choiceHeader ?? this.choiceHeader,
       choiceEmpty: choiceEmpty ?? this.choiceEmpty,
+      choiceDivider: choiceDivider ?? this.choiceDivider,
       // choiceProgressBuilder: choiceProgressBuilder ?? this.choiceProgressBuilder,
       // choicePagerBuilder: choicePagerBuilder ?? this.choicePagerBuilder,
     );
@@ -221,19 +183,19 @@ class S2SingleBuilder<T> extends S2Builder<T> {
       modal: other.modal,
       modalHeader: other.modalHeader,
       modalActions: other.modalActions,
+      modalFilter: other.modalFilter,
+      modalFilterToggle: other.modalFilterToggle,
       modalConfirm: other.modalConfirm,
       modalDivider: other.modalDivider,
       modalFooter: other.modalFooter,
-      modalFilter: other.modalFilter,
-      modalFilterToggle: other.modalFilterToggle,
+      group: other.group,
+      groupHeader: other.groupHeader,
       choice: other.choice,
       choiceTitle: other.choiceTitle,
       choiceSubtitle: other.choiceSubtitle,
       choiceSecondary: other.choiceSecondary,
-      choiceDivider: other.choiceDivider,
-      choiceGroup: other.choiceGroup,
-      choiceHeader: other.choiceHeader,
       choiceEmpty: other.choiceEmpty,
+      choiceDivider: other.choiceDivider,
       // choiceProgressBuilder: other.choiceProgressBuilder,
       // choicePagerBuilder: other.choicePagerBuilder,
     );
@@ -252,6 +214,12 @@ class S2MultiBuilder<T> extends S2Builder<T> {
   /// Builder for custom modal header widget
   final S2WidgetBuilder<S2MultiState<T>> modalHeader;
 
+  /// Builder for modal filter
+  final S2WidgetBuilder<S2MultiState<T>> modalFilter;
+
+  /// Builder for modal filter toggle
+  final S2WidgetBuilder<S2MultiState<T>> modalFilterToggle;
+
   /// Builder for custom modal actions widget
   final S2ListWidgetBuilder<S2MultiState<T>> modalActions;
 
@@ -264,38 +232,50 @@ class S2MultiBuilder<T> extends S2Builder<T> {
   /// Builder for custom modal footer widget
   final S2WidgetBuilder<S2MultiState<T>> modalFooter;
 
-  /// default constuctor
+  /// A widget builder for custom choices group
+  final S2ComplexWidgetBuilder<S2MultiState<T>, S2Group<T>> group;
+
+  /// A widget builder for custom header choices group
+  final S2ComplexWidgetBuilder<S2MultiState<T>, S2Group<T>> groupHeader;
+
+  /// Builder for each custom choices item
+  final S2ComplexWidgetBuilder<S2MultiState<T>, S2Choice<T>> choice;
+
+  /// Builder for each custom choices item subtitle
+  final S2ComplexWidgetBuilder<S2MultiState<T>, S2Choice<T>> choiceTitle;
+
+  /// Builder for each custom choices item subtitle
+  final S2ComplexWidgetBuilder<S2MultiState<T>, S2Choice<T>> choiceSubtitle;
+
+  /// Builder for each custom choices item secondary
+  final S2ComplexWidgetBuilder<S2MultiState<T>, S2Choice<T>> choiceSecondary;
+
+  /// Builder for custom empty display
+  final S2WidgetBuilder<S2MultiState<T>> choiceEmpty;
+
+  /// default constructor
   const S2MultiBuilder({
     this.tile,
     this.modal,
     this.modalHeader,
+    this.modalFilter,
+    this.modalFilterToggle,
     this.modalActions,
     this.modalConfirm,
     this.modalDivider,
     this.modalFooter,
-    S2WidgetBuilder<S2Filter> modalFilter,
-    S2WidgetBuilder<S2Filter> modalFilterToggle,
-    S2ChoiceBuilder<T> choice,
-    S2ChoiceBuilder<T> choiceTitle,
-    S2ChoiceBuilder<T> choiceSubtitle,
-    S2ChoiceBuilder<T> choiceSecondary,
+    this.group,
+    this.groupHeader,
+    this.choice,
+    this.choiceTitle,
+    this.choiceSubtitle,
+    this.choiceSecondary,
+    this.choiceEmpty,
     IndexedWidgetBuilder choiceDivider,
-    S2ChoiceGroupBuilder choiceGroup,
-    S2ChoiceHeaderBuilder choiceHeader,
-    S2WidgetBuilder<String> choiceEmpty,
     // WidgetBuilder choiceProgress,
     // S2ChoiceBuilder<T> choicePager,
   }) : super(
-    modalFilter: modalFilter,
-    modalFilterToggle: modalFilterToggle,
-    choice: choice,
-    choiceTitle: choiceTitle,
-    choiceSubtitle: choiceSubtitle,
-    choiceSecondary: choiceSecondary,
     choiceDivider: choiceDivider,
-    choiceGroup: choiceGroup,
-    choiceHeader: choiceHeader,
-    choiceEmpty: choiceEmpty,
     // choiceProgressBuilder: choiceProgressBuilder,
     // choicePagerBuilder: choicePagerBuilder,
   );
@@ -306,20 +286,20 @@ class S2MultiBuilder<T> extends S2Builder<T> {
     S2WidgetBuilder<S2MultiState<T>> tile,
     S2WidgetBuilder<S2MultiState<T>> modal,
     S2WidgetBuilder<S2MultiState<T>> modalHeader,
+    S2WidgetBuilder<S2MultiState<T>> modalFilter,
+    S2WidgetBuilder<S2MultiState<T>> modalFilterToggle,
     S2ListWidgetBuilder<S2MultiState<T>> modalActions,
     S2WidgetBuilder<S2MultiState<T>> modalConfirm,
     S2WidgetBuilder<S2MultiState<T>> modalDivider,
     S2WidgetBuilder<S2MultiState<T>> modalFooter,
-    S2WidgetBuilder<S2Filter> modalFilter,
-    S2WidgetBuilder<S2Filter> modalFilterToggle,
-    S2ChoiceBuilder<T> choice,
-    S2ChoiceBuilder<T> choiceTitle,
-    S2ChoiceBuilder<T> choiceSubtitle,
-    S2ChoiceBuilder<T> choiceSecondary,
+    S2ComplexWidgetBuilder<S2MultiState<T>, S2Group<T>> group,
+    S2ComplexWidgetBuilder<S2MultiState<T>, S2Group<T>> groupHeader,
+    S2ComplexWidgetBuilder<S2MultiState<T>, S2Choice<T>> choice,
+    S2ComplexWidgetBuilder<S2MultiState<T>, S2Choice<T>> choiceTitle,
+    S2ComplexWidgetBuilder<S2MultiState<T>, S2Choice<T>> choiceSubtitle,
+    S2ComplexWidgetBuilder<S2MultiState<T>, S2Choice<T>> choiceSecondary,
+    S2WidgetBuilder<S2MultiState<T>> choiceEmpty,
     IndexedWidgetBuilder choiceDivider,
-    S2ChoiceGroupBuilder choiceGroup,
-    S2ChoiceHeaderBuilder choiceHeader,
-    S2WidgetBuilder<String> choiceEmpty,
     // WidgetBuilder choiceProgress,
     // S2ChoiceBuilder<T> choicePager,
   }) {
@@ -333,14 +313,14 @@ class S2MultiBuilder<T> extends S2Builder<T> {
       modalFooter: modalFooter ?? this.modalFooter,
       modalFilter: modalFilter ?? this.modalFilter,
       modalFilterToggle: modalFilterToggle ?? this.modalFilterToggle,
+      group: group ?? this.group,
+      groupHeader: groupHeader ?? this.groupHeader,
       choice: choice ?? this.choice,
       choiceTitle: choiceTitle ?? this.choiceTitle,
       choiceSubtitle: choiceSubtitle ?? this.choiceSubtitle,
       choiceSecondary: choiceSecondary ?? this.choiceSecondary,
-      choiceDivider: choiceDivider ?? this.choiceDivider,
-      choiceGroup: choiceGroup ?? this.choiceGroup,
-      choiceHeader: choiceHeader ?? this.choiceHeader,
       choiceEmpty: choiceEmpty ?? this.choiceEmpty,
+      choiceDivider: choiceDivider ?? this.choiceDivider,
       // choiceProgressBuilder: choiceProgressBuilder ?? this.choiceProgressBuilder,
       // choicePagerBuilder: choicePagerBuilder ?? this.choicePagerBuilder,
     );
@@ -356,22 +336,168 @@ class S2MultiBuilder<T> extends S2Builder<T> {
       tile: other.tile,
       modal: other.modal,
       modalHeader: other.modalHeader,
+      modalFilter: other.modalFilter,
+      modalFilterToggle: other.modalFilterToggle,
       modalActions: other.modalActions,
       modalConfirm: other.modalConfirm,
       modalDivider: other.modalDivider,
       modalFooter: other.modalFooter,
-      modalFilter: other.modalFilter,
-      modalFilterToggle: other.modalFilterToggle,
+      group: other.group,
+      groupHeader: other.groupHeader,
       choice: other.choice,
       choiceTitle: other.choiceTitle,
       choiceSubtitle: other.choiceSubtitle,
       choiceSecondary: other.choiceSecondary,
-      choiceDivider: other.choiceDivider,
-      choiceGroup: other.choiceGroup,
-      choiceHeader: other.choiceHeader,
       choiceEmpty: other.choiceEmpty,
+      choiceDivider: other.choiceDivider,
       // choiceProgressBuilder: other.choiceProgressBuilder,
       // choicePagerBuilder: other.choicePagerBuilder,
     );
   }
 }
+
+
+// /// Builder collection of multiple choice widget
+// class S2Builders<T> {
+
+//   /// Builder for custom tile widget
+//   final S2WidgetBuilder<S2State<T>> tile;
+
+//   /// Builder for custom modal widget
+//   final S2WidgetBuilder<S2State<T>> modal;
+
+//   /// Builder for custom modal header widget
+//   final S2WidgetBuilder<S2State<T>> modalHeader;
+
+//   /// Builder for custom modal actions widget
+//   final S2ListWidgetBuilder<S2State<T>> modalActions;
+
+//   /// Builder for custom modal confirm action widget
+//   final S2WidgetBuilder<S2State<T>> modalConfirm;
+
+//   /// Builder for divider widget between header, body, and footer modal
+//   final S2WidgetBuilder<S2State<T>> modalDivider;
+
+//   /// Builder for custom modal footer widget
+//   final S2WidgetBuilder<S2State<T>> modalFooter;
+
+//   /// Builder for modal filter
+//   final S2WidgetBuilder<S2State<T>> modalFilter;
+
+//   /// Builder for modal filter toggle
+//   final S2WidgetBuilder<S2State<T>> modalFilterToggle;
+
+//   /// A widget builder for custom choices group
+//   final S2ComplexWidgetBuilder<S2State<T>, S2Group<T>> group;
+
+//   /// A widget builder for custom header choices group
+//   final S2ComplexWidgetBuilder<S2State<T>, S2Group<T>> groupHeader;
+
+//   /// Builder for each custom choices item
+//   final S2ComplexWidgetBuilder<S2State<T>, S2Choice<T>> choice;
+
+//   /// Builder for each custom choices item subtitle
+//   final S2ComplexWidgetBuilder<S2State<T>, S2Choice<T>> choiceTitle;
+
+//   /// Builder for each custom choices item subtitle
+//   final S2ComplexWidgetBuilder<S2State<T>, S2Choice<T>> choiceSubtitle;
+
+//   /// Builder for each custom choices item secondary
+//   final S2ComplexWidgetBuilder<S2State<T>, S2Choice<T>> choiceSecondary;
+
+//   /// Builder for custom empty display
+//   final S2WidgetBuilder<S2State<T>> choiceEmpty;
+
+//   /// Builder for custom divider widget between choices item
+//   final IndexedWidgetBuilder choiceDivider;
+
+//   /// default constructor
+//   const S2Builders({
+//     this.tile,
+//     this.modal,
+//     this.modalHeader,
+//     this.modalActions,
+//     this.modalConfirm,
+//     this.modalDivider,
+//     this.modalFooter,
+//     this.modalFilter,
+//     this.modalFilterToggle,
+//     this.group,
+//     this.groupHeader,
+//     this.choice,
+//     this.choiceTitle,
+//     this.choiceSubtitle,
+//     this.choiceSecondary,
+//     this.choiceEmpty,
+//     this.choiceDivider,
+//   });
+
+//   /// Creates a copy of this [S2Builders] but with
+//   /// the given fields replaced with the new values.
+//   S2Builders<T> copyWith({
+//     S2WidgetBuilder<S2State<T>> tile,
+//     S2WidgetBuilder<S2State<T>> modal,
+//     S2WidgetBuilder<S2State<T>> modalHeader,
+//     S2ListWidgetBuilder<S2State<T>> modalActions,
+//     S2WidgetBuilder<S2State<T>> modalConfirm,
+//     S2WidgetBuilder<S2State<T>> modalDivider,
+//     S2WidgetBuilder<S2State<T>> modalFooter,
+//     S2WidgetBuilder<S2Filter> modalFilter,
+//     S2WidgetBuilder<S2Filter> modalFilterToggle,
+//     S2ComplexWidgetBuilder<S2State<T>, S2Group<T>> group,
+//     S2ComplexWidgetBuilder<S2State<T>, S2Group<T>> groupHeader,
+//     S2ComplexWidgetBuilder<S2State<T>, S2Choice<T>> choice,
+//     S2ComplexWidgetBuilder<S2State<T>, S2Choice<T>> choiceTitle,
+//     S2ComplexWidgetBuilder<S2State<T>, S2Choice<T>> choiceSubtitle,
+//     S2ComplexWidgetBuilder<S2State<T>, S2Choice<T>> choiceSecondary,
+//     S2WidgetBuilder<S2State<T>> choiceEmpty,
+//     IndexedWidgetBuilder choiceDivider,
+//   }) {
+//     return S2Builders<T>(
+//       tile: tile ?? this.tile,
+//       modal: modal ?? this.modal,
+//       modalHeader: modalHeader ?? this.modalHeader,
+//       modalActions: modalActions ?? this.modalActions,
+//       modalConfirm: modalConfirm ?? this.modalConfirm,
+//       modalDivider: modalDivider ?? this.modalDivider,
+//       modalFooter: modalFooter ?? this.modalFooter,
+//       modalFilter: modalFilter ?? this.modalFilter,
+//       modalFilterToggle: modalFilterToggle ?? this.modalFilterToggle,
+//       group: group ?? this.group,
+//       groupHeader: groupHeader ?? this.groupHeader,
+//       choice: choice ?? this.choice,
+//       choiceTitle: choiceTitle ?? this.choiceTitle,
+//       choiceSubtitle: choiceSubtitle ?? this.choiceSubtitle,
+//       choiceSecondary: choiceSecondary ?? this.choiceSecondary,
+//       choiceEmpty: choiceEmpty ?? this.choiceEmpty,
+//       choiceDivider: choiceDivider ?? this.choiceDivider,
+//     );
+//   }
+
+//   /// Creates a copy of this [S2Builders] but with
+//   /// the given fields replaced with the new values.
+//   S2Builders<T> merge(S2Builders<T> other) {
+//     // if null return current object
+//     if (other == null) return this;
+
+//     return S2Builders<T>(
+//       tile: other.tile,
+//       modal: other.modal,
+//       modalHeader: other.modalHeader,
+//       modalActions: other.modalActions,
+//       modalConfirm: other.modalConfirm,
+//       modalDivider: other.modalDivider,
+//       modalFooter: other.modalFooter,
+//       modalFilter: other.modalFilter,
+//       modalFilterToggle: other.modalFilterToggle,
+//       group: other.group,
+//       groupHeader: other.groupHeader,
+//       choice: other.choice,
+//       choiceTitle: other.choiceTitle,
+//       choiceSubtitle: other.choiceSubtitle,
+//       choiceSecondary: other.choiceSecondary,
+//       choiceEmpty: other.choiceEmpty,
+//       choiceDivider: other.choiceDivider,
+//     );
+//   }
+// }

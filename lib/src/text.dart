@@ -39,6 +39,8 @@ class S2Text extends StatelessWidget {
       return Text(text, style: style);
     }
 
+    final TextStyle defaultTextStyle = DefaultTextStyle.of(context).style;
+    final TextStyle textStyle = defaultTextStyle.merge(style);
     final Pattern pattern = RegExp(highlight, caseSensitive: caseSensitive);
     int start = 0;
     int indexOfHighlight;
@@ -48,17 +50,19 @@ class S2Text extends StatelessWidget {
       indexOfHighlight = text.indexOf(pattern, start);
       if (indexOfHighlight < 0) {
         // no highlight
-        spans.add(_normalSpan(text.substring(start, text.length)));
+        final content = text.substring(start, text.length);
+        spans.add(_normalSpan(content, textStyle));
         break;
       }
       if (indexOfHighlight == start) {
         // start with highlight.
-        spans.add(_highlightSpan(text.substring(start, start + highlight.length)));
-        start += highlight.length;
+        final highlightedText = text.substring(start, start + highlight.length);
+        spans.add(_highlightSpan(highlightedText, textStyle));
+        start += highlightedText.length;
       } else {
         // normal + highlight
         final String normalText = text.substring(start, indexOfHighlight);
-        spans.add(_normalSpan(normalText));
+        spans.add(_normalSpan(normalText, textStyle));
         start += normalText.length;
       }
     } while (true);
@@ -66,7 +70,7 @@ class S2Text extends StatelessWidget {
     return Text.rich(TextSpan(children: spans));
   }
 
-  TextSpan _highlightSpan(String content) {
+  TextSpan _highlightSpan(String content, TextStyle style) {
     return TextSpan(
       text: content,
       style: style.copyWith(
@@ -75,7 +79,7 @@ class S2Text extends StatelessWidget {
     );
   }
 
-  TextSpan _normalSpan(String content) {
+  TextSpan _normalSpan(String content, TextStyle style) {
     return TextSpan(text: content, style: style);
   }
 }

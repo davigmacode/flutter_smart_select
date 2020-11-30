@@ -36,13 +36,13 @@ class _FeaturesModalValidationState extends State<FeaturesModalValidation> {
           modalValidation: (value) => value.length > 0 ? null : 'Select at least one',
           modalConfirm: true,
           modalFilter: true,
-          choiceTitleBuilder: (context, item, filter) {
+          choiceTitleBuilder: (context, state, choice) {
             return S2Text(
-              text: item.title,
+              text: choice.title,
               style: TextStyle(
-                color: item.selected ? Theme.of(context).primaryColor : null
+                color: choice.selected ? Theme.of(context).primaryColor : null
               ),
-              highlight: filter,
+              highlight: state.filter.query,
               highlightColor: Theme.of(context).primaryColor.withOpacity(.7),
             );
           },

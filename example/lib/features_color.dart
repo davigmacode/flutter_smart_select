@@ -33,7 +33,7 @@ class _FeaturesColorState extends State<FeaturesColor> {
         crossAxisSpacing: 5,
         crossAxisCount: 5
       ),
-      choiceBuilder: (context, choice, _) {
+      choiceBuilder: (context, state, choice) {
         return Card(
           color: choice.value,
           child: InkWell(

@@ -108,7 +108,7 @@ class S2ModalConfig with Diagnosticable  {
     assert(barrierDismissible != null),
     assert(confirmBrightness != null),
     assert(maxHeightFactor != null),
-    assert(maxHeightFactor > 0 && maxHeightFactor < 1),
+    assert(maxHeightFactor > 0 && maxHeightFactor <= 1),
     assert(style != null),
     assert(headerStyle != null);
 

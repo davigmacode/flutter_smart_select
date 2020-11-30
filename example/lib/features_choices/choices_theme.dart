@@ -29,7 +29,6 @@ class _FeaturesChoicesThemeState extends State<FeaturesChoicesTheme> {
           ),
           choiceConfig: S2ChoiceConfig(
             type: S2ChoiceType.switches,
-            isGrouped: true,
             useDivider: true,
             overscrollColor: Colors.green,
             style: const S2ChoiceStyle(
@@ -43,10 +42,11 @@ class _FeaturesChoicesThemeState extends State<FeaturesChoicesTheme> {
             activeStyle: const S2ChoiceStyle(
               color: Colors.green,
             ),
-            headerStyle: S2ChoiceHeaderStyle(
-              backgroundColor: Colors.blueGrey[600],
-              textStyle: const TextStyle(color: Colors.white)
-            )
+          ),
+          groupEnabled: true,
+          groupHeaderStyle: S2GroupHeaderStyle(
+            backgroundColor: Colors.blueGrey[600],
+            textStyle: const TextStyle(color: Colors.white)
           ),
           modalConfig: S2ModalConfig(
             type: S2ModalType.fullPage,

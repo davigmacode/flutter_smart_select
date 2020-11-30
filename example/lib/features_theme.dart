@@ -42,7 +42,7 @@ class _FeaturesThemeState extends State<FeaturesTheme> {
               crossAxisSpacing: 5,
               crossAxisCount: 3
             ),
-            choiceBuilder: (context, choice, _) {
+            choiceBuilder: (context, state, choice) {
               return Card(
                 elevation: 3,
                 color: choice.selected
@@ -104,7 +104,7 @@ class _FeaturesThemeState extends State<FeaturesTheme> {
               crossAxisSpacing: 5,
               crossAxisCount: 5
             ),
-            choiceBuilder: (context, choice, _) {
+            choiceBuilder: (context, state, choice) {
               return Card(
                 color: choice.value,
                 child: InkWell(

@@ -39,7 +39,7 @@ class _FeaturesChoicesBuilderState extends State<FeaturesChoicesBuilder> {
           ),
           choiceLayout: S2ChoiceLayout.wrap,
           choiceDirection: Axis.horizontal,
-          choiceBuilder: (context, choice, query) {
+          choiceBuilder: (context, state, choice) {
             return Card(
               margin: const EdgeInsets.fromLTRB(0, 5, 0, 5),
               color: choice.selected ? theme.primaryColor : theme.cardColor,
@@ -98,7 +98,7 @@ class _FeaturesChoicesBuilderState extends State<FeaturesChoicesBuilder> {
             crossAxisSpacing: 5,
             crossAxisCount: 3
           ),
-          choiceBuilder: (context, choice, query) {
+          choiceBuilder: (context, state, choice) {
             return Card(
               color: choice.selected ? theme.primaryColor : theme.cardColor,
               child: InkWell(
