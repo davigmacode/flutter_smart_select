@@ -11,10 +11,10 @@ class _FeaturesBrightnessState extends State<FeaturesBrightness> {
 
   ThemeData get theme => Theme.of(context);
 
-  List<List> modes = [
-    ['System', Icons.brightness_auto],
-    ['Light', Icons.brightness_low],
-    ['Dark', Icons.brightness_2],
+  final List<S2Choice<int>> modes = [
+    S2Choice(value: 0, title: 'System', meta: Icons.brightness_auto),
+    S2Choice(value: 1, title: 'Light', meta: Icons.brightness_low),
+    S2Choice(value: 2, title: 'Dark', meta: Icons.brightness_2),
   ];
 
   @override
@@ -25,12 +25,7 @@ class _FeaturesBrightnessState extends State<FeaturesBrightness> {
       onChange: (state) => ThemePatrol.of(context).setMode(ThemeMode.values[state.value]),
       modalType: S2ModalType.bottomSheet,
       modalHeader: false,
-      choiceItems: S2Choice.listFrom<int, List>(
-        source: modes,
-        value: (i, v) => i,
-        title: (i, v) => v[0],
-        meta: (i, v) => v[1],
-      ),
+      choiceItems: modes,
       choiceConfig: const S2ChoiceConfig(
         type: S2ChoiceType.cards,
         layout: S2ChoiceLayout.grid,
@@ -52,7 +47,7 @@ class _FeaturesBrightnessState extends State<FeaturesBrightness> {
       },
       tileBuilder: (context, state) {
         return IconButton(
-          icon: Icon(modes[state.value][1]),
+          icon: Icon(modes[state.value].meta),
           onPressed: state.showModal
         );
       },

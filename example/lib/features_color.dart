@@ -11,6 +11,12 @@ class _FeaturesColorState extends State<FeaturesColor> {
 
   Color _themeColor = Colors.red;
 
+  List<S2Choice<Color>> colors = S2Choice.listFrom<Color, Color>(
+    source: Colors.primaries,
+    value: (i, v) => v,
+    title: (i, v) => null
+  );
+
   ThemeData get theme => Theme.of(context);
 
   @override
@@ -22,11 +28,7 @@ class _FeaturesColorState extends State<FeaturesColor> {
         setState(() => _themeColor = state.value);
         ThemePatrol.of(context).setColor(_themeColor);
       },
-      choiceItems: S2Choice.listFrom<Color, Color>(
-        source: Colors.primaries,
-        value: (i, v) => v,
-        title: (i, v) => null
-      ),
+      choiceItems: colors,
       choiceLayout: S2ChoiceLayout.grid,
       choiceGrid: const SliverGridDelegateWithFixedCrossAxisCount(
         mainAxisSpacing: 5,

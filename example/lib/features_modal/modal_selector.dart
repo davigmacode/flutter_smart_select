@@ -66,10 +66,10 @@ class _FeaturesModalSelectorState extends State<FeaturesModalSelector> {
                   ),
                   const SizedBox(width: 5),
                   FlatButton(
-                    child: Text('OK (${state.changes.length})'),
+                    child: Text('OK (${state.selection.length})'),
                     color: Theme.of(context).primaryColor,
                     textColor: Colors.white,
-                    onPressed: state.changes.valid
+                    onPressed: state.selection.valid
                       ? () => state.closeModal(confirmed: true)
                       : null,
                   ),
@@ -105,13 +105,13 @@ class _FeaturesModalSelectorState extends State<FeaturesModalSelector> {
                   ActionButton(
                     label: const Text('All/None'),
                     onTap: () {
-                      state.changes.selectToggle();
+                      state.selection.selectToggle();
                     },
                   ),
                   ActionButton(
                     label: const Text('Low End'),
                     onTap: () {
-                      state.changes.value = state.widget.choiceItems
+                      state.selection.value = state.widget.choiceItems
                         .where((item) => item.meta['category'] == 'Budget Phone')
                         .map((item) => item.value)
                         .toList();
@@ -120,7 +120,7 @@ class _FeaturesModalSelectorState extends State<FeaturesModalSelector> {
                   ActionButton(
                     label: const Text('Mid End'),
                     onTap: () {
-                      state.changes.value = state.widget.choiceItems
+                      state.selection.value = state.widget.choiceItems
                         .where((item) => item.meta['category'] == 'Mid End Phone')
                         .map((item) => item.value)
                         .toList();
@@ -129,7 +129,7 @@ class _FeaturesModalSelectorState extends State<FeaturesModalSelector> {
                   ActionButton(
                     label: const Text('High End'),
                     onTap: () {
-                      state.changes.value = state.widget.choiceItems
+                      state.selection.value = state.widget.choiceItems
                         .where((item) => item.meta['category'] == 'Flagship Phone')
                         .map((item) => item.value)
                         .toList();

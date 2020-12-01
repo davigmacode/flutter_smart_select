@@ -81,10 +81,10 @@ class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
                   ),
                   const SizedBox(width: 5),
                   FlatButton(
-                    child: Text('OK (${state.changes.length})'),
+                    child: Text('OK (${state.selection.length})'),
                     color: Theme.of(context).primaryColor,
                     textColor: Colors.white,
-                    onPressed: state.changes.valid
+                    onPressed: state.selection.valid
                       ? () => state.closeModal(confirmed: true)
                       : null,
                   ),

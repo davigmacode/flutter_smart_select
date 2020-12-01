@@ -25,7 +25,7 @@ typedef Widget S2ComplexWidgetBuilder<A, B>(
 );
 
 /// A builder for choice list item widget
-typedef Widget S2ChoiceItemBuilder<T>(S2Choice<T> choice);
+typedef Widget S2ChoiceListBuilder<T>(S2Choice<T> choice);
 
 /// collection of builder
 @immutable

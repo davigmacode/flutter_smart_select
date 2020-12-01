@@ -1,143 +1,146 @@
-// import 'dart:async';
-// import 'package:flutter/foundation.dart';
-// import '../model/choice_item.dart';
-// import '../model/choice_loader.dart';
-// import '../model/group_data.dart';
-// import '../model/group_config.dart';
+import 'dart:async';
+import 'package:flutter/foundation.dart';
+import '../model/choice_item.dart';
+import '../model/choice_loader.dart';
+import '../model/group_data.dart';
+import '../model/group_config.dart';
 
-// class S2Choices<T> extends ChangeNotifier {
+class S2Choices<T> extends ChangeNotifier {
 
-//   final S2ChoiceLoader<T> loader;
+  final S2ChoiceLoader<T> loader;
 
-//   final List<S2Choice<T>> predefined;
+  final List<S2Choice<T>> preloaded;
 
-//   final Duration delay;
+  final Duration delay;
 
-//   final int limit;
+  final int limit;
 
-//   int page = 1;
+  int page = 1;
 
-//   List<S2Choice<T>> items;
+  List<S2Choice<T>> items;
 
-//   List<S2Group<T>> groups;
+  bool refreshing = false;
 
-//   String query;
+  bool appending = false;
 
-//   bool refreshing = false;
+  S2Choices({
+    List<S2Choice<T>> items,
+    this.loader,
+    this.delay = const Duration(seconds: 3),
+    this.limit,
+  }) : preloaded = items;
 
-//   bool appending = false;
+  List<T> get values => items?.map((S2Choice<T> choice) => choice.value)?.toList();
 
-//   S2Choices({
-//     List<S2Choice<T>> items,
-//     this.loader,
-//     this.delay = const Duration(milliseconds: 200),
-//     this.limit,
-//   }) : predefined = items;
+  int get length => items?.length ?? 0;
 
-//   bool get initializing => refreshing && items == null;
+  bool get isEmpty => items?.isEmpty == true;
 
-//   void refresh({ String query, bool init = false }) async {
-//     if (refreshing != true) {
-//       refreshing = true;
-//       if (init == true) items = null;
-//       page = 1;
-//       notifyListeners();
-//       try {
-//         List<S2Choice<T>> res = await find(S2ChoiceLoaderInfo<T>(query: query));
-//         items = List.from(res);
-//         page = 2;
-//       } catch (e) {
-//         throw e;
-//       } finally {
-//         Timer(delay, () {
-//           refreshing = false;
-//           notifyListeners();
-//         });
-//       }
-//     }
-//   }
+  bool get isNotEmpty => items?.isNotEmpty == true;
 
-//   void append({ String query }) async {
-//     if (appending != true) {
-//       appending = true;
-//       notifyListeners();
-//       try {
-//         List<S2Choice<T>> res = await find(S2ChoiceLoaderInfo<T>(query: query));
-//         items.addAll(res);
-//         page += 1;
-//       } catch (e) {
-//         throw e;
-//       } finally {
-//         Timer(delay, () {
-//           appending = false;
-//           notifyListeners();
-//         });
-//       }
-//     }
-//   }
+  bool get initializing => refreshing && isEmpty;
 
-//   /// return a list of options
-//   Future<List<S2Choice<T>>> find(S2ChoiceLoaderInfo<T> info) async {
-//     return loader != null
-//       ? hide(await loader(info))
-//       : filter(hide(predefined), info.query);
-//   }
+  void load({ String query }) async {
+    try {
+      List<S2Choice<T>> choices = await find(S2ChoiceLoaderInfo<T>(query: query));
+      items = List.from(choices);
+    } catch (e) {
+      throw e;
+    }
+  }
 
-//   /// filter choice items by search text
-//   List<S2Choice<T>> filter(List<S2Choice<T>> choices, String query) {
-//     return query != null
-//       ? choices
-//         .where((S2Choice<T> choice) => choice.contains(query))
-//         .toList().cast<S2Choice<T>>()
-//       : choices;
-//   }
+  // void refresh({ String query, bool init = false }) async {
+  //   if (refreshing != true) {
+  //     refreshing = true;
+  //     if (init == true) items = null;
+  //     page = 1;
+  //     notifyListeners();
+  //     try {
+  //       List<S2Choice<T>> choices = await find(S2ChoiceLoaderInfo<T>(query: query));
+  //       items = List.from(choices);
+  //       page = 2;
+  //     } catch (e) {
+  //       throw e;
+  //     } finally {
+  //       await Future.delayed(delay, () {
+  //         refreshing = false;
+  //         notifyListeners();
+  //       });
+  //     }
+  //   }
+  // }
 
-//   /// remove hidden choice items
-//   List<S2Choice<T>> hide(List<S2Choice<T>> choices) {
-//     return choices..removeWhere((S2Choice<T> choice) => choice.hidden == true);
-//   }
+  // void append({ String query }) async {
+  //   if (appending != true) {
+  //     appending = true;
+  //     notifyListeners();
+  //     try {
+  //       List<S2Choice<T>> choices = await find(S2ChoiceLoaderInfo<T>(query: query));
+  //       items.addAll(choices);
+  //       page += 1;
+  //     } catch (e) {
+  //       throw e;
+  //     } finally {
+  //       Timer(delay, () {
+  //         appending = false;
+  //         notifyListeners();
+  //       });
+  //     }
+  //   }
+  // }
 
-//   /// whether the list need to be grouped or not
-//   bool isGrouped({
-//     List<String> keys,
-//     S2GroupConfig config,
-//   }) {
-//     return config.enabled && keys != null && keys.isNotEmpty;
-//   }
+  /// return a list of options
+  Future<List<S2Choice<T>>> find(S2ChoiceLoaderInfo<T> info) async {
+    return loader != null
+      ? hide(await loader(info))
+      : filter(hide(preloaded), info.query);
+  }
 
-//   /// return a list of group
-//   List<S2Group<T>> groupItems({
-//     List<String> keys,
-//     List<S2Choice<T>> choices,
-//     S2GroupConfig config,
-//   }) {
-//     final List<S2Group<T>> groups = keys
-//       .map((String groupKey) => S2Group<T>(
-//         name: groupKey,
-//         choices: groupChoices(groupKey, choices),
-//         headerStyle: config.headerStyle,
-//       ))
-//       .toList()
-//       .cast<S2Group<T>>();
+  /// filter choice items by search text
+  List<S2Choice<T>> filter(List<S2Choice<T>> choices, String query) {
+    return query != null
+      ? choices
+        .where((S2Choice<T> choice) => choice.contains(query))
+        .toList().cast<S2Choice<T>>()
+      : choices;
+  }
 
-//     // sort the list when the comparator is provided
-//     if (config.sort != null)
-//       return groups..sort(config.sort.compare);
+  /// remove hidden choice items
+  List<S2Choice<T>> hide(List<S2Choice<T>> choices) {
+    return choices..removeWhere((S2Choice<T> choice) => choice.hidden == true);
+  }
 
-//     return groups;
-//   }
+  /// return a list of group
+  List<S2Group<T>> groupItems(S2GroupConfig config) {
+    if (groupKeys?.isEmpty == true) return null;
 
-//   /// return a unique list of group keys
-//   List<String> groupKeys(List<S2Choice<T>> choices) {
-//     return choices
-//       .map((S2Choice<T> choice) => choice.group)
-//       .toSet()
-//       .toList()
-//       .cast<String>();
-//   }
+    final List<S2Group<T>> groups = groupKeys
+      .map((String groupKey) => S2Group<T>(
+        name: groupKey,
+        choices: groupChoices(groupKey),
+        headerStyle: config.headerStyle,
+      ))
+      .toList()
+      .cast<S2Group<T>>();
 
-//   /// return a list of group choice items
-//   List<S2Choice<T>> groupChoices(String key, List<S2Choice<T>> choices) {
-//     return choices.where((S2Choice<T> choice) => choice.group == key).toList();
-//   }
-// }
+    // sort the list when the comparator is provided
+    if (config.sortBy != null)
+      return groups..sort(config.sortBy.compare);
+
+    return groups;
+  }
+
+  /// return a unique list of group keys
+  List<String> get groupKeys {
+    return items
+      .map((S2Choice<T> choice) => choice.group)
+      .toSet()
+      .toList()
+      .cast<String>();
+  }
+
+  /// return a list of group choice items
+  List<S2Choice<T>> groupChoices(String key) {
+    return items.where((S2Choice<T> choice) => choice.group == key).toList();
+  }
+}

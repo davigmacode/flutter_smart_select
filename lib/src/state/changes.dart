@@ -4,19 +4,19 @@ import 'package:flutter/foundation.dart';
 typedef String ValidationCallback<T>(T value);
 
 /// State of value changes
-abstract class S2Changes<T> extends ChangeNotifier {
+abstract class S2Selection<T> extends ChangeNotifier {
 
   /// check whether the current value has the requested value
-  bool contains(T val);
+  bool has(T val);
 
   /// select or unselect a value
-  void commit(T val, { bool selected = true });
+  void select(T val, { bool selected = true });
 
   /// validate value by validation function
   void validate();
 
   /// Validation error message
-  String error;
+  String error = '';
 
   /// whether the changes value is valid or not
   bool get valid => error == null || error?.length == 0;
@@ -24,10 +24,16 @@ abstract class S2Changes<T> extends ChangeNotifier {
   /// get length of selected value
   int get length;
 
+  /// returns true if there are no values in the selection
+  bool get isEmpty;
+
+  /// returns true if there is at least one value in the selection
+  bool get isNotEmpty;
+
 }
 
 /// State of value changes of single choice widget
-class S2SingleChanges<T> extends S2Changes<T> {
+class S2SingleSelection<T> extends S2Selection<T> {
 
   /// current selected value
   T _value;
@@ -36,7 +42,7 @@ class S2SingleChanges<T> extends S2Changes<T> {
   final ValidationCallback<T> validation;
 
   /// default constructor
-  S2SingleChanges(this._value, { this.validation });
+  S2SingleSelection(this._value, { this.validation });
 
   /// get current selected value
   T get value => _value;
@@ -51,9 +57,17 @@ class S2SingleChanges<T> extends S2Changes<T> {
   @override
   int get length => _value != null ? 1 : 0;
 
+  /// returns true if there are no values in the selection
+  @override
+  bool get isEmpty => _value == null;
+
+  /// returns true if there is at least one value in the selection
+  @override
+  bool get isNotEmpty => _value != null;
+
   /// select or unselect a value
   @override
-  void commit(T val, { bool selected = true }) {
+  void select(T val, { bool selected = true }) {
     _value = val;
     validate();
   }
@@ -61,20 +75,20 @@ class S2SingleChanges<T> extends S2Changes<T> {
   /// validate value by validation function
   @override
   void validate() {
-    error = validation?.call(value);
+    error = validation?.call(value) ?? '';
     notifyListeners();
   }
 
   /// check whether the current value has the requested value
   @override
-  bool contains(T val) {
+  bool has(T val) {
     return _value == val;
   }
 
 }
 
 /// State of value changes of multiple choice widget
-class S2MultiChanges<T> extends S2Changes<T> {
+class S2MultiSelection<T> extends S2Selection<T> {
 
   /// current selected value
   List<T> _value;
@@ -86,7 +100,7 @@ class S2MultiChanges<T> extends S2Changes<T> {
   final ValidationCallback<List<T>> validation;
 
   /// default constructor
-  S2MultiChanges(List<T> val, {
+  S2MultiSelection(List<T> val, {
     this.validation,
     VoidCallback selectAll,
   }) :
@@ -105,6 +119,38 @@ class S2MultiChanges<T> extends S2Changes<T> {
   /// get length of selected value
   @override
   int get length => _value?.length ?? 0;
+
+  /// returns true if there are no values in the selection
+  @override
+  bool get isEmpty => _value?.isEmpty;
+
+  /// returns true if there is at least one value in the selection
+  @override
+  bool get isNotEmpty => _value?.isNotEmpty;
+
+  /// add every value in supplied values into the selection
+  void merge(List<T> values) {
+    value = List.from(value)..addAll(values)..toSet()..toList();
+  }
+
+  /// removes every value in supplied values from the selection
+  void omit(List<T> values) {
+    value = List.from(value)..removeWhere((e) => values.contains(e));
+  }
+
+  /// toggle put/pull the supplied values from the selection
+  void toggle(List<T> values, { bool pull }) {
+    if (pull == true) {
+      omit(values);
+    } else if (pull == false) {
+      merge(values);
+    } else {
+      if (hasAny(values))
+        omit(values);
+      else
+        merge(values);
+    }
+  }
 
   /// unselect all values
   void selectNone() {
@@ -127,7 +173,7 @@ class S2MultiChanges<T> extends S2Changes<T> {
 
   /// select or unselect a value
   @override
-  void commit(T val, { bool selected = true }) {
+  void select(T val, { bool selected = true }) {
     if (selected) {
       _value.add(val);
     } else {
@@ -139,14 +185,24 @@ class S2MultiChanges<T> extends S2Changes<T> {
   /// validate value by validation function
   @override
   void validate() {
-    error = validation?.call(value);
+    error = validation?.call(value) ?? '';
     notifyListeners();
   }
 
-  /// check whether the current value has the requested value
+  /// check whether the selection values has the supplied value
   @override
-  bool contains(T val) {
+  bool has(T val) {
     return _value?.contains(val) ?? false;
+  }
+
+  /// check whether the selection values has any of the supplied values
+  bool hasAny(List<T> values) {
+    return values.any((e) => has(e));
+  }
+
+  /// check whether the selection values has every of the supplied values
+  bool hasAll(List<T> values) {
+    return values.every((e) => has(e));
   }
 
 }

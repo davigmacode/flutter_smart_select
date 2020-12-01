@@ -126,10 +126,10 @@ class _FeaturesModalWidgetState extends State<FeaturesModalWidget> {
               child: ButtonTheme(
                 minWidth: double.infinity,
                 child: FlatButton(
-                  child: Text('Submit (${state.changes.length})'),
+                  child: Text('Submit (${state.selection.length})'),
                   color: Theme.of(context).primaryColor,
                   textColor: Colors.white,
-                  onPressed: state.changes.valid
+                  onPressed: state.selection.valid
                     ? () => state.closeModal(confirmed: true)
                     : null,
                 ),

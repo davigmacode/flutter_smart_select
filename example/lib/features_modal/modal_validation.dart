@@ -87,9 +87,9 @@ class _FeaturesModalValidationState extends State<FeaturesModalValidation> {
                   state.modalTitle,
                   const Spacer(),
                   Visibility(
-                    visible: !state.changes.valid,
+                    visible: !state.selection.valid,
                     child: Text(
-                      state.changes?.error ?? '',
+                      state.selection.error,
                       style: TextStyle(
                         color: Colors.red
                       ),
@@ -118,10 +118,10 @@ class _FeaturesModalValidationState extends State<FeaturesModalValidation> {
                   const SizedBox(width: 5),
                   FlatButton.icon(
                     icon: Icon(Icons.check),
-                    label: Text('OK (${state.changes.length})'),
+                    label: Text('OK (${state.selection.length})'),
                     color: Theme.of(context).primaryColor,
                     textColor: Colors.white,
-                    onPressed: state.changes.valid
+                    onPressed: state.selection.valid
                       ? () => state.closeModal(confirmed: true)
                       : null,
                   ),
