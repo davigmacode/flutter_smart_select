@@ -6,7 +6,7 @@ class S2Filter extends ChangeNotifier {
 
   bool _activated = false;
 
-  String _query;
+  String _value;
 
   /// text controller
   final TextEditingController ctrl = TextEditingController();
@@ -15,7 +15,7 @@ class S2Filter extends ChangeNotifier {
   bool get activated => _activated;
 
   /// current filter text value
-  String get query => _query;
+  String get value => _value;
 
   @override
   void dispose() {
@@ -60,7 +60,7 @@ class S2Filter extends ChangeNotifier {
 
   /// apply new value to filter query
   void apply(String val) {
-    _query = val;
+    _value = val;
     notifyListeners();
   }
 

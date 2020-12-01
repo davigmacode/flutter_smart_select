@@ -42,7 +42,7 @@ class _FeaturesModalValidationState extends State<FeaturesModalValidation> {
               style: TextStyle(
                 color: choice.selected ? Theme.of(context).primaryColor : null
               ),
-              highlight: state.filter.query,
+              highlight: state.filter.value,
               highlightColor: Theme.of(context).primaryColor.withOpacity(.7),
             );
           },

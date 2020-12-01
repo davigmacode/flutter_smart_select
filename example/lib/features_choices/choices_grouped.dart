@@ -79,7 +79,7 @@ class _FeaturesChoicesGroupedState extends State<FeaturesChoicesGrouped> {
               alignment: Alignment.centerLeft,
               child: S2Text(
                 text: group.name,
-                highlight: state.filter.query,
+                highlight: state.filter.value,
                 highlightColor: Colors.teal,
                 style: const TextStyle(
                   color: Colors.white

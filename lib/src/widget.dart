@@ -689,7 +689,7 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
 
   // filter listener handler
   void _filterHandler() => modalSetState?.call(() {
-    choices.load(query: filter.query);
+    choices.load(query: filter.value);
   });
 
   // changes listener handler
@@ -1036,7 +1036,7 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
     return S2Text(
       text: choice.title,
       style: choice.effectiveStyle.titleStyle,
-      highlight: filter.query,
+      highlight: filter.value,
       highlightColor: choice.effectiveStyle.highlightColor,
     );
   }
@@ -1046,7 +1046,7 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
     return S2Text(
       text: choice.subtitle,
       style: choice.effectiveStyle.subtitleStyle,
-      highlight: filter.query,
+      highlight: filter.value,
       highlightColor: choice.effectiveStyle.highlightColor,
     );
   }
@@ -1148,7 +1148,7 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
       style: group.headerStyle,
       title: S2Text(
         text: group.name,
-        highlight: filter.query,
+        highlight: filter.value,
         style: group.headerStyle.textStyle,
         highlightColor: group.headerStyle.highlightColor ?? const Color(0xFFFFF176),
       ),
