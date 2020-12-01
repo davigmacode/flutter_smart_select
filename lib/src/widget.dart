@@ -12,7 +12,7 @@ import './model/group_style.dart';
 import './model/group_sort.dart';
 import './state/choices.dart';
 import './state/filter.dart';
-import './state/changes.dart';
+import './state/selection.dart';
 import './choices_resolver.dart';
 import './tile/tile.dart';
 import './utils/debouncer.dart';
