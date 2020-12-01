@@ -18,13 +18,13 @@ void main() {
 
     test('model should start at with query null and activated false', () {
       expect(model.activated, false);
-      expect(model.query, null);
+      expect(model.value, null);
       expect(counter, 0);
     });
 
     test('changes query value', () {
       model.apply('filter query');
-      expect(model.query, 'filter query');
+      expect(model.value, 'filter query');
     });
   });
 }

@@ -14,16 +14,20 @@ void main() {
     S2Choice<String>(value: 'sun', title: 'Sunday'),
   ];
 
-  String selectedValue;
+  List<String> selectedValue;
 
-  S2Choice<String> choiceToSelect = choices[3];
+  List<String> valueToSelect = [
+    choices[3].value,
+    choices[5].value,
+    choices[0].value
+  ];
 
   setUp(() {
     selectedValue = null;
   });
 
   testWidgets('Default tile, modal and choices displayed correctly', (WidgetTester tester) async {
-    await tester.pumpWidget(Bootstrap(child: SmartSelect<String>.single(
+    await tester.pumpWidget(Bootstrap(child: SmartSelect<String>.multiple(
       title: 'Days',
       value: selectedValue,
       choiceItems: choices,
@@ -33,7 +37,7 @@ void main() {
     final s2Finder = find.byWidgetPredicate((widget) => widget is SmartSelect<String>);
     expect(s2Finder, findsOneWidget, reason: 'SmartSelect widget is displayed');
 
-    final S2SingleState<String> s2State = tester.state<S2SingleState<String>>(s2Finder);
+    final S2MultiState<String> s2State = tester.state<S2MultiState<String>>(s2Finder);
     expect(s2State.value, null, reason: 'Initial value is correct');
 
     final tileFinder = find.descendant(
@@ -43,7 +47,7 @@ void main() {
     expect(tileFinder, findsOneWidget, reason: 'Trigger tile displayed');
 
     final tileTitleFinder = find.descendant(of: s2Finder, matching: find.text('Days'));
-    final tileValueFinder = find.descendant(of: s2Finder, matching: find.text('Select one'));
+    final tileValueFinder = find.descendant(of: s2Finder, matching: find.text('Select one or more'));
     expect(tileTitleFinder, findsOneWidget, reason: 'Tile title displayed');
     expect(tileValueFinder, findsOneWidget, reason: 'Tile placeholder displayed');
 
@@ -55,19 +59,26 @@ void main() {
     final choiceWrapperFinder = find.byType(ListView);
     expect(choiceWrapperFinder, findsOneWidget, reason: 'Choice items wrapper displayed');
 
-    final choiceItemsFinder = find.byWidgetPredicate((widget) => widget is RadioListTile<String>);
+    final choiceItemsFinder = find.byWidgetPredicate((widget) => widget is CheckboxListTile);
     expect(choiceItemsFinder, findsNWidgets(choices.length), reason: 'List of choice items displayed');
 
-    final choiceToSelectFinder = find.byKey(ValueKey(choiceToSelect.value));
-    expect(choiceToSelectFinder, findsOneWidget, reason: 'Choice to select displayed');
+    for (var value in valueToSelect) {
+      final choiceToSelectFinder = find.byKey(ValueKey(value));
+      expect(choiceToSelectFinder, findsOneWidget, reason: 'Choice to select displayed');
 
-    // Select a choice
-    await tester.tap(choiceToSelectFinder);
+      // Select a choice
+      await tester.tap(choiceToSelectFinder);
+      // Rebuild the widget after the state has changed.
+      await tester.pumpAndSettle();
+    }
+
+    // Close the modal
+    await tester.pageBack();
     // Rebuild the widget after the state has changed.
     await tester.pumpAndSettle();
 
-    expect(s2State.value, choiceToSelect.value, reason: 'New selected value to internal value is correct');
-    expect(selectedValue, choiceToSelect.value, reason: 'New selected value to external value is correct');
+    expect(s2State.value, valueToSelect, reason: 'New selected value to internal value is correct');
+    expect(selectedValue, valueToSelect, reason: 'New selected value to external value is correct');
   });
 }
 
