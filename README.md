@@ -321,7 +321,7 @@ Widget build(BuildContext context) {
   return SmartSelect<int>.multiple(
     title: 'Frameworks',
     value: value,
-    choiceItems: options,
+    choiceItems: frameworks,
     onChange: (state) => setState(() => value = state.value),
   );
 }
