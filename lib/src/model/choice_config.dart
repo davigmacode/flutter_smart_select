@@ -97,6 +97,14 @@ class S2ChoiceConfig with Diagnosticable {
   /// Determines the physics of choices list widget
   final ScrollPhysics physics;
 
+  /// limit per page to display the choices
+  ///
+  /// Defaults to `null`, it means disabled the paging
+  final int pageLimit;
+
+  /// Time delay before display the choices
+  final Duration delay;
+
   /// Create choices configuration
   const S2ChoiceConfig({
     this.type,
@@ -116,6 +124,8 @@ class S2ChoiceConfig with Diagnosticable {
     this.style,
     this.activeStyle,
     this.physics = const ScrollPhysics(),
+    this.pageLimit,
+    this.delay,
   }) :
     assert(physics != null),
     assert(useDivider != null);
@@ -149,6 +159,8 @@ class S2ChoiceConfig with Diagnosticable {
     S2ChoiceStyle style,
     S2ChoiceStyle activeStyle,
     ScrollPhysics physics,
+    int pageLimit,
+    Duration delay,
   }) {
     return S2ChoiceConfig(
       type: type ?? this.type,
@@ -168,6 +180,8 @@ class S2ChoiceConfig with Diagnosticable {
       style: this.style?.merge(style) ?? style,
       activeStyle: this.activeStyle?.merge(activeStyle) ?? activeStyle,
       physics: physics ?? this.physics,
+      pageLimit: pageLimit ?? this.pageLimit,
+      delay: delay ?? this.delay,
     );
   }
 
@@ -195,6 +209,8 @@ class S2ChoiceConfig with Diagnosticable {
       style: other.style,
       activeStyle: other.activeStyle,
       physics: other.physics,
+      pageLimit: other.pageLimit,
+      delay: other.delay,
     );
   }
 }
