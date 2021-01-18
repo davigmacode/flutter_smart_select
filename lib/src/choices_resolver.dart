@@ -3,34 +3,33 @@ import 'model/builder.dart';
 import 'model/choice_config.dart';
 import 'model/choice_theme.dart';
 import 'model/choice_item.dart';
-// import 'utils/color.dart';
+import 'utils/color.dart';
 import 'chip_theme.dart';
-import 'widget.dart';
 
 /// resolve the choice builder based on choice type
-abstract class S2ChoiceResolver<T> {
+class S2ChoiceResolver<T> {
 
-  // /// whether single or multiple choice
-  // final bool isMultiChoice;
+  /// whether single or multiple choice
+  final bool isMultiChoice;
 
-  // /// the choice type
-  // final S2ChoiceType type;
+  /// the choice type
+  final S2ChoiceType type;
 
-  // final S2ChoiceBuilder<T> titleBuilder;
-  // final S2ChoiceBuilder<T> subtitleBuilder;
-  // final S2ChoiceBuilder<T> secondaryBuilder;
+  final Widget Function(S2Choice<T>) titleBuilder;
+  final Widget Function(S2Choice<T>) subtitleBuilder;
+  final Widget Function(S2Choice<T>) secondaryBuilder;
 
-  // /// default constructor
-  // S2ChoiceResolver({
-  //   @required this.isMultiChoice,
-  //   @required this.type,
-  //   @required this.titleBuilder,
-  //   @required this.secondaryBuilder,
-  //   @required this.subtitleBuilder,
-  // });
+  /// default constructor
+  S2ChoiceResolver({
+    @required this.isMultiChoice,
+    @required this.type,
+    @required this.titleBuilder,
+    @required this.secondaryBuilder,
+    @required this.subtitleBuilder,
+  });
 
   /// get correct builder based on choice type
-  static S2ComplexWidgetBuilder<A, S2Choice<T>> choiceBuilder<A extends S2State, T>(S2ChoiceType type) {
+  S2WidgetBuilder<S2Choice<T>> get choiceBuilder {
     return type == S2ChoiceType.checkboxes
       ? checkboxBuilder
       : type == S2ChoiceType.switches
@@ -45,15 +44,14 @@ abstract class S2ChoiceResolver<T> {
   }
 
   /// get radio builder
-  static Widget radioBuilder<A extends S2State, T>(
+  Widget radioBuilder(
     BuildContext context,
-    A state,
     S2Choice<T> choice,
   ) => RadioListTile<T>(
         key: ValueKey(choice.value),
-        title: state.choiceTitle(context, state, choice),
-        subtitle: state.choiceSubtitle(context, state, choice),
-        secondary: state.choiceSecondary(context, state, choice),
+        title: titleBuilder(choice),
+        subtitle: subtitleBuilder(choice),
+        secondary: secondaryBuilder(choice),
         activeColor: choice.activeStyle.color,
         controlAffinity: ListTileControlAffinity.values[choice.effectiveStyle.control?.index ?? 2],
         onChanged: choice.disabled != true ? (val) => choice.select(true) : null,
@@ -62,15 +60,14 @@ abstract class S2ChoiceResolver<T> {
       );
 
   /// get switch builder
-  static Widget switchBuilder<A extends S2State, T>(
+  Widget switchBuilder(
     BuildContext context,
-    A state,
     S2Choice<T> choice,
   ) => SwitchListTile(
         key: ValueKey(choice.value),
-        title: state.choiceTitle(context, state, choice),
-        subtitle: state.choiceSubtitle(context, state, choice),
-        secondary: state.choiceSecondary(context, state, choice),
+        title: titleBuilder(choice),
+        subtitle: subtitleBuilder(choice),
+        secondary: secondaryBuilder(choice),
         activeColor: choice.activeStyle.accentColor ?? choice.activeStyle.color,
         activeTrackColor: choice.activeStyle.color?.withAlpha(0x80),
         inactiveThumbColor: choice.style.accentColor,
@@ -84,15 +81,14 @@ abstract class S2ChoiceResolver<T> {
       );
 
   /// get checkbox builder
-  static Widget checkboxBuilder<A extends S2State, T>(
+  Widget checkboxBuilder(
     BuildContext context,
-    A state,
     S2Choice<T> choice,
   ) => CheckboxListTile(
         key: ValueKey(choice.value),
-        title: state.choiceTitle(context, state, choice),
-        subtitle: state.choiceSubtitle(context, state, choice),
-        secondary: state.choiceSecondary(context, state, choice),
+        title: titleBuilder(choice),
+        subtitle: subtitleBuilder(choice),
+        secondary: secondaryBuilder(choice),
         activeColor: choice.activeStyle.color,
         contentPadding: choice.effectiveStyle.padding,
         controlAffinity: ListTileControlAffinity.values[choice.effectiveStyle.control?.index ?? 2],
@@ -103,9 +99,8 @@ abstract class S2ChoiceResolver<T> {
       );
 
   /// get chip builder
-  static Widget chipBuilder<A extends S2State, T>(
+  Widget chipBuilder(
     BuildContext context,
-    A state,
     S2Choice<T> choice,
   ) {
     final S2ChoiceStyle effectiveStyle = choice.effectiveStyle;
@@ -124,10 +119,10 @@ abstract class S2ChoiceResolver<T> {
         child: RawChip(
           key: ValueKey(choice.value),
           padding: effectiveStyle?.padding ?? const EdgeInsets.all(4),
-          label: state.choiceTitle(context, state, choice),
-          avatar: state.choiceSecondary(context, state, choice),
+          label: titleBuilder(choice),
+          avatar: secondaryBuilder(choice),
           clipBehavior: effectiveStyle?.clipBehavior ?? Clip.none,
-          showCheckmark: effectiveStyle?.showCheckmark ?? state.isMultiChoice,
+          showCheckmark: effectiveStyle?.showCheckmark ?? isMultiChoice,
           isEnabled: choice.disabled != true,
           onSelected: (selected) => choice.select(selected),
           selected: choice.selected,
@@ -137,36 +132,41 @@ abstract class S2ChoiceResolver<T> {
   }
 
   /// get chip builder
-  static Widget cardBuilder<A extends S2State, T>(
+  Widget cardBuilder(
     BuildContext context,
-    A state,
     S2Choice<T> choice,
   ) {
-    // final Color backgroundColor = choice.selected
-    //   ? choice.activeStyle.color ?? state.theme.primaryColor
-    //   : choice.style.color ?? state.theme.cardColor;
-    // final Brightness backgroundBrightness = estimateBrightnessForColor(backgroundColor);
-    // final Color textColor = backgroundBrightness == Brightness.dark
-    //   ? Colors.white
-    //   : Colors.black;
+    final Color backgroundColor = choice.selected
+        ? choice.activeStyle.color ?? Theme.of(context).primaryColor
+        : choice.style.color ?? Theme.of(context).cardColor;
+    final Brightness backgroundBrightness = estimateBrightnessForColor(backgroundColor);
+    final Color defaultTextColor = backgroundBrightness == Brightness.dark
+      ? Colors.white
+      : Colors.black;
 
     return Card(
       elevation: choice.effectiveStyle.elevation,
-      margin: choice.effectiveStyle.margin,
-      // margin: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-      color: choice.selected
-        ? choice.activeStyle.color ?? state.theme.primaryColor
-        : choice.style.color ?? state.theme.cardColor,
+      margin: choice.effectiveStyle.margin ?? const EdgeInsets.all(5),
+      color: backgroundColor,
       child: InkWell(
-        onTap: () => choice.select(true),
-        child: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              state.choiceSecondary(context, state, choice),
-              SizedBox(height: choice.effectiveStyle.spacing),
-              state.choiceTitle(context, state, choice),
-            ]..removeWhere((e) => e == null),
+        onTap: () => choice.select(!choice.selected),
+        child: Padding(
+          padding: choice.effectiveStyle.padding ?? const EdgeInsets.all(10),
+          child: DefaultTextStyle.merge(
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: defaultTextColor
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                secondaryBuilder(choice),
+                SizedBox(height: choice.effectiveStyle.spacing ?? 10),
+                titleBuilder(choice),
+              ]..removeWhere((e) => e == null),
+            ),
           ),
         ),
       ),
