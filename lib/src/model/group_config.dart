@@ -10,13 +10,13 @@ class S2GroupConfig with Diagnosticable {
   /// Whether the choices list is grouped or not, based on [S2Choice.group]
   final bool enabled;
 
-  /// Whether the group header displays the choices selector toggle or not, if [enabled] is `true`
+  /// If [enabled] is `true`, whether the group header displays the choices selector toggle or not,
   final bool useSelector;
 
-  /// Whether the group header displays the choices counter or not, if [enabled] is `true`
+  /// If [enabled] is `true`, whether the group header displays the choices counter or not
   final bool useCounter;
 
-  /// Comparator function to sort the group keys, if [enabled] is `true`
+  /// If [enabled] is `true`, comparator function to sort the group keys
   ///
   /// Defaults to `null`, and it means disabled the sorting
   final S2GroupSort sortBy;

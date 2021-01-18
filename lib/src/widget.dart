@@ -25,6 +25,7 @@ import './stateful_builder.dart';
 import './pagination.dart';
 import './text.dart';
 
+/// Signature for callbacks that report that an underlying two value has changed.
 typedef void TwoValueChanged<A, B>(A firstValue, B secondValue);
 
 /// SmartSelect allows you to easily convert your usual form select or dropdown
@@ -42,7 +43,7 @@ class SmartSelect<T> extends StatefulWidget {
   /// List of choice item
   final List<S2Choice<T>> choiceItems;
 
-  /// Loader of choice items
+  /// The function to load the choice items
   final S2ChoiceLoader<T> choiceLoader;
 
   /// Choice configuration
@@ -67,16 +68,16 @@ class SmartSelect<T> extends StatefulWidget {
   /// Modal validation of single choice widget
   final ValidationCallback<S2Choice<T>> singleModalValidation;
 
-  /// Called when single choice value changed
+  /// Called when value changed in single choice widget
   final ValueChanged<S2SingleState<T>> singleOnChange;
 
-  /// Called when single choice selection changed
+  /// Called when selection has been made in single choice widget
   final TwoValueChanged<S2SingleState<T>, S2Choice<T>> singleOnSelect;
 
-  /// Called when single choice modal opened
+  /// Called when modal opened in single choice widget
   final ValueChanged<S2SingleState<T>> singleOnModalOpen;
 
-  /// Called when single choice modal closed
+  /// Called when modal closed in single choice widget
   final TwoValueChanged<S2SingleState<T>, bool> singleOnModalClose;
 
   /// Builder collection of single choice widget
@@ -91,16 +92,16 @@ class SmartSelect<T> extends StatefulWidget {
   /// Modal validation of multiple choice widget
   final ValidationCallback<List<S2Choice<T>>> multiModalValidation;
 
-  /// Called when multiple choice value changed
+  /// Called when value changed in multiple choice widget
   final ValueChanged<S2MultiState<T>> multiOnChange;
 
-  /// Called when multiple choice selection changed
+  /// Called when selection has been made in multiple choice widget
   final TwoValueChanged<S2MultiState<T>, S2Choice<T>> multiOnSelect;
 
-  /// Called when multiple choice modal open
+  /// Called when modal open in multiple choice widget
   final ValueChanged<S2MultiState<T>> multiOnModalOpen;
 
-  /// Called when multiple choice modal closed
+  /// Called when modal closed in multiple choice widget
   final TwoValueChanged<S2MultiState<T>, bool> multiOnModalClose;
 
   /// Builder collection of multiple choice widget
@@ -152,128 +153,177 @@ class SmartSelect<T> extends StatefulWidget {
 
   /// Constructor for single choice
   ///
-  /// The [title] argument is text to display in trigger widget and modal header
+  /// The [title] argument is text to display in trigger widget and modal header.
   ///
-  /// The [placeholder] argument is text to display when there is no selected choice
+  /// The [placeholder] argument is text to display when there is no selected choice.
   ///
-  /// The [selectedValue] argument is current value of the single choice widget.
+  /// The [selectedValue] argument is current selected value.
   ///
-  /// The [onChange] called when single choice value changed
+  /// The [selectedChoice] argument is current selected choice.
   ///
-  /// The [modalValidation] is function to validate the choice selection in the modal
+  /// The [selectedResolver] is function to resolve [selectedChoice] from [selectedValue]
   ///
-  /// The [choiceItems] is [List] of [S2Choice] item to generate the choices
+  /// The [onChange] called when value changed.
   ///
-  /// The [builder] is collection of builder for single choice widget
+  /// The [onSelect] called when selection has been made.
   ///
-  /// The [tileBuilder] is shortcut to [builder.tile]
-  /// a widget builder to customize tile widget
+  /// The [onModalOpen] called when modal opened.
   ///
-  /// The [modalBuilder] is shortcut to [builder.modal]
-  /// a widget builder to customize modal widget
+  /// The [onModalClose] called when modal closed.
   ///
-  /// The [modalHeaderBuilder] is shortcut to [builder.modalHeader]
-  /// a widget builder to customize modal header widget
+  /// The [validation] is function to validate the selected.
   ///
-  /// The [modalActionsBuilder] is shortcut to [builder.modalActions]
-  /// a widget builder to customize modal actions widget
+  /// The [modalValidation] is function to validate the choice selection in the modal.
   ///
-  /// The [modalConfirmBuilder] is shortcut to [builder.modalConfirm]
-  /// a widget builder to customize modal confirm action widget
+  /// The [choiceItems] is [List] of [S2Choice] item to generate the choices.
   ///
-  /// The [modalDividerBuilder] is shortcut to [builder.modalDivider]
-  /// a widget builder to customize divider widget between header, body, and footer modal
+  /// The [choiceLoader] is function to load the choice items.
   ///
-  /// The [modalFooterBuilder] is shortcut to [builder.modalFooter]
-  /// a widget builder to customize footer widget
+  /// The [builder] is collection of builder for single choice widget.
   ///
-  /// The [modalFilterBuilder] is shortcut to [builder.modalFilter]
-  /// a widget builder to customize filter widget
+  /// The [tileBuilder] is shortcut to [builder.tile],
+  /// a widget builder to customize tile widget.
   ///
-  /// The [modalFilterToggleBuilder] is shortcut to [builder.modalFilterToggle]
-  /// a widget builder to customize filter toggle widget
+  /// The [modalBuilder] is shortcut to [builder.modal],
+  /// a widget builder to customize modal widget.
   ///
-  /// The [choiceBuilder] is shortcut to [builder.choice]
-  /// a widget builder to customize each choice item widget
+  /// The [modalHeaderBuilder] is shortcut to [builder.modalHeader],
+  /// a widget builder to customize modal header widget.
   ///
-  /// The [choiceTitleBuilder] is shortcut to [builder.choiceTitle]
-  /// a widget builder to customize each choice item title widget
+  /// The [modalActionsBuilder] is shortcut to [builder.modalActions],
+  /// a widget builder to customize modal actions widget.
   ///
-  /// The [choiceSubtitleBuilder] is shortcut to [builder.choiceSubtitle]
-  /// a widget builder to customize choice item subtitle widget
+  /// The [modalConfirmBuilder] is shortcut to [builder.modalConfirm],
+  /// a widget builder to customize modal confirm action widget.
   ///
-  /// The [choiceSecondaryBuilder] is shortcut to [builder.choiceSecondary]
-  /// a widget builder to customize choice item secondary widget
+  /// The [modalDividerBuilder] is shortcut to [builder.modalDivider],
+  /// a widget builder to customize divider widget between header, body, and footer modal.
   ///
-  /// The [choiceDividerBuilder] is shortcut to [builder.choiceDivider]
-  /// a widget builder to customize divider widget between choices item
+  /// The [modalFooterBuilder] is shortcut to [builder.modalFooter],
+  /// a widget builder to customize footer widget.
   ///
-  /// The [choiceEmptyBuilder] is shortcut to [builder.choiceEmpty]
-  /// a widget builder to customize empty display widget
+  /// The [modalFilterBuilder] is shortcut to [builder.modalFilter],
+  /// a widget builder to customize filter widget.
   ///
-  /// The [choiceGroupBuilder] is shortcut to [builder.choiceGroup]
-  /// a widget builder to customize choices group widget
+  /// The [modalFilterToggleBuilder] is shortcut to [builder.modalFilterToggle],
+  /// a widget builder to customize filter toggle widget.
   ///
-  /// The [choiceHeaderBuilder] is shortcut to [builder.choiceHeader]
-  /// a widget builder to customize header widget on grouped choices
+  /// The [choiceBuilder] is shortcut to [builder.choice],
+  /// a widget builder to customize each choice item widget.
   ///
-  /// The [choiceConfig] is a configuration to customize choice widget
+  /// The [choiceTitleBuilder] is shortcut to [builder.choiceTitle],
+  /// a widget builder to customize each choice item title widget.
   ///
-  /// The [choiceStyle] is shortcut to [choiceConfig.style]
-  /// a configuration for styling unselected choice widget
+  /// The [choiceSubtitleBuilder] is shortcut to [builder.choiceSubtitle],
+  /// a widget builder to customize choice item subtitle widget.
   ///
-  /// The [choiceActiveStyle] is shortcut to [choiceConfig.activeStyle]
-  /// a configuration for styling selected choice widget
+  /// The [choiceSecondaryBuilder] is shortcut to [builder.choiceSecondary],
+  /// a widget builder to customize choice item secondary widget.
   ///
-  /// The [choiceHeaderStyle] is shortcut to [choiceConfig.headerStyle]
-  /// a configuration for styling header widget of grouped choices
+  /// The [choiceDividerBuilder] is shortcut to [builder.choiceDivider],
+  /// a widget builder to customize divider widget between choices item.
   ///
-  /// The [choiceType] is shortcut to [choiceConfig.type]
-  /// widget type to display the choice items
+  /// The [choiceEmptyBuilder] is shortcut to [builder.choiceEmpty],
+  /// a widget builder to customize empty display widget.
   ///
-  /// The [choiceLayout] is shortcut to [choiceConfig.layout]
-  /// layout to display the choice items
+  /// The [choiceGroupBuilder] is shortcut to [builder.choiceGroup],
+  /// a widget builder to customize choices group widget.
   ///
-  /// The [choiceDirection] is shortcut to [choiceConfig.direction]
-  /// scroll direction of the choice items. Currently only support when [choiceLayout] or [choiceConfig.layout] is [S2ChoiceLayout.wrap]
+  /// The [choiceHeaderBuilder] is shortcut to [builder.choiceHeader],
+  /// a widget builder to customize header widget on grouped choices.
   ///
-  /// The [choiceGrouped] is shortcut to [groupConfig.enabled]
-  /// whether the choice items is grouped or not, based on [S2Choice.group] value
+  /// The [choiceConfig] is a configuration to customize choice widget.
   ///
-  /// The [choiceDivider] is shortcut to [choiceConfig.useDivider]
-  /// whether the choice items use divider or not
+  /// The [choiceStyle] is shortcut to [choiceConfig.style],
+  /// a configuration for styling unselected choice widget.
   ///
-  /// The [choiceGrid] is shortcut to [choiceConfig.gridDelegate]
-  /// a delegate that controls the layout of the children within the [GridView] when [choiceLayout] is [S2ChoiceLayout.grid].
+  /// The [choiceActiveStyle] is shortcut to [choiceConfig.activeStyle],
+  /// a configuration for styling selected choice widget.
   ///
-  /// Then [modalConfig] is configuration to customize behavior of the choices modal
+  /// The [choiceHeaderStyle] is shortcut to [choiceConfig.headerStyle],
+  /// a configuration for styling header widget of grouped choices.
   ///
-  /// The [modalStyle] is shortcut to [modalConfig.style]
-  /// a configuration for styling modal widget
+  /// The [choiceType] is shortcut to [choiceConfig.type],
+  /// widget type to display the choice items.
   ///
-  /// The [modalHeaderStyle] is shortcut to [modalConfig.headerStyle]
-  /// a configuration for styling header of the modal widget
+  /// The [choiceLayout] is shortcut to [choiceConfig.layout],
+  /// layout to display the choice items.
   ///
-  /// The [modalType] is shortcut to [modalConfig.type]
-  /// modal type to display the choice items
+  /// The [choiceDirection] is shortcut to [choiceConfig.direction],
+  /// scroll direction of the choice items,
+  /// currently only support when [choiceLayout] or [choiceConfig.layout] is [S2ChoiceLayout.wrap].
   ///
-  /// The [modalTitle] is shortcut to [modalConfig.title]
-  /// used to override [title] in the modal widget
+  /// The [choiceGrouped] is shortcut to [groupConfig.enabled],
+  /// whether the choice items is grouped or not, based on [S2Choice.group] value.
   ///
-  /// The [modalConfirm] is shortcut to [modalConfig.useConfirm]
-  /// Whether the modal need to confirm before returning the changed value
+  /// The [choiceDivider] is shortcut to [choiceConfig.useDivider],
+  /// whether the choice items use divider or not.
   ///
-  /// The [modalHeader] is shortcut to [modalConfig.useHeader]
-  /// Whether the modal use header or not
+  /// The [choiceGrid] is shortcut to [choiceConfig.gridDelegate],
+  /// if [choiceLayout] is [S2ChoiceLayout.grid],
+  /// a delegate that controls the layout of the children within the [GridView].
   ///
-  /// The [modalFilter] is shortcut to [modalConfig.useFilter]
-  /// Whether the choice items in the modal is filterable or not
+  /// The [choiceGridCount] is shortcut to [choiceConfig.gridCount],
+  /// if [choiceLayout] is [S2ChoiceLayout.grid],
+  /// the number of children in the cross axis, and ignored if [choiceGrid] is defined,
   ///
-  /// The [modalFilterAuto] shortcut to [modalConfig.filterAuto]
-  /// Whether the filter is autocomplete or need to confirm with filter button
+  /// The [choiceGridSpacing] is shortcut to [choiceConfig.gridSpacing],
+  /// if [choiceLayout] is [S2ChoiceLayout.grid],
+  /// fill the [crossAxisSpacing] and [crossAxisSpacing] with single configuration,
+  /// and ignored if [choiceGrid] is defined.
   ///
-  /// The [modalFilterHint] is shortcut to [modalConfig.filterHint]
-  /// [String] to display as hint in searchbar
+  /// The [choicePageLimit] is shortcut to [choiceConfig.pageLimit],
+  /// limit per page to display the choices, defaults to `null`, it means disabled the paging.
+  ///
+  /// The [choiceDelay] is shortcut to [choiceConfig.delay],
+  /// time delay before display the choices.
+  ///
+  /// The [groupConfig] is a configuration to customize grouped widget.
+  ///
+  /// The [groupEnabled] is shortcut to [groupConfig.enabled], alterative to [choiceGrouped],
+  /// whether the choices list is grouped or not, based on [S2Choice.group].
+  ///
+  /// The [groupSelector] is shortcut to [groupConfig.useSelector],
+  /// if [groupEnabled] is `true`, whether the group header displays the choices selector toggle or not.
+  ///
+  /// The [groupCounter] is shortcut to [groupConfig.useCounter],
+  /// if [groupEnabled] is `true`, whether the group header displays the choices counter or not.
+  ///
+  /// The [groupSortBy] is shortcut to [groupConfig.sortBy],
+  /// if [groupEnabled] is `true`, comparator function to sort the group keys,
+  /// and defaults to `null` to disabled the sorting.
+  ///
+  /// The [groupHeaderStyle] is shortcut to [groupConfig.headerStyle],
+  /// if [groupEnabled] is `true`, configure choices group header theme.
+  ///
+  /// Then [modalConfig] is configuration to customize behavior of the choices modal.
+  ///
+  /// The [modalStyle] is shortcut to [modalConfig.style],
+  /// a configuration for styling modal widget.
+  ///
+  /// The [modalHeaderStyle] is shortcut to [modalConfig.headerStyle],
+  /// a configuration for styling header of the modal widget.
+  ///
+  /// The [modalType] is shortcut to [modalConfig.type],
+  /// modal type to display the choice items.
+  ///
+  /// The [modalTitle] is shortcut to [modalConfig.title],
+  /// used to override [title] in the modal widget.
+  ///
+  /// The [modalConfirm] is shortcut to [modalConfig.useConfirm],
+  /// Whether the modal need to confirm before returning the changed value.
+  ///
+  /// The [modalHeader] is shortcut to [modalConfig.useHeader],
+  /// Whether the modal use header or not.
+  ///
+  /// The [modalFilter] is shortcut to [modalConfig.useFilter],
+  /// Whether the choice items in the modal is filterable or not.
+  ///
+  /// The [modalFilterAuto] shortcut to [modalConfig.filterAuto],
+  /// Whether the filter is autocomplete or need to confirm with filter button.
+  ///
+  /// The [modalFilterHint] is shortcut to [modalConfig.filterHint],
+  /// [String] to display as hint in searchbar.
   factory SmartSelect.single({
     Key key,
     String title,
@@ -414,129 +464,177 @@ class SmartSelect<T> extends StatefulWidget {
 
   /// Constructor for multiple choice
   ///
-  /// The [title] argument is primary content of the widget.
-  /// Used in trigger widget and header option
+  /// The [title] argument is text to display in trigger widget and modal header.
   ///
-  /// The [placeholder] argument is text to display when the value is null
+  /// The [placeholder] argument is text to display when there is no selected choice.
   ///
-  /// The [selectedValue] argument is current value of the multiple choice widget.
+  /// The [selectedValue] argument is current selected value.
   ///
-  /// The [onChange] called when multiple choice value changed
+  /// The [selectedChoice] argument is current selected choice.
   ///
-  /// The [modalValidation] is validation function to validate the changes value
+  /// The [selectedResolver] is function to resolve [selectedChoice] from [selectedValue]
   ///
-  /// The [choiceItems] is [List] of [S2Choice] item
+  /// The [onChange] called when value changed.
   ///
-  /// The [builder] is collection of builder for multiple choice widget
+  /// The [onSelect] called when selection has been made.
   ///
-  /// The [tileBuilder] is shortcut to [builder.tile]
-  /// a widget builder to customize tile widget
+  /// The [onModalOpen] called when modal opened.
   ///
-  /// The [modalBuilder] is shortcut to [builder.modal]
-  /// a widget builder to customize modal widget
+  /// The [onModalClose] called when modal closed.
   ///
-  /// The [modalHeaderBuilder] is shortcut to [builder.modalHeader]
-  /// a widget builder to customize modal header widget
+  /// The [validation] is function to validate the selected.
   ///
-  /// The [modalActionsBuilder] is shortcut to [builder.modalActions]
-  /// a widget builder to customize modal actions widget
+  /// The [modalValidation] is function to validate the choice selection in the modal.
   ///
-  /// The [modalConfirmBuilder] is shortcut to [builder.modalConfirm]
-  /// a widget builder to customize modal confirm action widget
+  /// The [choiceItems] is [List] of [S2Choice] item to generate the choices.
   ///
-  /// The [modalDividerBuilder] is shortcut to [builder.modalDivider]
-  /// a widget builder to customize divider widget between header, body, and footer modal
+  /// The [choiceLoader] is function to load the choice items.
   ///
-  /// The [modalFooterBuilder] is shortcut to [builder.modalFooter]
-  /// a widget builder to customize footer widget
+  /// The [builder] is collection of builder for single choice widget.
   ///
-  /// The [modalFilterBuilder] is shortcut to [builder.modalFilter]
-  /// a widget builder to customize filter widget
+  /// The [tileBuilder] is shortcut to [builder.tile],
+  /// a widget builder to customize tile widget.
   ///
-  /// The [modalFilterToggleBuilder] is shortcut to [builder.modalFilterToggle]
-  /// a widget builder to customize filter toggle widget
+  /// The [modalBuilder] is shortcut to [builder.modal],
+  /// a widget builder to customize modal widget.
   ///
-  /// The [choiceBuilder] is shortcut to [builder.choice]
-  /// a widget builder to customize each choice item widget
+  /// The [modalHeaderBuilder] is shortcut to [builder.modalHeader],
+  /// a widget builder to customize modal header widget.
   ///
-  /// The [choiceTitleBuilder] is shortcut to [builder.choiceTitle]
-  /// a widget builder to customize each choice item title widget
+  /// The [modalActionsBuilder] is shortcut to [builder.modalActions],
+  /// a widget builder to customize modal actions widget.
   ///
-  /// The [choiceSubtitleBuilder] is shortcut to [builder.choiceSubtitle]
-  /// a widget builder to customize choice item subtitle widget
+  /// The [modalConfirmBuilder] is shortcut to [builder.modalConfirm],
+  /// a widget builder to customize modal confirm action widget.
   ///
-  /// The [choiceSecondaryBuilder] is shortcut to [builder.choiceSecondary]
-  /// a widget builder to customize choice item secondary widget
+  /// The [modalDividerBuilder] is shortcut to [builder.modalDivider],
+  /// a widget builder to customize divider widget between header, body, and footer modal.
   ///
-  /// The [choiceDividerBuilder] is shortcut to [builder.choiceDivider]
-  /// a widget builder to customize divider widget between choices item
+  /// The [modalFooterBuilder] is shortcut to [builder.modalFooter],
+  /// a widget builder to customize footer widget.
   ///
-  /// The [choiceEmptyBuilder] is shortcut to [builder.choiceEmpty]
-  /// a widget builder to customize empty display widget
+  /// The [modalFilterBuilder] is shortcut to [builder.modalFilter],
+  /// a widget builder to customize filter widget.
   ///
-  /// The [choiceGroupBuilder] is shortcut to [builder.choiceGroup]
-  /// a widget builder to customize choices group widget
+  /// The [modalFilterToggleBuilder] is shortcut to [builder.modalFilterToggle],
+  /// a widget builder to customize filter toggle widget.
   ///
-  /// The [choiceHeaderBuilder] is shortcut to [builder.choiceHeader]
-  /// a widget builder to customize header widget on grouped choices
+  /// The [choiceBuilder] is shortcut to [builder.choice],
+  /// a widget builder to customize each choice item widget.
   ///
-  /// The [choiceConfig] is a configuration to customize choice widget
+  /// The [choiceTitleBuilder] is shortcut to [builder.choiceTitle],
+  /// a widget builder to customize each choice item title widget.
   ///
-  /// The [choiceStyle] is shortcut to [choiceConfig.style]
-  /// a configuration for styling unselected choice widget
+  /// The [choiceSubtitleBuilder] is shortcut to [builder.choiceSubtitle],
+  /// a widget builder to customize choice item subtitle widget.
   ///
-  /// The [choiceActiveStyle] is shortcut to [choiceConfig.activeStyle]
-  /// a configuration for styling selected choice widget
+  /// The [choiceSecondaryBuilder] is shortcut to [builder.choiceSecondary],
+  /// a widget builder to customize choice item secondary widget.
   ///
-  /// The [choiceHeaderStyle] is shortcut to [choiceConfig.headerStyle]
-  /// a configuration for styling header widget of grouped choices
+  /// The [choiceDividerBuilder] is shortcut to [builder.choiceDivider],
+  /// a widget builder to customize divider widget between choices item.
   ///
-  /// The [choiceType] is shortcut to [choiceConfig.type]
-  /// widget type to display the choice items
+  /// The [choiceEmptyBuilder] is shortcut to [builder.choiceEmpty],
+  /// a widget builder to customize empty display widget.
   ///
-  /// The [choiceLayout] is shortcut to [choiceConfig.layout]
-  /// layout to display the choice items
+  /// The [choiceGroupBuilder] is shortcut to [builder.choiceGroup],
+  /// a widget builder to customize choices group widget.
   ///
-  /// The [choiceDirection] is shortcut to [choiceConfig.direction]
-  /// scroll direction of the choice items. Currently only support when [choiceLayout] or [choiceConfig.layout] is [S2ChoiceLayout.wrap]
+  /// The [choiceHeaderBuilder] is shortcut to [builder.choiceHeader],
+  /// a widget builder to customize header widget on grouped choices.
   ///
-  /// The [choiceGrouped] is shortcut to [choiceConfig.isGrouped]
-  /// whether the choice items is grouped or not, based on [S2Choice.group] value
+  /// The [choiceConfig] is a configuration to customize choice widget.
   ///
-  /// The [choiceDivider] is shortcut to [choiceConfig.useDivider]
-  /// whether the choice items use divider or not
+  /// The [choiceStyle] is shortcut to [choiceConfig.style],
+  /// a configuration for styling unselected choice widget.
   ///
-  /// The [choiceGrid] is shortcut to [choiceConfig.gridDelegate]
-  /// a delegate that controls the layout of the children within the [GridView] when [choiceLayout] is [S2ChoiceLayout.grid].
+  /// The [choiceActiveStyle] is shortcut to [choiceConfig.activeStyle],
+  /// a configuration for styling selected choice widget.
   ///
-  /// Then [modalConfig] is configuration to customize behavior of the choices modal
+  /// The [choiceHeaderStyle] is shortcut to [choiceConfig.headerStyle],
+  /// a configuration for styling header widget of grouped choices.
   ///
-  /// The [modalStyle] is shortcut to [modalConfig.style]
-  /// a configuration for styling modal widget
+  /// The [choiceType] is shortcut to [choiceConfig.type],
+  /// widget type to display the choice items.
   ///
-  /// The [modalHeaderStyle] is shortcut to [modalConfig.headerStyle]
-  /// a configuration for styling header of the modal widget
+  /// The [choiceLayout] is shortcut to [choiceConfig.layout],
+  /// layout to display the choice items.
   ///
-  /// The [modalType] is shortcut to [modalConfig.type]
-  /// modal type to display the choice items
+  /// The [choiceDirection] is shortcut to [choiceConfig.direction],
+  /// scroll direction of the choice items,
+  /// currently only support when [choiceLayout] or [choiceConfig.layout] is [S2ChoiceLayout.wrap].
   ///
-  /// The [modalTitle] is shortcut to [modalConfig.title]
-  /// used to override [title] in the modal widget
+  /// The [choiceGrouped] is shortcut to [groupConfig.enabled],
+  /// whether the choice items is grouped or not, based on [S2Choice.group] value.
   ///
-  /// The [modalConfirm] is shortcut to [modalConfig.useConfirm]
-  /// Whether the modal need to confirm before returning the changed value
+  /// The [choiceDivider] is shortcut to [choiceConfig.useDivider],
+  /// whether the choice items use divider or not.
   ///
-  /// The [modalHeader] is shortcut to [modalConfig.useHeader]
-  /// Whether the modal use header or not
+  /// The [choiceGrid] is shortcut to [choiceConfig.gridDelegate],
+  /// if [choiceLayout] is [S2ChoiceLayout.grid],
+  /// a delegate that controls the layout of the children within the [GridView].
   ///
-  /// The [modalFilter] is shortcut to [modalConfig.useFilter]
-  /// Whether the choice items in the modal is filterable or not
+  /// The [choiceGridCount] is shortcut to [choiceConfig.gridCount],
+  /// if [choiceLayout] is [S2ChoiceLayout.grid],
+  /// the number of children in the cross axis, and ignored if [choiceGrid] is defined,
   ///
-  /// The [modalFilterAuto] shortcut to [modalConfig.filterAuto]
-  /// Whether the filter is autocomplete or need to confirm with filter button
+  /// The [choiceGridSpacing] is shortcut to [choiceConfig.gridSpacing],
+  /// if [choiceLayout] is [S2ChoiceLayout.grid],
+  /// fill the [crossAxisSpacing] and [crossAxisSpacing] with single configuration,
+  /// and ignored if [choiceGrid] is defined.
   ///
-  /// The [modalFilterHint] is shortcut to [modalConfig.filterHint]
-  /// [String] to display as hint in searchbar
+  /// The [choicePageLimit] is shortcut to [choiceConfig.pageLimit],
+  /// limit per page to display the choices, defaults to `null`, it means disabled the paging.
+  ///
+  /// The [choiceDelay] is shortcut to [choiceConfig.delay],
+  /// time delay before display the choices.
+  ///
+  /// The [groupConfig] is a configuration to customize grouped widget.
+  ///
+  /// The [groupEnabled] is shortcut to [groupConfig.enabled], alterative to [choiceGrouped],
+  /// whether the choices list is grouped or not, based on [S2Choice.group].
+  ///
+  /// The [groupSelector] is shortcut to [groupConfig.useSelector],
+  /// if [groupEnabled] is `true`, whether the group header displays the choices selector toggle or not.
+  ///
+  /// The [groupCounter] is shortcut to [groupConfig.useCounter],
+  /// if [groupEnabled] is `true`, whether the group header displays the choices counter or not.
+  ///
+  /// The [groupSortBy] is shortcut to [groupConfig.sortBy],
+  /// if [groupEnabled] is `true`, comparator function to sort the group keys,
+  /// and defaults to `null` to disabled the sorting.
+  ///
+  /// The [groupHeaderStyle] is shortcut to [groupConfig.headerStyle],
+  /// if [groupEnabled] is `true`, configure choices group header theme.
+  ///
+  /// Then [modalConfig] is configuration to customize behavior of the choices modal.
+  ///
+  /// The [modalStyle] is shortcut to [modalConfig.style],
+  /// a configuration for styling modal widget.
+  ///
+  /// The [modalHeaderStyle] is shortcut to [modalConfig.headerStyle],
+  /// a configuration for styling header of the modal widget.
+  ///
+  /// The [modalType] is shortcut to [modalConfig.type],
+  /// modal type to display the choice items.
+  ///
+  /// The [modalTitle] is shortcut to [modalConfig.title],
+  /// used to override [title] in the modal widget.
+  ///
+  /// The [modalConfirm] is shortcut to [modalConfig.useConfirm],
+  /// Whether the modal need to confirm before returning the changed value.
+  ///
+  /// The [modalHeader] is shortcut to [modalConfig.useHeader],
+  /// Whether the modal use header or not.
+  ///
+  /// The [modalFilter] is shortcut to [modalConfig.useFilter],
+  /// Whether the choice items in the modal is filterable or not.
+  ///
+  /// The [modalFilterAuto] shortcut to [modalConfig.filterAuto],
+  /// Whether the filter is autocomplete or need to confirm with filter button.
+  ///
+  /// The [modalFilterHint] is shortcut to [modalConfig.filterHint],
+  /// [String] to display as hint in searchbar.
   factory SmartSelect.multiple({
     Key key,
     String title,
