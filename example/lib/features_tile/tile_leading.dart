@@ -55,7 +55,9 @@ class _FeaturesTileLeadingState extends State<FeaturesTileLeading> {
           title: 'Frameworks',
           selectedValue: _framework,
           choiceItems: choices.frameworks,
-          onChange: (state) => setState(() => _framework = state.selected.value),
+          onChange: (state) {
+            setState(() => _framework = state.selected.value);
+          },
           modalType: S2ModalType.popupDialog,
           tileBuilder: (context, state) {
             return S2Tile.fromState(

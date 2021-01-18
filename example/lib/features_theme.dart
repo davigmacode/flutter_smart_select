@@ -26,7 +26,9 @@ class _FeaturesThemeState extends State<FeaturesTheme> {
           child: SmartSelect<ThemeMode>.single(
             title: 'Brightness',
             selectedValue: ThemePatrol.of(context).themeMode,
-            onChange: (state) => ThemePatrol.of(context).setMode(state.selected.value),
+            onChange: (state) {
+              ThemePatrol.of(context).setMode(state.selected.value);
+            },
             modalType: S2ModalType.bottomSheet,
             modalHeader: false,
             choiceItems: S2Choice.listFrom<ThemeMode, List>(
@@ -58,7 +60,9 @@ class _FeaturesThemeState extends State<FeaturesTheme> {
                       const SizedBox(height: 5),
                       Text(
                         choice.title,
-                        style: TextStyle(color: choice.selected ? Colors.white : null),
+                        style: TextStyle(
+                          color: choice.selected ? Colors.white : null,
+                        ),
                       ),
                     ],
                   ),

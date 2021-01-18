@@ -116,7 +116,9 @@ class _FeaturesChoicesBuilderState extends State<FeaturesChoicesBuilder> {
                         width: 50,
                         height: 50,
                         child: CircleAvatar(
-                          backgroundImage: NetworkImage(choice.meta['picture']['thumbnail']),
+                          backgroundImage: NetworkImage(
+                            choice.meta['picture']['thumbnail'],
+                          ),
                         ),
                       ),
                       const SizedBox(height: 5),
@@ -154,7 +156,9 @@ class _FeaturesChoicesBuilderState extends State<FeaturesChoicesBuilder> {
                   return Text(state.selected.choice[i].title);
                 },
                 chipAvatarBuilder: (context, i) => CircleAvatar(
-                  backgroundImage: NetworkImage(state.selected.choice[i].meta['picture']['thumbnail']),
+                  backgroundImage: NetworkImage(
+                    state.selected.choice[i].meta['picture']['thumbnail'],
+                  ),
                 ),
                 chipOnDelete: (i) {
                   setState(() => _user.remove(state.selected.choice[i].value));

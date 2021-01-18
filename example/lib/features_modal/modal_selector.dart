@@ -20,7 +20,9 @@ class _FeaturesModalSelectorState extends State<FeaturesModalSelector> {
         SmartSelect<String>.multiple(
           title: 'Fruit',
           selectedValue: _fruit,
-          onChange: (state) => setState(() => _fruit = state.selected.value),
+          onChange: (state) {
+            setState(() => _fruit = state.selected.value);
+          },
           choiceItems: choices.fruits,
           modalType: S2ModalType.popupDialog,
           modalConfirm: true,
@@ -82,7 +84,9 @@ class _FeaturesModalSelectorState extends State<FeaturesModalSelector> {
             title: 'Phones',
             placeholder: 'Choose one',
             selectedValue: _smartphone,
-            onChange: (state) => setState(() => _smartphone = state.selected.value),
+            onChange: (state) {
+              setState(() => _smartphone = state.selected.value);
+            },
             choiceItems: S2Choice.listFrom<String, Map>(
               source: choices.smartphones,
               value: (index, item) => item['id'],
@@ -141,7 +145,9 @@ class _FeaturesModalSelectorState extends State<FeaturesModalSelector> {
                 hideValue: true,
                 trailing: const Icon(Icons.add_circle_outline),
                 leading: const CircleAvatar(
-                  backgroundImage: NetworkImage('https://source.unsplash.com/xsGxhtAsfSA/100x100'),
+                  backgroundImage: NetworkImage(
+                    'https://source.unsplash.com/xsGxhtAsfSA/100x100',
+                  ),
                 ),
                 body: S2TileChips(
                   chipColor: Theme.of(context).primaryColor,
@@ -150,7 +156,9 @@ class _FeaturesModalSelectorState extends State<FeaturesModalSelector> {
                     return Text(state.selected.choice[i].title);
                   },
                   chipOnDelete: (i) {
-                    setState(() => _smartphone.remove(state.selected.choice[i].value));
+                    setState(() {
+                      _smartphone.remove(state.selected.choice[i].value);
+                    });
                   },
                   // placeholder: Container(),
                 ),
@@ -188,7 +196,9 @@ class _FeaturesModalSelectorState extends State<FeaturesModalSelector> {
               state,
               isTwoLine: true,
               leading: const CircleAvatar(
-                backgroundImage: NetworkImage('https://source.unsplash.com/yeVtxxPxzbw/100x100'),
+                backgroundImage: NetworkImage(
+                  'https://source.unsplash.com/yeVtxxPxzbw/100x100',
+                ),
               ),
             );
           },

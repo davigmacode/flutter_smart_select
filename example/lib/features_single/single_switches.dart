@@ -44,7 +44,9 @@ class _FeaturesSingleSwitchesState extends State<FeaturesSingleSwitches> {
         SmartSelect<String>.single(
           title: 'Smartphones',
           selectedValue: _smartphone,
-          onChange: (state) => setState(() => _smartphone = state.selected.value),
+          onChange: (state) {
+            setState(() => _smartphone = state.selected.value);
+          },
           choiceType: S2ChoiceType.switches,
           choiceItems: S2Choice.listFrom<String, Map>(
             source: choices.smartphones,

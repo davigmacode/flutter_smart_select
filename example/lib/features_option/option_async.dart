@@ -73,7 +73,9 @@ class _FeaturesOptionAsyncState extends State<FeaturesOptionAsync> {
               choiceItems: snapshot.data,
               choiceGrouped: true,
               choiceType: S2ChoiceType.checkboxes,
-              onChange: (state) => setState(() => _countries = state.selected.value),
+              onChange: (state) {
+                setState(() => _countries = state.selected.value);
+              },
               tileBuilder: (context, state) {
                 return S2Tile.fromState(
                   state,

@@ -48,7 +48,9 @@ class _FeaturesModalHeaderState extends State<FeaturesModalHeader> {
         SmartSelect<String>.single(
           title: 'Frameworks',
           selectedValue: _framework,
-          onChange: (state) => setState(() => _framework = state.selected.value),
+          onChange: (state) {
+            setState(() => _framework = state.selected.value);
+          },
           choiceItems: choices.frameworks,
           modalConfig: S2ModalConfig(
             type: S2ModalType.popupDialog,

@@ -19,7 +19,9 @@ class _FeaturesModalShapeState extends State<FeaturesModalShape> {
         SmartSelect<String>.single(
           title: 'Frameworks',
           selectedValue: _framework,
-          onChange: (state) => setState(() => _framework = state.selected.value),
+          onChange: (state) {
+            setState(() => _framework = state.selected.value);
+          },
           choiceType: S2ChoiceType.radios,
           choiceItems: choices.frameworks,
           modalType: S2ModalType.popupDialog,

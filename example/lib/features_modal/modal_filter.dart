@@ -64,7 +64,9 @@ class _FeaturesModalFilterState extends State<FeaturesModalFilter> {
               state,
               isTwoLine: true,
               leading: const CircleAvatar(
-                backgroundImage: NetworkImage('https://source.unsplash.com/xsGxhtAsfSA/100x100'),
+                backgroundImage: NetworkImage(
+                  'https://source.unsplash.com/xsGxhtAsfSA/100x100',
+                ),
               ),
             );
           },

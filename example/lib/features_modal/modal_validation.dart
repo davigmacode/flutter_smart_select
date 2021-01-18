@@ -69,7 +69,9 @@ class _FeaturesModalValidationState extends State<FeaturesModalValidation> {
           choiceItems: choices.fruits,
           modalType: S2ModalType.popupDialog,
           modalConfirm: true,
-          modalValidation: (value) => value.length > 0 ? null : 'Select at least one',
+          modalValidation: (value) {
+            return value.length > 0 ? null : 'Select at least one';
+          },
           tileBuilder: (context, state) {
             return S2Tile.fromState(
               state,

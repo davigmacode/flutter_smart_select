@@ -45,7 +45,9 @@ class _FeaturesOptionListOfStringState extends State<FeaturesOptionListOfString>
                 child: SmartSelect<int>.multiple(
                   title: 'Categories',
                   selectedValue: _categories,
-                  onChange: (state) => setState(() => _categories = state.selected.value),
+                  onChange: (state) {
+                    setState(() => _categories = state.selected.value);
+                  },
                   choiceItems: S2Choice.listFrom<int, String>(
                     source: _categoriesOption,
                     value: (index, item) => index,

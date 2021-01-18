@@ -35,7 +35,9 @@ class _FeaturesMultiSwitchesState extends State<FeaturesMultiSwitches> {
               state,
               isTwoLine: true,
               leading: const CircleAvatar(
-                backgroundImage: NetworkImage('https://source.unsplash.com/yeVtxxPxzbw/100x100'),
+                backgroundImage: NetworkImage(
+                  'https://source.unsplash.com/yeVtxxPxzbw/100x100',
+                ),
               ),
             );
           },
@@ -44,7 +46,9 @@ class _FeaturesMultiSwitchesState extends State<FeaturesMultiSwitches> {
         SmartSelect<String>.multiple(
           title: 'Smartphones',
           selectedValue: _smartphone,
-          onChange: (state) => setState(() => _smartphone = state.selected.value),
+          onChange: (state) {
+            setState(() => _smartphone = state.selected.value);
+          },
           choiceType: S2ChoiceType.switches,
           choiceItems: S2Choice.listFrom<String, Map>(
             source: choices.smartphones,
