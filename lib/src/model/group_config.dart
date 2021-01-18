@@ -35,6 +35,9 @@ class S2GroupConfig with Diagnosticable {
     assert(enabled != null),
     assert(headerStyle != null);
 
+  /// Opposite value of enabled
+  bool get disabled => !enabled;
+
   /// Creates a copy of this [S2GroupConfig] but with
   /// the given fields replaced with the new values.
   S2GroupConfig copyWith({
@@ -53,8 +56,8 @@ class S2GroupConfig with Diagnosticable {
     );
   }
 
-  /// Creates a copy of this [S2GroupConfig] but with
-  /// the given fields replaced with the new values.
+  /// Returns a new [S2GroupConfig] that is
+  /// a combination of this object and the given [other] style.
   S2GroupConfig merge(S2GroupConfig other) {
     // if null return current object
     if (other == null) return this;

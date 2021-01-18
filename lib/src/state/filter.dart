@@ -1,20 +1,20 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
-/// state of filter data
+/// State of filter data
 class S2Filter extends ChangeNotifier {
 
   bool _activated = false;
 
   String _value;
 
-  /// text controller
+  /// Text controller
   final TextEditingController ctrl = TextEditingController();
 
-  /// whether the filter is displayed or not
+  /// Returns `true` if the filter is displayed
   bool get activated => _activated;
 
-  /// current filter text value
+  /// Returns the current filter value
   String get value => _value;
 
   @override
@@ -24,8 +24,7 @@ class S2Filter extends ChangeNotifier {
     super.dispose();
   }
 
-  /// show the filter
-  /// will add history to route
+  /// Show the filter and add history to route
   void show(BuildContext context) {
     // add history to route, so back button will appear
     // and when physical back button pressed
@@ -37,8 +36,7 @@ class S2Filter extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// hide the filter
-  /// will remove history to route
+  /// Hide the filter and remove history from route
   void hide(BuildContext context) {
     // close the filter
     stop();
@@ -46,19 +44,19 @@ class S2Filter extends ChangeNotifier {
     Navigator.pop(context);
   }
 
-  /// clear and close filter
+  /// Clear and close filter
   void stop() {
     _activated = false;
     clear();
   }
 
-  /// just clear the filter text
+  /// Just clear the filter text
   void clear() {
     ctrl.clear();
     apply(null);
   }
 
-  /// apply new value to filter query
+  /// Apply new value to filter query
   void apply(String val) {
     _value = val;
     notifyListeners();

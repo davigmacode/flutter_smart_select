@@ -1,24 +1,24 @@
 import 'package:flutter/widgets.dart';
 
-/// text widget that supports highlight
+/// Text widget that supports highlight
 class S2Text extends StatelessWidget {
 
-  /// the text data string
+  /// The text data string
   final String text;
 
-  /// the text style
+  /// The text style
   final TextStyle style;
 
-  /// the highlight data string
+  /// The highlight data string
   final String highlight;
 
-  /// the highlight color
+  /// The highlight color
   final Color highlightColor;
 
-  /// whether the match is case sensitive or not
+  /// Whether the match is case sensitive or not
   final bool caseSensitive;
 
-  /// default constructor
+  /// Default constructor
   const S2Text({
     Key key,
     this.text,
@@ -28,9 +28,9 @@ class S2Text extends StatelessWidget {
     this.caseSensitive = false,
   }) : super(key: key);
 
-  /// default hightlight color
+  /// Default hightlight color
   ///
-  /// defaults to yellow
+  /// Defaults to yellow
   static const Color defaultHightlightColor = Color(0xFFFBC02D);
 
   @override

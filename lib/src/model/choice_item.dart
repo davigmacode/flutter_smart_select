@@ -2,7 +2,10 @@ import 'package:flutter/foundation.dart';
 import 'package:smart_select/src/utils/accent.dart';
 import 'choice_theme.dart';
 
-/// Choice option configuration
+/// Validation callback
+typedef String ValidationCallback<T>(T value);
+
+/// Choice data configuration
 @immutable
 class S2Choice<T> with Diagnosticable {
   /// Value to return

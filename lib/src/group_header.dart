@@ -1,10 +1,10 @@
 import 'package:flutter/widgets.dart';
 import 'model/group_style.dart';
 
-/// choice group header widget
+/// Choice group header widget
 class S2GroupHeader extends StatelessWidget {
 
-  /// choice group title
+  /// Choice group title
   final Widget title;
 
   /// Trailing widget
@@ -13,7 +13,7 @@ class S2GroupHeader extends StatelessWidget {
   /// The header Style
   final S2GroupHeaderStyle style;
 
-  /// default constructor
+  /// Default constructor
   S2GroupHeader({
     Key key,
     @required this.title,

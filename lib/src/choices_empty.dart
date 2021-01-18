@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 /// Default widget for empty choices list
 class S2ChoicesEmpty extends StatelessWidget {
 
-  /// default constructor
+  /// Default constructor
   const S2ChoicesEmpty();
 
   @override
