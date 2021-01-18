@@ -3,7 +3,6 @@ import '../chip_theme.dart';
 
 /// Chips tile/trigger widget
 class S2TileChips extends StatelessWidget {
-
   /// List of value of the selected choices.
   final int chipLength;
 
@@ -80,11 +79,10 @@ class S2TileChips extends StatelessWidget {
     this.placeholder,
     this.scrollable = false,
     this.padding,
-  }) :
-    assert(chipOutlined != null),
-    assert(chipRaised != null),
-    assert(scrollable != null),
-    super(key: key);
+  })  : assert(chipOutlined != null),
+        assert(chipRaised != null),
+        assert(scrollable != null),
+        super(key: key);
 
   /// default padding
   static const EdgeInsetsGeometry defaultPadding = EdgeInsets.fromLTRB(15, 0, 15, 10);
@@ -95,10 +93,10 @@ class S2TileChips extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return chipLength > 0
-      ? scrollable
-        ? _chipScrollable(context)
-        : _chipWrapped(context)
-      : placeholder ?? defaultPlaceholder;
+        ? scrollable
+            ? _chipScrollable(context)
+            : _chipWrapped(context)
+        : placeholder ?? defaultPlaceholder;
   }
 
   Widget _chipWrapped(BuildContext context) {
@@ -119,7 +117,7 @@ class S2TileChips extends StatelessWidget {
           runSpacing: chipRunSpacing ?? -5,
           children: _chipList(context),
         ),
-      )
+      ),
     );
   }
 
@@ -150,9 +148,7 @@ class S2TileChips extends StatelessWidget {
         // add spacing if chip is scrollable
         if (scrollable) {
           _chip = Padding(
-            padding: EdgeInsets.only(
-              right: i < chipLength - 1 ? chipSpacing ?? 7 : 0
-            ),
+            padding: EdgeInsets.only(right: i < chipLength - 1 ? chipSpacing ?? 7 : 0),
             child: _chip,
           );
         }
@@ -167,9 +163,7 @@ class S2TileChips extends StatelessWidget {
       label: chipLabelBuilder?.call(context, i),
       avatar: chipAvatarBuilder?.call(context, i),
       deleteIcon: chipDeleteIcon,
-      onDeleted: chipOnDelete != null
-        ? () => chipOnDelete(i)
-        : null,
+      onDeleted: chipOnDelete != null ? () => chipOnDelete(i) : null,
     );
   }
 }

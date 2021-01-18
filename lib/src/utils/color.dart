@@ -15,7 +15,6 @@ Brightness estimateBrightnessForColor(Color color) {
   // Design spec shows for its color palette on
   // <https://material.io/go/design-theming#color-color-palette>.
   const double kThreshold = 0.15;
-  if ((relativeLuminance + 0.05) * (relativeLuminance + 0.05) > kThreshold)
-    return Brightness.light;
+  if ((relativeLuminance + 0.05) * (relativeLuminance + 0.05) > kThreshold) return Brightness.light;
   return Brightness.dark;
 }

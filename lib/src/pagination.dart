@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 /// Widget that wraps the child with refresher and/or pagination
 class S2Pagination extends StatelessWidget {
-
   /// Default constructor
   S2Pagination({
     Key key,
@@ -32,11 +31,9 @@ class S2Pagination extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget result = child;
 
-    if (appendable)
-      result = appendableWidget(result);
+    if (appendable) result = appendableWidget(result);
 
-    if (reloadable)
-      result = reloadableWidget(result);
+    if (reloadable) result = reloadableWidget(result);
 
     return result;
   }
@@ -54,8 +51,7 @@ class S2Pagination extends StatelessWidget {
     return NotificationListener<ScrollNotification>(
       child: child,
       onNotification: (ScrollNotification scrollInfo) {
-        if (scrollInfo is ScrollEndNotification &&
-            scrollInfo.metrics.extentAfter == 0) {
+        if (scrollInfo is ScrollEndNotification && scrollInfo.metrics.extentAfter == 0) {
           onAppend?.call();
           return true;
         }

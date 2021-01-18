@@ -6,7 +6,6 @@ import './group_sort.dart';
 /// Choices configuration
 @immutable
 class S2GroupConfig with Diagnosticable {
-
   /// Whether the choices list is grouped or not, based on [S2Choice.group]
   final bool enabled;
 
@@ -31,9 +30,8 @@ class S2GroupConfig with Diagnosticable {
     this.useCounter = true,
     this.sortBy,
     this.headerStyle = const S2GroupHeaderStyle(),
-  }) :
-    assert(enabled != null),
-    assert(headerStyle != null);
+  })  : assert(enabled != null),
+        assert(headerStyle != null);
 
   /// Opposite value of enabled
   bool get disabled => !enabled;

@@ -5,7 +5,6 @@ import 'dart:ui';
 /// Configure modal style
 @immutable
 class S2ModalStyle with Diagnosticable {
-
   /// Modal border shape
   /// used in popup dialog and bottom sheet
   final ShapeBorder shape;
@@ -62,7 +61,6 @@ class S2ModalStyle with Diagnosticable {
 /// Configure modal option header style
 @immutable
 class S2ModalHeaderStyle with Diagnosticable {
-
   /// Header border shape
   final ShapeBorder shape;
 
@@ -106,9 +104,8 @@ class S2ModalHeaderStyle with Diagnosticable {
     this.actionsIconTheme,
     this.backgroundColor,
     this.brightness,
-  }) :
-    assert(elevation != null),
-    assert(centerTitle != null);
+  })  : assert(elevation != null),
+        assert(centerTitle != null);
 
   /// Creates a copy of this [S2ModalHeaderStyle] but with
   /// the given fields replaced with the new values.

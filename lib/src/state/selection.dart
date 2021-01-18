@@ -3,7 +3,6 @@ import '../model/choice_item.dart';
 
 /// State of choice(s) selection
 abstract class S2Selection<T> extends ChangeNotifier {
-
   /// The initial selection
   covariant var initial;
 
@@ -17,7 +16,7 @@ abstract class S2Selection<T> extends ChangeNotifier {
   bool has(S2Choice<T> choice);
 
   /// Select or unselect a choice
-  void select(S2Choice<T> choice, { bool selected = true });
+  void select(S2Choice<T> choice, {bool selected = true});
 
   /// Removes all choice(s) from the selection
   void clear();
@@ -54,7 +53,6 @@ abstract class S2Selection<T> extends ChangeNotifier {
 
 /// State of single choice selection
 class S2SingleSelection<T> extends S2Selection<T> {
-
   /// The initial selection
   @override
   final S2Choice<T> initial;
@@ -102,7 +100,7 @@ class S2SingleSelection<T> extends S2Selection<T> {
   bool get isNotEmpty => _choice != null;
 
   @override
-  void select(S2Choice<T> choice, { bool selected = true }) {
+  void select(S2Choice<T> choice, {bool selected = true}) {
     _choice = choice;
     validate();
   }
@@ -120,7 +118,6 @@ class S2SingleSelection<T> extends S2Selection<T> {
 
 /// State of multiple choice selection
 class S2MultiSelection<T> extends S2Selection<T> {
-
   /// The Initial selection
   @override
   final List<S2Choice<T>> initial;
@@ -132,9 +129,8 @@ class S2MultiSelection<T> extends S2Selection<T> {
   S2MultiSelection({
     @required List<S2Choice<T>> initial,
     this.validation,
-  }) :
-    initial = List.from(initial ?? []),
-    _choice = List.from(initial ?? []);
+  })  : initial = List.from(initial ?? []),
+        _choice = List.from(initial ?? []);
 
   /// The choice(s) of the current selection
   List<S2Choice<T>> _choice;
@@ -152,8 +148,8 @@ class S2MultiSelection<T> extends S2Selection<T> {
   @override
   List<T> get value {
     return choice != null && choice.length > 0
-      ? choice.map((S2Choice<T> item) => item.value).toList()
-      : [];
+        ? choice.map((S2Choice<T> item) => item.value).toList()
+        : [];
   }
 
   @override
@@ -172,7 +168,10 @@ class S2MultiSelection<T> extends S2Selection<T> {
 
   /// Add every value in supplied values into the selection
   void merge(List<S2Choice<T>> choices) {
-    choice = List.from(choice)..addAll(choices)..toSet()..toList();
+    choice = List.from(choice)
+      ..addAll(choices)
+      ..toSet()
+      ..toList();
   }
 
   /// Removes every value in supplied values from the selection
@@ -181,7 +180,7 @@ class S2MultiSelection<T> extends S2Selection<T> {
   }
 
   /// Toggle put/pull the supplied values from the selection
-  void toggle(List<S2Choice<T>> choices, { bool pull }) {
+  void toggle(List<S2Choice<T>> choices, {bool pull}) {
     if (pull == true) {
       omit(choices);
     } else if (pull == false) {
@@ -195,7 +194,7 @@ class S2MultiSelection<T> extends S2Selection<T> {
   }
 
   @override
-  void select(S2Choice<T> choice, { bool selected = true }) {
+  void select(S2Choice<T> choice, {bool selected = true}) {
     if (selected) {
       _choice.add(choice);
     } else {
@@ -223,5 +222,4 @@ class S2MultiSelection<T> extends S2Selection<T> {
   bool hasAll(List<S2Choice<T>> choices) {
     return choices.every((e) => has(e));
   }
-
 }

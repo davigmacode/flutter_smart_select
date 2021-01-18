@@ -6,12 +6,16 @@ import './choice_theme.dart';
 enum S2ChoiceType {
   /// use radio as choice widget for single choice
   radios,
+
   /// use checkbox as choice widget for multiple choice
   checkboxes,
+
   /// use switch as choice widget  for single and multiple choice
   switches,
+
   /// use chip as choice widget for single and multiple choice
   chips,
+
   /// use card as choice widget for single and multiple choice
   cards,
 }
@@ -20,8 +24,10 @@ enum S2ChoiceType {
 enum S2ChoiceLayout {
   /// use list view widget
   list,
+
   /// use wrap view widget
   wrap,
+
   /// use grid view widget
   grid
 }
@@ -29,7 +35,6 @@ enum S2ChoiceLayout {
 /// Choices configuration
 @immutable
 class S2ChoiceConfig with Diagnosticable {
-
   /// Choice item widget type
   ///
   /// Single choice can't use [S2ChoiceType.checkboxes] and Multiple choice can't use [S2ChoiceType.radios]
@@ -126,9 +131,8 @@ class S2ChoiceConfig with Diagnosticable {
     this.physics = const ScrollPhysics(),
     this.pageLimit,
     this.delay,
-  }) :
-    assert(physics != null),
-    assert(useDivider != null);
+  })  : assert(physics != null),
+        assert(useDivider != null);
 
   /// Whether the [layout] is [S2ChoiceLayout.wrap] or [type] is [S2ChoiceType.chips]
   bool get isWrapLayout => layout == S2ChoiceLayout.wrap || type == S2ChoiceType.chips;

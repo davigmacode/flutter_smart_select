@@ -69,26 +69,27 @@ class S2Choice<T> with Diagnosticable {
     _S2OptionProp<E, dynamic> meta,
     _S2OptionProp<E, S2ChoiceStyle> style,
     _S2OptionProp<E, S2ChoiceStyle> activeStyle,
-  }) => source
-    .asMap()
-    .map((index, item) => MapEntry(index, S2Choice<R>(
-      value: value?.call(index, item),
-      title: title?.call(index, item),
-      subtitle: subtitle?.call(index, item),
-      group: group?.call(index, item),
-      disabled: disabled?.call(index, item) ?? false,
-      hidden: hidden?.call(index, item) ?? false,
-      meta: meta?.call(index, item),
-      style: style?.call(index, item),
-      activeStyle: activeStyle?.call(index, item),
-    )))
-    .values
-    .toList();
+  }) =>
+      source
+          .asMap()
+          .map((index, item) => MapEntry(
+              index,
+              S2Choice<R>(
+                value: value?.call(index, item),
+                title: title?.call(index, item),
+                subtitle: subtitle?.call(index, item),
+                group: group?.call(index, item),
+                disabled: disabled?.call(index, item) ?? false,
+                hidden: hidden?.call(index, item) ?? false,
+                meta: meta?.call(index, item),
+                style: style?.call(index, item),
+                activeStyle: activeStyle?.call(index, item),
+              )))
+          .values
+          .toList();
 
   bool contains(String query) {
-    return _testPropBy(title, query) ||
-      _testPropBy(subtitle, query) ||
-      _testPropBy(group, query);
+    return _testPropBy(title, query) || _testPropBy(subtitle, query) || _testPropBy(group, query);
   }
 
   bool _testPropBy(String prop, String query) {
@@ -97,10 +98,7 @@ class S2Choice<T> with Diagnosticable {
 
   @override
   bool operator ==(Object other) =>
-    identical(this, other) ||
-    other is S2Choice &&
-      runtimeType == other.runtimeType &&
-      value == other.value;
+      identical(this, other) || other is S2Choice && runtimeType == other.runtimeType && value == other.value;
 
   @override
   int get hashCode => value.hashCode;

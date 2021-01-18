@@ -3,7 +3,6 @@ import '../widget.dart';
 
 /// Default trigger/tile widget
 class S2Tile<T> extends StatelessWidget {
-
   /// The value of the selected option.
   final Widget value;
 
@@ -122,14 +121,18 @@ class S2Tile<T> extends StatelessWidget {
     this.hideValue = false,
     this.padding,
     this.body,
-  }) :
-    title = title ?? state.titleWidget,
-    value = value ?? state.selected.toWidget(),
-    onTap = onTap ?? state.showModal,
-    super(key: key);
+  })  : title = title ?? state.titleWidget,
+        value = value ?? state.selected.toWidget(),
+        onTap = onTap ?? state.showModal,
+        super(key: key);
 
-  static const Widget defaultTrailing = const Icon(Icons.keyboard_arrow_right, color: Colors.grey);
+  /// Returns default trailing widget
+  static const Widget defaultTrailing = const Icon(
+    Icons.keyboard_arrow_right,
+    color: Colors.grey,
+  );
 
+  /// Returns default loading indicator widget
   static const Widget defaultLoadingIndicator = const SizedBox(
     child: CircularProgressIndicator(
       strokeWidth: 1.5,
@@ -140,9 +143,7 @@ class S2Tile<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return body == null
-      ? _tileWidget
-      : _tileWithBodyWidget;
+    return body == null ? _tileWidget : _tileWithBodyWidget;
   }
 
   Widget get _tileWidget {
@@ -171,30 +172,30 @@ class S2Tile<T> extends StatelessWidget {
 
   Widget get _trailingWidget {
     return isTwoLine != true && hideValue != true
-      ? Container(
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Container(
-                constraints: const BoxConstraints(maxWidth: 100),
-                child: _valueWidget,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 5),
-                child: _trailingIconWidget,
-              ),
-            ],
-          ),
-        )
-      : _trailingIconWidget;
+        ? Container(
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Container(
+                  constraints: const BoxConstraints(maxWidth: 100),
+                  child: _valueWidget,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 5),
+                  child: _trailingIconWidget,
+                ),
+              ],
+            ),
+          )
+        : _trailingIconWidget;
   }
 
   Widget get _trailingIconWidget {
     return isLoading != true
-      ? trailing != null
-        ? trailing
-        : S2Tile.defaultTrailing
-      : S2Tile.defaultLoadingIndicator;
+        ? trailing != null
+            ? trailing
+            : S2Tile.defaultTrailing
+        : S2Tile.defaultLoadingIndicator;
   }
 
   Widget get _loadingWidget {

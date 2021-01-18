@@ -3,7 +3,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:smart_select/smart_select.dart';
 
 void main() {
-
   List<S2Choice<String>> choices = [
     S2Choice<String>(value: 'mon', title: 'Monday'),
     S2Choice<String>(value: 'tue', title: 'Tuesday'),
@@ -23,12 +22,16 @@ void main() {
   });
 
   testWidgets('Default tile, modal and choices displayed correctly', (WidgetTester tester) async {
-    await tester.pumpWidget(Bootstrap(child: SmartSelect<String>.single(
-      title: 'Days',
-      selectedValue: selectedValue,
-      choiceItems: choices,
-      onChange: (state) => selectedValue = state.selected.value,
-    )));
+    await tester.pumpWidget(
+      Bootstrap(
+        child: SmartSelect<String>.single(
+          title: 'Days',
+          selectedValue: selectedValue,
+          choiceItems: choices,
+          onChange: (state) => selectedValue = state.selected.value,
+        ),
+      ),
+    );
 
     final s2Finder = find.byWidgetPredicate((widget) => widget is SmartSelect<String>);
     expect(s2Finder, findsOneWidget, reason: 'SmartSelect widget is displayed');
@@ -38,7 +41,7 @@ void main() {
 
     final tileFinder = find.descendant(
       of: s2Finder,
-      matching: find.byWidgetPredicate((widget) => widget is S2Tile<String>)
+      matching: find.byWidgetPredicate((widget) => widget is S2Tile<String>),
     );
     expect(tileFinder, findsOneWidget, reason: 'Trigger tile displayed');
 

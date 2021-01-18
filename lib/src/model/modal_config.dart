@@ -7,16 +7,17 @@ import './modal_theme.dart';
 enum S2ModalType {
   /// open in full page
   fullPage,
+
   /// open in popup dialog
   popupDialog,
+
   /// open in sliding bottom sheet
   bottomSheet,
 }
 
 /// Modal configuration
 @immutable
-class S2ModalConfig with Diagnosticable  {
-
+class S2ModalConfig with Diagnosticable {
   /// Modal type to display choices
   final S2ModalType type;
 
@@ -99,27 +100,32 @@ class S2ModalConfig with Diagnosticable  {
     this.barrierColor,
     this.style = const S2ModalStyle(),
     this.headerStyle = const S2ModalHeaderStyle(),
-  }) :
-    assert(useHeader != null),
-    assert(useConfirm != null),
-    assert(useFilter != null),
-    assert(filterAuto != null),
-    assert(enableDrag != null),
-    assert(barrierDismissible != null),
-    assert(confirmBrightness != null),
-    assert(maxHeightFactor != null),
-    assert(maxHeightFactor > 0 && maxHeightFactor <= 1),
-    assert(style != null),
-    assert(headerStyle != null);
+  })  : assert(useHeader != null),
+        assert(useConfirm != null),
+        assert(useFilter != null),
+        assert(filterAuto != null),
+        assert(enableDrag != null),
+        assert(barrierDismissible != null),
+        assert(confirmBrightness != null),
+        assert(maxHeightFactor != null),
+        assert(maxHeightFactor > 0 && maxHeightFactor <= 1),
+        assert(style != null),
+        assert(headerStyle != null);
 
-  /// whether the modal is full page or not
+  /// Returns true if the modal type is full page
   bool get isFullPage => type == S2ModalType.fullPage;
 
-  /// whether the modal is bottom sheet or not
+  /// Returns true if the modal type is bottom sheet
   bool get isBottomSheet => type == S2ModalType.bottomSheet;
 
-  /// whether the modal is bottom sheet or not
+  /// Returns true if the modal type is popup dialog
   bool get isPopupDialog => type == S2ModalType.popupDialog;
+
+  /// Returns true if the confirm button brightness is dark
+  bool get confirmIsDark => confirmBrightness == Brightness.dark;
+
+  /// Returns true if the confirm button brightness is light
+  bool get confirmIsLight => confirmBrightness == Brightness.light;
 
   /// Creates a copy of this [S2ModalConfig] but with
   /// the given fields replaced with the new values.

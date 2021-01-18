@@ -30,7 +30,6 @@ typedef Widget S2ChoiceListBuilder<T>(S2Choice<T> choice);
 /// collection of builder
 @immutable
 class S2Builder<T> with Diagnosticable {
-
   /// Builder for custom divider widget between choices item
   final IndexedWidgetBuilder choiceDivider;
 
@@ -50,7 +49,6 @@ class S2Builder<T> with Diagnosticable {
 
 /// Builder collection of single choice widget
 class S2SingleBuilder<T> extends S2Builder<T> {
-
   /// Builder for custom tile widget
   final S2WidgetBuilder<S2SingleState<T>> tile;
 
@@ -121,10 +119,10 @@ class S2SingleBuilder<T> extends S2Builder<T> {
     // WidgetBuilder choiceProgress,
     // S2ChoiceBuilder<T> choicePager,
   }) : super(
-    choiceDivider: choiceDivider,
-    // choiceProgressBuilder: choiceProgressBuilder,
-    // choicePagerBuilder: choicePagerBuilder,
-  );
+          choiceDivider: choiceDivider,
+          // choiceProgressBuilder: choiceProgressBuilder,
+          // choicePagerBuilder: choicePagerBuilder,
+        );
 
   /// Creates a copy of this [S2SingleBuilder] but with
   /// the given fields replaced with the new values.
@@ -204,7 +202,6 @@ class S2SingleBuilder<T> extends S2Builder<T> {
 
 /// Builder collection of multiple choice widget
 class S2MultiBuilder<T> extends S2Builder<T> {
-
   /// Builder for custom tile widget
   final S2WidgetBuilder<S2MultiState<T>> tile;
 
@@ -275,10 +272,10 @@ class S2MultiBuilder<T> extends S2Builder<T> {
     // WidgetBuilder choiceProgress,
     // S2ChoiceBuilder<T> choicePager,
   }) : super(
-    choiceDivider: choiceDivider,
-    // choiceProgressBuilder: choiceProgressBuilder,
-    // choicePagerBuilder: choicePagerBuilder,
-  );
+          choiceDivider: choiceDivider,
+          // choiceProgressBuilder: choiceProgressBuilder,
+          // choicePagerBuilder: choicePagerBuilder,
+        );
 
   /// Creates a copy of this [S2MultiBuilder] but with
   /// the given fields replaced with the new values.
@@ -355,7 +352,6 @@ class S2MultiBuilder<T> extends S2Builder<T> {
     );
   }
 }
-
 
 // /// Builder collection of multiple choice widget
 // class S2Builders<T> {

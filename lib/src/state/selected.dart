@@ -9,7 +9,6 @@ typedef Future<List<S2Choice<T>>> S2MultiSelectedResolver<T>(List<T> value);
 
 /// State of the selected choice
 abstract class S2Selected<T> extends ChangeNotifier {
-
   /// A `String` to return in `toString` if the `title` is empty
   String placeholder;
 
@@ -83,7 +82,6 @@ abstract class S2Selected<T> extends ChangeNotifier {
 
 /// State of single selected choice
 class S2SingleSelected<T> extends S2Selected<T> {
-
   /// Default constructor
   S2SingleSelected({
     T value,
@@ -91,9 +89,8 @@ class S2SingleSelected<T> extends S2Selected<T> {
     this.resolver,
     this.validation,
     this.placeholder,
-  }) :
-    _value = value,
-    _choice = choice;
+  })  : _value = value,
+        _choice = choice;
 
   T _value;
 
@@ -190,7 +187,6 @@ class S2SingleSelected<T> extends S2Selected<T> {
 
 /// State of multiple selected choice
 class S2MultiSelected<T> extends S2Selected<T> {
-
   /// Default Constructor
   S2MultiSelected({
     List<T> value,
@@ -198,9 +194,8 @@ class S2MultiSelected<T> extends S2Selected<T> {
     this.resolver,
     this.validation,
     this.placeholder,
-  }) :
-    _value = List<T>.from(value ?? []),
-    _choice = choice != null ? List<S2Choice<T>>.from(choice) : null;
+  })  : _value = List<T>.from(value ?? []),
+        _choice = choice != null ? List<S2Choice<T>>.from(choice) : null;
 
   List<T> _value;
 
@@ -268,32 +263,28 @@ class S2MultiSelected<T> extends S2Selected<T> {
   @override
   List<T> get value {
     return choice != null && choice.length > 0
-      ? choice.map((S2Choice<T> item) => item.value).toList()
-      : _value;
+        ? choice.map((S2Choice<T> item) => item.value).toList()
+        : _value;
   }
 
   /// return an array of `title` of the selected [choice]
   @override
   List<String> get title {
-    return choice != null && choice.length > 0
-      ? choice.map((S2Choice<T> item) => item.title).toList()
-      : null;
+    return choice != null && choice.length > 0 ? choice.map((S2Choice<T> item) => item.title).toList() : null;
   }
 
   /// return an array of `subtitle` of the selected [choice]
   @override
   List<String> get subtitle {
     return choice != null && choice.length > 0
-      ? choice.map((S2Choice<T> item) => item.subtitle).toList()
-      : null;
+        ? choice.map((S2Choice<T> item) => item.subtitle).toList()
+        : null;
   }
 
   /// return an array of `group` of the selected [choice]
   @override
   List<String> get group {
-    return choice != null && choice.length > 0
-      ? choice.map((S2Choice<T> item) => item.group).toList()
-      : null;
+    return choice != null && choice.length > 0 ? choice.map((S2Choice<T> item) => item.group).toList() : null;
   }
 
   @override

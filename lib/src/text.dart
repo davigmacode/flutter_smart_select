@@ -2,7 +2,6 @@ import 'package:flutter/widgets.dart';
 
 /// Text widget that supports highlight
 class S2Text extends StatelessWidget {
-
   /// The text data string
   final String text;
 
@@ -74,8 +73,8 @@ class S2Text extends StatelessWidget {
     return TextSpan(
       text: content,
       style: style.copyWith(
-        backgroundColor: highlightColor ?? defaultHightlightColor
-      )
+        backgroundColor: highlightColor ?? defaultHightlightColor,
+      ),
     );
   }
 

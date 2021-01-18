@@ -3,7 +3,6 @@ import 'package:flutter/widgets.dart';
 
 /// State of filter data
 class S2Filter extends ChangeNotifier {
-
   bool _activated = false;
 
   String _value;
@@ -61,5 +60,4 @@ class S2Filter extends ChangeNotifier {
     _value = val;
     notifyListeners();
   }
-
 }

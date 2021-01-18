@@ -6,7 +6,6 @@ import 'dart:ui';
 /// Configure choices group header style
 @immutable
 class S2GroupHeaderStyle with Diagnosticable {
-
   /// Group header background color
   final Color backgroundColor;
 

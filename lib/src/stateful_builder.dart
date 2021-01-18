@@ -8,8 +8,8 @@ class S2StatefulBuilder extends StatefulWidget {
   const S2StatefulBuilder({
     Key key,
     @required this.builder,
-  }) : assert(builder != null),
-       super(key: key);
+  })  : assert(builder != null),
+        super(key: key);
 
   /// Called to obtain the child widget.
   ///

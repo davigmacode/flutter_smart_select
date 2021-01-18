@@ -61,7 +61,7 @@ void main() {
     List<S2Choice<int>> choiceToSelect = S2Choice.listFrom<int, int>(
       source: <int>[2, 4, 7],
       value: (i, v) => v,
-      title: (i, v) => v.toString()
+      title: (i, v) => v.toString(),
     );
 
     setUp(() {

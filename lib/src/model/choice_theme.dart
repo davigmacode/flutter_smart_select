@@ -28,7 +28,6 @@ enum S2ChoiceControl {
 /// Configure choices item style
 @immutable
 class S2ChoiceStyle with Diagnosticable {
-
   /// Choices item margin
   final EdgeInsetsGeometry margin;
 

@@ -5,7 +5,6 @@ import 'scrollbar.dart';
 
 /// Choices list widget
 class S2ChoicesList<T> extends StatelessWidget {
-
   /// the length of the choice list
   final int itemLength;
 
@@ -33,28 +32,27 @@ class S2ChoicesList<T> extends StatelessWidget {
       onNotification: (notification) => false,
       child: Scrollbar(
         child: config.isWrapLayout
-          ? _listWrap(context)
-          : config.isGridLayout
-            ? _listGrid()
-            : config.useDivider
-              ? _listSeparated()
-              : _listDefault(),
+            ? _listWrap(context)
+            : config.isGridLayout
+                ? _listGrid()
+                : config.useDivider
+                    ? _listSeparated()
+                    : _listDefault(),
       ),
     );
 
-    return config.direction == Axis.horizontal
-      ? Wrap(children: <Widget>[result])
-      : result;
+    return config.direction == Axis.horizontal ? Wrap(children: <Widget>[result]) : result;
   }
 
   Widget _listWrap(BuildContext context) {
     return SingleChildScrollView(
       physics: config.physics,
       scrollDirection: config.direction,
-      padding: config.padding ?? const EdgeInsets.symmetric(
-        vertical: 10.0,
-        horizontal: 15.0,
-      ),
+      padding: config.padding ??
+          const EdgeInsets.symmetric(
+            vertical: 10.0,
+            horizontal: 15.0,
+          ),
       child: Align(
         alignment: Alignment.topLeft,
         child: Wrap(
@@ -100,11 +98,12 @@ class S2ChoicesList<T> extends StatelessWidget {
       padding: config.padding ?? const EdgeInsets.all(10.0),
       itemCount: itemLength,
       itemBuilder: itemBuilder,
-      gridDelegate: config.gridDelegate ?? SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: config.gridCount,
-        crossAxisSpacing: config.gridSpacing,
-        mainAxisSpacing: config.gridSpacing,
-      ),
+      gridDelegate: config.gridDelegate ??
+          SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: config.gridCount,
+            crossAxisSpacing: config.gridSpacing,
+            mainAxisSpacing: config.gridSpacing,
+          ),
     );
   }
 

@@ -3,7 +3,6 @@ import 'model/group_style.dart';
 
 /// Choice group header widget
 class S2GroupHeader extends StatelessWidget {
-
   /// Choice group title
   final Widget title;
 
