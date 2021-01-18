@@ -21,8 +21,8 @@ class _FeaturesBrightnessState extends State<FeaturesBrightness> {
   Widget build(BuildContext context) {
     return SmartSelect<int>.single(
       title: 'Brightness',
-      value: ThemePatrol.of(context).themeMode.index,
-      onChange: (state) => ThemePatrol.of(context).setMode(ThemeMode.values[state.value]),
+      selectedValue: ThemePatrol.of(context).themeMode.index,
+      onChange: (state) => ThemePatrol.of(context).setMode(ThemeMode.values[state.selected.value]),
       modalType: S2ModalType.bottomSheet,
       modalHeader: false,
       choiceItems: modes,
@@ -47,7 +47,7 @@ class _FeaturesBrightnessState extends State<FeaturesBrightness> {
       },
       tileBuilder: (context, state) {
         return IconButton(
-          icon: Icon(modes[state.value].meta),
+          icon: Icon(modes[state.selected.value].meta),
           onPressed: state.showModal
         );
       },

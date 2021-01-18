@@ -19,9 +19,9 @@ class _FeaturesSinglePopupState extends State<FeaturesSinglePopup> {
         const SizedBox(height: 7),
         SmartSelect<String>.single(
           title: 'Fruit',
-          value: _fruit,
+          selectedValue: _fruit,
           choiceItems: choices.fruits,
-          onChange: (state) => setState(() => _fruit = state.value),
+          onChange: (state) => setState(() => _fruit = state.selected.value),
           modalType: S2ModalType.popupDialog,
           tileBuilder: (context, state) {
             return S2Tile.fromState(
@@ -33,23 +33,22 @@ class _FeaturesSinglePopupState extends State<FeaturesSinglePopup> {
         const Divider(indent: 20),
         SmartSelect<String>.single(
           title: 'Frameworks',
-          value: _framework,
+          selectedValue: _framework,
           choiceItems: choices.frameworks,
           modalType: S2ModalType.popupDialog,
-          onChange: (state) => setState(() => _framework = state.value),
+          onChange: (state) => setState(() => _framework = state.selected.value),
           tileBuilder: (context, state) {
             return ListTile(
               title: Text(state.title),
               subtitle: Text(
-                state.valueDisplay,
-                style: TextStyle(color: Colors.grey),
+                state.selected.toString(),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
               ),
               leading: CircleAvatar(
                 backgroundColor: Theme.of(context).primaryColor,
                 child: Text(
-                  '${state.valueDisplay[0]}',
+                  '${state.selected.toString()[0]}',
                   style: TextStyle(color: Colors.white)
                 ),
               ),

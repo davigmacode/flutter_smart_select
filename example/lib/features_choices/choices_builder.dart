@@ -26,8 +26,8 @@ class _FeaturesChoicesBuilderState extends State<FeaturesChoicesBuilder> {
         SmartSelect<int>.single(
           title: 'Transportation',
           placeholder: 'Choose one',
-          value: _commute,
-          onChange: (state) => setState(() => _commute = state.value),
+          selectedValue: _commute,
+          onChange: (state) => setState(() => _commute = state.selected.value),
           modalType: S2ModalType.bottomSheet,
           modalHeader: false,
           choiceItems: S2Choice.listFrom<int, Map<String, dynamic>>(
@@ -74,7 +74,7 @@ class _FeaturesChoicesBuilderState extends State<FeaturesChoicesBuilder> {
             );
           },
           tileBuilder: (context, state) {
-            String avatar = (state.valueObject?.meta ?? {})['image'] ?? 'https://source.unsplash.com/3k5cAmxjXl4/100x100';
+            String avatar = (state.selected?.choice?.meta ?? {})['image'] ?? 'https://source.unsplash.com/3k5cAmxjXl4/100x100';
             return S2Tile.fromState(
               state,
               isTwoLine: true,
@@ -87,8 +87,8 @@ class _FeaturesChoicesBuilderState extends State<FeaturesChoicesBuilder> {
         const Divider(indent: 20),
         SmartSelect<String>.multiple(
           title: 'Passengers',
-          value: _user,
-          onChange: (state) => setState(() => _user = state.value),
+          selectedValue: _user,
+          onChange: (state) => setState(() => _user = state.selected.value),
           modalFilter: true,
           choiceItems: _users,
           choiceGrouped: true,
@@ -142,20 +142,20 @@ class _FeaturesChoicesBuilderState extends State<FeaturesChoicesBuilder> {
               leading: CircleAvatar(
                 backgroundColor: theme.primaryColor,
                 child: Text(
-                  state.value?.length?.toString() ?? '0',
+                  state.selected.value?.length?.toString() ?? '0',
                   style: TextStyle(color: Colors.white)
                 ),
               ),
               body: S2TileChips(
-                chipLength: state.valueObject.length,
+                chipLength: state.selected.length,
                 chipLabelBuilder: (context, i) {
-                  return Text(state.valueObject[i].title);
+                  return Text(state.selected.choice[i].title);
                 },
                 chipAvatarBuilder: (context, i) => CircleAvatar(
-                  backgroundImage: NetworkImage(state.valueObject[i].meta['picture']['thumbnail'])
+                  backgroundImage: NetworkImage(state.selected.choice[i].meta['picture']['thumbnail'])
                 ),
                 chipOnDelete: (i) {
-                  setState(() => _user.remove(state.valueObject[i].value));
+                  setState(() => _user.remove(state.selected.choice[i].value));
                 },
                 chipColor: Theme.of(context).primaryColor,
                 chipRaised: true,

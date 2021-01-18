@@ -20,8 +20,8 @@ class _FeaturesModalValidationState extends State<FeaturesModalValidation> {
         const SizedBox(height: 7),
         SmartSelect<String>.single(
           title: 'Days',
-          value: _day,
-          onChange: (state) => setState(() => _day = state.value),
+          selectedValue: _day,
+          onChange: (state) => setState(() => _day = state.selected.value),
           choiceItems: choices.days,
           modalType: S2ModalType.bottomSheet,
           modalValidation: (value) => value == null ? 'Select at least one' : null,
@@ -29,8 +29,8 @@ class _FeaturesModalValidationState extends State<FeaturesModalValidation> {
         const Divider(indent: 20),
         SmartSelect<String>.multiple(
           title: 'Days',
-          value: _days,
-          onChange: (state) => setState(() => _days = state.value),
+          selectedValue: _days,
+          onChange: (state) => setState(() => _days = state.selected.value),
           choiceItems: choices.days,
           modalType: S2ModalType.bottomSheet,
           modalValidation: (value) => value.length > 0 ? null : 'Select at least one',
@@ -49,7 +49,7 @@ class _FeaturesModalValidationState extends State<FeaturesModalValidation> {
           tileBuilder: (context, state) {
             return S2Tile(
               title: state.titleWidget,
-              value: state.valueDisplay,
+              value: state.selected.toWidget(),
               onTap: state.showModal,
               isTwoLine: true,
               leading: const CircleAvatar(
@@ -61,8 +61,8 @@ class _FeaturesModalValidationState extends State<FeaturesModalValidation> {
         const Divider(indent: 20),
         SmartSelect<String>.multiple(
           title: 'Fruit',
-          value: _fruit,
-          onChange: (state) => setState(() => _fruit = state.value),
+          selectedValue: _fruit,
+          onChange: (state) => setState(() => _fruit = state.selected.value),
           choiceItems: choices.fruits,
           modalType: S2ModalType.popupDialog,
           modalConfirm: true,
@@ -87,7 +87,7 @@ class _FeaturesModalValidationState extends State<FeaturesModalValidation> {
                   state.modalTitle,
                   const Spacer(),
                   Visibility(
-                    visible: !state.selection.valid,
+                    visible: !state.selection.isValid,
                     child: Text(
                       state.selection.error,
                       style: TextStyle(
@@ -121,7 +121,7 @@ class _FeaturesModalValidationState extends State<FeaturesModalValidation> {
                     label: Text('OK (${state.selection.length})'),
                     color: Theme.of(context).primaryColor,
                     textColor: Colors.white,
-                    onPressed: state.selection.valid
+                    onPressed: state.selection.isValid
                       ? () => state.closeModal(confirmed: true)
                       : null,
                   ),

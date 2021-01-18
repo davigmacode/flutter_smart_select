@@ -26,8 +26,8 @@ class _FeaturesOptionListOfMapState extends State<FeaturesOptionListOfMap> {
         const SizedBox(height: 7),
         SmartSelect<String>.multiple(
           title: 'Days',
-          value: _day,
-          onChange: (state) => setState(() => _day = state.value),
+          selectedValue: _day,
+          onChange: (state) => setState(() => _day = state.selected.value),
           choiceItems: S2Choice.listFrom<String, Map<String, String>>(
             source: _days,
             value: (index, item) => item['value'],

@@ -19,8 +19,8 @@ class _FeaturesModalChoicesState extends State<FeaturesModalChoices> {
         const SizedBox(height: 7),
         SmartSelect<String>.multiple(
           title: 'Fruit',
-          value: _fruit,
-          onChange: (state) => setState(() => _fruit = state.value),
+          selectedValue: _fruit,
+          onChange: (state) => setState(() => _fruit = state.selected.value),
           choiceItems: choices.fruits,
           modalType: S2ModalType.popupDialog,
           modalHeader: false,
@@ -39,8 +39,8 @@ class _FeaturesModalChoicesState extends State<FeaturesModalChoices> {
         const Divider(indent: 20),
         SmartSelect<String>.multiple(
           title: 'Super Hero',
-          value: _hero,
-          onChange: (state) => setState(() => _hero = state.value),
+          selectedValue: _hero,
+          onChange: (state) => setState(() => _hero = state.selected.value),
           choiceItems: choices.heroes,
           modalType: S2ModalType.bottomSheet,
           modalHeader: false,

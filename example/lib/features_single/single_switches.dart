@@ -20,8 +20,8 @@ class _FeaturesSingleSwitchesState extends State<FeaturesSingleSwitches> {
         const SizedBox(height: 7),
         SmartSelect<String>.single(
           title: 'Car',
-          value: _car,
-          onChange: (state) => setState(() => _car = state.value),
+          selectedValue: _car,
+          onChange: (state) => setState(() => _car = state.selected.value),
           choiceItems: S2Choice.listFrom<String, Map>(
             source: choices.cars,
             value: (index, item) => item['value'],
@@ -44,8 +44,8 @@ class _FeaturesSingleSwitchesState extends State<FeaturesSingleSwitches> {
         const Divider(indent: 20),
         SmartSelect<String>.single(
           title: 'Smartphones',
-          value: _smartphone,
-          onChange: (state) => setState(() => _smartphone = state.value),
+          selectedValue: _smartphone,
+          onChange: (state) => setState(() => _smartphone = state.selected.value),
           choiceType: S2ChoiceType.switches,
           choiceItems: S2Choice.listFrom<String, Map>(
             source: choices.smartphones,
@@ -67,8 +67,8 @@ class _FeaturesSingleSwitchesState extends State<FeaturesSingleSwitches> {
         const Divider(indent: 20),
         SmartSelect<String>.single(
           title: 'Days',
-          value: _days,
-          onChange: (state) => setState(() => _days = state.value),
+          selectedValue: _days,
+          onChange: (state) => setState(() => _days = state.selected.value),
           choiceItems: choices.days,
           choiceType: S2ChoiceType.switches,
           modalType: S2ModalType.popupDialog,

@@ -36,8 +36,8 @@ class _FeaturesModalWidgetState extends State<FeaturesModalWidget> {
         const SizedBox(height: 7),
         SmartSelect<int>.single(
           title: 'Overall, how satisfied are you with smart_select package?',
-          value: _question1,
-          onChange: (state) => setState(() => _question1 = state.value),
+          selectedValue: _question1,
+          onChange: (state) => setState(() => _question1 = state.selected.value),
           choiceType: S2ChoiceType.radios,
           choiceItems: S2Choice.listFrom<int, String>(
             source: _options1,
@@ -90,8 +90,8 @@ class _FeaturesModalWidgetState extends State<FeaturesModalWidget> {
         ),
         SmartSelect<int>.multiple(
           title: 'Which of following words would you use to describe smart_select?',
-          value: _question2,
-          onChange: (state) => setState(() => _question2 = state.value),
+          selectedValue: _question2,
+          onChange: (state) => setState(() => _question2 = state.selected.value),
           choiceItems: S2Choice.listFrom<int, String>(
             source: _options2,
             value: (i, v) => i,
@@ -129,7 +129,7 @@ class _FeaturesModalWidgetState extends State<FeaturesModalWidget> {
                   child: Text('Submit (${state.selection.length})'),
                   color: Theme.of(context).primaryColor,
                   textColor: Colors.white,
-                  onPressed: state.selection.valid
+                  onPressed: state.selection.isValid
                     ? () => state.closeModal(confirmed: true)
                     : null,
                 ),
@@ -161,9 +161,9 @@ class _FeaturesModalWidgetState extends State<FeaturesModalWidget> {
                     ),
                   ),
                   body: S2TileChips(
-                    chipLength: state.valueObject.length,
+                    chipLength: state.selected.length,
                     chipLabelBuilder: (context, i) {
-                      return Text(state.valueObject[i].title);
+                      return Text(state.selected.choice[i].title);
                     },
                     chipColor: Theme.of(context).primaryColor,
                     chipRaised: true,

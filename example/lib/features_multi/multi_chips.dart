@@ -20,8 +20,8 @@ class _FeaturesMultiChipsState extends State<FeaturesMultiChips> {
         const SizedBox(height: 7),
         SmartSelect<String>.multiple(
           title: 'Car',
-          value: _car,
-          onChange: (state) => setState(() => _car = state.value),
+          selectedValue: _car,
+          onChange: (state) => setState(() => _car = state.selected.value),
           choiceItems: S2Choice.listFrom<String, Map>(
             source: choices.cars,
             value: (index, item) => item['value'],
@@ -44,8 +44,8 @@ class _FeaturesMultiChipsState extends State<FeaturesMultiChips> {
         const Divider(indent: 20),
         SmartSelect<String>.multiple(
           title: 'Smartphones',
-          value: _smartphone,
-          onChange: (state) => setState(() => _smartphone = state.value),
+          selectedValue: _smartphone,
+          onChange: (state) => setState(() => _smartphone = state.selected.value),
           choiceType: S2ChoiceType.chips,
           choiceItems: S2Choice.listFrom<String, Map>(
             source: choices.smartphones,
@@ -76,8 +76,8 @@ class _FeaturesMultiChipsState extends State<FeaturesMultiChips> {
         const Divider(indent: 20),
         SmartSelect<String>.multiple(
           title: 'Days',
-          value: _day,
-          onChange: (state) => setState(() => _day = state.value),
+          selectedValue: _day,
+          onChange: (state) => setState(() => _day = state.selected.value),
           choiceItems: choices.days,
           choiceType: S2ChoiceType.chips,
           choiceStyle: S2ChoiceStyle(

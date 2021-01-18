@@ -33,9 +33,9 @@ class _FeaturesTileBuilderState extends State<FeaturesTileBuilder> {
                 Expanded(
                   child: SmartSelect<String>.multiple(
                     title: 'Categories',
-                    value: _categories,
+                    selectedValue: _categories,
                     choiceItems: choices.categories,
-                    onChange: (state) => setState(() => _categories = state.value),
+                    onChange: (state) => setState(() => _categories = state.selected.value),
                     modalType: S2ModalType.bottomSheet,
                     modalHeader: false,
                     tileBuilder: (context, state) {
@@ -54,9 +54,9 @@ class _FeaturesTileBuilderState extends State<FeaturesTileBuilder> {
                 Expanded(
                   child: SmartSelect<String>.single(
                     title: 'Sort By',
-                    value: _sort,
+                    selectedValue: _sort,
                     choiceItems: choices.sorts,
-                    onChange: (state) => setState(() => _sort = state.value),
+                    onChange: (state) => setState(() => _sort = state.selected.value),
                     modalType: S2ModalType.popupDialog,
                     modalHeader: false,
                     tileBuilder: (context, state) {
@@ -73,14 +73,14 @@ class _FeaturesTileBuilderState extends State<FeaturesTileBuilder> {
           ),
           SmartSelect<String>.multiple(
             title: 'Cars',
-            value: _cars,
+            selectedValue: _cars,
             choiceItems: S2Choice.listFrom<String, Map>(
               source: choices.cars,
               value: (index, item) => item['value'],
               title: (index, item) => item['title'],
               group: (index, item) => item['body'],
             ),
-            onChange: (state) => setState(() => _cars = state.value),
+            onChange: (state) => setState(() => _cars = state.selected.value),
             modalType: S2ModalType.bottomSheet,
             modalConfirm: true,
             modalFilter: true,
@@ -98,12 +98,12 @@ class _FeaturesTileBuilderState extends State<FeaturesTileBuilder> {
                   title: const Text('Cars'),
                   trailing: const Icon(Icons.add_circle_outline),
                   body: S2TileChips(
-                    chipLength: state.valueObject.length,
+                    chipLength: state.selected.length,
                     chipLabelBuilder: (context, i) {
-                      return Text(state.valueObject[i].title);
+                      return Text(state.selected.choice[i].title);
                     },
                     chipOnDelete: (i) {
-                      setState(() => _cars.remove(state.valueObject[i].value));
+                      setState(() => _cars.remove(state.selected.choice[i].value));
                     },
                     chipColor: primaryColor,
                     chipRaised: true,

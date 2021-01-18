@@ -23,9 +23,9 @@ class _FeaturesColorState extends State<FeaturesColor> {
   Widget build(BuildContext context) {
     return SmartSelect<Color>.single(
       title: 'Color',
-      value: _themeColor,
+      selectedValue: _themeColor,
       onChange: (state) {
-        setState(() => _themeColor = state.value);
+        setState(() => _themeColor = state.selected.value);
         ThemePatrol.of(context).setColor(_themeColor);
       },
       choiceItems: colors,

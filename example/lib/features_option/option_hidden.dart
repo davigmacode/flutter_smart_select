@@ -38,8 +38,8 @@ class _FeaturesOptionHiddenState extends State<FeaturesOptionHidden> {
               Expanded(
                 child: SmartSelect<int>.multiple(
                   title: 'Categories',
-                  value: _categories,
-                  onChange: (state) => setState(() => _categories = state.value),
+                  selectedValue: _categories,
+                  onChange: (state) => setState(() => _categories = state.selected.value),
                   choiceItems: S2Choice.listFrom<int, String>(
                     source: _categoriesOption,
                     value: (index, item) => index,
@@ -65,8 +65,8 @@ class _FeaturesOptionHiddenState extends State<FeaturesOptionHidden> {
               Expanded(
                 child: SmartSelect<int>.single(
                   title: 'Sort By',
-                  value: _sort,
-                  onChange: (state) => setState(() => _sort = state.value),
+                  selectedValue: _sort,
+                  onChange: (state) => setState(() => _sort = state.selected.value),
                   choiceItems: S2Choice.listFrom<int, String>(
                     source: _sortOption,
                     value: (index, item) => index,

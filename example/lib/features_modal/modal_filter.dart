@@ -20,8 +20,8 @@ class _FeaturesModalFilterState extends State<FeaturesModalFilter> {
         SmartSelect<String>.single(
           title: 'Car',
           placeholder: 'Choose one',
-          value: _car,
-          onChange: (state) => setState(() => _car = state.value),
+          selectedValue: _car,
+          onChange: (state) => setState(() => _car = state.selected.value),
           choiceItems: S2Choice.listFrom<String, Map>(
             source: choices.cars,
             value: (index, item) => item['value'],
@@ -45,8 +45,8 @@ class _FeaturesModalFilterState extends State<FeaturesModalFilter> {
         SmartSelect<String>.multiple(
           title: 'Smartphones',
           placeholder: 'Choose one',
-          value: _smartphone,
-          onChange: (state) => setState(() => _smartphone = state.value),
+          selectedValue: _smartphone,
+          onChange: (state) => setState(() => _smartphone = state.selected.value),
           choiceItems: S2Choice.listFrom<String, Map>(
             source: choices.smartphones,
             value: (index, item) => item['id'],

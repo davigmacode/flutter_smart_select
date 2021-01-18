@@ -19,8 +19,8 @@ class _FeaturesChoicesThemeState extends State<FeaturesChoicesTheme> {
         const SizedBox(height: 7),
         SmartSelect<String>.multiple(
           title: 'Smartphones',
-          value: _smartphones,
-          onChange: (state) => setState(() => _smartphones = state.value),
+          selectedValue: _smartphones,
+          onChange: (state) => setState(() => _smartphones = state.selected.value),
           choiceItems: S2Choice.listFrom<String, Map>(
             source: choices.smartphones,
             value: (index, item) => item['id'],

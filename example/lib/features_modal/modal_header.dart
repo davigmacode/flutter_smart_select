@@ -21,8 +21,8 @@ class _FeaturesModalHeaderState extends State<FeaturesModalHeader> {
         const SizedBox(height: 7),
         SmartSelect<String>.multiple(
           title: 'Month',
-          value: _month,
-          onChange: (state) => setState(() => _month = state.value),
+          selectedValue: _month,
+          onChange: (state) => setState(() => _month = state.selected.value),
           choiceItems: choices.months,
           choiceActiveStyle: const S2ChoiceStyle(
             color: Colors.red
@@ -42,7 +42,7 @@ class _FeaturesModalHeaderState extends State<FeaturesModalHeader> {
               isTwoLine: true,
               leading: IconBadge(
                 icon: const Icon(Icons.calendar_today),
-                counter: state.value.length,
+                counter: state.selected.length,
               ),
             );
           }
@@ -50,8 +50,8 @@ class _FeaturesModalHeaderState extends State<FeaturesModalHeader> {
         const Divider(indent: 20),
         SmartSelect<String>.single(
           title: 'Frameworks',
-          value: _framework,
-          onChange: (state) => setState(() => _framework = state.value),
+          selectedValue: _framework,
+          onChange: (state) => setState(() => _framework = state.selected.value),
           choiceItems: choices.frameworks,
           modalConfig: S2ModalConfig(
             type: S2ModalType.popupDialog,
@@ -68,7 +68,7 @@ class _FeaturesModalHeaderState extends State<FeaturesModalHeader> {
               isTwoLine: true,
               leading: CircleAvatar(
                 child: Text(
-                  '${state.valueDisplay[0]}',
+                  '${state.selected.toString()[0]}',
                   style: TextStyle(color: Colors.white)
                 ),
               ),
@@ -78,8 +78,8 @@ class _FeaturesModalHeaderState extends State<FeaturesModalHeader> {
         const Divider(indent: 20),
         SmartSelect<String>.multiple(
           title: 'Super Hero',
-          value: _hero,
-          onChange: (state) => setState(() => _hero = state.value),
+          selectedValue: _hero,
+          onChange: (state) => setState(() => _hero = state.selected.value),
           choiceItems: choices.heroes,
           modalType: S2ModalType.bottomSheet,
           modalStyle: S2ModalStyle(

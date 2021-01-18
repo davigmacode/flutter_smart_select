@@ -19,8 +19,8 @@ class _FeaturesModalShapeState extends State<FeaturesModalShape> {
         const SizedBox(height: 7),
         SmartSelect<String>.single(
           title: 'Frameworks',
-          value: _framework,
-          onChange: (state) => setState(() => _framework = state.value),
+          selectedValue: _framework,
+          onChange: (state) => setState(() => _framework = state.selected.value),
           choiceType: S2ChoiceType.radios,
           choiceItems: choices.frameworks,
           modalType: S2ModalType.popupDialog,
@@ -39,7 +39,7 @@ class _FeaturesModalShapeState extends State<FeaturesModalShape> {
               isTwoLine: true,
               leading: CircleAvatar(
                 child: Text(
-                  '${state.valueDisplay[0]}',
+                  '${state.selected.toString()[0]}',
                   style: TextStyle(color: Colors.white)
                 ),
               ),
@@ -49,8 +49,8 @@ class _FeaturesModalShapeState extends State<FeaturesModalShape> {
         Divider(indent: 20),
         SmartSelect<String>.multiple(
           title: 'Super Hero',
-          value: _hero,
-          onChange: (state) => setState(() => _hero = state.value),
+          selectedValue: _hero,
+          onChange: (state) => setState(() => _hero = state.selected.value),
           choiceItems: choices.heroes,
           choiceType: S2ChoiceType.switches,
           modalType: S2ModalType.bottomSheet,

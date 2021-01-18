@@ -19,16 +19,16 @@ class _FeaturesTileOneLineState extends State<FeaturesTileOneLine> {
         const SizedBox(height: 7),
         SmartSelect<String>.single(
           title: 'Days',
-          value: _day,
+          selectedValue: _day,
           choiceItems: choices.days,
-          onChange: (state) => setState(() => _day = state.value),
+          onChange: (state) => setState(() => _day = state.selected.value),
         ),
         const Divider(indent: 20),
         SmartSelect<String>.multiple(
           title: 'Month',
-          value: _month,
+          selectedValue: _month,
           choiceItems: choices.months,
-          onChange: (state) => setState(() => _month = state.value),
+          onChange: (state) => setState(() => _month = state.selected.value),
           tileBuilder: (context, state) {
             return S2Tile.fromState(state);
           },

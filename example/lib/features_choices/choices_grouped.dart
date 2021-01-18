@@ -23,8 +23,8 @@ class _FeaturesChoicesGroupedState extends State<FeaturesChoicesGrouped> {
         SmartSelect<String>.single(
           title: 'Smartphones',
           placeholder: 'Choose one',
-          value: _smartphone,
-          onChange: (state) => setState(() => _smartphone = state.value),
+          selectedValue: _smartphone,
+          onChange: (state) => setState(() => _smartphone = state.selected.value),
           choiceItems: S2Choice.listFrom<String, Map>(
             source: choices.smartphones,
             value: (index, item) => item['id'],
@@ -37,7 +37,7 @@ class _FeaturesChoicesGroupedState extends State<FeaturesChoicesGrouped> {
           tileBuilder: (context, state) {
             return S2Tile(
               title: state.titleWidget,
-              value: state.valueDisplay,
+              value: state.selected.toWidget(),
               onTap: state.showModal,
               isTwoLine: true,
               leading: const CircleAvatar(
@@ -50,8 +50,8 @@ class _FeaturesChoicesGroupedState extends State<FeaturesChoicesGrouped> {
         SmartSelect<String>.multiple(
           title: 'Cars',
           placeholder: 'Choose one or more',
-          value: _car,
-          onChange: (state) => setState(() => _car = state.value),
+          selectedValue: _car,
+          onChange: (state) => setState(() => _car = state.selected.value),
           choiceItems: S2Choice.listFrom<String, Map>(
             source: choices.cars,
             value: (index, item) => item['value'],

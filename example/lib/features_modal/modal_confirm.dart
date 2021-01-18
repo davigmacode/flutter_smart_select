@@ -20,15 +20,15 @@ class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
         const SizedBox(height: 7),
         SmartSelect<String>.multiple(
           title: 'Days',
-          value: _day,
-          onChange: (state) => setState(() => _day = state.value),
+          selectedValue: _day,
+          onChange: (state) => setState(() => _day = state.selected.value),
           choiceItems: choices.days,
           modalType: S2ModalType.fullPage,
           modalConfirm: true,
           tileBuilder: (context, state) {
             return S2Tile(
               title: state.titleWidget,
-              value: state.valueDisplay,
+              value: state.selected.toWidget(),
               onTap: state.showModal,
               isTwoLine: true,
               leading: const CircleAvatar(
@@ -40,8 +40,8 @@ class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
         const Divider(indent: 20),
         SmartSelect<String>.multiple(
           title: 'Fruit',
-          value: _fruit,
-          onChange: (state) => setState(() => _fruit = state.value),
+          selectedValue: _fruit,
+          onChange: (state) => setState(() => _fruit = state.selected.value),
           choiceItems: choices.fruits,
           modalType: S2ModalType.popupDialog,
           modalConfirm: true,
@@ -84,7 +84,7 @@ class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
                     child: Text('OK (${state.selection.length})'),
                     color: Theme.of(context).primaryColor,
                     textColor: Colors.white,
-                    onPressed: state.selection.valid
+                    onPressed: state.selection.isValid
                       ? () => state.closeModal(confirmed: true)
                       : null,
                   ),
@@ -96,16 +96,16 @@ class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
         const Divider(indent: 20),
         SmartSelect<String>.single(
           title: 'Super Hero',
-          value: _hero,
-          onChange: (state) => setState(() => _hero = state.value),
+          selectedValue: _hero,
+          onChange: (state) => setState(() => _hero = state.selected.value),
           choiceItems: choices.heroes,
           choiceActiveStyle: const S2ChoiceStyle(
             color: Colors.redAccent
           ),
           modalType: S2ModalType.bottomSheet,
-          modalValidation: (value) {
-            if (value.length == 0) return 'Select at least one';
-            if (value == 'iro') return 'Ironman is busy';
+          modalValidation: (selected) {
+            if (selected == null) return 'Select at least one';
+            if (selected.value == 'iro') return 'Ironman is busy';
             return null;
           },
           modalConfig: S2ModalConfig(

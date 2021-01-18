@@ -19,8 +19,8 @@ class _FeaturesMultiPopupState extends State<FeaturesMultiPopup> {
         const SizedBox(height: 7),
         SmartSelect<String>.multiple(
           title: 'Fruit',
-          value: _fruit,
-          onChange: (state) => setState(() => _fruit = state.value),
+          selectedValue: _fruit,
+          onChange: (state) => setState(() => _fruit = state.selected.value),
           choiceItems: choices.fruits,
           modalType: S2ModalType.popupDialog,
           tileBuilder: (context, state) {
@@ -38,15 +38,15 @@ class _FeaturesMultiPopupState extends State<FeaturesMultiPopup> {
         const Divider(indent: 20),
         SmartSelect<String>.multiple(
           title: 'Frameworks',
-          value: _framework,
-          onChange: (state) => setState(() => _framework = state.value),
+          selectedValue: _framework,
+          onChange: (state) => setState(() => _framework = state.selected.value),
           choiceItems: choices.frameworks,
           modalType: S2ModalType.popupDialog,
           tileBuilder: (context, state) {
             return ListTile(
               title: Text(state.title),
               subtitle: Text(
-                state.valueDisplay,
+                state.selected.toString(),
                 style: const TextStyle(color: Colors.grey),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,

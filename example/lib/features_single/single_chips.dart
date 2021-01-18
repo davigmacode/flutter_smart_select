@@ -19,7 +19,7 @@ class _FeaturesSingleChipsState extends State<FeaturesSingleChips> {
       children: <Widget>[
         const SizedBox(height: 7),
         SmartSelect<String>.single(
-          value: _car,
+          selectedValue: _car,
           choiceItems: S2Choice.listFrom<String, Map>(
             source: choices.cars,
             value: (index, item) => item['value'],
@@ -31,10 +31,10 @@ class _FeaturesSingleChipsState extends State<FeaturesSingleChips> {
           choiceType: S2ChoiceType.chips,
           choiceGrouped: true,
           choiceDirection: Axis.horizontal,
-          onChange: (state) => setState(() => _car = state.value),
+          onChange: (state) => setState(() => _car = state.selected.value),
           tileBuilder: (context, state) => S2Tile(
             title: const Text('Car'),
-            value: state.valueDisplay,
+            value: state.selected.toWidget(),
             isTwoLine: true,
             leading: const CircleAvatar(
               backgroundImage: NetworkImage('https://source.unsplash.com/yeVtxxPxzbw/100x100'),
@@ -45,7 +45,7 @@ class _FeaturesSingleChipsState extends State<FeaturesSingleChips> {
         const Divider(indent: 20),
         SmartSelect<String>.single(
           title: 'Category',
-          value: _category,
+          selectedValue: _category,
           choiceItems: choices.categories,
           modalType: S2ModalType.bottomSheet,
           choiceType: S2ChoiceType.chips,
@@ -53,7 +53,7 @@ class _FeaturesSingleChipsState extends State<FeaturesSingleChips> {
             outlined: true,
             showCheckmark: true
           ),
-          onChange: (state) => setState(() => _category = state.value),
+          onChange: (state) => setState(() => _category = state.selected.value),
           tileBuilder: (context, state) => S2Tile.fromState(
             state,
             isTwoLine: true,
@@ -67,9 +67,9 @@ class _FeaturesSingleChipsState extends State<FeaturesSingleChips> {
         const Divider(indent: 20),
         SmartSelect<String>.single(
           title: 'Days',
-          value: _day,
+          selectedValue: _day,
           choiceItems: choices.days,
-          onChange: (state) => setState(() => _day = state.value),
+          onChange: (state) => setState(() => _day = state.selected.value),
           modalType: S2ModalType.popupDialog,
           choiceType: S2ChoiceType.chips,
           choiceStyle: S2ChoiceStyle(

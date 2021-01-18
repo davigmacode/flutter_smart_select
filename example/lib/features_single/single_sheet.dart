@@ -19,9 +19,9 @@ class _FeaturesSingleSheetState extends State<FeaturesSingleSheet> {
         const SizedBox(height: 7),
         SmartSelect<String>.single(
           title: 'OS',
-          value: _os,
+          selectedValue: _os,
           choiceItems: choices.os,
-          onChange: (state) => setState(() => _os = state.value),
+          onChange: (state) => setState(() => _os = state.selected.value),
           modalType: S2ModalType.bottomSheet,
           tileBuilder: (context, state) {
             return S2Tile.fromState(
@@ -36,10 +36,10 @@ class _FeaturesSingleSheetState extends State<FeaturesSingleSheet> {
         const Divider(indent: 20),
         SmartSelect<String>.single(
           title: 'Super Hero',
-          value: _hero,
+          selectedValue: _hero,
           choiceItems: choices.heroes,
           modalType: S2ModalType.bottomSheet,
-          onChange: (state) => setState(() => _hero = state.value),
+          onChange: (state) => setState(() => _hero = state.selected.value),
           tileBuilder: (context, state) {
             return S2Tile.fromState(
               state,

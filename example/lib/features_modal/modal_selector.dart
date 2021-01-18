@@ -20,8 +20,8 @@ class _FeaturesModalSelectorState extends State<FeaturesModalSelector> {
         const SizedBox(height: 7),
         SmartSelect<String>.multiple(
           title: 'Fruit',
-          value: _fruit,
-          onChange: (state) => setState(() => _fruit = state.value),
+          selectedValue: _fruit,
+          onChange: (state) => setState(() => _fruit = state.selected.value),
           choiceItems: choices.fruits,
           modalType: S2ModalType.popupDialog,
           modalConfirm: true,
@@ -69,7 +69,7 @@ class _FeaturesModalSelectorState extends State<FeaturesModalSelector> {
                     child: Text('OK (${state.selection.length})'),
                     color: Theme.of(context).primaryColor,
                     textColor: Colors.white,
-                    onPressed: state.selection.valid
+                    onPressed: state.selection.isValid
                       ? () => state.closeModal(confirmed: true)
                       : null,
                   ),
@@ -82,8 +82,8 @@ class _FeaturesModalSelectorState extends State<FeaturesModalSelector> {
         SmartSelect<String>.multiple(
           title: 'Phones',
           placeholder: 'Choose one',
-          value: _smartphone,
-          onChange: (state) => setState(() => _smartphone = state.value),
+          selectedValue: _smartphone,
+          onChange: (state) => setState(() => _smartphone = state.selected.value),
           choiceItems: S2Choice.listFrom<String, Map>(
             source: choices.smartphones,
             value: (index, item) => item['id'],
@@ -105,33 +105,30 @@ class _FeaturesModalSelectorState extends State<FeaturesModalSelector> {
                   ActionButton(
                     label: const Text('All/None'),
                     onTap: () {
-                      state.selection.selectToggle();
+                      state.selection.toggle(state.choices.items);
                     },
                   ),
                   ActionButton(
                     label: const Text('Low End'),
                     onTap: () {
-                      state.selection.value = state.widget.choiceItems
+                      state.selection.choice = state.choices.items
                         .where((item) => item.meta['category'] == 'Budget Phone')
-                        .map((item) => item.value)
                         .toList();
                     },
                   ),
                   ActionButton(
                     label: const Text('Mid End'),
                     onTap: () {
-                      state.selection.value = state.widget.choiceItems
+                      state.selection.choice = state.choices.items
                         .where((item) => item.meta['category'] == 'Mid End Phone')
-                        .map((item) => item.value)
                         .toList();
                     },
                   ),
                   ActionButton(
                     label: const Text('High End'),
                     onTap: () {
-                      state.selection.value = state.widget.choiceItems
+                      state.selection.choice = state.choices.items
                         .where((item) => item.meta['category'] == 'Flagship Phone')
-                        .map((item) => item.value)
                         .toList();
                     },
                   ),
@@ -149,12 +146,12 @@ class _FeaturesModalSelectorState extends State<FeaturesModalSelector> {
               ),
               body: S2TileChips(
                 chipColor: Theme.of(context).primaryColor,
-                chipLength: state.valueObject.length,
+                chipLength: state.selected.length,
                 chipLabelBuilder: (context, i) {
-                  return Text(state.valueObject[i].title);
+                  return Text(state.selected.choice[i].title);
                 },
                 chipOnDelete: (i) {
-                  setState(() => _smartphone.remove(state.valueObject[i].value));
+                  setState(() => _smartphone.remove(state.selected.choice[i].value));
                 },
                 // placeholder: Container(),
               ),
@@ -164,8 +161,8 @@ class _FeaturesModalSelectorState extends State<FeaturesModalSelector> {
         const Divider(indent: 20),
         SmartSelect<String>.multiple(
           title: 'Car',
-          value: _car,
-          onChange: (state) => setState(() => _car = state.value),
+          selectedValue: _car,
+          onChange: (state) => setState(() => _car = state.selected.value),
           choiceItems: S2Choice.listFrom<String, Map>(
             source: choices.cars,
             value: (index, item) => item['value'],
