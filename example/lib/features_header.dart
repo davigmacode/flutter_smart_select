@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class FeaturesHeader extends StatelessWidget {
-
   final String title;
 
-  const FeaturesHeader(this.title, {
+  const FeaturesHeader(
+    this.title, {
     Key key,
   }) : super(key: key);
 

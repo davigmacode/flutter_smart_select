@@ -9,7 +9,6 @@ class FeaturesModalHeader extends StatefulWidget {
 }
 
 class _FeaturesModalHeaderState extends State<FeaturesModalHeader> {
-
   List<String> _month = ['apr'];
   String _framework = 'flu';
   List<String> _hero = ['bat', 'spi'];
@@ -24,9 +23,7 @@ class _FeaturesModalHeaderState extends State<FeaturesModalHeader> {
           selectedValue: _month,
           onChange: (state) => setState(() => _month = state.selected.value),
           choiceItems: choices.months,
-          choiceActiveStyle: const S2ChoiceStyle(
-            color: Colors.red
-          ),
+          choiceActiveStyle: const S2ChoiceStyle(color: Colors.red),
           modalFilter: true,
           modalHeaderStyle: const S2ModalHeaderStyle(
             elevation: 4,
@@ -45,7 +42,7 @@ class _FeaturesModalHeaderState extends State<FeaturesModalHeader> {
                 counter: state.selected.length,
               ),
             );
-          }
+          },
         ),
         const Divider(indent: 20),
         SmartSelect<String>.single(
@@ -69,11 +66,11 @@ class _FeaturesModalHeaderState extends State<FeaturesModalHeader> {
               leading: CircleAvatar(
                 child: Text(
                   '${state.selected.toString()[0]}',
-                  style: TextStyle(color: Colors.white)
+                  style: TextStyle(color: Colors.white),
                 ),
               ),
             );
-          }
+          },
         ),
         const Divider(indent: 20),
         SmartSelect<String>.multiple(
@@ -87,7 +84,7 @@ class _FeaturesModalHeaderState extends State<FeaturesModalHeader> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(45.0),
-                topRight: Radius.circular(45.0)
+                topRight: Radius.circular(45.0),
               ),
             ),
           ),
@@ -99,9 +96,12 @@ class _FeaturesModalHeaderState extends State<FeaturesModalHeader> {
                   width: 30,
                   decoration: BoxDecoration(
                     color: Colors.grey[300],
-                    borderRadius: BorderRadius.circular(16)
+                    borderRadius: BorderRadius.circular(16),
                   ),
-                  margin: EdgeInsets.only(top: 15, bottom: 10),
+                  margin: EdgeInsets.only(
+                    top: 15,
+                    bottom: 10,
+                  ),
                 ),
                 state.modalTitle,
                 SizedBox(height: 15),
@@ -113,10 +113,12 @@ class _FeaturesModalHeaderState extends State<FeaturesModalHeader> {
               state,
               isTwoLine: true,
               leading: const CircleAvatar(
-                backgroundImage: NetworkImage('https://source.unsplash.com/8I-ht65iRww/100x100'),
+                backgroundImage: NetworkImage(
+                  'https://source.unsplash.com/8I-ht65iRww/100x100',
+                ),
               ),
             );
-          }
+          },
         ),
         const SizedBox(height: 7),
       ],

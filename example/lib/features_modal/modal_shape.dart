@@ -8,7 +8,6 @@ class FeaturesModalShape extends StatefulWidget {
 }
 
 class _FeaturesModalShapeState extends State<FeaturesModalShape> {
-
   String _framework = 'flu';
   List<String> _hero = ['bat', 'spi'];
 
@@ -29,7 +28,7 @@ class _FeaturesModalShapeState extends State<FeaturesModalShape> {
             style: S2ModalStyle(
               elevation: 3,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20.0))
+                borderRadius: BorderRadius.all(Radius.circular(20.0)),
               ),
             ),
           ),
@@ -40,11 +39,11 @@ class _FeaturesModalShapeState extends State<FeaturesModalShape> {
               leading: CircleAvatar(
                 child: Text(
                   '${state.selected.toString()[0]}',
-                  style: TextStyle(color: Colors.white)
+                  style: TextStyle(color: Colors.white),
                 ),
               ),
             );
-          }
+          },
         ),
         Divider(indent: 20),
         SmartSelect<String>.multiple(
@@ -60,7 +59,7 @@ class _FeaturesModalShapeState extends State<FeaturesModalShape> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(15.0),
-                  topRight: Radius.circular(15.0)
+                  topRight: Radius.circular(15.0),
                 ),
               ),
             ),
@@ -73,10 +72,12 @@ class _FeaturesModalShapeState extends State<FeaturesModalShape> {
               state,
               isTwoLine: true,
               leading: const CircleAvatar(
-                backgroundImage: NetworkImage('https://source.unsplash.com/8I-ht65iRww/100x100'),
+                backgroundImage: NetworkImage(
+                  'https://source.unsplash.com/8I-ht65iRww/100x100',
+                ),
               ),
             );
-          }
+          },
         ),
         const SizedBox(height: 7),
       ],

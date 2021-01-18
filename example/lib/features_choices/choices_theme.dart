@@ -9,7 +9,6 @@ class FeaturesChoicesTheme extends StatefulWidget {
 }
 
 class _FeaturesChoicesThemeState extends State<FeaturesChoicesTheme> {
-
   List<String> _smartphones = [];
 
   @override
@@ -20,7 +19,9 @@ class _FeaturesChoicesThemeState extends State<FeaturesChoicesTheme> {
         SmartSelect<String>.multiple(
           title: 'Smartphones',
           selectedValue: _smartphones,
-          onChange: (state) => setState(() => _smartphones = state.selected.value),
+          onChange: (state) {
+            setState(() => _smartphones = state.selected.value);
+          },
           choiceItems: S2Choice.listFrom<String, Map>(
             source: choices.smartphones,
             value: (index, item) => item['id'],
@@ -46,7 +47,7 @@ class _FeaturesChoicesThemeState extends State<FeaturesChoicesTheme> {
           groupEnabled: true,
           groupHeaderStyle: S2GroupHeaderStyle(
             backgroundColor: Colors.blueGrey[600],
-            textStyle: const TextStyle(color: Colors.white)
+            textStyle: const TextStyle(color: Colors.white),
           ),
           modalConfig: S2ModalConfig(
             type: S2ModalType.fullPage,
@@ -63,11 +64,13 @@ class _FeaturesChoicesThemeState extends State<FeaturesChoicesTheme> {
               actionsIconTheme: IconThemeData(color: Colors.white),
             ),
           ),
-          choiceDividerBuilder: (context, i) => const Divider(
-            color: Colors.white24,
-            indent: 0.0,
-            endIndent: 0.0,
-          ),
+          choiceDividerBuilder: (context, i) {
+            return const Divider(
+              color: Colors.white24,
+              indent: 0.0,
+              endIndent: 0.0,
+            );
+          },
           tileBuilder: (context, state) {
             return S2Tile.fromState(
               state,
@@ -78,7 +81,7 @@ class _FeaturesChoicesThemeState extends State<FeaturesChoicesTheme> {
                 counter: _smartphones.length,
               ),
             );
-          }
+          },
         ),
         const SizedBox(height: 7),
       ],

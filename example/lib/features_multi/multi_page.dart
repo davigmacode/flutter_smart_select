@@ -8,7 +8,6 @@ class FeaturesMultiPage extends StatefulWidget {
 }
 
 class _FeaturesMultiPageState extends State<FeaturesMultiPage> {
-
   List<String> _day = ['fri'];
   List<String> _month = ['apr'];
 

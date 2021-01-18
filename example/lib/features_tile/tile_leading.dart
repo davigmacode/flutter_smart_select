@@ -9,7 +9,6 @@ class FeaturesTileLeading extends StatefulWidget {
 }
 
 class _FeaturesTileLeadingState extends State<FeaturesTileLeading> {
-
   String _day = 'fri';
   List<String> _month = ['apr'];
   String _framework = 'flu';
@@ -65,7 +64,7 @@ class _FeaturesTileLeadingState extends State<FeaturesTileLeading> {
                 backgroundColor: primaryColor,
                 child: Text(
                   '${state.selected.toString()[0]}',
-                  style: TextStyle(color: Colors.white)
+                  style: TextStyle(color: Colors.white),
                 ),
               ),
             );

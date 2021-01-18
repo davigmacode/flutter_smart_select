@@ -7,19 +7,25 @@ class FeaturesOptionListOfString extends StatefulWidget {
 }
 
 class _FeaturesOptionListOfStringState extends State<FeaturesOptionListOfString> {
-
   List<int> _categories = [];
 
   int _sort = 3;
 
   List<String> _categoriesOption = [
-    'Electronics', 'Accessories', 'Smartwatch',
-    'Smartphone', 'Audio & Video', 'Scientific'
+    'Electronics',
+    'Accessories',
+    'Smartwatch',
+    'Smartphone',
+    'Audio & Video',
+    'Scientific'
   ];
 
   List<String> _sortOption = [
-    'Popular', 'Most Reviews', 'Newest',
-    'Low Price', 'High Price',
+    'Popular',
+    'Most Reviews',
+    'Newest',
+    'Low Price',
+    'High Price',
   ];
 
   @override
@@ -65,7 +71,9 @@ class _FeaturesOptionListOfStringState extends State<FeaturesOptionListOfString>
                 child: SmartSelect<int>.single(
                   title: 'Sort By',
                   selectedValue: _sort,
-                  onChange: (state) => setState(() => _sort = state.selected.value),
+                  onChange: (state) {
+                    setState(() => _sort = state.selected.value);
+                  },
                   choiceItems: S2Choice.listFrom<int, String>(
                     source: _sortOption,
                     value: (index, item) => index,

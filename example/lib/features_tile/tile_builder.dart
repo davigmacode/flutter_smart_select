@@ -8,7 +8,6 @@ class FeaturesTileBuilder extends StatefulWidget {
 }
 
 class _FeaturesTileBuilderState extends State<FeaturesTileBuilder> {
-
   List<String> _cars = ['bmw-x2', 'bmw-x1', 'honda-hrv', 'honda-jazz', 'hyundai-i10', 'bmw-sgt'];
   List<String> _categories = [];
   String _sort = 'popular';
@@ -35,7 +34,9 @@ class _FeaturesTileBuilderState extends State<FeaturesTileBuilder> {
                     title: 'Categories',
                     selectedValue: _categories,
                     choiceItems: choices.categories,
-                    onChange: (state) => setState(() => _categories = state.selected.value),
+                    onChange: (state) {
+                      setState(() => _categories = state.selected.value);
+                    },
                     modalType: S2ModalType.bottomSheet,
                     modalHeader: false,
                     tileBuilder: (context, state) {
@@ -56,7 +57,9 @@ class _FeaturesTileBuilderState extends State<FeaturesTileBuilder> {
                     title: 'Sort By',
                     selectedValue: _sort,
                     choiceItems: choices.sorts,
-                    onChange: (state) => setState(() => _sort = state.selected.value),
+                    onChange: (state) {
+                      setState(() => _sort = state.selected.value);
+                    },
                     modalType: S2ModalType.popupDialog,
                     modalHeader: false,
                     tileBuilder: (context, state) {

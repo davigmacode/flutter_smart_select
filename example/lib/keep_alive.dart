@@ -1,7 +1,6 @@
 import 'package:flutter/widgets.dart';
 
 class KeepAliveWidget extends StatefulWidget {
-
   final Widget child;
 
   KeepAliveWidget({
@@ -13,8 +12,8 @@ class KeepAliveWidget extends StatefulWidget {
   _KeepAliveWidgetState createState() => _KeepAliveWidgetState();
 }
 
-class _KeepAliveWidgetState extends State<KeepAliveWidget> with AutomaticKeepAliveClientMixin<KeepAliveWidget> {
-
+class _KeepAliveWidgetState extends State<KeepAliveWidget>
+    with AutomaticKeepAliveClientMixin<KeepAliveWidget> {
   @override
   bool get wantKeepAlive => true;
 

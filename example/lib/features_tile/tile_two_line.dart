@@ -8,7 +8,6 @@ class FeaturesTileTwoLine extends StatefulWidget {
 }
 
 class _FeaturesTileTwoLineState extends State<FeaturesTileTwoLine> {
-
   String _day = 'fri';
   List<String> _month = ['apr'];
 

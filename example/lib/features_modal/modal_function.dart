@@ -7,7 +7,6 @@ class ProgrammaticModal extends StatefulWidget {
 }
 
 class _ProgrammaticModalState extends State<ProgrammaticModal> {
-
   List<S2Choice<String>> _choices = [
     S2Choice<String>(value: 'app', title: 'Apple'),
     S2Choice<String>(value: 'ore', title: 'Orange'),
@@ -34,7 +33,7 @@ class _ProgrammaticModalState extends State<ProgrammaticModal> {
       choiceItems: _choices,
       tileBuilder: (context, state) {
         return Container();
-      }
+      },
     );
   }
 }

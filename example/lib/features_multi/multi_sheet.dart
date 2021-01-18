@@ -8,7 +8,6 @@ class FeaturesMultiSheet extends StatefulWidget {
 }
 
 class _FeaturesMultiSheetState extends State<FeaturesMultiSheet> {
-
   List<String> _os = ['and', 'tux'];
   List<String> _hero = ['bat', 'spi'];
 
@@ -28,7 +27,9 @@ class _FeaturesMultiSheetState extends State<FeaturesMultiSheet> {
               state,
               isTwoLine: true,
               leading: const CircleAvatar(
-                backgroundImage: NetworkImage('https://source.unsplash.com/xsGxhtAsfSA/100x100'),
+                backgroundImage: NetworkImage(
+                  'https://source.unsplash.com/xsGxhtAsfSA/100x100',
+                ),
               ),
             );
           },

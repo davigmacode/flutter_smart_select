@@ -8,7 +8,6 @@ class FeaturesSinglePage extends StatefulWidget {
 }
 
 class _FeaturesSinglePageState extends State<FeaturesSinglePage> {
-
   String _day = 'fri';
   String _month = 'apr';
 

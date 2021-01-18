@@ -7,19 +7,25 @@ class FeaturesOptionDisabled extends StatefulWidget {
 }
 
 class _FeaturesOptionDisabledState extends State<FeaturesOptionDisabled> {
-
   List<int> _categories = [];
 
   int _sort = 0;
 
   List<String> _categoriesOption = [
-    'Electronics', 'Accessories', 'Smartwatch',
-    'Smartphone', 'Audio & Video', 'Scientific'
+    'Electronics',
+    'Accessories',
+    'Smartwatch',
+    'Smartphone',
+    'Audio & Video',
+    'Scientific'
   ];
 
   List<String> _sortOption = [
-    'Popular', 'Most Reviews', 'Newest',
-    'Low Price', 'High Price',
+    'Popular',
+    'Most Reviews',
+    'Newest',
+    'Low Price',
+    'High Price',
   ];
 
   @override
@@ -65,7 +71,9 @@ class _FeaturesOptionDisabledState extends State<FeaturesOptionDisabled> {
               Expanded(
                 child: SmartSelect<int>.single(
                   selectedValue: _sort,
-                  onChange: (state) => setState(() => _sort = state.selected.value),
+                  onChange: (state) {
+                    setState(() => _sort = state.selected.value);
+                  },
                   choiceItems: S2Choice.listFrom<int, String>(
                     source: _sortOption,
                     value: (index, item) => index,

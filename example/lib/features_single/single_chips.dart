@@ -8,7 +8,6 @@ class FeaturesSingleChips extends StatefulWidget {
 }
 
 class _FeaturesSingleChipsState extends State<FeaturesSingleChips> {
-
   String _car = '';
   String _category = '';
   String _day = 'fri';
@@ -37,7 +36,9 @@ class _FeaturesSingleChipsState extends State<FeaturesSingleChips> {
             value: state.selected.toWidget(),
             isTwoLine: true,
             leading: const CircleAvatar(
-              backgroundImage: NetworkImage('https://source.unsplash.com/yeVtxxPxzbw/100x100'),
+              backgroundImage: NetworkImage(
+                'https://source.unsplash.com/yeVtxxPxzbw/100x100',
+              ),
             ),
             onTap: state.showModal,
           ),
@@ -49,10 +50,7 @@ class _FeaturesSingleChipsState extends State<FeaturesSingleChips> {
           choiceItems: choices.categories,
           modalType: S2ModalType.bottomSheet,
           choiceType: S2ChoiceType.chips,
-          choiceStyle: S2ChoiceStyle(
-            outlined: true,
-            showCheckmark: true
-          ),
+          choiceStyle: S2ChoiceStyle(outlined: true, showCheckmark: true),
           onChange: (state) => setState(() => _category = state.selected.value),
           tileBuilder: (context, state) => S2Tile.fromState(
             state,

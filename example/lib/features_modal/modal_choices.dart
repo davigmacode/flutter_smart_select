@@ -8,7 +8,6 @@ class FeaturesModalChoices extends StatefulWidget {
 }
 
 class _FeaturesModalChoicesState extends State<FeaturesModalChoices> {
-
   List<String> _fruit = ['mel'];
   List<String> _hero = ['bat', 'spi'];
 
@@ -34,26 +33,27 @@ class _FeaturesModalChoicesState extends State<FeaturesModalChoices> {
                 child: const Icon(Icons.shopping_cart),
               ),
             );
-          }
+          },
         ),
         const Divider(indent: 20),
         SmartSelect<String>.multiple(
-          title: 'Super Hero',
-          selectedValue: _hero,
-          onChange: (state) => setState(() => _hero = state.selected.value),
-          choiceItems: choices.heroes,
-          modalType: S2ModalType.bottomSheet,
-          modalHeader: false,
-          tileBuilder: (context, state) {
-            return S2Tile.fromState(
-              state,
-              isTwoLine: true,
-              leading: const CircleAvatar(
-                backgroundImage: NetworkImage('https://source.unsplash.com/8I-ht65iRww/100x100'),
-              ),
-            );
-          }
-        ),
+            title: 'Super Hero',
+            selectedValue: _hero,
+            onChange: (state) => setState(() => _hero = state.selected.value),
+            choiceItems: choices.heroes,
+            modalType: S2ModalType.bottomSheet,
+            modalHeader: false,
+            tileBuilder: (context, state) {
+              return S2Tile.fromState(
+                state,
+                isTwoLine: true,
+                leading: const CircleAvatar(
+                  backgroundImage: NetworkImage(
+                    'https://source.unsplash.com/8I-ht65iRww/100x100',
+                  ),
+                ),
+              );
+            }),
         const SizedBox(height: 7),
       ],
     );

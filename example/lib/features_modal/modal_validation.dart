@@ -8,7 +8,6 @@ class FeaturesModalValidation extends StatefulWidget {
 }
 
 class _FeaturesModalValidationState extends State<FeaturesModalValidation> {
-
   String _day;
   List<String> _days = ['fri'];
   List<String> _fruit;
@@ -24,7 +23,9 @@ class _FeaturesModalValidationState extends State<FeaturesModalValidation> {
           onChange: (state) => setState(() => _day = state.selected.value),
           choiceItems: choices.days,
           modalType: S2ModalType.bottomSheet,
-          modalValidation: (value) => value == null ? 'Select at least one' : null,
+          modalValidation: (value) {
+            return value == null ? 'Select at least one' : null;
+          },
         ),
         const Divider(indent: 20),
         SmartSelect<String>.multiple(
@@ -33,14 +34,16 @@ class _FeaturesModalValidationState extends State<FeaturesModalValidation> {
           onChange: (state) => setState(() => _days = state.selected.value),
           choiceItems: choices.days,
           modalType: S2ModalType.bottomSheet,
-          modalValidation: (value) => value.length > 0 ? null : 'Select at least one',
+          modalValidation: (value) {
+            return value.length > 0 ? null : 'Select at least one';
+          },
           modalConfirm: true,
           modalFilter: true,
           choiceTitleBuilder: (context, state, choice) {
             return S2Text(
               text: choice.title,
               style: TextStyle(
-                color: choice.selected ? Theme.of(context).primaryColor : null
+                color: choice.selected ? Theme.of(context).primaryColor : null,
               ),
               highlight: state.filter.value,
               highlightColor: Theme.of(context).primaryColor.withOpacity(.7),
@@ -56,7 +59,7 @@ class _FeaturesModalValidationState extends State<FeaturesModalValidation> {
                 backgroundImage: NetworkImage('https://source.unsplash.com/xsGxhtAsfSA/100x100'),
               ),
             );
-          }
+          },
         ),
         const Divider(indent: 20),
         SmartSelect<String>.multiple(
@@ -90,9 +93,7 @@ class _FeaturesModalValidationState extends State<FeaturesModalValidation> {
                     visible: !state.selection.isValid,
                     child: Text(
                       state.selection.error,
-                      style: TextStyle(
-                        color: Colors.red
-                      ),
+                      style: TextStyle(color: Colors.red),
                     ),
                   ),
                 ],
@@ -121,14 +122,12 @@ class _FeaturesModalValidationState extends State<FeaturesModalValidation> {
                     label: Text('OK (${state.selection.length})'),
                     color: Theme.of(context).primaryColor,
                     textColor: Colors.white,
-                    onPressed: state.selection.isValid
-                      ? () => state.closeModal(confirmed: true)
-                      : null,
+                    onPressed: state.selection.isValid ? () => state.closeModal(confirmed: true) : null,
                   ),
                 ],
               ),
             );
-          }
+          },
         ),
         const SizedBox(height: 7),
       ],

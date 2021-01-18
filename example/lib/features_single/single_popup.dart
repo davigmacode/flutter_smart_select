@@ -8,7 +8,6 @@ class FeaturesSinglePopup extends StatefulWidget {
 }
 
 class _FeaturesSinglePopupState extends State<FeaturesSinglePopup> {
-
   String _fruit = 'mel';
   String _framework = 'flu';
 
@@ -36,7 +35,9 @@ class _FeaturesSinglePopupState extends State<FeaturesSinglePopup> {
           selectedValue: _framework,
           choiceItems: choices.frameworks,
           modalType: S2ModalType.popupDialog,
-          onChange: (state) => setState(() => _framework = state.selected.value),
+          onChange: (state) {
+            setState(() => _framework = state.selected.value);
+          },
           tileBuilder: (context, state) {
             return ListTile(
               title: Text(state.title),
@@ -49,10 +50,13 @@ class _FeaturesSinglePopupState extends State<FeaturesSinglePopup> {
                 backgroundColor: Theme.of(context).primaryColor,
                 child: Text(
                   '${state.selected.toString()[0]}',
-                  style: TextStyle(color: Colors.white)
+                  style: TextStyle(color: Colors.white),
                 ),
               ),
-              trailing: const Icon(Icons.keyboard_arrow_right, color: Colors.grey),
+              trailing: const Icon(
+                Icons.keyboard_arrow_right,
+                color: Colors.grey,
+              ),
               onTap: state.showModal,
             );
           },

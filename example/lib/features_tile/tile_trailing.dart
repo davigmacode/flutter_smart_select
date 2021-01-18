@@ -8,7 +8,6 @@ class FeaturesTileTrailing extends StatefulWidget {
 }
 
 class _FeaturesTileTrailingState extends State<FeaturesTileTrailing> {
-
   String _day = 'fri';
   List<String> _month = ['apr'];
 

@@ -9,7 +9,6 @@ class FeaturesChoicesGrouped extends StatefulWidget {
 }
 
 class _FeaturesChoicesGroupedState extends State<FeaturesChoicesGrouped> {
-
   String _smartphone = '';
   List<String> _car = [];
 
@@ -24,7 +23,9 @@ class _FeaturesChoicesGroupedState extends State<FeaturesChoicesGrouped> {
           title: 'Smartphones',
           placeholder: 'Choose one',
           selectedValue: _smartphone,
-          onChange: (state) => setState(() => _smartphone = state.selected.value),
+          onChange: (state) {
+            setState(() => _smartphone = state.selected.value);
+          },
           choiceItems: S2Choice.listFrom<String, Map>(
             source: choices.smartphones,
             value: (index, item) => item['id'],
@@ -41,10 +42,12 @@ class _FeaturesChoicesGroupedState extends State<FeaturesChoicesGrouped> {
               onTap: state.showModal,
               isTwoLine: true,
               leading: const CircleAvatar(
-                backgroundImage: NetworkImage('https://source.unsplash.com/xsGxhtAsfSA/100x100'),
+                backgroundImage: NetworkImage(
+                  'https://source.unsplash.com/xsGxhtAsfSA/100x100',
+                ),
               ),
             );
-          }
+          },
         ),
         const Divider(indent: 20),
         SmartSelect<String>.multiple(
@@ -58,9 +61,7 @@ class _FeaturesChoicesGroupedState extends State<FeaturesChoicesGrouped> {
             title: (index, item) => item['title'],
             group: (index, item) => item['body'],
           ),
-          choiceActiveStyle: const S2ChoiceStyle(
-            color: Colors.redAccent
-          ),
+          choiceActiveStyle: const S2ChoiceStyle(color: Colors.redAccent),
           modalType: S2ModalType.bottomSheet,
           modalConfirm: true,
           modalFilter: true,
@@ -81,9 +82,7 @@ class _FeaturesChoicesGroupedState extends State<FeaturesChoicesGrouped> {
                 text: group.name,
                 highlight: state.filter.value,
                 highlightColor: Colors.teal,
-                style: const TextStyle(
-                  color: Colors.white
-                ),
+                style: const TextStyle(color: Colors.white),
               ),
             );
           },
@@ -92,10 +91,12 @@ class _FeaturesChoicesGroupedState extends State<FeaturesChoicesGrouped> {
               state,
               isTwoLine: true,
               leading: const CircleAvatar(
-                backgroundImage: NetworkImage('https://source.unsplash.com/yeVtxxPxzbw/100x100'),
+                backgroundImage: NetworkImage(
+                  'https://source.unsplash.com/yeVtxxPxzbw/100x100',
+                ),
               ),
             );
-          }
+          },
         ),
         const SizedBox(height: 7),
       ],

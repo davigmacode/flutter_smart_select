@@ -8,7 +8,6 @@ class FeaturesTileLoading extends StatefulWidget {
 }
 
 class _FeaturesTileLoadingState extends State<FeaturesTileLoading> {
-
   String _day = 'fri';
   List<String> _month = ['apr'];
 

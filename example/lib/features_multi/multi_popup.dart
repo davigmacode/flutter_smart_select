@@ -8,7 +8,6 @@ class FeaturesMultiPopup extends StatefulWidget {
 }
 
 class _FeaturesMultiPopupState extends State<FeaturesMultiPopup> {
-
   List<String> _fruit = ['mel'];
   List<String> _framework = ['flu'];
 
@@ -39,7 +38,9 @@ class _FeaturesMultiPopupState extends State<FeaturesMultiPopup> {
         SmartSelect<String>.multiple(
           title: 'Frameworks',
           selectedValue: _framework,
-          onChange: (state) => setState(() => _framework = state.selected.value),
+          onChange: (state) {
+            setState(() => _framework = state.selected.value);
+          },
           choiceItems: choices.frameworks,
           modalType: S2ModalType.popupDialog,
           tileBuilder: (context, state) {
@@ -55,10 +56,13 @@ class _FeaturesMultiPopupState extends State<FeaturesMultiPopup> {
                 backgroundColor: Theme.of(context).primaryColor,
                 child: Text(
                   _framework.length.toString(),
-                  style: TextStyle(color: Colors.white)
+                  style: TextStyle(color: Colors.white),
                 ),
               ),
-              trailing: const Icon(Icons.keyboard_arrow_right, color: Colors.grey),
+              trailing: const Icon(
+                Icons.keyboard_arrow_right,
+                color: Colors.grey,
+              ),
               onTap: state.showModal,
             );
           },

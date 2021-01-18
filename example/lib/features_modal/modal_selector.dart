@@ -8,7 +8,6 @@ class FeaturesModalSelector extends StatefulWidget {
 }
 
 class _FeaturesModalSelectorState extends State<FeaturesModalSelector> {
-
   List<String> _fruit = ['mel'];
   List<String> _smartphone = [];
   List<String> _car = [];
@@ -25,7 +24,9 @@ class _FeaturesModalSelectorState extends State<FeaturesModalSelector> {
           choiceItems: choices.fruits,
           modalType: S2ModalType.popupDialog,
           modalConfirm: true,
-          modalValidation: (value) => value.length > 0 ? null : 'Select at least one',
+          modalValidation: (value) {
+            return value.length > 0 ? null : 'Select at least one';
+          },
           modalHeaderStyle: S2ModalHeaderStyle(
             backgroundColor: Theme.of(context).cardColor,
           ),
@@ -69,95 +70,92 @@ class _FeaturesModalSelectorState extends State<FeaturesModalSelector> {
                     child: Text('OK (${state.selection.length})'),
                     color: Theme.of(context).primaryColor,
                     textColor: Colors.white,
-                    onPressed: state.selection.isValid
-                      ? () => state.closeModal(confirmed: true)
-                      : null,
-                  ),
-                ],
-              ),
-            );
-          }
-        ),
-        const Divider(indent: 20),
-        SmartSelect<String>.multiple(
-          title: 'Phones',
-          placeholder: 'Choose one',
-          selectedValue: _smartphone,
-          onChange: (state) => setState(() => _smartphone = state.selected.value),
-          choiceItems: S2Choice.listFrom<String, Map>(
-            source: choices.smartphones,
-            value: (index, item) => item['id'],
-            title: (index, item) => item['name'],
-            group: (index, item) => item['brand'],
-            meta: (index, item) => item,
-          ),
-          choiceType: S2ChoiceType.chips,
-          choiceActiveStyle: S2ChoiceStyle(
-            color: Theme.of(context).primaryColor
-          ),
-          modalFilter: true,
-          modalType: S2ModalType.fullPage,
-          modalFooterBuilder: (context, state) {
-            return Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  ActionButton(
-                    label: const Text('All/None'),
-                    onTap: () {
-                      state.selection.toggle(state.choices.items);
-                    },
-                  ),
-                  ActionButton(
-                    label: const Text('Low End'),
-                    onTap: () {
-                      state.selection.choice = state.choices.items
-                        .where((item) => item.meta['category'] == 'Budget Phone')
-                        .toList();
-                    },
-                  ),
-                  ActionButton(
-                    label: const Text('Mid End'),
-                    onTap: () {
-                      state.selection.choice = state.choices.items
-                        .where((item) => item.meta['category'] == 'Mid End Phone')
-                        .toList();
-                    },
-                  ),
-                  ActionButton(
-                    label: const Text('High End'),
-                    onTap: () {
-                      state.selection.choice = state.choices.items
-                        .where((item) => item.meta['category'] == 'Flagship Phone')
-                        .toList();
-                    },
+                    onPressed: state.selection.isValid ? () => state.closeModal(confirmed: true) : null,
                   ),
                 ],
               ),
             );
           },
-          tileBuilder: (context, state) {
-            return S2Tile.fromState(
-              state,
-              hideValue: true,
-              trailing: const Icon(Icons.add_circle_outline),
-              leading: const CircleAvatar(
-                backgroundImage: NetworkImage('https://source.unsplash.com/xsGxhtAsfSA/100x100'),
-              ),
-              body: S2TileChips(
-                chipColor: Theme.of(context).primaryColor,
-                chipLength: state.selected.length,
-                chipLabelBuilder: (context, i) {
-                  return Text(state.selected.choice[i].title);
-                },
-                chipOnDelete: (i) {
-                  setState(() => _smartphone.remove(state.selected.choice[i].value));
-                },
-                // placeholder: Container(),
-              ),
-            );
-          }
         ),
+        const Divider(indent: 20),
+        SmartSelect<String>.multiple(
+            title: 'Phones',
+            placeholder: 'Choose one',
+            selectedValue: _smartphone,
+            onChange: (state) => setState(() => _smartphone = state.selected.value),
+            choiceItems: S2Choice.listFrom<String, Map>(
+              source: choices.smartphones,
+              value: (index, item) => item['id'],
+              title: (index, item) => item['name'],
+              group: (index, item) => item['brand'],
+              meta: (index, item) => item,
+            ),
+            choiceType: S2ChoiceType.chips,
+            choiceActiveStyle: S2ChoiceStyle(
+              color: Theme.of(context).primaryColor,
+            ),
+            modalFilter: true,
+            modalType: S2ModalType.fullPage,
+            modalFooterBuilder: (context, state) {
+              return Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    ActionButton(
+                      label: const Text('All/None'),
+                      onTap: () {
+                        state.selection.toggle(state.choices.items);
+                      },
+                    ),
+                    ActionButton(
+                      label: const Text('Low End'),
+                      onTap: () {
+                        state.selection.choice = state.choices.items
+                            .where((item) => item.meta['category'] == 'Budget Phone')
+                            .toList();
+                      },
+                    ),
+                    ActionButton(
+                      label: const Text('Mid End'),
+                      onTap: () {
+                        state.selection.choice = state.choices.items
+                            .where((item) => item.meta['category'] == 'Mid End Phone')
+                            .toList();
+                      },
+                    ),
+                    ActionButton(
+                      label: const Text('High End'),
+                      onTap: () {
+                        state.selection.choice = state.choices.items
+                            .where((item) => item.meta['category'] == 'Flagship Phone')
+                            .toList();
+                      },
+                    ),
+                  ],
+                ),
+              );
+            },
+            tileBuilder: (context, state) {
+              return S2Tile.fromState(
+                state,
+                hideValue: true,
+                trailing: const Icon(Icons.add_circle_outline),
+                leading: const CircleAvatar(
+                  backgroundImage: NetworkImage('https://source.unsplash.com/xsGxhtAsfSA/100x100'),
+                ),
+                body: S2TileChips(
+                  chipColor: Theme.of(context).primaryColor,
+                  chipLength: state.selected.length,
+                  chipLabelBuilder: (context, i) {
+                    return Text(state.selected.choice[i].title);
+                  },
+                  chipOnDelete: (i) {
+                    setState(() => _smartphone.remove(state.selected.choice[i].value));
+                  },
+                  // placeholder: Container(),
+                ),
+              );
+            }),
         const Divider(indent: 20),
         SmartSelect<String>.multiple(
           title: 'Car',
@@ -216,7 +214,6 @@ class _FeaturesModalSelectorState extends State<FeaturesModalSelector> {
 }
 
 class ActionButton extends StatelessWidget {
-
   final Widget label;
   final VoidCallback onTap;
 

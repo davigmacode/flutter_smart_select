@@ -9,7 +9,6 @@ class FeaturesChoicesBuilder extends StatefulWidget {
 }
 
 class _FeaturesChoicesBuilderState extends State<FeaturesChoicesBuilder> {
-
   int _commute;
 
   List<String> _user;
@@ -54,10 +53,12 @@ class _FeaturesChoicesBuilderState extends State<FeaturesChoicesBuilder> {
                       children: <Widget>[
                         CircleAvatar(
                           backgroundImage: NetworkImage(choice.meta['image']),
-                          child: choice.selected ? Icon(
-                            Icons.check,
-                            color: Colors.white,
-                          ) : null,
+                          child: choice.selected
+                              ? Icon(
+                                  Icons.check,
+                                  color: Colors.white,
+                                )
+                              : null,
                         ),
                         const SizedBox(height: 5),
                         Text(
@@ -74,7 +75,8 @@ class _FeaturesChoicesBuilderState extends State<FeaturesChoicesBuilder> {
             );
           },
           tileBuilder: (context, state) {
-            String avatar = (state.selected?.choice?.meta ?? {})['image'] ?? 'https://source.unsplash.com/3k5cAmxjXl4/100x100';
+            String avatar = (state.selected?.choice?.meta ?? {})['image'] ??
+                'https://source.unsplash.com/3k5cAmxjXl4/100x100';
             return S2Tile.fromState(
               state,
               isTwoLine: true,
@@ -96,7 +98,7 @@ class _FeaturesChoicesBuilderState extends State<FeaturesChoicesBuilder> {
           choiceGrid: const SliverGridDelegateWithFixedCrossAxisCount(
             mainAxisSpacing: 5,
             crossAxisSpacing: 5,
-            crossAxisCount: 3
+            crossAxisCount: 3,
           ),
           choiceBuilder: (context, state, choice) {
             return Card(
@@ -143,7 +145,7 @@ class _FeaturesChoicesBuilderState extends State<FeaturesChoicesBuilder> {
                 backgroundColor: theme.primaryColor,
                 child: Text(
                   state.selected.value?.length?.toString() ?? '0',
-                  style: TextStyle(color: Colors.white)
+                  style: TextStyle(color: Colors.white),
                 ),
               ),
               body: S2TileChips(
@@ -152,7 +154,7 @@ class _FeaturesChoicesBuilderState extends State<FeaturesChoicesBuilder> {
                   return Text(state.selected.choice[i].title);
                 },
                 chipAvatarBuilder: (context, i) => CircleAvatar(
-                  backgroundImage: NetworkImage(state.selected.choice[i].meta['picture']['thumbnail'])
+                  backgroundImage: NetworkImage(state.selected.choice[i].meta['picture']['thumbnail']),
                 ),
                 chipOnDelete: (i) {
                   setState(() => _user.remove(state.selected.choice[i].value));
@@ -181,14 +183,16 @@ class _FeaturesChoicesBuilderState extends State<FeaturesChoicesBuilder> {
       setState(() => _usersIsLoading = true);
       String url = "https://randomuser.me/api/?inc=gender,name,nat,picture,email&results=25";
       Response res = await Dio().get(url);
-      setState(() => _users = S2Choice.listFrom<String, dynamic>(
-        source: res.data['results'],
-        value: (index, item) => item['email'],
-        title: (index, item) => item['name']['first'] + ' ' + item['name']['last'],
-        subtitle: (index, item) => item['email'],
-        group: (index, item) => item['gender'],
-        meta: (index, item) => item,
-      ));
+      setState(() {
+        _users = S2Choice.listFrom<String, dynamic>(
+          source: res.data['results'],
+          value: (index, item) => item['email'],
+          title: (index, item) => item['name']['first'] + ' ' + item['name']['last'],
+          subtitle: (index, item) => item['email'],
+          group: (index, item) => item['gender'],
+          meta: (index, item) => item,
+        );
+      });
     } catch (e) {
       print(e);
     } finally {

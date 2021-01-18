@@ -8,7 +8,6 @@ class FeaturesSingleSheet extends StatefulWidget {
 }
 
 class _FeaturesSingleSheetState extends State<FeaturesSingleSheet> {
-
   String _os = 'win';
   String _hero = 'iro';
 
@@ -28,7 +27,9 @@ class _FeaturesSingleSheetState extends State<FeaturesSingleSheet> {
               state,
               isTwoLine: true,
               leading: const CircleAvatar(
-                backgroundImage: NetworkImage('https://source.unsplash.com/xsGxhtAsfSA/100x100'),
+                backgroundImage: NetworkImage(
+                  'https://source.unsplash.com/xsGxhtAsfSA/100x100',
+                ),
               ),
             );
           },
@@ -45,7 +46,9 @@ class _FeaturesSingleSheetState extends State<FeaturesSingleSheet> {
               state,
               isTwoLine: true,
               leading: const CircleAvatar(
-                backgroundImage: NetworkImage('https://source.unsplash.com/8I-ht65iRww/100x100'),
+                backgroundImage: NetworkImage(
+                  'https://source.unsplash.com/8I-ht65iRww/100x100',
+                ),
               ),
             );
           },

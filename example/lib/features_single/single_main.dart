@@ -9,7 +9,6 @@ import '../features_header.dart';
 import '../keep_alive.dart';
 
 class FeaturesSingle extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return Scrollbar(
@@ -51,4 +50,3 @@ class FeaturesSingle extends StatelessWidget {
     );
   }
 }
-

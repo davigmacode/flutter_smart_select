@@ -8,7 +8,6 @@ class FeaturesTheme extends StatefulWidget {
 }
 
 class _FeaturesThemeState extends State<FeaturesTheme> {
-
   Color _themeColor = Colors.red;
 
   ThemeData get theme => Theme.of(context);
@@ -40,14 +39,12 @@ class _FeaturesThemeState extends State<FeaturesTheme> {
             choiceGrid: const SliverGridDelegateWithFixedCrossAxisCount(
               mainAxisSpacing: 5,
               crossAxisSpacing: 5,
-              crossAxisCount: 3
+              crossAxisCount: 3,
             ),
             choiceBuilder: (context, state, choice) {
               return Card(
                 elevation: 3,
-                color: choice.selected
-                  ? theme.primaryColor
-                  : theme.cardColor,
+                color: choice.selected ? theme.primaryColor : theme.cardColor,
                 child: InkWell(
                   onTap: () => choice.select(true),
                   child: Column(
@@ -56,12 +53,12 @@ class _FeaturesThemeState extends State<FeaturesTheme> {
                       Icon(
                         choice.meta,
                         size: 48,
-                        color: choice.selected ? Colors.white : null
+                        color: choice.selected ? Colors.white : null,
                       ),
                       const SizedBox(height: 5),
                       Text(
                         choice.title,
-                        style: TextStyle(color: choice.selected ? Colors.white : null)
+                        style: TextStyle(color: choice.selected ? Colors.white : null),
                       ),
                     ],
                   ),
@@ -73,10 +70,10 @@ class _FeaturesThemeState extends State<FeaturesTheme> {
                 state,
                 isTwoLine: true,
                 trailing: ThemePatrol.of(context).isLightMode
-                  ? const Icon(Icons.brightness_low)
-                  : ThemePatrol.of(context).isDarkMode
-                    ? const Icon(Icons.brightness_2)
-                    : const Icon(Icons.brightness_auto),
+                    ? const Icon(Icons.brightness_low)
+                    : ThemePatrol.of(context).isDarkMode
+                        ? const Icon(Icons.brightness_2)
+                        : const Icon(Icons.brightness_auto),
               );
             },
           ),
@@ -96,13 +93,13 @@ class _FeaturesThemeState extends State<FeaturesTheme> {
             choiceItems: S2Choice.listFrom<Color, Color>(
               source: Colors.primaries,
               value: (i, v) => v,
-              title: (i, v) => null
+              title: (i, v) => null,
             ),
             choiceLayout: S2ChoiceLayout.grid,
             choiceGrid: const SliverGridDelegateWithFixedCrossAxisCount(
               mainAxisSpacing: 5,
               crossAxisSpacing: 5,
-              crossAxisCount: 5
+              crossAxisCount: 5,
             ),
             choiceBuilder: (context, state, choice) {
               return Card(
@@ -110,11 +107,11 @@ class _FeaturesThemeState extends State<FeaturesTheme> {
                 child: InkWell(
                   onTap: () => choice.select(true),
                   child: choice.selected
-                    ? Icon(
-                        Icons.check,
-                        color: Colors.white,
-                      )
-                    : Container(),
+                      ? Icon(
+                          Icons.check,
+                          color: Colors.white,
+                        )
+                      : Container(),
                 ),
               );
             },

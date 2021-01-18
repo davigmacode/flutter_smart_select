@@ -8,7 +8,6 @@ class FeaturesMultiSwitches extends StatefulWidget {
 }
 
 class _FeaturesMultiSwitchesState extends State<FeaturesMultiSwitches> {
-
   List<String> _car = [];
   List<String> _smartphone = [];
   List<String> _days = [];
@@ -59,7 +58,9 @@ class _FeaturesMultiSwitchesState extends State<FeaturesMultiSwitches> {
               state,
               isTwoLine: true,
               leading: const CircleAvatar(
-                backgroundImage: NetworkImage('https://source.unsplash.com/xsGxhtAsfSA/100x100'),
+                backgroundImage: NetworkImage(
+                  'https://source.unsplash.com/xsGxhtAsfSA/100x100',
+                ),
               ),
             );
           },

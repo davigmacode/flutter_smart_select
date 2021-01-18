@@ -8,7 +8,6 @@ class FeaturesSingleSwitches extends StatefulWidget {
 }
 
 class _FeaturesSingleSwitchesState extends State<FeaturesSingleSwitches> {
-
   String _car;
   String _smartphone;
   String _days;
@@ -59,7 +58,9 @@ class _FeaturesSingleSwitchesState extends State<FeaturesSingleSwitches> {
               state,
               isTwoLine: true,
               leading: const CircleAvatar(
-                backgroundImage: NetworkImage('https://source.unsplash.com/xsGxhtAsfSA/100x100'),
+                backgroundImage: NetworkImage(
+                  'https://source.unsplash.com/xsGxhtAsfSA/100x100',
+                ),
               ),
             );
           },

@@ -9,7 +9,6 @@ class FeaturesOptionAsync extends StatefulWidget {
 }
 
 class _FeaturesOptionAsyncState extends State<FeaturesOptionAsync> {
-
   String _user;
   List<S2Choice<String>> _users = [];
   bool _usersIsLoading;
@@ -35,11 +34,11 @@ class _FeaturesOptionAsyncState extends State<FeaturesOptionAsync> {
           choiceGrouped: true,
           choiceStyle: S2ChoiceStyle(
             showCheckmark: true,
-            highlightColor: Theme.of(context).primaryColor.withOpacity(.4)
+            highlightColor: Theme.of(context).primaryColor.withOpacity(.4),
           ),
           choiceActiveStyle: S2ChoiceStyle(
             raised: true,
-            highlightColor: Theme.of(context).accentColor.withOpacity(.4)
+            highlightColor: Theme.of(context).accentColor.withOpacity(.4),
           ),
           choiceSecondaryBuilder: (context, state, choice) => CircleAvatar(
             backgroundImage: NetworkImage(choice.meta['picture']['thumbnail']),
@@ -52,8 +51,8 @@ class _FeaturesOptionAsyncState extends State<FeaturesOptionAsync> {
               leading: Builder(
                 builder: (context) {
                   String avatarUrl = state.selected.choice != null
-                    ? state.selected.choice.meta['picture']['thumbnail']
-                    : 'https://source.unsplash.com/8I-ht65iRww/100x100';
+                      ? state.selected.choice.meta['picture']['thumbnail']
+                      : 'https://source.unsplash.com/8I-ht65iRww/100x100';
                   return CircleAvatar(
                     backgroundImage: NetworkImage(avatarUrl),
                   );
@@ -159,7 +158,9 @@ class _FeaturesOptionAsyncState extends State<FeaturesOptionAsync> {
               backgroundImage: NetworkImage(choice.meta),
             );
           },
-          onChange: (state) => setState(() => _invitations = state.selected.value),
+          onChange: (state) {
+            setState(() => _invitations = state.selected.value);
+          },
           tileBuilder: (context, state) {
             return S2Tile.fromState(
               state,

@@ -8,7 +8,6 @@ class FeaturesModalConfirm extends StatefulWidget {
 }
 
 class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
-
   List<String> _day = ['fri'];
   List<String> _fruit = ['mel'];
   String _hero = 'iro';
@@ -32,10 +31,12 @@ class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
               onTap: state.showModal,
               isTwoLine: true,
               leading: const CircleAvatar(
-                backgroundImage: NetworkImage('https://source.unsplash.com/xsGxhtAsfSA/100x100'),
+                backgroundImage: NetworkImage(
+                  'https://source.unsplash.com/xsGxhtAsfSA/100x100',
+                ),
               ),
             );
-          }
+          },
         ),
         const Divider(indent: 20),
         SmartSelect<String>.multiple(
@@ -45,7 +46,9 @@ class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
           choiceItems: choices.fruits,
           modalType: S2ModalType.popupDialog,
           modalConfirm: true,
-          modalValidation: (value) => value.length > 0 ? null : 'Select at least one',
+          modalValidation: (value) {
+            return value.length > 0 ? null : 'Select at least one';
+          },
           modalHeaderStyle: S2ModalHeaderStyle(
             backgroundColor: Theme.of(context).cardColor,
           ),
@@ -84,14 +87,12 @@ class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
                     child: Text('OK (${state.selection.length})'),
                     color: Theme.of(context).primaryColor,
                     textColor: Colors.white,
-                    onPressed: state.selection.isValid
-                      ? () => state.closeModal(confirmed: true)
-                      : null,
+                    onPressed: state.selection.isValid ? () => state.closeModal(confirmed: true) : null,
                   ),
                 ],
               ),
             );
-          }
+          },
         ),
         const Divider(indent: 20),
         SmartSelect<String>.single(
@@ -99,9 +100,7 @@ class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
           selectedValue: _hero,
           onChange: (state) => setState(() => _hero = state.selected.value),
           choiceItems: choices.heroes,
-          choiceActiveStyle: const S2ChoiceStyle(
-            color: Colors.redAccent
-          ),
+          choiceActiveStyle: const S2ChoiceStyle(color: Colors.redAccent),
           modalType: S2ModalType.bottomSheet,
           modalValidation: (selected) {
             if (selected == null) return 'Select at least one';

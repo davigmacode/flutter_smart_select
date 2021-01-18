@@ -8,7 +8,6 @@ class FeaturesMultiChips extends StatefulWidget {
 }
 
 class _FeaturesMultiChipsState extends State<FeaturesMultiChips> {
-
   List<String> _car = [];
   List<String> _smartphone = [];
   List<String> _day = ['fri'];
@@ -36,7 +35,9 @@ class _FeaturesMultiChipsState extends State<FeaturesMultiChips> {
               state,
               isTwoLine: true,
               leading: const CircleAvatar(
-                backgroundImage: NetworkImage('https://source.unsplash.com/yeVtxxPxzbw/100x100'),
+                backgroundImage: NetworkImage(
+                  'https://source.unsplash.com/yeVtxxPxzbw/100x100',
+                ),
               ),
             );
           },
@@ -45,30 +46,30 @@ class _FeaturesMultiChipsState extends State<FeaturesMultiChips> {
         SmartSelect<String>.multiple(
           title: 'Smartphones',
           selectedValue: _smartphone,
-          onChange: (state) => setState(() => _smartphone = state.selected.value),
+          onChange: (state) {
+            setState(() => _smartphone = state.selected.value);
+          },
           choiceType: S2ChoiceType.chips,
           choiceItems: S2Choice.listFrom<String, Map>(
             source: choices.smartphones,
             value: (index, item) => item['id'],
             title: (index, item) => item['name'],
           ),
-          choiceStyle: S2ChoiceStyle(
-            outlined: true
-          ),
-          choiceActiveStyle: S2ChoiceStyle(
-            outlined: true
-          ),
+          choiceStyle: S2ChoiceStyle(outlined: true),
+          choiceActiveStyle: S2ChoiceStyle(outlined: true),
           modalConfig: S2ModalConfig(
             type: S2ModalType.bottomSheet,
             useFilter: true,
-            maxHeightFactor: .7
+            maxHeightFactor: .7,
           ),
           tileBuilder: (context, state) {
             return S2Tile.fromState(
               state,
               isTwoLine: true,
               leading: const CircleAvatar(
-                backgroundImage: NetworkImage('https://source.unsplash.com/xsGxhtAsfSA/100x100'),
+                backgroundImage: NetworkImage(
+                  'https://source.unsplash.com/xsGxhtAsfSA/100x100',
+                ),
               ),
             );
           },

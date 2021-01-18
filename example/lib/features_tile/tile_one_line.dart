@@ -8,7 +8,6 @@ class FeaturesTileOneLine extends StatefulWidget {
 }
 
 class _FeaturesTileOneLineState extends State<FeaturesTileOneLine> {
-
   String _day = 'fri';
   List<String> _month = ['apr'];
 

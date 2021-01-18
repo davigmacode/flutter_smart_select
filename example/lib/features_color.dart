@@ -8,13 +8,12 @@ class FeaturesColor extends StatefulWidget {
 }
 
 class _FeaturesColorState extends State<FeaturesColor> {
-
   Color _themeColor = Colors.red;
 
   List<S2Choice<Color>> colors = S2Choice.listFrom<Color, Color>(
     source: Colors.primaries,
     value: (i, v) => v,
-    title: (i, v) => null
+    title: (i, v) => null,
   );
 
   ThemeData get theme => Theme.of(context);
@@ -33,7 +32,7 @@ class _FeaturesColorState extends State<FeaturesColor> {
       choiceGrid: const SliverGridDelegateWithFixedCrossAxisCount(
         mainAxisSpacing: 5,
         crossAxisSpacing: 5,
-        crossAxisCount: 5
+        crossAxisCount: 5,
       ),
       choiceBuilder: (context, state, choice) {
         return Card(
@@ -41,11 +40,11 @@ class _FeaturesColorState extends State<FeaturesColor> {
           child: InkWell(
             onTap: () => choice.select(true),
             child: choice.selected
-              ? Icon(
-                  Icons.check,
-                  color: Colors.white,
-                )
-              : Container(),
+                ? Icon(
+                    Icons.check,
+                    color: Colors.white,
+                  )
+                : Container(),
           ),
         );
       },
@@ -54,7 +53,7 @@ class _FeaturesColorState extends State<FeaturesColor> {
       tileBuilder: (context, state) {
         return IconButton(
           icon: Icon(Icons.color_lens),
-          onPressed: state.showModal
+          onPressed: state.showModal,
         );
       },
     );

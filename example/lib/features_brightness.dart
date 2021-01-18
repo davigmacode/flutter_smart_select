@@ -8,7 +8,6 @@ class FeaturesBrightness extends StatefulWidget {
 }
 
 class _FeaturesBrightnessState extends State<FeaturesBrightness> {
-
   ThemeData get theme => Theme.of(context);
 
   final List<S2Choice<int>> modes = [
@@ -32,23 +31,21 @@ class _FeaturesBrightnessState extends State<FeaturesBrightness> {
         gridCount: 3,
         gridSpacing: 5,
       ),
-      choiceStyle: S2ChoiceStyle(
-        spacing: 7
-      ),
+      choiceStyle: S2ChoiceStyle(spacing: 7),
       choiceActiveStyle: S2ChoiceStyle(
-        titleStyle: TextStyle(color: Colors.white)
+        titleStyle: TextStyle(color: Colors.white),
       ),
       choiceSecondaryBuilder: (context, state, choice) {
         return Icon(
           choice.meta,
           size: 48,
-          color: choice.selected ? Colors.white : null
+          color: choice.selected ? Colors.white : null,
         );
       },
       tileBuilder: (context, state) {
         return IconButton(
           icon: Icon(modes[state.selected.value].meta),
-          onPressed: state.showModal
+          onPressed: state.showModal,
         );
       },
     );
