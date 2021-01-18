@@ -1,208 +1,227 @@
 import 'package:flutter/foundation.dart';
+import '../model/choice_item.dart';
 
-/// Validation callback
-typedef String ValidationCallback<T>(T value);
-
-/// State of value changes
+/// State of choice(s) selection
 abstract class S2Selection<T> extends ChangeNotifier {
 
-  /// check whether the current value has the requested value
-  bool has(T val);
+  /// The initial selection
+  covariant var initial;
 
-  /// select or unselect a value
-  void select(T val, { bool selected = true });
+  /// A Function used to validate the selection(s)
+  covariant var validation;
 
-  /// validate value by validation function
-  void validate();
+  /// Reset the current selection to the initial selection
+  void reset();
+
+  /// Returns `true` if the selection contains the supplied choice(s)
+  bool has(S2Choice<T> choice);
+
+  /// Select or unselect a choice
+  void select(S2Choice<T> choice, { bool selected = true });
+
+  /// Removes all choice(s) from the selection
+  void clear();
+
+  /// Validate the selection
+  void validate() {
+    error = validation?.call(choice) ?? '';
+    notifyListeners();
+  }
 
   /// Validation error message
   String error = '';
 
-  /// whether the changes value is valid or not
-  bool get valid => error == null || error?.length == 0;
+  /// Whether the selection is valid or not
+  bool get isValid => error == null || error?.length == 0;
 
-  /// get length of selected value
+  /// Returns length of the selection
   int get length;
 
-  /// returns true if there are no values in the selection
+  /// Returns true if there are no values in the selection
   bool get isEmpty;
 
-  /// returns true if there is at least one value in the selection
+  /// Returns true if there is at least one value in the selection
   bool get isNotEmpty;
 
+  /// Returns choice(s) in the current selection
+  get choice;
+
+  /// Override choice(s) in the current selection with a new value(s), and validate it
+  set choice(covariant var choice);
+
+  get value;
 }
 
-/// State of value changes of single choice widget
+/// State of single choice selection
 class S2SingleSelection<T> extends S2Selection<T> {
 
-  /// current selected value
-  T _value;
+  /// The initial selection
+  @override
+  final S2Choice<T> initial;
 
-  /// validation function used to validate value changes
-  final ValidationCallback<T> validation;
+  /// A function used to validate the selection
+  @override
+  final ValidationCallback<S2Choice<T>> validation;
 
-  /// default constructor
-  S2SingleSelection(this._value, { this.validation });
+  /// Default constructor
+  S2SingleSelection({
+    @required this.initial,
+    this.validation,
+  }) : _choice = initial;
 
-  /// get current selected value
-  T get value => _value;
+  /// The choice of the current selection
+  S2Choice<T> _choice;
 
-  /// override current value to new value
-  set value(T val) {
-    _value = val;
+  @override
+  S2Choice<T> get choice => _choice;
+
+  @override
+  set choice(S2Choice<T> val) {
+    _choice = val;
     validate();
   }
 
-  /// get length of selected value
+  /// return [choice.value]
   @override
-  int get length => _value != null ? 1 : 0;
+  T get value {
+    return choice?.value;
+  }
 
-  /// returns true if there are no values in the selection
   @override
-  bool get isEmpty => _value == null;
+  void reset() {
+    choice = initial;
+  }
 
-  /// returns true if there is at least one value in the selection
   @override
-  bool get isNotEmpty => _value != null;
+  int get length => _choice != null ? 1 : 0;
 
-  /// select or unselect a value
   @override
-  void select(T val, { bool selected = true }) {
-    _value = val;
+  bool get isEmpty => _choice == null;
+
+  @override
+  bool get isNotEmpty => _choice != null;
+
+  @override
+  void select(S2Choice<T> choice, { bool selected = true }) {
+    _choice = choice;
     validate();
   }
 
-  /// validate value by validation function
   @override
-  void validate() {
-    error = validation?.call(value) ?? '';
-    notifyListeners();
+  void clear() {
+    choice = null;
   }
 
-  /// check whether the current value has the requested value
   @override
-  bool has(T val) {
-    return _value == val;
+  bool has(S2Choice<T> choice) {
+    return _choice == choice;
   }
-
 }
 
-/// State of value changes of multiple choice widget
+/// State of multiple choice selection
 class S2MultiSelection<T> extends S2Selection<T> {
 
-  /// current selected value
-  List<T> _value;
+  /// The Initial selection
+  @override
+  final List<S2Choice<T>> initial;
 
-  /// callback to override the current value with all available values
-  final VoidCallback _selectAll;
+  /// A function used to validate the selection
+  final ValidationCallback<List<S2Choice<T>>> validation;
 
-  /// validation function used to validate value changes
-  final ValidationCallback<List<T>> validation;
-
-  /// default constructor
-  S2MultiSelection(List<T> val, {
+  /// Default constructor
+  S2MultiSelection({
+    @required List<S2Choice<T>> initial,
     this.validation,
-    VoidCallback selectAll,
   }) :
-    _value = val ?? [],
-    _selectAll = selectAll;
+    initial = List.from(initial ?? []),
+    _choice = List.from(initial ?? []);
 
-  /// get current selected value
-  List<T> get value => _value;
+  /// The choice(s) of the current selection
+  List<S2Choice<T>> _choice;
 
-  /// override current value to new value
-  set value(List<T> val) {
-    _value = List<T>.from(val ?? []);
+  @override
+  List<S2Choice<T>> get choice => _choice;
+
+  @override
+  set choice(List<S2Choice<T>> choice) {
+    _choice = List<S2Choice<T>>.from(choice ?? []);
     validate();
   }
 
-  /// get length of selected value
+  /// return an array of `value` of the current [choice] selection
   @override
-  int get length => _value?.length ?? 0;
-
-  /// returns true if there are no values in the selection
-  @override
-  bool get isEmpty => _value?.isEmpty;
-
-  /// returns true if there is at least one value in the selection
-  @override
-  bool get isNotEmpty => _value?.isNotEmpty;
-
-  /// add every value in supplied values into the selection
-  void merge(List<T> values) {
-    value = List.from(value)..addAll(values)..toSet()..toList();
+  List<T> get value {
+    return choice != null && choice.length > 0
+      ? choice.map((S2Choice<T> item) => item.value).toList()
+      : [];
   }
 
-  /// removes every value in supplied values from the selection
-  void omit(List<T> values) {
-    value = List.from(value)..removeWhere((e) => values.contains(e));
+  @override
+  void reset() {
+    choice = List.from(initial ?? []);
   }
 
-  /// toggle put/pull the supplied values from the selection
-  void toggle(List<T> values, { bool pull }) {
+  @override
+  int get length => _choice?.length ?? 0;
+
+  @override
+  bool get isEmpty => _choice == null || _choice?.isEmpty == true;
+
+  @override
+  bool get isNotEmpty => _choice != null && _choice?.isNotEmpty == true;
+
+  /// Add every value in supplied values into the selection
+  void merge(List<S2Choice<T>> choices) {
+    choice = List.from(choice)..addAll(choices)..toSet()..toList();
+  }
+
+  /// Removes every value in supplied values from the selection
+  void omit(List<S2Choice<T>> choices) {
+    choice = List.from(choice)..removeWhere((e) => choices.contains(e));
+  }
+
+  /// Toggle put/pull the supplied values from the selection
+  void toggle(List<S2Choice<T>> choices, { bool pull }) {
     if (pull == true) {
-      omit(values);
+      omit(choices);
     } else if (pull == false) {
-      merge(values);
+      merge(choices);
     } else {
-      if (hasAny(values))
-        omit(values);
+      if (hasAny(choices))
+        omit(choices);
       else
-        merge(values);
+        merge(choices);
     }
   }
 
-  /// unselect all values
-  void selectNone() {
-    value = null;
-  }
-
-  /// select all available values
-  void selectAll() {
-    _selectAll?.call();
-  }
-
-  /// toggle select all/none
-  void selectToggle() {
-    if (length == 0) {
-      selectAll();
-    } else {
-      selectNone();
-    }
-  }
-
-  /// select or unselect a value
   @override
-  void select(T val, { bool selected = true }) {
+  void select(S2Choice<T> choice, { bool selected = true }) {
     if (selected) {
-      _value.add(val);
+      _choice.add(choice);
     } else {
-      _value.remove(val);
+      _choice.remove(choice);
     }
     validate();
   }
 
-  /// validate value by validation function
   @override
-  void validate() {
-    error = validation?.call(value) ?? '';
-    notifyListeners();
+  void clear() {
+    choice = null;
   }
 
-  /// check whether the selection values has the supplied value
   @override
-  bool has(T val) {
-    return _value?.contains(val) ?? false;
+  bool has(S2Choice<T> choice) {
+    return _choice?.contains(choice) ?? false;
   }
 
-  /// check whether the selection values has any of the supplied values
-  bool hasAny(List<T> values) {
-    return values.any((e) => has(e));
+  /// Returns `true` if the selection has any of the supplied values
+  bool hasAny(List<S2Choice<T>> choices) {
+    return choices.any((e) => has(e));
   }
 
-  /// check whether the selection values has every of the supplied values
-  bool hasAll(List<T> values) {
-    return values.every((e) => has(e));
+  /// Returns `true if the selection has every of the supplied values
+  bool hasAll(List<S2Choice<T>> choices) {
+    return choices.every((e) => has(e));
   }
 
 }
