@@ -1,44 +1,39 @@
 import 'package:flutter/widgets.dart';
-import 'model/builder.dart';
 import 'model/choice_config.dart';
-import 'model/choice_theme.dart';
-import 'model/choice_item.dart';
+import 'choice_divider.dart';
 import 'scrollbar.dart';
 
-/// choices list widget
+/// Choices list widget
 class S2ChoicesList<T> extends StatelessWidget {
 
-  /// single choice widget builder
-  final Widget Function(S2Choice<T>) itemBuilder;
+  /// the length of the choice list
+  final int itemLength;
 
-  /// list of choice data
-  final List<S2Choice<T>> items;
+  /// The builder of the choice item
+  final IndexedWidgetBuilder itemBuilder;
 
-  /// configuration of single choice widget
+  /// The builder of the choice divider
+  final IndexedWidgetBuilder dividerBuilder;
+
+  /// Configuration of single choice widget
   final S2ChoiceConfig config;
 
-  /// collection of available builder widget
-  final S2Builder<T> builder;
-
-  /// default constructor
+  /// Default constructor
   S2ChoicesList({
     Key key,
+    @required this.itemLength,
     @required this.itemBuilder,
-    @required this.items,
+    @required this.dividerBuilder,
     @required this.config,
-    @required this.builder,
   }) : super(key: key);
-
-  /// get choice style
-  S2ChoiceStyle get style => config.style;
 
   @override
   Widget build(BuildContext context) {
     Widget result = NotificationListener<ScrollNotification>(
-      onNotification: (notification) => true,
+      onNotification: (notification) => false,
       child: Scrollbar(
         child: config.isWrapLayout
-          ? _listWrap()
+          ? _listWrap(context)
           : config.isGridLayout
             ? _listGrid()
             : config.useDivider
@@ -52,7 +47,7 @@ class S2ChoicesList<T> extends StatelessWidget {
       : result;
   }
 
-  Widget _listWrap() {
+  Widget _listWrap(BuildContext context) {
     return SingleChildScrollView(
       physics: config.physics,
       scrollDirection: config.direction,
@@ -66,8 +61,8 @@ class S2ChoicesList<T> extends StatelessWidget {
           spacing: config.spacing ?? 12.0, // gap between adjacent chips
           runSpacing: config.runSpacing ?? 0.0, // gap between lines
           children: List<Widget>.generate(
-            items.length,
-            (i) => itemBuilder(items[i]),
+            itemLength,
+            (i) => itemBuilder(context, i),
           ).toList(),
         ),
       ),
@@ -80,8 +75,8 @@ class S2ChoicesList<T> extends StatelessWidget {
       physics: config.physics,
       scrollDirection: config.direction,
       padding: config.padding ?? const EdgeInsets.symmetric(vertical: 10.0),
-      itemCount: items.length,
-      itemBuilder: (context, i) => itemBuilder(items[i]),
+      itemCount: itemLength,
+      itemBuilder: itemBuilder,
     );
   }
 
@@ -91,9 +86,9 @@ class S2ChoicesList<T> extends StatelessWidget {
       physics: config.physics,
       scrollDirection: config.direction,
       padding: config.padding ?? const EdgeInsets.symmetric(vertical: 10.0),
-      itemCount: items.length,
-      itemBuilder: (context, i) => itemBuilder(items[i]),
-      separatorBuilder: builder.choiceDivider ?? _dividerBuilderDefault,
+      itemCount: itemLength,
+      itemBuilder: itemBuilder,
+      separatorBuilder: dividerBuilder ?? _dividerBuilderDefault,
     );
   }
 
@@ -103,8 +98,8 @@ class S2ChoicesList<T> extends StatelessWidget {
       physics: config.physics,
       scrollDirection: config.direction,
       padding: config.padding ?? const EdgeInsets.all(10.0),
-      itemCount: items.length,
-      itemBuilder: (context, i) => itemBuilder(items[i]),
+      itemCount: itemLength,
+      itemBuilder: itemBuilder,
       gridDelegate: config.gridDelegate ?? SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: config.gridCount,
         crossAxisSpacing: config.gridSpacing,
@@ -114,62 +109,15 @@ class S2ChoicesList<T> extends StatelessWidget {
   }
 
   Widget _dividerBuilderDefault(BuildContext context, int index) {
-    return S2Divider(
+    return Divider(
       color: config.dividerColor,
-      spacing: config.dividerSpacing,
       thickness: config.dividerThickness,
+      height: config.dividerSpacing,
     );
-  }
-}
-
-/// default divider widget
-class S2Divider extends StatelessWidget {
-
-  /// divider color
-  final Color color;
-
-  /// divider thickness
-  final double thickness;
-
-  /// divider spacing
-  final double spacing;
-
-  /// default constructor
-  const S2Divider({
-    Key key,
-    this.color,
-    this.thickness,
-    this.spacing,
-  }) : super(key: key);
-
-  /// Default color of the divider widget
-  static const Color defaultColor = const Color(0xFFEEEEEE);
-
-  /// Default spacing of the divider widget
-  static const double defaultSpacing = 4.0;
-
-  /// Default thickness of the divider widget
-  static const double defaultThickness = 1.0;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        vertical: spacing ?? S2Divider.defaultSpacing
-      ),
-      child: SizedBox(
-        height: thickness ?? S2Divider.defaultThickness,
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(
-                color: color ?? S2Divider.defaultColor,
-                width: thickness ?? S2Divider.defaultThickness,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
+    // return S2Divider(
+    //   color: config.dividerColor,
+    //   spacing: config.dividerSpacing,
+    //   thickness: config.dividerThickness,
+    // );
   }
 }

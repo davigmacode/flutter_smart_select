@@ -15,4 +15,3 @@ export 'src/model/group_style.dart';
 export 'src/model/group_sort.dart';
 export 'src/tile/tile.dart';
 export 'src/tile/tile_chips.dart';
-export 'src/tile/chips_tile.dart';
