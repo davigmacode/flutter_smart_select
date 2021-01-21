@@ -80,7 +80,8 @@ class _FeaturesOptionAsyncState extends State<FeaturesOptionAsync> {
                 return S2Tile.fromState(
                   state,
                   isTwoLine: true,
-                  isLoading: snapshot.connectionState == ConnectionState.waiting,
+                  isLoading:
+                      snapshot.connectionState == ConnectionState.waiting,
                   leading: const SizedBox(
                     width: 40,
                     height: 40,
@@ -116,10 +117,14 @@ class _FeaturesOptionAsyncState extends State<FeaturesOptionAsync> {
           ),
           choiceSecondaryBuilder: (context, state, choice) {
             return CircleAvatar(
-              backgroundImage: NetworkImage(choice.meta['picture']['thumbnail']),
+              backgroundImage: NetworkImage(
+                choice.meta['picture']['thumbnail'],
+              ),
             );
           },
-          onChange: (state) => setState(() => _invitations = state.selected.value),
+          onChange: (state) {
+            setState(() => _invitations = state.selected.value);
+          },
           tileBuilder: (context, state) {
             return S2Tile.fromState(
               state,
@@ -215,7 +220,8 @@ class _FeaturesOptionAsyncState extends State<FeaturesOptionAsync> {
     return S2Choice.listFrom<String, dynamic>(
       source: res.data['results'],
       value: (index, item) => item['email'],
-      title: (index, item) => item['name']['first'] + ' ' + item['name']['last'],
+      title: (index, item) =>
+          item['name']['first'] + ' ' + item['name']['last'],
       subtitle: (index, item) => item['email'],
       group: (index, item) => item['gender'],
       meta: (index, item) => item,

@@ -87,7 +87,9 @@ class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
                     child: Text('OK (${state.selection.length})'),
                     color: Theme.of(context).primaryColor,
                     textColor: Colors.white,
-                    onPressed: state.selection.isValid ? () => state.closeModal(confirmed: true) : null,
+                    onPressed: state.selection.isValid
+                        ? () => state.closeModal(confirmed: true)
+                        : null,
                   ),
                 ],
               ),

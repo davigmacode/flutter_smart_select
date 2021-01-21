@@ -4,7 +4,8 @@ import '../choices.dart' as choices;
 
 class FeaturesModalValidation extends StatefulWidget {
   @override
-  _FeaturesModalValidationState createState() => _FeaturesModalValidationState();
+  _FeaturesModalValidationState createState() =>
+      _FeaturesModalValidationState();
 }
 
 class _FeaturesModalValidationState extends State<FeaturesModalValidation> {
@@ -56,7 +57,9 @@ class _FeaturesModalValidationState extends State<FeaturesModalValidation> {
               onTap: state.showModal,
               isTwoLine: true,
               leading: const CircleAvatar(
-                backgroundImage: NetworkImage('https://source.unsplash.com/xsGxhtAsfSA/100x100'),
+                backgroundImage: NetworkImage(
+                  'https://source.unsplash.com/xsGxhtAsfSA/100x100',
+                ),
               ),
             );
           },
@@ -124,7 +127,9 @@ class _FeaturesModalValidationState extends State<FeaturesModalValidation> {
                     label: Text('OK (${state.selection.length})'),
                     color: Theme.of(context).primaryColor,
                     textColor: Colors.white,
-                    onPressed: state.selection.isValid ? () => state.closeModal(confirmed: true) : null,
+                    onPressed: state.selection.isValid
+                        ? () => state.closeModal(confirmed: true)
+                        : null,
                   ),
                 ],
               ),

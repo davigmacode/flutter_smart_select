@@ -8,7 +8,14 @@ class FeaturesTileBuilder extends StatefulWidget {
 }
 
 class _FeaturesTileBuilderState extends State<FeaturesTileBuilder> {
-  List<String> _cars = ['bmw-x2', 'bmw-x1', 'honda-hrv', 'honda-jazz', 'hyundai-i10', 'bmw-sgt'];
+  List<String> _cars = [
+    'bmw-x2',
+    'bmw-x1',
+    'honda-hrv',
+    'honda-jazz',
+    'hyundai-i10',
+    'bmw-sgt'
+  ];
   List<String> _categories = [];
   String _sort = 'popular';
 
@@ -106,7 +113,9 @@ class _FeaturesTileBuilderState extends State<FeaturesTileBuilder> {
                       return Text(state.selected.choice[i].title);
                     },
                     chipOnDelete: (i) {
-                      setState(() => _cars.remove(state.selected.choice[i].value));
+                      setState(() {
+                        _cars.remove(state.selected.choice[i].value);
+                      });
                     },
                     chipColor: primaryColor,
                     chipRaised: true,

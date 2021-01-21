@@ -35,7 +35,9 @@ class _FeaturesSingleSwitchesState extends State<FeaturesSingleSwitches> {
               state,
               isTwoLine: true,
               leading: const CircleAvatar(
-                backgroundImage: NetworkImage('https://source.unsplash.com/yeVtxxPxzbw/100x100'),
+                backgroundImage: NetworkImage(
+                  'https://source.unsplash.com/yeVtxxPxzbw/100x100',
+                ),
               ),
             );
           },

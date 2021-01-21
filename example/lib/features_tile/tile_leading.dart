@@ -85,7 +85,9 @@ class _FeaturesTileLeadingState extends State<FeaturesTileLeading> {
               state,
               isTwoLine: true,
               leading: const CircleAvatar(
-                backgroundImage: NetworkImage('https://source.unsplash.com/8I-ht65iRww/100x100'),
+                backgroundImage: NetworkImage(
+                  'https://source.unsplash.com/8I-ht65iRww/100x100',
+                ),
               ),
             );
           },

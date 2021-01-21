@@ -80,7 +80,8 @@ class _FeaturesOptionDisabledState extends State<FeaturesOptionDisabled> {
                     source: _sortOption,
                     value: (index, item) => index,
                     title: (index, item) => item,
-                    disabled: (index, item) => item.toLowerCase().contains('price'),
+                    disabled: (index, item) =>
+                        item.toLowerCase().contains('price'),
                   ),
                   modalType: S2ModalType.popupDialog,
                   modalHeader: false,

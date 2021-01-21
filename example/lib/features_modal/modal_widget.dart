@@ -70,7 +70,9 @@ class _FeaturesModalWidgetState extends State<FeaturesModalWidget> {
                   state,
                   hideValue: true,
                   leading: CircleAvatar(
-                    backgroundColor: _question1 == null ? Colors.grey : Theme.of(context).primaryColor,
+                    backgroundColor: _question1 == null
+                        ? Colors.grey
+                        : Theme.of(context).primaryColor,
                     child: const Text(
                       '1',
                       style: TextStyle(color: Colors.white),
@@ -88,7 +90,8 @@ class _FeaturesModalWidgetState extends State<FeaturesModalWidget> {
           },
         ),
         SmartSelect<int>.multiple(
-          title: 'Which of following words would you use to describe smart_select?',
+          title:
+              'Which of following words would you use to describe smart_select?',
           selectedValue: _question2,
           onChange: (state) {
             setState(() => _question2 = state.selected.value);
@@ -132,7 +135,9 @@ class _FeaturesModalWidgetState extends State<FeaturesModalWidget> {
                   child: Text('Submit (${state.selection.length})'),
                   color: Theme.of(context).primaryColor,
                   textColor: Colors.white,
-                  onPressed: state.selection.isValid ? () => state.closeModal(confirmed: true) : null,
+                  onPressed: state.selection.isValid
+                      ? () => state.closeModal(confirmed: true)
+                      : null,
                 ),
               ),
             );
@@ -153,7 +158,9 @@ class _FeaturesModalWidgetState extends State<FeaturesModalWidget> {
                   state,
                   hideValue: true,
                   leading: CircleAvatar(
-                    backgroundColor: _question2 == null ? Colors.grey : Theme.of(context).primaryColor,
+                    backgroundColor: _question2 == null
+                        ? Colors.grey
+                        : Theme.of(context).primaryColor,
                     child: const Text(
                       '2',
                       style: TextStyle(color: Colors.white),
