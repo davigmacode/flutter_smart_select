@@ -6,6 +6,7 @@ import './tile_loading.dart';
 import './tile_leading.dart';
 import './tile_trailing.dart';
 import './tile_builder.dart';
+import './tile_validation.dart';
 import '../features_header.dart';
 import '../keep_alive.dart';
 
@@ -42,6 +43,12 @@ class FeaturesTile extends StatelessWidget {
             child: StickyHeader(
               header: const FeaturesHeader('Custom Tile Builder'),
               content: FeaturesTileBuilder(),
+            ),
+          ),
+          KeepAliveWidget(
+            child: StickyHeader(
+              header: const FeaturesHeader('Validation'),
+              content: FeaturesTileValidation(),
             ),
           ),
         ],

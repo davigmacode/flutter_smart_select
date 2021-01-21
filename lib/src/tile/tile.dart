@@ -33,14 +33,17 @@ class S2Tile<T> extends StatelessWidget {
   /// Whether this list tile is intended to display loading stats.
   final bool isLoading;
 
-  // String text used as loading text
+  /// String text used as loading text
   final String loadingText;
 
-  // Widget used as loading message
+  /// Widget used as loading message
   final Widget loadingMessage;
 
-  // Widget used as loading indicator
+  /// Widget used as loading indicator
   final Widget loadingIndicator;
+
+  /// Whether this list tile is intended to display error widget.
+  final bool isError;
 
   /// Whether this list tile is intended to display two lines of text.
   final bool isTwoLine;
@@ -92,6 +95,7 @@ class S2Tile<T> extends StatelessWidget {
     this.loadingMessage,
     this.loadingIndicator,
     this.isLoading = false,
+    this.isError = false,
     this.isTwoLine = false,
     this.enabled = true,
     this.selected = false,
@@ -105,15 +109,16 @@ class S2Tile<T> extends StatelessWidget {
   S2Tile.fromState(
     S2State<T> state, {
     Key key,
-    String value,
+    Widget value,
     GestureTapCallback onTap,
     Widget title,
+    bool isError,
+    bool isLoading,
     this.leading,
     this.trailing,
     this.loadingText,
     this.loadingMessage,
     this.loadingIndicator,
-    this.isLoading = false,
     this.isTwoLine = false,
     this.enabled = true,
     this.selected = false,
@@ -124,6 +129,8 @@ class S2Tile<T> extends StatelessWidget {
   })  : title = title ?? state.titleWidget,
         value = value ?? state.selected.toWidget(),
         onTap = onTap ?? state.showModal,
+        isLoading = isLoading ?? state.selected.isResolving,
+        isError = isError ?? state.selected.isNotValid,
         super(key: key);
 
   /// Returns default trailing widget
@@ -203,10 +210,17 @@ class S2Tile<T> extends StatelessWidget {
   }
 
   Widget get _valueWidget {
-    return DefaultTextStyle.merge(
-      child: isLoading ? _loadingWidget : value,
-      overflow: TextOverflow.ellipsis,
-      maxLines: 1,
+    return Builder(
+      builder: (context) {
+        return DefaultTextStyle.merge(
+          child: isLoading == true ? _loadingWidget : value,
+          style: isError == true
+              ? TextStyle(color: Theme.of(context).errorColor)
+              : null,
+          overflow: TextOverflow.ellipsis,
+          maxLines: 1,
+        );
+      },
     );
   }
 }

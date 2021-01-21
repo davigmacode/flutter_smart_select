@@ -21,10 +21,10 @@ abstract class S2Selected<T> extends ChangeNotifier {
   /// Returns the length of the [choice]
   int get length;
 
-  /// Returns true if there are no values in the selection
+  /// Returns `true` if there are no values in the selection
   bool get isEmpty;
 
-  /// Returns true if there is at least one value in the selection
+  /// Returns `true` if there is at least one value in the selection
   bool get isNotEmpty;
 
   /// Override the selected choice with a new one, and validate it
@@ -52,13 +52,19 @@ abstract class S2Selected<T> extends ChangeNotifier {
   /// Validation error message
   String error = '';
 
-  /// Whether the selection is valid or not
+  /// Returns `true` when the selected is valid
   bool get isValid => error == null || error?.length == 0;
 
-  /// Returns true if [choice] and [value] is not `null`
-  bool get isResolved => choice != null && value != null;
+  /// Returns `true` when the selected is not valid
+  bool get isNotValid => isValid != true;
 
-  /// Returns true when [choice] is resolving in the background
+  /// Returns `true` if [choice] is not `null`
+  bool get isResolved => choice != null;
+
+  /// Returns `true` if one of [choice] or [value] is `null`
+  bool get isNotResolved => isResolved != true;
+
+  /// Returns `true` when [choice] is resolving in the background
   bool isResolving = false;
 
   /// Resolve [choice] from [value] using user defined [resolver] or fallback to [defaultResolver] if [resolver] is not defined
@@ -140,12 +146,14 @@ class S2SingleSelected<T> extends S2Selected<T> {
   @override
   set choice(S2Choice<T> val) {
     _choice = val;
-    resolve();
+    _value = null;
+    validate();
   }
 
   @override
   set value(T val) {
     _value = val;
+    _choice = null;
     resolve();
   }
 
@@ -181,7 +189,12 @@ class S2SingleSelected<T> extends S2Selected<T> {
 
   @override
   String toString() {
-    return title ?? placeholder ?? 'Select one';
+    return isResolving == true
+        ? 'Resolving'
+        : isValid == true
+            ? title ?? placeholder ?? 'Select one'
+            : error;
+    // return title ?? placeholder ?? 'Select one';
   }
 }
 
@@ -244,12 +257,14 @@ class S2MultiSelected<T> extends S2Selected<T> {
   @override
   set choice(List<S2Choice<T>> choices) {
     _choice = List<S2Choice<T>>.from(choices ?? []);
-    resolve();
+    _value = null;
+    validate();
   }
 
   @override
   set value(List<T> val) {
     _value = List<T>.from(val ?? []);
+    _choice = null;
     resolve();
   }
 
@@ -262,7 +277,7 @@ class S2MultiSelected<T> extends S2Selected<T> {
   /// return an array of `value` of the selected [choice]
   @override
   List<T> get value {
-    return choice != null && choice.length > 0
+    return isNotEmpty
         ? choice.map((S2Choice<T> item) => item.value).toList()
         : _value;
   }
@@ -270,13 +285,15 @@ class S2MultiSelected<T> extends S2Selected<T> {
   /// return an array of `title` of the selected [choice]
   @override
   List<String> get title {
-    return choice != null && choice.length > 0 ? choice.map((S2Choice<T> item) => item.title).toList() : null;
+    return isNotEmpty
+        ? choice.map((S2Choice<T> item) => item.title).toList()
+        : null;
   }
 
   /// return an array of `subtitle` of the selected [choice]
   @override
   List<String> get subtitle {
-    return choice != null && choice.length > 0
+    return isNotEmpty
         ? choice.map((S2Choice<T> item) => item.subtitle).toList()
         : null;
   }
@@ -284,11 +301,18 @@ class S2MultiSelected<T> extends S2Selected<T> {
   /// return an array of `group` of the selected [choice]
   @override
   List<String> get group {
-    return choice != null && choice.length > 0 ? choice.map((S2Choice<T> item) => item.group).toList() : null;
+    return isNotEmpty
+        ? choice.map((S2Choice<T> item) => item.group).toList()
+        : null;
   }
 
   @override
   String toString() {
-    return title?.join(', ') ?? placeholder ?? 'Select one or more';
+    return isResolving == true
+        ? 'Resolving'
+        : isValid == true
+            ? title?.join(', ') ?? placeholder ?? 'Select one or more'
+            : error;
+    // return title?.join(', ') ?? placeholder ?? 'Select one or more';
   }
 }
