@@ -30,8 +30,11 @@ abstract class S2Selection<T> extends ChangeNotifier {
   /// Validation error message
   String error = '';
 
-  /// Whether the selection is valid or not
+  /// Returns true when the selection is valid
   bool get isValid => error == null || error?.length == 0;
+
+  /// Returns true when the selection is not valid
+  bool get isNotValid => isValid != true;
 
   /// Returns length of the selection
   int get length;

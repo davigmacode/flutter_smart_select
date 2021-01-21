@@ -56,7 +56,10 @@ class S2Group<T> with Diagnosticable {
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) || other is S2Group && runtimeType == other.runtimeType && name == other.name;
+      identical(this, other) ||
+      other is S2Group &&
+          runtimeType == other.runtimeType &&
+          name == other.name;
 
   @override
   int get hashCode => name.hashCode;

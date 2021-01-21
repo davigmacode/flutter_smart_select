@@ -58,8 +58,10 @@ class S2ChipTheme extends StatelessWidget {
     final Brightness brightness = Theme.of(context).brightness;
     final bool isDark = brightness == Brightness.dark;
 
-    final Color primaryColor =
-        color ?? (!isDark ? Theme.of(context).unselectedWidgetColor : ChipTheme.of(context).backgroundColor);
+    final Color primaryColor = color ??
+        (!isDark
+            ? Theme.of(context).unselectedWidgetColor
+            : ChipTheme.of(context).backgroundColor);
     final Color backgroundColor = raised == true
         ? primaryColor
         : outlined == true
@@ -81,10 +83,14 @@ class S2ChipTheme extends StatelessWidget {
             : primaryColor.withAlpha(foregroundAlpha);
 
     final TextStyle defaultLabelStyle = ChipTheme.of(context).labelStyle;
-    final TextStyle primaryLabelStyle = defaultLabelStyle.merge(labelStyle).copyWith(color: foregroundColor);
+    final TextStyle primaryLabelStyle =
+        defaultLabelStyle.merge(labelStyle).copyWith(color: foregroundColor);
     final TextStyle selectedLabelStyle = defaultLabelStyle
         .merge(labelStyle)
-        .copyWith(color: raised == true ? Colors.white : secondaryColor.withAlpha(foregroundAlpha));
+        .copyWith(
+            color: raised == true
+                ? Colors.white
+                : secondaryColor.withAlpha(foregroundAlpha));
 
     final ShapeBorder chipShapeRaised = raised == true ? StadiumBorder() : null;
     final ShapeBorder chipShapeOutlined = outlined == true

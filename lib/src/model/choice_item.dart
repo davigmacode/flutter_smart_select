@@ -89,7 +89,9 @@ class S2Choice<T> with Diagnosticable {
           .toList();
 
   bool contains(String query) {
-    return _testPropBy(title, query) || _testPropBy(subtitle, query) || _testPropBy(group, query);
+    return _testPropBy(title, query) ||
+        _testPropBy(subtitle, query) ||
+        _testPropBy(group, query);
   }
 
   bool _testPropBy(String prop, String query) {
@@ -98,7 +100,10 @@ class S2Choice<T> with Diagnosticable {
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) || other is S2Choice && runtimeType == other.runtimeType && value == other.value;
+      identical(this, other) ||
+      other is S2Choice &&
+          runtimeType == other.runtimeType &&
+          value == other.value;
 
   @override
   int get hashCode => value.hashCode;

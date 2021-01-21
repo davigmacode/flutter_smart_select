@@ -99,7 +99,7 @@ class S2ModalHeaderStyle with Diagnosticable {
     this.useLeading,
     this.centerTitle = false,
     this.textStyle,
-    this.errorStyle = const TextStyle(color: Color(0xFFF44336), fontSize: 13.5, fontWeight: FontWeight.w500),
+    this.errorStyle,
     this.iconTheme,
     this.actionsIconTheme,
     this.backgroundColor,
@@ -131,7 +131,8 @@ class S2ModalHeaderStyle with Diagnosticable {
       textStyle: this.textStyle?.merge(textStyle) ?? textStyle,
       errorStyle: this.errorStyle?.merge(errorStyle) ?? errorStyle,
       iconTheme: this.iconTheme?.merge(iconTheme) ?? iconTheme,
-      actionsIconTheme: this.actionsIconTheme?.merge(actionsIconTheme) ?? actionsIconTheme,
+      actionsIconTheme:
+          this.actionsIconTheme?.merge(actionsIconTheme) ?? actionsIconTheme,
     );
   }
 

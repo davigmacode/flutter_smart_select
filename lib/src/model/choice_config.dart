@@ -135,10 +135,12 @@ class S2ChoiceConfig with Diagnosticable {
         assert(useDivider != null);
 
   /// Whether the [layout] is [S2ChoiceLayout.wrap] or [type] is [S2ChoiceType.chips]
-  bool get isWrapLayout => layout == S2ChoiceLayout.wrap || type == S2ChoiceType.chips;
+  bool get isWrapLayout =>
+      layout == S2ChoiceLayout.wrap || type == S2ChoiceType.chips;
 
   /// Whether the [layout] is [S2ChoiceLayout.grid] or [type] is [S2ChoiceType.cards]
-  bool get isGridLayout => layout == S2ChoiceLayout.grid || type == S2ChoiceType.cards;
+  bool get isGridLayout =>
+      layout == S2ChoiceLayout.grid || type == S2ChoiceType.cards;
 
   /// Whether the [layout] is [S2ChoiceLayout.list]
   bool get isListLayout => layout == S2ChoiceLayout.list;

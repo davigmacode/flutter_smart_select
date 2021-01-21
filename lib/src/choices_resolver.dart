@@ -58,8 +58,10 @@ class S2ChoiceResolver<T> {
         subtitle: subtitleBuilder(choice),
         secondary: secondaryBuilder(choice),
         activeColor: choice.activeStyle.color,
-        controlAffinity: ListTileControlAffinity.values[choice.effectiveStyle.control?.index ?? 2],
-        onChanged: choice.disabled != true ? (val) => choice.select(true) : null,
+        controlAffinity: ListTileControlAffinity
+            .values[choice.effectiveStyle.control?.index ?? 2],
+        onChanged:
+            choice.disabled != true ? (val) => choice.select(true) : null,
         groupValue: choice.selected == true ? choice.value : null,
         value: choice.value,
       );
@@ -79,8 +81,11 @@ class S2ChoiceResolver<T> {
         inactiveThumbColor: choice.style.accentColor,
         inactiveTrackColor: choice.style.color?.withAlpha(0x80),
         contentPadding: choice.effectiveStyle.padding,
-        controlAffinity: ListTileControlAffinity.values[choice.effectiveStyle.control?.index ?? 2],
-        onChanged: choice.disabled != true ? (selected) => choice.select(selected) : null,
+        controlAffinity: ListTileControlAffinity
+            .values[choice.effectiveStyle.control?.index ?? 2],
+        onChanged: choice.disabled != true
+            ? (selected) => choice.select(selected)
+            : null,
         value: choice.selected,
       );
 
@@ -96,8 +101,11 @@ class S2ChoiceResolver<T> {
         secondary: secondaryBuilder(choice),
         activeColor: choice.activeStyle.color,
         contentPadding: choice.effectiveStyle.padding,
-        controlAffinity: ListTileControlAffinity.values[choice.effectiveStyle.control?.index ?? 2],
-        onChanged: choice.disabled != true ? (selected) => choice.select(selected) : null,
+        controlAffinity: ListTileControlAffinity
+            .values[choice.effectiveStyle.control?.index ?? 2],
+        onChanged: choice.disabled != true
+            ? (selected) => choice.select(selected)
+            : null,
         value: choice.selected,
       );
 
@@ -142,8 +150,10 @@ class S2ChoiceResolver<T> {
     final Color backgroundColor = choice.selected
         ? choice.activeStyle.color ?? Theme.of(context).primaryColor
         : choice.style.color ?? Theme.of(context).cardColor;
-    final Brightness backgroundBrightness = estimateBrightnessForColor(backgroundColor);
-    final Color defaultTextColor = backgroundBrightness == Brightness.dark ? Colors.white : Colors.black;
+    final Brightness backgroundBrightness =
+        estimateBrightnessForColor(backgroundColor);
+    final Color defaultTextColor =
+        backgroundBrightness == Brightness.dark ? Colors.white : Colors.black;
 
     return Card(
       elevation: choice.effectiveStyle.elevation,

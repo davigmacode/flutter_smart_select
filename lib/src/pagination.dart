@@ -51,7 +51,8 @@ class S2Pagination extends StatelessWidget {
     return NotificationListener<ScrollNotification>(
       child: child,
       onNotification: (ScrollNotification scrollInfo) {
-        if (scrollInfo is ScrollEndNotification && scrollInfo.metrics.extentAfter == 0) {
+        if (scrollInfo is ScrollEndNotification &&
+            scrollInfo.metrics.extentAfter == 0) {
           onAppend?.call();
           return true;
         }

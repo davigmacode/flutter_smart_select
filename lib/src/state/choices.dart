@@ -8,15 +8,16 @@ import '../model/group_config.dart';
 enum S2ChoicesTask {
   /// indicates the choices try to loading items at the first time
   init,
+
   /// indicates the choices try to refreshing items
   reload,
+
   /// indicates the choices try to appending items
   append,
 }
 
 /// State of the choices data
 class S2Choices<T> extends ChangeNotifier {
-
   /// A function used to load choice items
   final S2ChoiceLoader<T> loader;
 
@@ -47,11 +48,12 @@ class S2Choices<T> extends ChangeNotifier {
     this.loader,
     this.delay,
     this.limit,
-  }) :
-    this.preload = items;
+  }) : this.preload = items;
 
   /// Returns values of the choice items
-  List<T> get values => items?.map((S2Choice<T> choice) => choice.value)?.toList();
+  List<T> get values {
+    return items?.map((S2Choice<T> choice) => choice.value)?.toList();
+  }
 
   /// Returns length of the choice items
   int get length => items?.length ?? 0;
@@ -87,16 +89,22 @@ class S2Choices<T> extends ChangeNotifier {
   bool get isAsync => loader != null;
 
   /// Function to initialize choice state
-  void initialize() => load(S2ChoicesTask.init);
+  void initialize() {
+    load(S2ChoicesTask.init);
+  }
 
   /// Function to refresh the choice items
-  void reload({ String query }) => load(S2ChoicesTask.reload, query: query);
+  void reload({String query}) {
+    load(S2ChoicesTask.reload, query: query);
+  }
 
   /// Function to add more items to choice items
-  void append({ String query }) => load(S2ChoicesTask.append, query: query);
+  void append({String query}) {
+    load(S2ChoicesTask.append, query: query);
+  }
 
   /// Function to load choice items
-  void load(S2ChoicesTask _task, { String query }) async {
+  void load(S2ChoicesTask _task, {String query}) async {
     assert(_task != null);
 
     // skip the loader if the status busy
@@ -137,17 +145,18 @@ class S2Choices<T> extends ChangeNotifier {
   /// Returns a list of options
   Future<List<S2Choice<T>>> find(S2ChoiceLoaderInfo<T> info) async {
     return isAsync
-      ? hide(await loader(info))
-      : filter(hide(preload), info.query);
+        ? hide(await loader(info))
+        : filter(hide(preload), info.query);
   }
 
   /// Filter choice items by search text
   List<S2Choice<T>> filter(List<S2Choice<T>> choices, String query) {
     return query != null
-      ? choices
-        .where((S2Choice<T> choice) => choice.contains(query))
-        .toList().cast<S2Choice<T>>()
-      : choices;
+        ? choices
+            .where((S2Choice<T> choice) => choice.contains(query))
+            .toList()
+            .cast<S2Choice<T>>()
+        : choices;
   }
 
   /// Removes hidden choice items
@@ -160,17 +169,16 @@ class S2Choices<T> extends ChangeNotifier {
     if (groupKeys?.isEmpty == true) return null;
 
     final List<S2Group<T>> groups = groupKeys
-      .map((String groupKey) => S2Group<T>(
-        name: groupKey,
-        choices: groupChoices(groupKey),
-        headerStyle: config.headerStyle,
-      ))
-      .toList()
-      .cast<S2Group<T>>();
+        .map((String groupKey) => S2Group<T>(
+              name: groupKey,
+              choices: groupChoices(groupKey),
+              headerStyle: config.headerStyle,
+            ))
+        .toList()
+        .cast<S2Group<T>>();
 
     // sort the list when the comparator is provided
-    if (config.sortBy != null)
-      return groups..sort(config.sortBy.compare);
+    if (config.sortBy != null) return groups..sort(config.sortBy.compare);
 
     return groups;
   }
@@ -178,10 +186,10 @@ class S2Choices<T> extends ChangeNotifier {
   /// Returns a unique list of group keys
   List<String> get groupKeys {
     return items
-      .map((S2Choice<T> choice) => choice.group)
-      .toSet()
-      .toList()
-      .cast<String>();
+        .map((S2Choice<T> choice) => choice.group)
+        .toSet()
+        .toList()
+        .cast<String>();
   }
 
   /// Returns a list of group choice items

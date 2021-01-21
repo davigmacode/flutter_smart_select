@@ -85,7 +85,8 @@ class S2TileChips extends StatelessWidget {
         super(key: key);
 
   /// default padding
-  static const EdgeInsetsGeometry defaultPadding = EdgeInsets.fromLTRB(15, 0, 15, 10);
+  static const EdgeInsetsGeometry defaultPadding =
+      EdgeInsets.fromLTRB(15, 0, 15, 10);
 
   /// default placeholder
   static final Widget defaultPlaceholder = Container();
@@ -143,12 +144,15 @@ class S2TileChips extends StatelessWidget {
       chipLength,
       (i) {
         // build chip widget
-        Widget _chip = chipBuilder?.call(context, i) ?? _chipGenerator(context, i);
+        Widget _chip =
+            chipBuilder?.call(context, i) ?? _chipGenerator(context, i);
 
         // add spacing if chip is scrollable
         if (scrollable) {
           _chip = Padding(
-            padding: EdgeInsets.only(right: i < chipLength - 1 ? chipSpacing ?? 7 : 0),
+            padding: EdgeInsets.only(
+              right: i < chipLength - 1 ? chipSpacing ?? 7 : 0,
+            ),
             child: _chip,
           );
         }

@@ -27,8 +27,10 @@ class S2GroupHeader extends StatelessWidget {
       color: style.backgroundColor,
       padding: style.padding,
       child: Row(
-        crossAxisAlignment: style.crossAxisAlignment ?? CrossAxisAlignment.center,
-        mainAxisAlignment: style.mainAxisAlignment ?? MainAxisAlignment.spaceBetween,
+        crossAxisAlignment:
+            style.crossAxisAlignment ?? CrossAxisAlignment.center,
+        mainAxisAlignment:
+            style.mainAxisAlignment ?? MainAxisAlignment.spaceBetween,
         children: <Widget>[
           title,
           trailing,

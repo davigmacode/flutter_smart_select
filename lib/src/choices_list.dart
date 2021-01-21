@@ -41,7 +41,9 @@ class S2ChoicesList<T> extends StatelessWidget {
       ),
     );
 
-    return config.direction == Axis.horizontal ? Wrap(children: <Widget>[result]) : result;
+    return config.direction == Axis.horizontal
+        ? Wrap(children: <Widget>[result])
+        : result;
   }
 
   Widget _listWrap(BuildContext context) {
