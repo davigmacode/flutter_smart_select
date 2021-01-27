@@ -84,7 +84,7 @@ class SmartSelect<T> extends StatefulWidget {
   final S2Validation<S2Choice<T>> singleModalValidation;
 
   /// Called when value changed in single choice widget
-  final ValueChanged<S2SingleState<T>> singleOnChange;
+  final ValueChanged<S2SingleSelected<T>> singleOnChange;
 
   /// Called when selection has been made in single choice widget
   final S2ChoiceSelect<S2SingleState<T>, S2Choice<T>> singleOnSelect;
@@ -114,7 +114,7 @@ class SmartSelect<T> extends StatefulWidget {
   final S2Validation<List<S2Choice<T>>> multiModalValidation;
 
   /// Called when value changed in multiple choice widget
-  final ValueChanged<S2MultiState<T>> multiOnChange;
+  final ValueChanged<S2MultiSelected<T>> multiOnChange;
 
   /// Called when selection has been made in multiple choice widget
   final S2ChoiceSelect<S2MultiState<T>, S2Choice<T>> multiOnSelect;
@@ -376,7 +376,7 @@ class SmartSelect<T> extends StatefulWidget {
     T selectedValue,
     S2Choice<T> selectedChoice,
     S2SingleSelectedResolver<T> selectedResolver,
-    @required ValueChanged<S2SingleState<T>> onChange,
+    ValueChanged<S2SingleSelected<T>> onChange,
     S2ChoiceSelect<S2SingleState<T>, S2Choice<T>> onSelect,
     S2ModalOpen<S2SingleState<T>> onModalOpen,
     S2ModalClose<S2SingleState<T>> onModalClose,
@@ -699,7 +699,7 @@ class SmartSelect<T> extends StatefulWidget {
     List<T> selectedValue,
     List<S2Choice<T>> selectedChoice,
     S2MultiSelectedResolver<T> selectedResolver,
-    @required ValueChanged<S2MultiState<T>> onChange,
+    ValueChanged<S2MultiSelected<T>> onChange,
     S2ChoiceSelect<S2MultiState<T>, S2Choice<T>> onSelect,
     S2ModalOpen<S2MultiState<T>> onModalOpen,
     S2ModalClose<S2MultiState<T>> onModalClose,
@@ -1685,7 +1685,7 @@ class S2SingleState<T> extends S2State<T> {
     // set cache to final value
     // setState(() => selected = selected.copyWith(choice: selection.choice));
     selected.choice = selection.choice;
-    widget.singleOnChange?.call(this);
+    widget.singleOnChange?.call(selected);
   }
 
   @override
@@ -1887,7 +1887,7 @@ class S2MultiState<T> extends S2State<T> {
     // set cache to final value
     // setState(() => selected = selected.copyWith(choice: selection.choice));
     selected.choice = selection.choice;
-    widget.multiOnChange?.call(this);
+    widget.multiOnChange?.call(selected);
   }
 
   @override

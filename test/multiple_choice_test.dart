@@ -51,7 +51,7 @@ testSmartSelect<T>({
           choiceItems: choiceItems,
           modalType: modalType,
           choiceType: choiceType,
-          onChange: (state) => selectedChoice = state.selected.choice,
+          onChange: (selected) => selectedChoice = selected.choice,
         ),
       ),
     );
