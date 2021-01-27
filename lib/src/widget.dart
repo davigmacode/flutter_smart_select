@@ -1,32 +1,48 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import './model/builder.dart';
-import './model/modal_theme.dart';
-import './model/modal_config.dart';
-import './model/choice_theme.dart';
-import './model/choice_config.dart';
-import './model/choice_item.dart';
-import './model/choice_loader.dart';
-import './model/group_data.dart';
-import './model/group_config.dart';
-import './model/group_style.dart';
-import './model/group_sort.dart';
-import './state/selected.dart';
-import './state/choices.dart';
-import './state/filter.dart';
-import './state/selection.dart';
-import './choices_resolver.dart';
-import './tile/tile.dart';
-import './utils/debouncer.dart';
-import './group_header.dart';
-import './choices_list.dart';
-import './choices_empty.dart';
-import './stateful_builder.dart';
-import './pagination.dart';
-import './text.dart';
+import 'model/builder.dart';
+import 'model/modal_theme.dart';
+import 'model/modal_config.dart';
+import 'model/choice_theme.dart';
+import 'model/choice_config.dart';
+import 'model/choice_item.dart';
+import 'model/choice_loader.dart';
+import 'model/group_data.dart';
+import 'model/group_config.dart';
+import 'model/group_style.dart';
+import 'model/group_sort.dart';
+import 'state/selected.dart';
+import 'state/choices.dart';
+import 'state/filter.dart';
+import 'state/selection.dart';
+import 'choices_resolver.dart';
+import 'tile/tile.dart';
+import 'utils/debouncer.dart';
+import 'group_header.dart';
+import 'choices_list.dart';
+import 'choices_empty.dart';
+import 'modal.dart';
+import 'pagination.dart';
+import 'text.dart';
+import 'text_error.dart';
 
-/// Signature for callbacks that report that an underlying two value has changed.
-typedef void TwoValueChanged<A, B>(A firstValue, B secondValue);
+/// Callback for event modal will close
+typedef Future<bool> S2ModalWillClose<T>(T state);
+
+/// Callback for event modal will open
+typedef Future<bool> S2ModalWillOpen<T>(T state);
+
+/// Callback for event modal opened
+typedef void S2ModalOpen<T>(T state);
+
+/// Callback for event modal closed
+typedef void S2ModalClose<T>(T state, bool confirmed);
+
+/// Callback for event choice select
+typedef void S2ChoiceSelect<A, B>(A state, B choice);
+
+// /// Signature for callbacks that report that an underlying two value has changed.
+// typedef void TwoValueChanged<A, B>(A firstValue, B secondValue);
 
 /// SmartSelect allows you to easily convert your usual form select or dropdown
 /// into dynamic page, popup dialog, or sliding bottom sheet with various choices input
@@ -62,22 +78,28 @@ class SmartSelect<T> extends StatefulWidget {
   final S2SingleSelected<T> singleSelected;
 
   /// A function used to validate the selected choice
-  final ValidationCallback<S2Choice<T>> singleValidation;
+  final S2Validation<S2Choice<T>> singleValidation;
 
   /// Modal validation of single choice widget
-  final ValidationCallback<S2Choice<T>> singleModalValidation;
+  final S2Validation<S2Choice<T>> singleModalValidation;
 
   /// Called when value changed in single choice widget
   final ValueChanged<S2SingleState<T>> singleOnChange;
 
   /// Called when selection has been made in single choice widget
-  final TwoValueChanged<S2SingleState<T>, S2Choice<T>> singleOnSelect;
+  final S2ChoiceSelect<S2SingleState<T>, S2Choice<T>> singleOnSelect;
 
   /// Called when modal opened in single choice widget
-  final ValueChanged<S2SingleState<T>> singleOnModalOpen;
+  final S2ModalOpen<S2SingleState<T>> singleOnModalOpen;
 
   /// Called when modal closed in single choice widget
-  final TwoValueChanged<S2SingleState<T>, bool> singleOnModalClose;
+  final S2ModalClose<S2SingleState<T>> singleOnModalClose;
+
+  /// Called when modal will close in single choice widget
+  final S2ModalWillOpen<S2SingleState<T>> singleOnModalWillOpen;
+
+  /// Called when modal will close in single choice widget
+  final S2ModalWillClose<S2SingleState<T>> singleOnModalWillClose;
 
   /// Builder collection of single choice widget
   final S2SingleBuilder<T> singleBuilder;
@@ -86,22 +108,28 @@ class SmartSelect<T> extends StatefulWidget {
   final S2MultiSelected<T> multiSelected;
 
   /// A function used to validate the selected choices
-  final ValidationCallback<List<S2Choice<T>>> multiValidation;
+  final S2Validation<List<S2Choice<T>>> multiValidation;
 
   /// Modal validation of multiple choice widget
-  final ValidationCallback<List<S2Choice<T>>> multiModalValidation;
+  final S2Validation<List<S2Choice<T>>> multiModalValidation;
 
   /// Called when value changed in multiple choice widget
   final ValueChanged<S2MultiState<T>> multiOnChange;
 
   /// Called when selection has been made in multiple choice widget
-  final TwoValueChanged<S2MultiState<T>, S2Choice<T>> multiOnSelect;
+  final S2ChoiceSelect<S2MultiState<T>, S2Choice<T>> multiOnSelect;
 
   /// Called when modal open in multiple choice widget
-  final ValueChanged<S2MultiState<T>> multiOnModalOpen;
+  final S2ModalOpen<S2MultiState<T>> multiOnModalOpen;
 
   /// Called when modal closed in multiple choice widget
-  final TwoValueChanged<S2MultiState<T>, bool> multiOnModalClose;
+  final S2ModalClose<S2MultiState<T>> multiOnModalClose;
+
+  /// Called when modal will close in single choice widget
+  final S2ModalWillOpen<S2MultiState<T>> multiOnModalWillOpen;
+
+  /// Called when modal will close in single choice widget
+  final S2ModalWillClose<S2MultiState<T>> multiOnModalWillClose;
 
   /// Builder collection of multiple choice widget
   final S2MultiBuilder<T> multiBuilder;
@@ -116,17 +144,21 @@ class SmartSelect<T> extends StatefulWidget {
     this.singleValidation,
     this.singleModalValidation,
     this.singleOnChange,
-    this.singleOnModalOpen,
     this.singleOnSelect,
+    this.singleOnModalOpen,
     this.singleOnModalClose,
+    this.singleOnModalWillOpen,
+    this.singleOnModalWillClose,
     this.singleBuilder,
     this.multiSelected,
     this.multiValidation,
     this.multiModalValidation,
     this.multiOnChange,
-    this.multiOnModalOpen,
     this.multiOnSelect,
+    this.multiOnModalOpen,
     this.multiOnModalClose,
+    this.multiOnModalWillOpen,
+    this.multiOnModalWillClose,
     this.multiBuilder,
     this.modalConfig = const S2ModalConfig(),
     this.choiceConfig = const S2ChoiceConfig(),
@@ -179,6 +211,10 @@ class SmartSelect<T> extends StatefulWidget {
   /// The [onModalOpen] called when modal opened.
   ///
   /// The [onModalClose] called when modal closed.
+  ///
+  /// The [onModalWillOpen] called when will modal open.
+  ///
+  /// The [onModalWillClose] called when will modal close.
   ///
   /// The [validation] is function to validate the selected.
   ///
@@ -341,11 +377,13 @@ class SmartSelect<T> extends StatefulWidget {
     S2Choice<T> selectedChoice,
     S2SingleSelectedResolver<T> selectedResolver,
     @required ValueChanged<S2SingleState<T>> onChange,
-    TwoValueChanged<S2SingleState<T>, S2Choice<T>> onSelect,
-    ValueChanged<S2SingleState<T>> onModalOpen,
-    TwoValueChanged<S2SingleState<T>, bool> onModalClose,
-    ValidationCallback<S2Choice<T>> validation,
-    ValidationCallback<S2Choice<T>> modalValidation,
+    S2ChoiceSelect<S2SingleState<T>, S2Choice<T>> onSelect,
+    S2ModalOpen<S2SingleState<T>> onModalOpen,
+    S2ModalClose<S2SingleState<T>> onModalClose,
+    S2ModalWillOpen<S2SingleState<T>> onModalWillOpen,
+    S2ModalWillClose<S2SingleState<T>> onModalWillClose,
+    S2Validation<S2Choice<T>> validation,
+    S2Validation<S2Choice<T>> modalValidation,
     List<S2Choice<T>> choiceItems,
     S2ChoiceLoader<T> choiceLoader,
     S2SingleBuilder<T> builder,
@@ -420,6 +458,8 @@ class SmartSelect<T> extends StatefulWidget {
       singleOnSelect: onSelect,
       singleOnModalOpen: onModalOpen,
       singleOnModalClose: onModalClose,
+      singleOnModalWillOpen: onModalWillOpen,
+      singleOnModalWillClose: onModalWillClose,
       singleValidation: validation,
       singleModalValidation: modalValidation,
       singleBuilder: S2SingleBuilder<T>().merge(builder).copyWith(
@@ -494,6 +534,10 @@ class SmartSelect<T> extends StatefulWidget {
   /// The [onModalOpen] called when modal opened.
   ///
   /// The [onModalClose] called when modal closed.
+  ///
+  /// The [onModalWillOpen] called when modal will open.
+  ///
+  /// The [onModalWillClose] called when modal will close.
   ///
   /// The [validation] is function to validate the selected.
   ///
@@ -656,11 +700,13 @@ class SmartSelect<T> extends StatefulWidget {
     List<S2Choice<T>> selectedChoice,
     S2MultiSelectedResolver<T> selectedResolver,
     @required ValueChanged<S2MultiState<T>> onChange,
-    TwoValueChanged<S2MultiState<T>, S2Choice<T>> onSelect,
-    ValueChanged<S2MultiState<T>> onModalOpen,
-    TwoValueChanged<S2MultiState<T>, bool> onModalClose,
-    ValidationCallback<List<S2Choice<T>>> validation,
-    ValidationCallback<List<S2Choice<T>>> modalValidation,
+    S2ChoiceSelect<S2MultiState<T>, S2Choice<T>> onSelect,
+    S2ModalOpen<S2MultiState<T>> onModalOpen,
+    S2ModalClose<S2MultiState<T>> onModalClose,
+    S2ModalWillOpen<S2MultiState<T>> onModalWillOpen,
+    S2ModalWillClose<S2MultiState<T>> onModalWillClose,
+    S2Validation<List<S2Choice<T>>> validation,
+    S2Validation<List<S2Choice<T>>> modalValidation,
     List<S2Choice<T>> choiceItems,
     S2ChoiceLoader<T> choiceLoader,
     S2MultiBuilder<T> builder,
@@ -734,6 +780,8 @@ class SmartSelect<T> extends StatefulWidget {
       multiOnSelect: onSelect,
       multiOnModalOpen: onModalOpen,
       multiOnModalClose: onModalClose,
+      multiOnModalWillOpen: onModalWillOpen,
+      multiOnModalWillClose: onModalWillClose,
       multiValidation: validation,
       multiModalValidation: modalValidation,
       multiBuilder: S2MultiBuilder<T>().merge(builder).copyWith(
@@ -836,6 +884,17 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
   /// Called when modal closed
   void onModalClose(bool confirmed);
 
+  /// Called when modal opened
+  Future<bool> onModalWillOpen();
+
+  /// Called when modal closed
+  Future<bool> onModalWillClose();
+
+  Future<bool> defaultModalWillClose() async {
+    modalErrorShake();
+    return selection.isValid;
+  }
+
   /// Returns the builders collection
   get builder;
 
@@ -936,8 +995,9 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
 
   /// Returns the modal widget
   Widget get modal {
-    return S2StatefulBuilder(
+    return S2Modal(
       key: ValueKey(modalConfig.type),
+      onReady: onModalOpen,
       builder: (context, setState) {
         modalContext = context;
         modalSetState = setState;
@@ -949,7 +1009,7 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
   /// Returns the default modal widget
   Widget get defaultModal {
     return WillPopScope(
-      onWillPop: () async => selection.isValid,
+      onWillPop: onModalWillClose,
       child: modalConfig.isFullPage == true
           ? Scaffold(
               backgroundColor: modalConfig.style.backgroundColor,
@@ -996,24 +1056,26 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
   /// Returns the modal title widget
   Widget get modalTitle {
     String _title = modalConfig?.title ?? widget.title ?? widget.placeholder;
-    return Text(_title, style: modalHeaderStyle.textStyle);
+    return Container(child: Text(_title, style: modalHeaderStyle.textStyle));
   }
+
+  void modalErrorShake() {
+    if (selection.isNotValid) {
+      modalErrorController.shake();
+    }
+  }
+
+  S2TextErrorController modalErrorController = S2TextErrorController();
 
   /// Returns the modal error widget
   Widget get modalError {
-    return AnimatedCrossFade(
-      firstChild: Container(height: 0.0, width: 0.0),
-      secondChild: Text(
+    modalErrorController.visibility(selection.isNotValid);
+    return S2TextError(
+      controller: modalErrorController,
+      child: Text(
         selection.error,
         style: modalHeaderStyle.errorStyle,
       ),
-      duration: const Duration(milliseconds: 300),
-      firstCurve: const Interval(0.0, 0.6, curve: Curves.fastOutSlowIn),
-      secondCurve: const Interval(0.4, 1.0, curve: Curves.fastOutSlowIn),
-      sizeCurve: Curves.fastOutSlowIn,
-      crossFadeState: selection.isValid
-          ? CrossFadeState.showFirst
-          : CrossFadeState.showSecond,
     );
   }
 
@@ -1250,8 +1312,8 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
           select: ([bool selected = true]) {
             // set temporary value
             selection.select(choice, selected: selected);
-            // call the modal on change callback
-            onSelect(choice);
+            // call on choice select callback
+            if (modalConfig.useConfirm == true) onSelect(choice);
             // only for single choice
             if (isSingleChoice) {
               // hide filter bar
@@ -1502,8 +1564,14 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
 
   /// Function to close the choice modal
   void closeModal({bool confirmed = true}) {
-    Navigator.pop(context, confirmed);
-    onModalClose(confirmed);
+    // pop the navigation
+    if (confirmed == true)
+      // will call the onWillPop
+      Navigator.maybePop(context, true);
+    else
+      // no need to call the onWillPop
+      Navigator.pop(context, false);
+
     // dispose everything
     selection?.removeListener(_selectionHandler);
     filter?.removeListener(_filterHandler);
@@ -1513,8 +1581,10 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
 
   /// Function to show the choice modal
   void showModal() async {
-    // call on modal open callback
-    onModalOpen();
+    // call on modal will open callback
+    // and prevent open modal if return value is not `true`
+    final bool willOpen = await onModalWillOpen() ?? true;
+    if (willOpen != true) return;
 
     // initialize the selection choice(s)
     resolveSelection();
@@ -1526,7 +1596,10 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
     choices.initialize();
 
     // show modal by type and return confirmed value
-    bool confirmed = await _showModalByType();
+    final bool confirmed = await _showModalByType() ?? false;
+
+    // call on modal close callback
+    onModalClose(confirmed);
 
     // dont return value if modal need confirmation and not confirmed
     if (modalConfig.useConfirm == true && confirmed != true) return;
@@ -1631,17 +1704,27 @@ class S2SingleState<T> extends S2State<T> {
   }
 
   @override
+  Future<bool> onModalWillOpen() {
+    return widget.singleOnModalWillOpen?.call(this);
+  }
+
+  @override
+  Future<bool> onModalWillClose() {
+    return widget.singleOnModalWillClose?.call(this) ?? defaultModalWillClose();
+  }
+
+  @override
   S2SingleBuilder<T> get builder {
     return widget.singleBuilder;
   }
 
   @override
-  ValidationCallback<S2Choice<T>> get validation {
+  S2Validation<S2Choice<T>> get validation {
     return widget.singleValidation;
   }
 
   @override
-  ValidationCallback<S2Choice<T>> get modalValidation {
+  S2Validation<S2Choice<T>> get modalValidation {
     return widget.singleModalValidation ?? validation;
   }
 
@@ -1823,17 +1906,27 @@ class S2MultiState<T> extends S2State<T> {
   }
 
   @override
+  Future<bool> onModalWillOpen() {
+    return widget.multiOnModalWillOpen?.call(this);
+  }
+
+  @override
+  Future<bool> onModalWillClose() {
+    return widget.multiOnModalWillClose?.call(this) ?? defaultModalWillClose();
+  }
+
+  @override
   S2MultiBuilder<T> get builder {
     return widget.multiBuilder;
   }
 
   @override
-  ValidationCallback<List<S2Choice<T>>> get validation {
+  S2Validation<List<S2Choice<T>>> get validation {
     return widget.multiValidation;
   }
 
   @override
-  ValidationCallback<List<S2Choice<T>>> get modalValidation {
+  S2Validation<List<S2Choice<T>>> get modalValidation {
     return widget.multiModalValidation ?? validation;
   }
 
