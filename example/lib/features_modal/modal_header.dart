@@ -21,7 +21,7 @@ class _FeaturesModalHeaderState extends State<FeaturesModalHeader> {
         SmartSelect<String>.multiple(
           title: 'Month',
           selectedValue: _month,
-          onChange: (state) => setState(() => _month = state.selected.value),
+          onChange: (selected) => setState(() => _month = selected.value),
           choiceItems: choices.months,
           choiceActiveStyle: const S2ChoiceStyle(color: Colors.red),
           modalFilter: true,
@@ -48,8 +48,8 @@ class _FeaturesModalHeaderState extends State<FeaturesModalHeader> {
         SmartSelect<String>.single(
           title: 'Frameworks',
           selectedValue: _framework,
-          onChange: (state) {
-            setState(() => _framework = state.selected.value);
+          onChange: (selected) {
+            setState(() => _framework = selected.value);
           },
           choiceItems: choices.frameworks,
           modalConfig: S2ModalConfig(
@@ -78,7 +78,7 @@ class _FeaturesModalHeaderState extends State<FeaturesModalHeader> {
         SmartSelect<String>.multiple(
           title: 'Super Hero',
           selectedValue: _hero,
-          onChange: (state) => setState(() => _hero = state.selected.value),
+          onChange: (selected) => setState(() => _hero = selected.value),
           choiceItems: choices.heroes,
           modalType: S2ModalType.bottomSheet,
           modalStyle: S2ModalStyle(

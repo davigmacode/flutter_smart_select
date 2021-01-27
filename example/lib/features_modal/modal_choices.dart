@@ -19,7 +19,7 @@ class _FeaturesModalChoicesState extends State<FeaturesModalChoices> {
         SmartSelect<String>.multiple(
           title: 'Fruit',
           selectedValue: _fruit,
-          onChange: (state) => setState(() => _fruit = state.selected.value),
+          onChange: (selected) => setState(() => _fruit = selected.value),
           choiceItems: choices.fruits,
           modalType: S2ModalType.popupDialog,
           modalHeader: false,
@@ -39,7 +39,7 @@ class _FeaturesModalChoicesState extends State<FeaturesModalChoices> {
         SmartSelect<String>.multiple(
             title: 'Super Hero',
             selectedValue: _hero,
-            onChange: (state) => setState(() => _hero = state.selected.value),
+            onChange: (selected) => setState(() => _hero = selected.value),
             choiceItems: choices.heroes,
             modalType: S2ModalType.bottomSheet,
             modalHeader: false,

@@ -32,7 +32,7 @@ class _ProgrammaticModalState extends State<ProgrammaticModal> {
       key: _smartSelectKey,
       title: 'Fruit',
       selectedValue: _value,
-      onChange: (state) => setState(() => _value = state.selected.value),
+      onChange: (selected) => setState(() => _value = selected.value),
       choiceItems: _choices,
       tileBuilder: (context, state) {
         return Container();

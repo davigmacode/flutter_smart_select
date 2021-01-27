@@ -25,7 +25,7 @@ class _FeaturesTileLeadingState extends State<FeaturesTileLeading> {
           title: 'Days',
           selectedValue: _day,
           choiceItems: choices.days,
-          onChange: (state) => setState(() => _day = state.selected.value),
+          onChange: (selected) => setState(() => _day = selected.value),
           tileBuilder: (context, state) {
             return S2Tile.fromState(
               state,
@@ -38,7 +38,7 @@ class _FeaturesTileLeadingState extends State<FeaturesTileLeading> {
           title: 'Month',
           selectedValue: _month,
           choiceItems: choices.months,
-          onChange: (state) => setState(() => _month = state.selected.value),
+          onChange: (selected) => setState(() => _month = selected.value),
           tileBuilder: (context, state) {
             return S2Tile.fromState(
               state,
@@ -55,8 +55,8 @@ class _FeaturesTileLeadingState extends State<FeaturesTileLeading> {
           title: 'Frameworks',
           selectedValue: _framework,
           choiceItems: choices.frameworks,
-          onChange: (state) {
-            setState(() => _framework = state.selected.value);
+          onChange: (selected) {
+            setState(() => _framework = selected.value);
           },
           modalType: S2ModalType.popupDialog,
           tileBuilder: (context, state) {
@@ -77,7 +77,7 @@ class _FeaturesTileLeadingState extends State<FeaturesTileLeading> {
           title: 'Super Hero',
           selectedValue: _hero,
           choiceItems: choices.heroes,
-          onChange: (state) => setState(() => _hero = state.selected.value),
+          onChange: (selected) => setState(() => _hero = selected.value),
           modalType: S2ModalType.bottomSheet,
           modalFilter: true,
           tileBuilder: (context, state) {

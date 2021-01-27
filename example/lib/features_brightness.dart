@@ -21,8 +21,8 @@ class _FeaturesBrightnessState extends State<FeaturesBrightness> {
     return SmartSelect<int>.single(
       title: 'Brightness',
       selectedValue: ThemePatrol.of(context).themeMode.index,
-      onChange: (state) {
-        ThemePatrol.of(context).setMode(ThemeMode.values[state.selected.value]);
+      onChange: (selected) {
+        ThemePatrol.of(context).setMode(ThemeMode.values[selected.value]);
       },
       modalType: S2ModalType.bottomSheet,
       modalHeader: false,

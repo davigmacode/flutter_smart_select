@@ -23,8 +23,8 @@ class _FeaturesColorState extends State<FeaturesColor> {
     return SmartSelect<Color>.single(
       title: 'Color',
       selectedValue: _themeColor,
-      onChange: (state) {
-        setState(() => _themeColor = state.selected.value);
+      onChange: (selected) {
+        setState(() => _themeColor = selected.value);
         ThemePatrol.of(context).setColor(_themeColor);
       },
       choiceItems: colors,

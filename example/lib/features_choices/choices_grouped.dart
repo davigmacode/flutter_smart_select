@@ -23,8 +23,8 @@ class _FeaturesChoicesGroupedState extends State<FeaturesChoicesGrouped> {
           title: 'Smartphones',
           placeholder: 'Choose one',
           selectedValue: _smartphone,
-          onChange: (state) {
-            setState(() => _smartphone = state.selected.value);
+          onChange: (selected) {
+            setState(() => _smartphone = selected.value);
           },
           choiceItems: S2Choice.listFrom<String, Map>(
             source: choices.smartphones,
@@ -54,7 +54,7 @@ class _FeaturesChoicesGroupedState extends State<FeaturesChoicesGrouped> {
           title: 'Cars',
           placeholder: 'Choose one or more',
           selectedValue: _car,
-          onChange: (state) => setState(() => _car = state.selected.value),
+          onChange: (selected) => setState(() => _car = selected.value),
           choiceItems: S2Choice.listFrom<String, Map>(
             source: choices.cars,
             value: (index, item) => item['value'],

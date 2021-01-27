@@ -41,8 +41,8 @@ class _FeaturesTileBuilderState extends State<FeaturesTileBuilder> {
                     title: 'Categories',
                     selectedValue: _categories,
                     choiceItems: choices.categories,
-                    onChange: (state) {
-                      setState(() => _categories = state.selected.value);
+                    onChange: (selected) {
+                      setState(() => _categories = selected.value);
                     },
                     modalType: S2ModalType.bottomSheet,
                     modalHeader: false,
@@ -64,8 +64,8 @@ class _FeaturesTileBuilderState extends State<FeaturesTileBuilder> {
                     title: 'Sort By',
                     selectedValue: _sort,
                     choiceItems: choices.sorts,
-                    onChange: (state) {
-                      setState(() => _sort = state.selected.value);
+                    onChange: (selected) {
+                      setState(() => _sort = selected.value);
                     },
                     modalType: S2ModalType.popupDialog,
                     modalHeader: false,
@@ -90,7 +90,7 @@ class _FeaturesTileBuilderState extends State<FeaturesTileBuilder> {
               title: (index, item) => item['title'],
               group: (index, item) => item['body'],
             ),
-            onChange: (state) => setState(() => _cars = state.selected.value),
+            onChange: (selected) => setState(() => _cars = selected.value),
             modalType: S2ModalType.bottomSheet,
             modalConfirm: true,
             modalFilter: true,

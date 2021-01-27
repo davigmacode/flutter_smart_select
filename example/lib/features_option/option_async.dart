@@ -27,7 +27,7 @@ class _FeaturesOptionAsyncState extends State<FeaturesOptionAsync> {
         SmartSelect<String>.single(
           title: 'Admin',
           selectedValue: _user,
-          onChange: (state) => setState(() => _user = state.selected.value),
+          onChange: (selected) => setState(() => _user = selected.value),
           modalFilter: true,
           choiceItems: _users,
           choiceType: S2ChoiceType.chips,
@@ -73,8 +73,8 @@ class _FeaturesOptionAsyncState extends State<FeaturesOptionAsync> {
               choiceItems: snapshot.data,
               choiceGrouped: true,
               choiceType: S2ChoiceType.checkboxes,
-              onChange: (state) {
-                setState(() => _countries = state.selected.value);
+              onChange: (selected) {
+                setState(() => _countries = selected.value);
               },
               tileBuilder: (context, state) {
                 return S2Tile.fromState(
@@ -122,8 +122,8 @@ class _FeaturesOptionAsyncState extends State<FeaturesOptionAsync> {
               ),
             );
           },
-          onChange: (state) {
-            setState(() => _invitations = state.selected.value);
+          onChange: (selected) {
+            setState(() => _invitations = selected.value);
           },
           tileBuilder: (context, state) {
             return S2Tile.fromState(
@@ -165,8 +165,8 @@ class _FeaturesOptionAsyncState extends State<FeaturesOptionAsync> {
               backgroundImage: NetworkImage(choice.meta),
             );
           },
-          onChange: (state) {
-            setState(() => _invitations = state.selected.value);
+          onChange: (selected) {
+            setState(() => _invitations = selected.value);
           },
           tileBuilder: (context, state) {
             return S2Tile.fromState(

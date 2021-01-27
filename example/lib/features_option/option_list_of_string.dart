@@ -47,8 +47,8 @@ class _FeaturesOptionListOfStringState
                 child: SmartSelect<int>.multiple(
                   title: 'Categories',
                   selectedValue: _categories,
-                  onChange: (state) {
-                    setState(() => _categories = state.selected.value);
+                  onChange: (selected) {
+                    setState(() => _categories = selected.value);
                   },
                   choiceItems: S2Choice.listFrom<int, String>(
                     source: _categoriesOption,
@@ -75,8 +75,8 @@ class _FeaturesOptionListOfStringState
                 child: SmartSelect<int>.single(
                   title: 'Sort By',
                   selectedValue: _sort,
-                  onChange: (state) {
-                    setState(() => _sort = state.selected.value);
+                  onChange: (selected) {
+                    setState(() => _sort = selected.value);
                   },
                   choiceItems: S2Choice.listFrom<int, String>(
                     source: _sortOption,

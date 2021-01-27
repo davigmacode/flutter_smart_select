@@ -20,8 +20,8 @@ class _FeaturesTileValidationState extends State<FeaturesTileValidation> {
           title: 'Days',
           selectedValue: _day,
           choiceItems: choices.days,
-          onChange: (state) {
-            setState(() => _day = state.selected.value);
+          onChange: (selected) {
+            setState(() => _day = selected.value);
           },
           validation: (selected) {
             if (selected == null) return 'Please select one or more';
@@ -39,8 +39,8 @@ class _FeaturesTileValidationState extends State<FeaturesTileValidation> {
           title: 'Month',
           selectedValue: _month,
           choiceItems: choices.months,
-          onChange: (state) {
-            setState(() => _month = state.selected.value);
+          onChange: (selected) {
+            setState(() => _month = selected.value);
           },
           validation: (selected) {
             if (selected?.isEmpty == true) return 'Please select one or more';

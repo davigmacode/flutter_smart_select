@@ -20,7 +20,7 @@ class _FeaturesSingleSheetState extends State<FeaturesSingleSheet> {
           title: 'OS',
           selectedValue: _os,
           choiceItems: choices.os,
-          onChange: (state) => setState(() => _os = state.selected.value),
+          onChange: (selected) => setState(() => _os = selected.value),
           modalType: S2ModalType.bottomSheet,
           tileBuilder: (context, state) {
             return S2Tile.fromState(
@@ -40,7 +40,7 @@ class _FeaturesSingleSheetState extends State<FeaturesSingleSheet> {
           selectedValue: _hero,
           choiceItems: choices.heroes,
           modalType: S2ModalType.bottomSheet,
-          onChange: (state) => setState(() => _hero = state.selected.value),
+          onChange: (selected) => setState(() => _hero = selected.value),
           tileBuilder: (context, state) {
             return S2Tile.fromState(
               state,

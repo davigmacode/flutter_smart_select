@@ -19,7 +19,7 @@ class _FeaturesMultiSheetState extends State<FeaturesMultiSheet> {
         SmartSelect<String>.multiple(
           title: 'OS',
           selectedValue: _os,
-          onChange: (state) => setState(() => _os = state.selected.value),
+          onChange: (selected) => setState(() => _os = selected.value),
           choiceItems: choices.os,
           modalType: S2ModalType.bottomSheet,
           tileBuilder: (context, state) {
@@ -38,7 +38,7 @@ class _FeaturesMultiSheetState extends State<FeaturesMultiSheet> {
         SmartSelect<String>.multiple(
           title: 'Super Hero',
           selectedValue: _hero,
-          onChange: (state) => setState(() => _hero = state.selected.value),
+          onChange: (selected) => setState(() => _hero = selected.value),
           choiceItems: choices.heroes,
           modalType: S2ModalType.bottomSheet,
           tileBuilder: (context, state) {

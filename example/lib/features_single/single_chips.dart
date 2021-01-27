@@ -30,7 +30,7 @@ class _FeaturesSingleChipsState extends State<FeaturesSingleChips> {
           choiceType: S2ChoiceType.chips,
           choiceGrouped: true,
           choiceDirection: Axis.horizontal,
-          onChange: (state) => setState(() => _car = state.selected.value),
+          onChange: (selected) => setState(() => _car = selected.value),
           tileBuilder: (context, state) => S2Tile(
             title: const Text('Car'),
             value: state.selected.toWidget(),
@@ -51,7 +51,7 @@ class _FeaturesSingleChipsState extends State<FeaturesSingleChips> {
           modalType: S2ModalType.bottomSheet,
           choiceType: S2ChoiceType.chips,
           choiceStyle: S2ChoiceStyle(outlined: true, showCheckmark: true),
-          onChange: (state) => setState(() => _category = state.selected.value),
+          onChange: (selected) => setState(() => _category = selected.value),
           tileBuilder: (context, state) => S2Tile.fromState(
             state,
             isTwoLine: true,
@@ -67,7 +67,7 @@ class _FeaturesSingleChipsState extends State<FeaturesSingleChips> {
           title: 'Days',
           selectedValue: _day,
           choiceItems: choices.days,
-          onChange: (state) => setState(() => _day = state.selected.value),
+          onChange: (selected) => setState(() => _day = selected.value),
           modalType: S2ModalType.popupDialog,
           choiceType: S2ChoiceType.chips,
           choiceStyle: S2ChoiceStyle(

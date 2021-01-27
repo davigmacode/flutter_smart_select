@@ -33,7 +33,7 @@ class _FeaturesOptionListOfListState extends State<FeaturesOptionListOfList> {
         SmartSelect<String>.single(
           title: 'Month',
           selectedValue: _month,
-          onChange: (state) => setState(() => _month = state.selected.value),
+          onChange: (selected) => setState(() => _month = selected.value),
           choiceItems: S2Choice.listFrom<String, List<String>>(
             source: monthsOption,
             value: (index, item) => item[0],

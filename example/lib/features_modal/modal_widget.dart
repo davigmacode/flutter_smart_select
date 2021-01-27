@@ -36,8 +36,8 @@ class _FeaturesModalWidgetState extends State<FeaturesModalWidget> {
         SmartSelect<int>.single(
           title: 'Overall, how satisfied are you with smart_select package?',
           selectedValue: _question1,
-          onChange: (state) {
-            setState(() => _question1 = state.selected.value);
+          onChange: (selected) {
+            setState(() => _question1 = selected.value);
           },
           choiceType: S2ChoiceType.radios,
           choiceItems: S2Choice.listFrom<int, String>(
@@ -93,8 +93,8 @@ class _FeaturesModalWidgetState extends State<FeaturesModalWidget> {
           title:
               'Which of following words would you use to describe smart_select?',
           selectedValue: _question2,
-          onChange: (state) {
-            setState(() => _question2 = state.selected.value);
+          onChange: (selected) {
+            setState(() => _question2 = selected.value);
           },
           choiceItems: S2Choice.listFrom<int, String>(
             source: _options2,

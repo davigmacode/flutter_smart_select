@@ -19,8 +19,8 @@ class _FeaturesChoicesThemeState extends State<FeaturesChoicesTheme> {
         SmartSelect<String>.multiple(
           title: 'Smartphones',
           selectedValue: _smartphones,
-          onChange: (state) {
-            setState(() => _smartphones = state.selected.value);
+          onChange: (selected) {
+            setState(() => _smartphones = selected.value);
           },
           choiceItems: S2Choice.listFrom<String, Map>(
             source: choices.smartphones,

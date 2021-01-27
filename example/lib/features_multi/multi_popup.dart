@@ -19,7 +19,7 @@ class _FeaturesMultiPopupState extends State<FeaturesMultiPopup> {
         SmartSelect<String>.multiple(
           title: 'Fruit',
           selectedValue: _fruit,
-          onChange: (state) => setState(() => _fruit = state.selected.value),
+          onChange: (selected) => setState(() => _fruit = selected.value),
           choiceItems: choices.fruits,
           modalType: S2ModalType.popupDialog,
           tileBuilder: (context, state) {
@@ -38,8 +38,8 @@ class _FeaturesMultiPopupState extends State<FeaturesMultiPopup> {
         SmartSelect<String>.multiple(
           title: 'Frameworks',
           selectedValue: _framework,
-          onChange: (state) {
-            setState(() => _framework = state.selected.value);
+          onChange: (selected) {
+            setState(() => _framework = selected.value);
           },
           choiceItems: choices.frameworks,
           modalType: S2ModalType.popupDialog,

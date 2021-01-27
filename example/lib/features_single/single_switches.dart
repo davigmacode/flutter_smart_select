@@ -20,7 +20,7 @@ class _FeaturesSingleSwitchesState extends State<FeaturesSingleSwitches> {
         SmartSelect<String>.single(
           title: 'Car',
           selectedValue: _car,
-          onChange: (state) => setState(() => _car = state.selected.value),
+          onChange: (selected) => setState(() => _car = selected.value),
           choiceItems: S2Choice.listFrom<String, Map>(
             source: choices.cars,
             value: (index, item) => item['value'],
@@ -46,8 +46,8 @@ class _FeaturesSingleSwitchesState extends State<FeaturesSingleSwitches> {
         SmartSelect<String>.single(
           title: 'Smartphones',
           selectedValue: _smartphone,
-          onChange: (state) {
-            setState(() => _smartphone = state.selected.value);
+          onChange: (selected) {
+            setState(() => _smartphone = selected.value);
           },
           choiceType: S2ChoiceType.switches,
           choiceItems: S2Choice.listFrom<String, Map>(
@@ -73,7 +73,7 @@ class _FeaturesSingleSwitchesState extends State<FeaturesSingleSwitches> {
         SmartSelect<String>.single(
           title: 'Days',
           selectedValue: _days,
-          onChange: (state) => setState(() => _days = state.selected.value),
+          onChange: (selected) => setState(() => _days = selected.value),
           choiceItems: choices.days,
           choiceType: S2ChoiceType.switches,
           modalType: S2ModalType.popupDialog,

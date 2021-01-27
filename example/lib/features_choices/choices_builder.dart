@@ -26,7 +26,7 @@ class _FeaturesChoicesBuilderState extends State<FeaturesChoicesBuilder> {
           title: 'Transportation',
           placeholder: 'Choose one',
           selectedValue: _commute,
-          onChange: (state) => setState(() => _commute = state.selected.value),
+          onChange: (selected) => setState(() => _commute = selected.value),
           modalType: S2ModalType.bottomSheet,
           modalHeader: false,
           choiceItems: S2Choice.listFrom<int, Map<String, dynamic>>(
@@ -90,7 +90,7 @@ class _FeaturesChoicesBuilderState extends State<FeaturesChoicesBuilder> {
         SmartSelect<String>.multiple(
           title: 'Passengers',
           selectedValue: _user,
-          onChange: (state) => setState(() => _user = state.selected.value),
+          onChange: (selected) => setState(() => _user = selected.value),
           modalFilter: true,
           choiceItems: _users,
           choiceGrouped: true,

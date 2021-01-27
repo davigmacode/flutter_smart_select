@@ -20,7 +20,7 @@ class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
         SmartSelect<String>.multiple(
           title: 'Days',
           selectedValue: _day,
-          onChange: (state) => setState(() => _day = state.selected.value),
+          onChange: (selected) => setState(() => _day = selected.value),
           choiceItems: choices.days,
           modalType: S2ModalType.fullPage,
           modalConfirm: true,
@@ -42,7 +42,7 @@ class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
         SmartSelect<String>.multiple(
           title: 'Fruit',
           selectedValue: _fruit,
-          onChange: (state) => setState(() => _fruit = state.selected.value),
+          onChange: (selected) => setState(() => _fruit = selected.value),
           choiceItems: choices.fruits,
           modalType: S2ModalType.popupDialog,
           modalConfirm: true,
@@ -100,7 +100,7 @@ class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
         SmartSelect<String>.single(
           title: 'Super Hero',
           selectedValue: _hero,
-          onChange: (state) => setState(() => _hero = state.selected.value),
+          onChange: (selected) => setState(() => _hero = selected.value),
           choiceItems: choices.heroes,
           choiceActiveStyle: const S2ChoiceStyle(color: Colors.redAccent),
           modalType: S2ModalType.bottomSheet,

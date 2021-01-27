@@ -20,7 +20,7 @@ class _FeaturesMultiChipsState extends State<FeaturesMultiChips> {
         SmartSelect<String>.multiple(
           title: 'Car',
           selectedValue: _car,
-          onChange: (state) => setState(() => _car = state.selected.value),
+          onChange: (selected) => setState(() => _car = selected.value),
           choiceItems: S2Choice.listFrom<String, Map>(
             source: choices.cars,
             value: (index, item) => item['value'],
@@ -46,8 +46,8 @@ class _FeaturesMultiChipsState extends State<FeaturesMultiChips> {
         SmartSelect<String>.multiple(
           title: 'Smartphones',
           selectedValue: _smartphone,
-          onChange: (state) {
-            setState(() => _smartphone = state.selected.value);
+          onChange: (selected) {
+            setState(() => _smartphone = selected.value);
           },
           choiceType: S2ChoiceType.chips,
           choiceItems: S2Choice.listFrom<String, Map>(
@@ -78,7 +78,7 @@ class _FeaturesMultiChipsState extends State<FeaturesMultiChips> {
         SmartSelect<String>.multiple(
           title: 'Days',
           selectedValue: _day,
-          onChange: (state) => setState(() => _day = state.selected.value),
+          onChange: (selected) => setState(() => _day = selected.value),
           choiceItems: choices.days,
           choiceType: S2ChoiceType.chips,
           choiceStyle: S2ChoiceStyle(

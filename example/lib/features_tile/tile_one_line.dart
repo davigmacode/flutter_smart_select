@@ -20,14 +20,14 @@ class _FeaturesTileOneLineState extends State<FeaturesTileOneLine> {
           title: 'Days',
           selectedValue: _day,
           choiceItems: choices.days,
-          onChange: (state) => setState(() => _day = state.selected.value),
+          onChange: (selected) => setState(() => _day = selected.value),
         ),
         const Divider(indent: 20),
         SmartSelect<String>.multiple(
           title: 'Month',
           selectedValue: _month,
           choiceItems: choices.months,
-          onChange: (state) => setState(() => _month = state.selected.value),
+          onChange: (selected) => setState(() => _month = selected.value),
           tileBuilder: (context, state) {
             return S2Tile.fromState(state);
           },

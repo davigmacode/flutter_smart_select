@@ -20,7 +20,7 @@ class _FeaturesSinglePopupState extends State<FeaturesSinglePopup> {
           title: 'Fruit',
           selectedValue: _fruit,
           choiceItems: choices.fruits,
-          onChange: (state) => setState(() => _fruit = state.selected.value),
+          onChange: (selected) => setState(() => _fruit = selected.value),
           modalType: S2ModalType.popupDialog,
           tileBuilder: (context, state) {
             return S2Tile.fromState(
@@ -35,8 +35,8 @@ class _FeaturesSinglePopupState extends State<FeaturesSinglePopup> {
           selectedValue: _framework,
           choiceItems: choices.frameworks,
           modalType: S2ModalType.popupDialog,
-          onChange: (state) {
-            setState(() => _framework = state.selected.value);
+          onChange: (selected) {
+            setState(() => _framework = selected.value);
           },
           tileBuilder: (context, state) {
             return ListTile(

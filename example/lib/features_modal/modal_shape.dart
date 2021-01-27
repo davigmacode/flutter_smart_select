@@ -19,8 +19,8 @@ class _FeaturesModalShapeState extends State<FeaturesModalShape> {
         SmartSelect<String>.single(
           title: 'Frameworks',
           selectedValue: _framework,
-          onChange: (state) {
-            setState(() => _framework = state.selected.value);
+          onChange: (selected) {
+            setState(() => _framework = selected.value);
           },
           choiceType: S2ChoiceType.radios,
           choiceItems: choices.frameworks,
@@ -51,7 +51,7 @@ class _FeaturesModalShapeState extends State<FeaturesModalShape> {
         SmartSelect<String>.multiple(
           title: 'Super Hero',
           selectedValue: _hero,
-          onChange: (state) => setState(() => _hero = state.selected.value),
+          onChange: (selected) => setState(() => _hero = selected.value),
           choiceItems: choices.heroes,
           choiceType: S2ChoiceType.switches,
           modalType: S2ModalType.bottomSheet,

@@ -21,7 +21,7 @@ class _FeaturesModalValidationState extends State<FeaturesModalValidation> {
         SmartSelect<String>.single(
           title: 'Days',
           selectedValue: _day,
-          onChange: (state) => setState(() => _day = state.selected.value),
+          onChange: (selected) => setState(() => _day = selected.value),
           choiceItems: choices.days,
           modalType: S2ModalType.bottomSheet,
           modalValidation: (value) {
@@ -32,7 +32,7 @@ class _FeaturesModalValidationState extends State<FeaturesModalValidation> {
         SmartSelect<String>.multiple(
           title: 'Days',
           selectedValue: _days,
-          onChange: (state) => setState(() => _days = state.selected.value),
+          onChange: (selected) => setState(() => _days = selected.value),
           choiceItems: choices.days,
           modalType: S2ModalType.bottomSheet,
           modalValidation: (value) {
@@ -68,7 +68,7 @@ class _FeaturesModalValidationState extends State<FeaturesModalValidation> {
         SmartSelect<String>.multiple(
           title: 'Fruit',
           selectedValue: _fruit,
-          onChange: (state) => setState(() => _fruit = state.selected.value),
+          onChange: (selected) => setState(() => _fruit = selected.value),
           choiceItems: choices.fruits,
           modalType: S2ModalType.popupDialog,
           modalConfirm: true,
