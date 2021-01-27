@@ -67,7 +67,8 @@ abstract class S2Selected<T> extends ChangeNotifier {
   /// Returns `true` when [choice] is resolving in the background
   bool isResolving = false;
 
-  /// Resolve [choice] from [value] using user defined [resolver] or fallback to [defaultResolver] if [resolver] is not defined
+  /// Resolve [choice] from [value] using user defined [resolver],
+  /// or fallback to [defaultResolver] if [resolver] is not defined
   resolve();
 
   // /// Creates a copy of this [S2Selected] but with
@@ -78,9 +79,11 @@ abstract class S2Selected<T> extends ChangeNotifier {
   // /// a combination of this object and the given [other] style.
   // merge(covariant S2Selected<T> other);
 
-  /// Return a string that can be used as display
-  /// when value is null it will display placeholder
-  toString();
+  /// Returns a string that can be used as display,
+  /// returns error message if is not valid,
+  /// returns title if is valid and is not empty,
+  /// returns placeholder if is valid and is empty.
+  String toString();
 
   /// Return a [Text] widget from [toString]
   Widget toWidget() => Text(toString());
@@ -108,7 +111,7 @@ class S2SingleSelected<T> extends S2Selected<T> {
 
   /// A function used to validate the selection
   @override
-  final ValidationCallback<S2Choice<T>> validation;
+  final S2Validation<S2Choice<T>> validation;
 
   /// a `String` to return in `toString` if the `title` is empty
   @override
@@ -194,7 +197,6 @@ class S2SingleSelected<T> extends S2Selected<T> {
         : isValid == true
             ? title ?? placeholder ?? 'Select one'
             : error;
-    // return title ?? placeholder ?? 'Select one';
   }
 }
 
@@ -219,7 +221,7 @@ class S2MultiSelected<T> extends S2Selected<T> {
   S2MultiSelectedResolver<T> resolver;
 
   /// A function used to validate the selection
-  final ValidationCallback<List<S2Choice<T>>> validation;
+  final S2Validation<List<S2Choice<T>>> validation;
 
   /// a `String` to return in `toString` if the `title` is empty
   @override
@@ -313,6 +315,5 @@ class S2MultiSelected<T> extends S2Selected<T> {
         : isValid == true
             ? title?.join(', ') ?? placeholder ?? 'Select one or more'
             : error;
-    // return title?.join(', ') ?? placeholder ?? 'Select one or more';
   }
 }

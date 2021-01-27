@@ -52,6 +52,17 @@ abstract class S2Selection<T> extends ChangeNotifier {
   set choice(covariant var choice);
 
   get value;
+
+  get title;
+
+  get subtitle;
+
+  get group;
+
+  /// Returns a string that can be used as display,
+  /// returns error message if is not valid,
+  /// returns title if is valid and is not empty.
+  String toString();
 }
 
 /// State of single choice selection
@@ -62,7 +73,7 @@ class S2SingleSelection<T> extends S2Selection<T> {
 
   /// A function used to validate the selection
   @override
-  final ValidationCallback<S2Choice<T>> validation;
+  final S2Validation<S2Choice<T>> validation;
 
   /// Default constructor
   S2SingleSelection({
@@ -86,6 +97,24 @@ class S2SingleSelection<T> extends S2Selection<T> {
   @override
   T get value {
     return choice?.value;
+  }
+
+  /// return [choice.title]
+  @override
+  String get title {
+    return choice?.title;
+  }
+
+  /// return [choice.subtitle]
+  @override
+  String get subtitle {
+    return choice?.subtitle;
+  }
+
+  /// return [choice.group]
+  @override
+  String get group {
+    return choice?.group;
   }
 
   @override
@@ -117,6 +146,11 @@ class S2SingleSelection<T> extends S2Selection<T> {
   bool has(S2Choice<T> choice) {
     return _choice == choice;
   }
+
+  @override
+  String toString() {
+    return isValid == true ? (title ?? '') : error;
+  }
 }
 
 /// State of multiple choice selection
@@ -126,7 +160,7 @@ class S2MultiSelection<T> extends S2Selection<T> {
   final List<S2Choice<T>> initial;
 
   /// A function used to validate the selection
-  final ValidationCallback<List<S2Choice<T>>> validation;
+  final S2Validation<List<S2Choice<T>>> validation;
 
   /// Default constructor
   S2MultiSelection({
@@ -153,6 +187,30 @@ class S2MultiSelection<T> extends S2Selection<T> {
     return choice != null && choice.length > 0
         ? choice.map((S2Choice<T> item) => item.value).toList()
         : [];
+  }
+
+  /// return an array of `title` of the selected [choice]
+  @override
+  List<String> get title {
+    return isNotEmpty
+        ? choice.map((S2Choice<T> item) => item.title).toList()
+        : null;
+  }
+
+  /// return an array of `subtitle` of the selected [choice]
+  @override
+  List<String> get subtitle {
+    return isNotEmpty
+        ? choice.map((S2Choice<T> item) => item.subtitle).toList()
+        : null;
+  }
+
+  /// return an array of `group` of the selected [choice]
+  @override
+  List<String> get group {
+    return isNotEmpty
+        ? choice.map((S2Choice<T> item) => item.group).toList()
+        : null;
   }
 
   @override
@@ -224,5 +282,10 @@ class S2MultiSelection<T> extends S2Selection<T> {
   /// Returns `true if the selection has every of the supplied values
   bool hasAll(List<S2Choice<T>> choices) {
     return choices.every((e) => has(e));
+  }
+
+  @override
+  String toString() {
+    return isValid == true ? (title?.join(', ') ?? '') : error;
   }
 }

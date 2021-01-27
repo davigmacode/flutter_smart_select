@@ -3,7 +3,7 @@ import 'package:smart_select/src/utils/accent.dart';
 import 'choice_theme.dart';
 
 /// Validation callback
-typedef String ValidationCallback<T>(T value);
+typedef String S2Validation<T>(T value);
 
 /// Choice data configuration
 @immutable
