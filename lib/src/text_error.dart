@@ -42,7 +42,6 @@ class S2TextErrorController extends ChangeNotifier {
 
 /// Widget that show/hide/shake error text
 class S2TextError extends StatefulWidget {
-
   /// Primary child widget
   final Widget child;
 
@@ -97,7 +96,9 @@ class _S2TextErrorState extends State<S2TextError> {
   void initState() {
     super.initState();
 
-    initController(widget.controller);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      initController(widget.controller);
+    });
   }
 
   @override
@@ -119,12 +120,12 @@ class _S2TextErrorState extends State<S2TextError> {
   Widget build(BuildContext context) {
     return AnimatedCrossFade(
       firstChild: Container(height: 0.0, width: 0.0),
-      secondChild: controller.shaked == true ? shakedChild : widget.child,
+      secondChild: controller?.shaked == true ? shakedChild : widget.child,
       duration: const Duration(milliseconds: 300),
       firstCurve: const Interval(0.0, 0.6, curve: Curves.fastOutSlowIn),
       secondCurve: const Interval(0.4, 1.0, curve: Curves.fastOutSlowIn),
       sizeCurve: Curves.fastOutSlowIn,
-      crossFadeState: controller.visibled
+      crossFadeState: controller?.visibled == true
           ? CrossFadeState.showSecond
           : CrossFadeState.showFirst,
     );

@@ -24,8 +24,8 @@ class _FeaturesModalValidationState extends State<FeaturesModalValidation> {
           onChange: (selected) => setState(() => _day = selected.value),
           choiceItems: choices.days,
           modalType: S2ModalType.bottomSheet,
-          modalValidation: (value) {
-            return value == null ? 'Select at least one' : null;
+          modalValidation: (chosen) {
+            return chosen.isEmpty ? 'Select at least one' : null;
           },
         ),
         const Divider(indent: 20),
@@ -35,8 +35,8 @@ class _FeaturesModalValidationState extends State<FeaturesModalValidation> {
           onChange: (selected) => setState(() => _days = selected.value),
           choiceItems: choices.days,
           modalType: S2ModalType.bottomSheet,
-          modalValidation: (value) {
-            return value.length > 0 ? null : 'Select at least one';
+          modalValidation: (chosen) {
+            return chosen.isNotEmpty ? null : 'Select at least one';
           },
           modalConfirm: true,
           modalFilter: true,
@@ -72,8 +72,8 @@ class _FeaturesModalValidationState extends State<FeaturesModalValidation> {
           choiceItems: choices.fruits,
           modalType: S2ModalType.popupDialog,
           modalConfirm: true,
-          modalValidation: (value) {
-            return value.length > 0 ? null : 'Select at least one';
+          modalValidation: (chosen) {
+            return chosen.length > 0 ? null : 'Select at least one';
           },
           tileBuilder: (context, state) {
             return S2Tile.fromState(

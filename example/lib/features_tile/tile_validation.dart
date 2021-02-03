@@ -23,8 +23,8 @@ class _FeaturesTileValidationState extends State<FeaturesTileValidation> {
           onChange: (selected) {
             setState(() => _day = selected.value);
           },
-          validation: (selected) {
-            if (selected == null) return 'Please select one or more';
+          validation: (chosen) {
+            if (chosen.isEmpty) return 'Please select one or more';
             return null;
           },
           tileBuilder: (context, state) {
@@ -42,8 +42,8 @@ class _FeaturesTileValidationState extends State<FeaturesTileValidation> {
           onChange: (selected) {
             setState(() => _month = selected.value);
           },
-          validation: (selected) {
-            if (selected?.isEmpty == true) return 'Please select one or more';
+          validation: (chosen) {
+            if (chosen.isEmpty) return 'Please select one or more';
             return null;
           },
           tileBuilder: (context, state) {

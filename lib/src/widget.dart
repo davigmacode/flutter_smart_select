@@ -11,10 +11,11 @@ import 'model/group_data.dart';
 import 'model/group_config.dart';
 import 'model/group_style.dart';
 import 'model/group_sort.dart';
-import 'state/selected.dart';
+import 'model/chosen.dart';
 import 'state/choices.dart';
 import 'state/filter.dart';
-import 'state/selection.dart';
+// import 'state/selected.dart';
+// import 'state/selection.dart';
 import 'choices_resolver.dart';
 import 'tile/tile.dart';
 import 'utils/debouncer.dart';
@@ -78,10 +79,10 @@ class SmartSelect<T> extends StatefulWidget {
   final S2SingleSelected<T> singleSelected;
 
   /// A function used to validate the selected choice
-  final S2Validation<S2Choice<T>> singleValidation;
+  final S2Validation<S2SingleChosen<T>> singleValidation;
 
   /// Modal validation of single choice widget
-  final S2Validation<S2Choice<T>> singleModalValidation;
+  final S2Validation<S2SingleChosen<T>> singleModalValidation;
 
   /// Called when value changed in single choice widget
   final ValueChanged<S2SingleSelected<T>> singleOnChange;
@@ -108,10 +109,10 @@ class SmartSelect<T> extends StatefulWidget {
   final S2MultiSelected<T> multiSelected;
 
   /// A function used to validate the selected choices
-  final S2Validation<List<S2Choice<T>>> multiValidation;
+  final S2Validation<S2MultiChosen<T>> multiValidation;
 
   /// Modal validation of multiple choice widget
-  final S2Validation<List<S2Choice<T>>> multiModalValidation;
+  final S2Validation<S2MultiChosen<T>> multiModalValidation;
 
   /// Called when value changed in multiple choice widget
   final ValueChanged<S2MultiSelected<T>> multiOnChange;
@@ -382,8 +383,8 @@ class SmartSelect<T> extends StatefulWidget {
     S2ModalClose<S2SingleState<T>> onModalClose,
     S2ModalWillOpen<S2SingleState<T>> onModalWillOpen,
     S2ModalWillClose<S2SingleState<T>> onModalWillClose,
-    S2Validation<S2Choice<T>> validation,
-    S2Validation<S2Choice<T>> modalValidation,
+    S2Validation<S2SingleChosen<T>> validation,
+    S2Validation<S2SingleChosen<T>> modalValidation,
     List<S2Choice<T>> choiceItems,
     S2ChoiceLoader<T> choiceLoader,
     S2SingleBuilder<T> builder,
@@ -705,8 +706,8 @@ class SmartSelect<T> extends StatefulWidget {
     S2ModalClose<S2MultiState<T>> onModalClose,
     S2ModalWillOpen<S2MultiState<T>> onModalWillOpen,
     S2ModalWillClose<S2MultiState<T>> onModalWillClose,
-    S2Validation<List<S2Choice<T>>> validation,
-    S2Validation<List<S2Choice<T>>> modalValidation,
+    S2Validation<S2MultiChosen<T>> validation,
+    S2Validation<S2MultiChosen<T>> modalValidation,
     List<S2Choice<T>> choiceItems,
     S2ChoiceLoader<T> choiceLoader,
     S2MultiBuilder<T> builder,
@@ -882,7 +883,13 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
   void onModalOpen();
 
   /// Called when modal closed
-  void onModalClose(bool confirmed);
+  void onModalClose(bool confirmed) {
+    // dispose everything
+    selection?.removeListener(_selectionHandler);
+    filter?.removeListener(_filterHandler);
+    selection?.dispose();
+    filter?.dispose();
+  }
 
   /// Called when modal opened
   Future<bool> onModalWillOpen();
@@ -1001,7 +1008,10 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
       builder: (context, setState) {
         modalContext = context;
         modalSetState = setState;
-        return _customModal ?? defaultModal;
+        return GestureDetector(
+          onVerticalDragEnd: filter?.activated == true ? (info) {} : null,
+          child: _customModal ?? defaultModal,
+        );
       },
     );
   }
@@ -1571,12 +1581,6 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
     else
       // no need to call the onWillPop
       Navigator.pop(context, false);
-
-    // dispose everything
-    selection?.removeListener(_selectionHandler);
-    filter?.removeListener(_filterHandler);
-    selection?.dispose();
-    filter?.dispose();
   }
 
   /// Function to show the choice modal
@@ -1620,6 +1624,7 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
   /// Function to resolve the choices
   void resolveChoices() {
     // initialize choices
+    choices?.dispose();
     choices = S2Choices<T>(
       items: widget.choiceItems,
       loader: widget.choiceLoader,
@@ -1701,6 +1706,7 @@ class S2SingleState<T> extends S2State<T> {
   @override
   void onModalClose(bool confirmed) {
     widget.singleOnModalClose?.call(this, confirmed);
+    super.onModalClose(confirmed);
   }
 
   @override
@@ -1719,17 +1725,18 @@ class S2SingleState<T> extends S2State<T> {
   }
 
   @override
-  S2Validation<S2Choice<T>> get validation {
+  S2Validation<S2SingleChosen<T>> get validation {
     return widget.singleValidation;
   }
 
   @override
-  S2Validation<S2Choice<T>> get modalValidation {
+  S2Validation<S2SingleChosen<T>> get modalValidation {
     return widget.singleModalValidation ?? validation;
   }
 
   @override
   void resolveSelected() async {
+    selected?.dispose();
     selected = widget.singleSelected
       ..addListener(_selectedHandler)
       ..resolve(defaultResolver: (T value) async {
@@ -1903,6 +1910,7 @@ class S2MultiState<T> extends S2State<T> {
   @override
   void onModalClose(bool confirmed) {
     widget.multiOnModalClose?.call(this, confirmed);
+    super.onModalClose(confirmed);
   }
 
   @override
@@ -1921,17 +1929,18 @@ class S2MultiState<T> extends S2State<T> {
   }
 
   @override
-  S2Validation<List<S2Choice<T>>> get validation {
+  S2Validation<S2MultiChosen<T>> get validation {
     return widget.multiValidation;
   }
 
   @override
-  S2Validation<List<S2Choice<T>>> get modalValidation {
+  S2Validation<S2MultiChosen<T>> get modalValidation {
     return widget.multiModalValidation ?? validation;
   }
 
   @override
   void resolveSelected() async {
+    selected?.dispose();
     selected = widget.multiSelected
       ..addListener(_selectedHandler)
       ..resolve(defaultResolver: (List<T> value) async {

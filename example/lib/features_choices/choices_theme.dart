@@ -78,7 +78,7 @@ class _FeaturesChoicesThemeState extends State<FeaturesChoicesTheme> {
               leading: IconBadge(
                 icon: const Icon(Icons.shopping_cart),
                 color: Theme.of(context).primaryColor,
-                counter: _smartphones.length,
+                counter: state.selected.length,
               ),
             );
           },
