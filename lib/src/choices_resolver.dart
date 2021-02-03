@@ -3,7 +3,6 @@ import 'model/builder.dart';
 import 'model/choice_config.dart';
 import 'model/choice_theme.dart';
 import 'model/choice_item.dart';
-import 'utils/color.dart';
 import 'chip_theme.dart';
 
 /// Resolve the choice builder based on choice type
@@ -151,7 +150,7 @@ class S2ChoiceResolver<T> {
         ? choice.activeStyle.color ?? Theme.of(context).primaryColor
         : choice.style.color ?? Theme.of(context).cardColor;
     final Brightness backgroundBrightness =
-        estimateBrightnessForColor(backgroundColor);
+        ThemeData.estimateBrightnessForColor(backgroundColor);
     final Color defaultTextColor =
         backgroundBrightness == Brightness.dark ? Colors.white : Colors.black;
 
