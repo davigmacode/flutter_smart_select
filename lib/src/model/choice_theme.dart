@@ -29,55 +29,55 @@ enum S2ChoiceControl {
 @immutable
 class S2ChoiceStyle with Diagnosticable {
   /// Choices item margin
-  final EdgeInsetsGeometry margin;
+  final EdgeInsetsGeometry? margin;
 
   /// Choices item padding
-  final EdgeInsetsGeometry padding;
+  final EdgeInsetsGeometry? padding;
 
   /// Spacing between the avatar/secondary widget and the text widget when [S2ChoiceConfig.type] is [S2ChoiceType.cards]
-  final double spacing;
+  final double? spacing;
 
   /// choices item title style
-  final TextStyle titleStyle;
+  final TextStyle? titleStyle;
 
   /// choices item subtitle style
-  final TextStyle subtitleStyle;
+  final TextStyle? subtitleStyle;
 
   /// Whether the chips use checkmark or not
-  final bool showCheckmark;
+  final bool? showCheckmark;
 
   /// Primary color of unselected choice item
-  final Color color;
+  final Color? color;
 
   /// Secondary color of unselected choice item
-  final Color accentColor;
+  final Color? accentColor;
 
   /// Highlighted text color
-  final Color highlightColor;
+  final Color? highlightColor;
 
   /// Where to place the control in widgets that use
   /// [ListTile] to position a control next to a label.
-  final S2ChoiceControl control;
+  final S2ChoiceControl? control;
 
   /// Shape clip behavior
-  final Clip clipBehavior;
+  final Clip? clipBehavior;
 
   /// Whether the chip is outlined or not
-  final bool outlined;
+  final bool? outlined;
 
   /// Whether the chip is raised or not
-  final bool raised;
+  final bool? raised;
 
   /// If [raised] is [true], define the elevation of the raised chip widget
-  final double elevation;
+  final double? elevation;
 
   /// If [outlined] is [true] this value becomes the border opacity, defaults to `0.3`
   ///
   /// If [outlined] is [false] this value becomes the background opacity, defaults to `0.12`
-  final double opacity;
+  final double? opacity;
 
   /// Shape of the chip widget
-  final ShapeBorder shape;
+  final ShapeBorder? shape;
 
   /// Create a configuration of choices item style
   const S2ChoiceStyle({
@@ -102,22 +102,22 @@ class S2ChoiceStyle with Diagnosticable {
   /// Creates a copy of this [S2ChoiceStyle] but with
   /// the given fields replaced with the new values.
   S2ChoiceStyle copyWith({
-    TextStyle titleStyle,
-    TextStyle subtitleStyle,
-    EdgeInsetsGeometry margin,
-    EdgeInsetsGeometry padding,
-    double spacing,
-    bool showCheckmark,
-    S2ChoiceControl control,
-    Color highlightColor,
-    Color color,
-    Color accentColor,
-    Clip clipBehavior,
-    bool outlined,
-    bool raised,
-    double opacity,
-    double elevation,
-    ShapeBorder shape,
+    TextStyle? titleStyle,
+    TextStyle? subtitleStyle,
+    EdgeInsetsGeometry? margin,
+    EdgeInsetsGeometry? padding,
+    double? spacing,
+    bool? showCheckmark,
+    S2ChoiceControl? control,
+    Color? highlightColor,
+    Color? color,
+    Color? accentColor,
+    Clip? clipBehavior,
+    bool? outlined,
+    bool? raised,
+    double? opacity,
+    double? elevation,
+    ShapeBorder? shape,
   }) {
     return S2ChoiceStyle(
       titleStyle: this.titleStyle?.merge(titleStyle) ?? titleStyle,
@@ -141,7 +141,7 @@ class S2ChoiceStyle with Diagnosticable {
 
   /// Returns a new [S2ChoiceStyle] that is
   /// a combination of this object and the given [other] style.
-  S2ChoiceStyle merge(S2ChoiceStyle other) {
+  S2ChoiceStyle merge(S2ChoiceStyle? other) {
     // if null return current object
     if (other == null) return this;
 

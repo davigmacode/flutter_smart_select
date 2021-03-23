@@ -6,13 +6,13 @@ import './group_style.dart';
 @immutable
 class S2Group<T> with Diagnosticable {
   /// Group name
-  final String name;
+  final String? name;
 
   /// Group choice items
-  final List<S2Choice<T>> choices;
+  final List<S2Choice<T>>? choices;
 
   /// Group header style
-  final S2GroupHeaderStyle headerStyle;
+  final S2GroupHeaderStyle? headerStyle;
 
   /// default constructor
   S2Group({
@@ -25,14 +25,14 @@ class S2Group<T> with Diagnosticable {
   int get count => choices?.length ?? 0;
 
   /// Group choice item values
-  List<T> get values => choices?.map((e) => e.value)?.toList()?.cast<T>() ?? [];
+  List<T> get values => choices?.map((e) => e.value).toList().cast<T>() ?? [];
 
   /// Creates a copy of this [S2Group] but with
   /// the given fields replaced with the new values.
   S2Group copyWith({
-    String name,
-    List<S2Choice> choices,
-    S2GroupHeaderStyle headerStyle,
+    String? name,
+    List<S2Choice>? choices,
+    S2GroupHeaderStyle? headerStyle,
   }) {
     return S2Group(
       name: name ?? this.name,
@@ -43,7 +43,7 @@ class S2Group<T> with Diagnosticable {
 
   /// Creates a copy of this [S2Group] but with
   /// the given fields replaced with the new values.
-  S2Group merge(S2Group other) {
+  S2Group merge(S2Group? other) {
     // if null return current object
     if (other == null) return this;
 

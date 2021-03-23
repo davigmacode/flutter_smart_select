@@ -17,7 +17,7 @@ class S2Tile<T> extends StatelessWidget {
   /// A widget to display before the title.
   ///
   /// Typically an [Icon] or a [CircleAvatar] widget.
-  final Widget leading;
+  final Widget? leading;
 
   /// A widget to display after the title.
   ///
@@ -28,19 +28,19 @@ class S2Tile<T> extends StatelessWidget {
   /// [MainAxisAlign.baseline] alignment whose first item is [Expanded] and
   /// whose second child is the metadata text, instead of using the [trailing]
   /// property.
-  final Widget trailing;
+  final Widget? trailing;
 
   /// Whether this list tile is intended to display loading stats.
   final bool isLoading;
 
   /// String text used as loading text
-  final String loadingText;
+  final String? loadingText;
 
   /// Widget used as loading message
-  final Widget loadingMessage;
+  final Widget? loadingMessage;
 
   /// Widget used as loading indicator
-  final Widget loadingIndicator;
+  final Widget? loadingIndicator;
 
   /// Whether this list tile is intended to display error widget.
   final bool isError;
@@ -77,18 +77,18 @@ class S2Tile<T> extends StatelessWidget {
   /// and [trailing] widgets.
   ///
   /// If null, `EdgeInsets.symmetric(horizontal: 16.0)` is used.
-  final EdgeInsetsGeometry padding;
+  final EdgeInsetsGeometry? padding;
 
   /// widget to display below the tile
   /// usually used to display chips with S2TileChips
-  final Widget body;
+  final Widget? body;
 
   /// Create a default trigger widget
   S2Tile({
-    Key key,
-    @required this.value,
-    @required this.onTap,
-    @required this.title,
+    Key? key,
+    required this.value,
+    required this.onTap,
+    required this.title,
     this.leading,
     this.trailing,
     this.loadingText,
@@ -108,12 +108,12 @@ class S2Tile<T> extends StatelessWidget {
   /// Create a default trigger widget from state
   S2Tile.fromState(
     S2State<T> state, {
-    Key key,
-    Widget value,
-    GestureTapCallback onTap,
-    Widget title,
-    bool isError,
-    bool isLoading,
+    Key? key,
+    Widget? value,
+    GestureTapCallback? onTap,
+    Widget? title,
+    bool? isError,
+    bool? isLoading,
     this.leading,
     this.trailing,
     this.loadingText,
@@ -129,8 +129,8 @@ class S2Tile<T> extends StatelessWidget {
   })  : title = title ?? state.titleWidget,
         value = value ?? Text(state.selected.toString()),
         onTap = onTap ?? state.showModal,
-        isLoading = isLoading ?? state.selected.isResolving,
-        isError = isError ?? state.selected.isNotValid,
+        isLoading = isLoading ?? state.selected!.isResolving,
+        isError = isError ?? state.selected!.isNotValid,
         super(key: key);
 
   /// Returns default trailing widget
@@ -172,12 +172,12 @@ class S2Tile<T> extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         _tileWidget,
-        body,
+        body!,
       ],
     );
   }
 
-  Widget get _trailingWidget {
+  Widget? get _trailingWidget {
     return isTwoLine != true && hideValue != true
         ? Container(
             child: Row(
@@ -197,7 +197,7 @@ class S2Tile<T> extends StatelessWidget {
         : _trailingIconWidget;
   }
 
-  Widget get _trailingIconWidget {
+  Widget? get _trailingIconWidget {
     return isLoading != true
         ? trailing != null
             ? trailing

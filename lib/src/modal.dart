@@ -6,11 +6,10 @@ class S2Modal extends StatefulWidget {
   ///
   /// The [builder] argument must not be null.
   const S2Modal({
-    Key key,
-    @required this.builder,
-    @required this.onReady,
-  })  : assert(builder != null),
-        super(key: key);
+    Key? key,
+    required this.builder,
+    required this.onReady,
+  }) : super(key: key);
 
   /// Called to obtain the child widget.
   ///
@@ -39,7 +38,7 @@ class _S2ModalState extends State<S2Modal> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => widget.onReady?.call());
+    WidgetsBinding.instance!.addPostFrameCallback((_) => widget.onReady.call());
   }
 
   @override

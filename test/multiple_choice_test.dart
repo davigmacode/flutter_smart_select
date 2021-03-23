@@ -5,7 +5,8 @@ import 'choices.dart' as choices;
 
 void main() {
   testSmartSelect(
-    title: 'Full page modal, default tile and radio choices displayed correctly',
+    title:
+        'Full page modal, default tile and radio choices displayed correctly',
     initialChoice: [],
     choiceToSelect: [
       choices.days[3],
@@ -17,7 +18,8 @@ void main() {
   );
 
   testSmartSelect(
-    title: 'Bottomsheet modal, default tile and chips choices displayed correctly',
+    title:
+        'Bottomsheet modal, default tile and chips choices displayed correctly',
     placeholder: 'Pilih Salah Satu',
     initialChoice: [],
     choiceToSelect: [
@@ -31,15 +33,15 @@ void main() {
 }
 
 testSmartSelect<T>({
-  @required String title,
-  @required List<S2Choice<T>> initialChoice,
-  @required List<S2Choice<T>> choiceToSelect,
-  @required List<S2Choice<T>> choiceItems,
+  required String title,
+  required List<S2Choice<T>> initialChoice,
+  required List<S2Choice<T>> choiceToSelect,
+  required List<S2Choice<T>> choiceItems,
   S2ModalType modalType = S2ModalType.fullPage,
-  S2ChoiceType choiceType,
+  S2ChoiceType? choiceType,
   String placeholder = 'Select one or more',
 }) {
-  List<S2Choice<T>> selectedChoice = initialChoice;
+  List<S2Choice<T>>? selectedChoice = initialChoice;
 
   testWidgets(title, (WidgetTester tester) async {
     await tester.pumpWidget(
@@ -47,11 +49,11 @@ testSmartSelect<T>({
         child: SmartSelect<T>.multiple(
           title: title,
           placeholder: placeholder,
-          selectedValue: selectedChoice?.map((e) => e.value)?.toList(),
+          selectedValue: selectedChoice?.map((e) => e.value).toList(),
           choiceItems: choiceItems,
           modalType: modalType,
           choiceType: choiceType,
-          onChange: (selected) => selectedChoice = selected.choice,
+          onChange: (selected) => selectedChoice = selected!.choice,
         ),
       ),
     );
@@ -68,22 +70,21 @@ testSmartSelect<T>({
 
     final s2State = tester.state<S2MultiState<T>>(s2Finder);
     expect(
-      s2State.selected.choice,
+      s2State.selected!.choice,
       initialChoice,
       reason: 'Initial choice is correct',
     );
     expect(
-      s2State.selected.value,
-      initialChoice?.map((e) => e.value)?.toList(),
+      s2State.selected!.value,
+      initialChoice.map((e) => e.value).toList(),
       reason: 'Initial value is correct',
     );
 
     final tileFinder = find.descendant(
       of: s2Finder,
-      matching: find.byWidgetPredicate((widget) => widget is S2Tile<T>),
+      matching: find.byWidgetPredicate((widget) => widget is S2Tile),
     );
     expect(tileFinder, findsOneWidget, reason: 'Trigger tile displayed');
-
     final tileTitleFinder = find.descendant(
       of: s2Finder,
       matching: find.text(title),
@@ -150,7 +151,6 @@ testSmartSelect<T>({
       findsNWidgets(choiceItems.length),
       reason: 'List of choice items displayed',
     );
-
     for (var choice in choiceToSelect) {
       final choiceToSelectFinder = find.byKey(ValueKey(choice.value));
       expect(
@@ -172,7 +172,7 @@ testSmartSelect<T>({
     await tester.pumpAndSettle();
 
     expect(
-      s2State.selected.choice,
+      s2State.selected!.choice,
       choiceToSelect,
       reason: 'New selected choice to internal choice is correct',
     );
@@ -183,13 +183,13 @@ testSmartSelect<T>({
     );
 
     expect(
-      s2State.selected.value,
-      choiceToSelect?.map((e) => e.value)?.toList(),
+      s2State.selected!.value,
+      choiceToSelect.map((e) => e.value).toList(),
       reason: 'New selected value to internal value is correct',
     );
     expect(
-      selectedChoice?.map((e) => e.value)?.toList(),
-      choiceToSelect?.map((e) => e.value)?.toList(),
+      selectedChoice?.map((e) => e.value).toList(),
+      choiceToSelect.map((e) => e.value).toList(),
       reason: 'New selected value to external value is correct',
     );
   });
@@ -199,8 +199,8 @@ class Bootstrap extends StatelessWidget {
   final Widget child;
 
   const Bootstrap({
-    Key key,
-    @required this.child,
+    Key? key,
+    required this.child,
   }) : super(key: key);
 
   @override

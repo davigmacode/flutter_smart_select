@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class S2Pagination extends StatelessWidget {
   /// Default constructor
   S2Pagination({
-    Key key,
+    Key? key,
     this.child,
     this.onReload,
     this.onAppend,
@@ -13,13 +13,13 @@ class S2Pagination extends StatelessWidget {
   }) : super(key: key);
 
   /// The child widget that needs to wrapped with reloadable and/or appendable widget
-  final Widget child;
+  final Widget? child;
 
   /// A function called when the child widget need to refresh
-  final VoidCallback onReload;
+  final VoidCallback? onReload;
 
   /// A function called when the child widget need to load more
-  final VoidCallback onAppend;
+  final VoidCallback? onAppend;
 
   /// Whether the child is realoadable or not
   final bool reloadable;
@@ -29,13 +29,13 @@ class S2Pagination extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget result = child;
+    Widget? result = child;
 
-    if (appendable) result = appendableWidget(result);
+    if (appendable) result = appendableWidget(result!);
 
-    if (reloadable) result = reloadableWidget(result);
+    if (reloadable) result = reloadableWidget(result!);
 
-    return result;
+    return result!;
   }
 
   /// Returns the child wrapped with
