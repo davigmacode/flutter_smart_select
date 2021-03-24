@@ -4,9 +4,9 @@ import 'package:smart_select/src/state/filter.dart';
 void main() {
   group('Single Choice', () {
     // the state model
-    S2Filter model;
+    late S2Filter model;
     // the listener call counter
-    int counter;
+    late int counter;
 
     setUp(() {
       counter = 0;

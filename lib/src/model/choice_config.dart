@@ -38,7 +38,7 @@ class S2ChoiceConfig with Diagnosticable {
   /// Choice item widget type
   ///
   /// Single choice can't use [S2ChoiceType.checkboxes] and Multiple choice can't use [S2ChoiceType.radios]
-  final S2ChoiceType type;
+  final S2ChoiceType? type;
 
   /// Choice list layout
   final S2ChoiceLayout layout;
@@ -51,20 +51,20 @@ class S2ChoiceConfig with Diagnosticable {
   /// How much space to place between children in a run in the main axis.
   ///
   /// When [type] is [S2ChoiceType.chips] or [layout] is [S2ChoiceLayout.wrap]
-  final double spacing;
+  final double? spacing;
 
   /// How much space to place between the runs themselves in the cross axis.
   ///
   /// When [type] is [S2ChoiceType.chips] or [layout] is [S2ChoiceLayout.wrap]
-  final double runSpacing;
+  final double? runSpacing;
 
   /// Choices wrapper padding
-  final EdgeInsetsGeometry padding;
+  final EdgeInsetsGeometry? padding;
 
   /// Controls the layout of tiles in a grid.
   ///
   /// Used if [layout] is [S2ChoiceLayout.grid]
-  final SliverGridDelegate gridDelegate;
+  final SliverGridDelegate? gridDelegate;
 
   /// The number of children in the cross axis.
   ///
@@ -82,22 +82,22 @@ class S2ChoiceConfig with Diagnosticable {
   final bool useDivider;
 
   /// The divider color
-  final Color dividerColor;
+  final Color? dividerColor;
 
   /// Spacing between divider widget and choice widget
-  final double dividerSpacing;
+  final double? dividerSpacing;
 
   /// The divider thickness
-  final double dividerThickness;
+  final double? dividerThickness;
 
   /// Custom color of the glowing indicator when overscroll the choices list
-  final Color overscrollColor;
+  final Color? overscrollColor;
 
   /// Configure unselected choices item style
-  final S2ChoiceStyle style;
+  final S2ChoiceStyle? style;
 
   /// Configure selected choices item style
-  final S2ChoiceStyle activeStyle;
+  final S2ChoiceStyle? activeStyle;
 
   /// Determines the physics of choices list widget
   final ScrollPhysics physics;
@@ -105,10 +105,10 @@ class S2ChoiceConfig with Diagnosticable {
   /// limit per page to display the choices
   ///
   /// Defaults to `null`, it means disabled the paging
-  final int pageLimit;
+  final int? pageLimit;
 
   /// Time delay before display the choices
-  final Duration delay;
+  final Duration? delay;
 
   /// Create choices configuration
   const S2ChoiceConfig({
@@ -131,8 +131,7 @@ class S2ChoiceConfig with Diagnosticable {
     this.physics = const ScrollPhysics(),
     this.pageLimit,
     this.delay,
-  })  : assert(physics != null),
-        assert(useDivider != null);
+  });
 
   /// Whether the [layout] is [S2ChoiceLayout.wrap] or [type] is [S2ChoiceType.chips]
   bool get isWrapLayout =>
@@ -148,25 +147,25 @@ class S2ChoiceConfig with Diagnosticable {
   /// Creates a copy of this [S2ChoiceConfig] but with
   /// the given fields replaced with the new values.
   S2ChoiceConfig copyWith({
-    S2ChoiceType type,
-    S2ChoiceLayout layout,
-    Axis direction,
-    double spacing,
-    double runSpacing,
-    EdgeInsetsGeometry padding,
-    SliverGridDelegate gridDelegate,
-    int gridCount,
-    double gridSpacing,
-    bool useDivider,
-    Color dividerColor,
-    double dividerSpacing,
-    double dividerThickness,
-    Color overscrollColor,
-    S2ChoiceStyle style,
-    S2ChoiceStyle activeStyle,
-    ScrollPhysics physics,
-    int pageLimit,
-    Duration delay,
+    S2ChoiceType? type,
+    S2ChoiceLayout? layout,
+    Axis? direction,
+    double? spacing,
+    double? runSpacing,
+    EdgeInsetsGeometry? padding,
+    SliverGridDelegate? gridDelegate,
+    int? gridCount,
+    double? gridSpacing,
+    bool? useDivider,
+    Color? dividerColor,
+    double? dividerSpacing,
+    double? dividerThickness,
+    Color? overscrollColor,
+    S2ChoiceStyle? style,
+    S2ChoiceStyle? activeStyle,
+    ScrollPhysics? physics,
+    int? pageLimit,
+    Duration? delay,
   }) {
     return S2ChoiceConfig(
       type: type ?? this.type,
@@ -193,7 +192,7 @@ class S2ChoiceConfig with Diagnosticable {
 
   /// Creates a copy of this [S2ChoiceConfig] but with
   /// the given fields replaced with the new values.
-  S2ChoiceConfig merge(S2ChoiceConfig other) {
+  S2ChoiceConfig merge(S2ChoiceConfig? other) {
     // if null return current object
     if (other == null) return this;
 

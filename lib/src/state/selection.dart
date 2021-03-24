@@ -31,7 +31,7 @@ abstract class S2Selection<T> extends ChangeNotifier {
   String error = '';
 
   /// Returns true when the selection is valid
-  bool get isValid => error == null || error?.length == 0;
+  bool get isValid => error.isEmpty;
 
   /// Returns true when the selection is not valid
   bool get isNotValid => isValid != true;
@@ -69,51 +69,51 @@ abstract class S2Selection<T> extends ChangeNotifier {
 class S2SingleSelection<T> extends S2Selection<T> {
   /// The initial selection
   @override
-  final S2Choice<T> initial;
+  final S2Choice<T>? initial;
 
   /// A function used to validate the selection
   @override
-  final S2Validation<S2Choice<T>> validation;
+  final S2Validation<S2Choice<T>>? validation;
 
   /// Default constructor
   S2SingleSelection({
-    @required this.initial,
+    required this.initial,
     this.validation,
   }) : _choice = initial;
 
   /// The choice of the current selection
-  S2Choice<T> _choice;
+  S2Choice<T>? _choice;
 
   @override
-  S2Choice<T> get choice => _choice;
+  S2Choice<T>? get choice => _choice;
 
   @override
-  set choice(S2Choice<T> val) {
+  set choice(S2Choice<T>? val) {
     _choice = val;
     validate();
   }
 
   /// return [choice.value]
   @override
-  T get value {
+  T? get value {
     return choice?.value;
   }
 
   /// return [choice.title]
   @override
-  String get title {
+  String? get title {
     return choice?.title;
   }
 
   /// return [choice.subtitle]
   @override
-  String get subtitle {
+  String? get subtitle {
     return choice?.subtitle;
   }
 
   /// return [choice.group]
   @override
-  String get group {
+  String? get group {
     return choice?.group;
   }
 
@@ -160,11 +160,11 @@ class S2MultiSelection<T> extends S2Selection<T> {
   final List<S2Choice<T>> initial;
 
   /// A function used to validate the selection
-  final S2Validation<List<S2Choice<T>>> validation;
+  final S2Validation<List<S2Choice<T>>>? validation;
 
   /// Default constructor
   S2MultiSelection({
-    @required List<S2Choice<T>> initial,
+    required List<S2Choice<T>>? initial,
     this.validation,
   })  : initial = List.from(initial ?? []),
         _choice = List.from(initial ?? []);
@@ -176,7 +176,7 @@ class S2MultiSelection<T> extends S2Selection<T> {
   List<S2Choice<T>> get choice => _choice;
 
   @override
-  set choice(List<S2Choice<T>> choice) {
+  set choice(List<S2Choice<T>>? choice) {
     _choice = List<S2Choice<T>>.from(choice ?? []);
     validate();
   }
@@ -184,14 +184,14 @@ class S2MultiSelection<T> extends S2Selection<T> {
   /// return an array of `value` of the current [choice] selection
   @override
   List<T> get value {
-    return choice != null && choice.length > 0
+    return choice.length > 0
         ? choice.map((S2Choice<T> item) => item.value).toList()
         : [];
   }
 
   /// return an array of `title` of the selected [choice]
   @override
-  List<String> get title {
+  List<String?>? get title {
     return isNotEmpty
         ? choice.map((S2Choice<T> item) => item.title).toList()
         : null;
@@ -199,7 +199,7 @@ class S2MultiSelection<T> extends S2Selection<T> {
 
   /// return an array of `subtitle` of the selected [choice]
   @override
-  List<String> get subtitle {
+  List<String?>? get subtitle {
     return isNotEmpty
         ? choice.map((S2Choice<T> item) => item.subtitle).toList()
         : null;
@@ -207,7 +207,7 @@ class S2MultiSelection<T> extends S2Selection<T> {
 
   /// return an array of `group` of the selected [choice]
   @override
-  List<String> get group {
+  List<String?>? get group {
     return isNotEmpty
         ? choice.map((S2Choice<T> item) => item.group).toList()
         : null;
@@ -215,17 +215,17 @@ class S2MultiSelection<T> extends S2Selection<T> {
 
   @override
   void reset() {
-    choice = List.from(initial ?? []);
+    choice = List.from(initial);
   }
 
   @override
-  int get length => _choice?.length ?? 0;
+  int get length => _choice.length;
 
   @override
-  bool get isEmpty => _choice == null || _choice?.isEmpty == true;
+  bool get isEmpty => _choice.isEmpty;
 
   @override
-  bool get isNotEmpty => _choice != null && _choice?.isNotEmpty == true;
+  bool get isNotEmpty => _choice.isNotEmpty;
 
   /// Add every value in supplied values into the selection
   void merge(List<S2Choice<T>> choices) {
@@ -241,7 +241,7 @@ class S2MultiSelection<T> extends S2Selection<T> {
   }
 
   /// Toggle put/pull the supplied values from the selection
-  void toggle(List<S2Choice<T>> choices, {bool pull}) {
+  void toggle(List<S2Choice<T>> choices, {bool? pull}) {
     if (pull == true) {
       omit(choices);
     } else if (pull == false) {
@@ -271,7 +271,7 @@ class S2MultiSelection<T> extends S2Selection<T> {
 
   @override
   bool has(S2Choice<T> choice) {
-    return _choice?.contains(choice) ?? false;
+    return _choice.contains(choice);
   }
 
   /// Returns `true` if the selection has any of the supplied values

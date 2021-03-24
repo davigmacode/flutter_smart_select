@@ -12,18 +12,18 @@ class S2ChoicesList<T> extends StatelessWidget {
   final IndexedWidgetBuilder itemBuilder;
 
   /// The builder of the choice divider
-  final IndexedWidgetBuilder dividerBuilder;
+  final IndexedWidgetBuilder? dividerBuilder;
 
   /// Configuration of single choice widget
   final S2ChoiceConfig config;
 
   /// Default constructor
   S2ChoicesList({
-    Key key,
-    @required this.itemLength,
-    @required this.itemBuilder,
-    @required this.dividerBuilder,
-    @required this.config,
+    Key? key,
+    required this.itemLength,
+    required this.itemBuilder,
+    required this.dividerBuilder,
+    required this.config,
   }) : super(key: key);
 
   @override

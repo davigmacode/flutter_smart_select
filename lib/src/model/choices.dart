@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import '../model/choice_item.dart';
 import '../model/group_data.dart';
 import '../model/group_config.dart';
@@ -16,9 +15,9 @@ class S2Choices<T> {
 
   /// default constructor
   S2Choices({
-    @required this.items,
-    @required this.query,
-    @required this.groupConfig,
+    required this.items,
+    required this.query,
+    required this.groupConfig,
   });
 
   /// return a filtered list of options
@@ -52,7 +51,7 @@ class S2Choices<T> {
 
     // sort the list when the comparator is provided
     if (groupConfig.sortBy != null)
-      return groups..sort(groupConfig.sortBy.compare);
+      return groups..sort(groupConfig.sortBy!.compare);
 
     return groups;
   }
@@ -75,6 +74,6 @@ class S2Choices<T> {
 
   /// whether the list need to be grouped or not
   bool get isGrouped {
-    return groupConfig.enabled && groupKeys != null && groupKeys.isNotEmpty;
+    return groupConfig.enabled && groupKeys.isNotEmpty;
   }
 }

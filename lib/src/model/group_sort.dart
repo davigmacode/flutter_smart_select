@@ -11,16 +11,16 @@ class S2GroupSort with Diagnosticable {
   final S2SortComparator<S2Group> compare;
 
   /// Default constructor
-  S2GroupSort(this.compare) : assert(compare != null);
+  S2GroupSort(this.compare);
 
   /// Function to sort the group keys alphabetically by name in ascending order
   factory S2GroupSort.byNameInAsc() => S2GroupSort((S2Group a, S2Group b) {
-        return a.name.toLowerCase().compareTo(b.name.toLowerCase());
+        return a.name!.toLowerCase().compareTo(b.name!.toLowerCase());
       });
 
   /// Function to sort the group keys alphabetically by name in descending order
   factory S2GroupSort.byNameInDesc() => S2GroupSort((S2Group a, S2Group b) {
-        return b.name.toLowerCase().compareTo(a.name.toLowerCase());
+        return b.name!.toLowerCase().compareTo(a.name!.toLowerCase());
       });
 
   /// Function to sort the group keys by items count in ascending order

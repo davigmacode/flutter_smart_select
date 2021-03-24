@@ -7,7 +7,7 @@ String normalized(String source) {
 String _removeDiacritics(String str) {
   if (diacriticsMap.isEmpty) {
     for (var i = 0; i < defaultDiacriticsRemovalap.length; i++) {
-      var letters = defaultDiacriticsRemovalap[i]['letters'];
+      var letters = defaultDiacriticsRemovalap[i]['letters']!;
       for (var j = 0; j < letters.length; j++) {
         diacriticsMap[letters[j]] = defaultDiacriticsRemovalap[i]['base'];
       }
@@ -16,7 +16,7 @@ String _removeDiacritics(String str) {
   return str.replaceAllMapped(diacriticsRegExp, (a) {
     return diacriticsMap[a.group(0)] != null
         ? diacriticsMap[a.group(0)]
-        : a.group(0);
+        : a.group(0)!;
   });
 }
 

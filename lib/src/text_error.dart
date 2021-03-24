@@ -4,21 +4,21 @@ import 'package:flutter/material.dart';
 class S2TextErrorController extends ChangeNotifier {
   /// Default constructor
   S2TextErrorController({
-    bool visibled,
+    bool? visibled,
   }) : _visibled = visibled ?? false;
 
-  bool _visibled;
+  bool? _visibled;
 
-  bool _shaked;
+  bool? _shaked;
 
   /// Returns `true` if the text error widget is visibled
-  bool get visibled => _visibled;
+  bool? get visibled => _visibled;
 
   /// Returns `true` if the text error widget is shaked
   bool get shaked => _shaked ?? false;
 
   /// Set the [visibled] by provided value
-  void visibility(bool value) {
+  void visibility(bool? value) {
     _visibled = value;
     notifyListeners();
   }
@@ -43,17 +43,17 @@ class S2TextErrorController extends ChangeNotifier {
 /// Widget that show/hide/shake error text
 class S2TextError extends StatefulWidget {
   /// Primary child widget
-  final Widget child;
+  final Widget? child;
 
   /// Whether the widget is visible or not
-  final bool visibled;
+  final bool? visibled;
 
   /// Listenable that control the flow of [S2TextError] widget
-  final S2TextErrorController controller;
+  final S2TextErrorController? controller;
 
   /// Default constructor
   S2TextError({
-    Key key,
+    Key? key,
     this.child,
     this.visibled,
     this.controller,
@@ -65,7 +65,7 @@ class S2TextError extends StatefulWidget {
 
 class _S2TextErrorState extends State<S2TextError> {
   /// Listenable that control the flow of [S2TextError] widget
-  S2TextErrorController controller;
+  S2TextErrorController? controller;
 
   /// Returns the default controller
   S2TextErrorController get defaultController {
@@ -88,7 +88,7 @@ class _S2TextErrorState extends State<S2TextError> {
     }
 
     if (oldWidget.visibled != widget.visibled) {
-      controller.visibility(widget.visibled);
+      controller!.visibility(widget.visibled);
     }
   }
 
@@ -96,7 +96,7 @@ class _S2TextErrorState extends State<S2TextError> {
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
       initController(widget.controller);
     });
   }
@@ -120,7 +120,7 @@ class _S2TextErrorState extends State<S2TextError> {
   Widget build(BuildContext context) {
     return AnimatedCrossFade(
       firstChild: Container(height: 0.0, width: 0.0),
-      secondChild: controller?.shaked == true ? shakedChild : widget.child,
+      secondChild: controller?.shaked == true ? shakedChild : widget.child!,
       duration: const Duration(milliseconds: 300),
       firstCurve: const Interval(0.0, 0.6, curve: Curves.fastOutSlowIn),
       secondCurve: const Interval(0.4, 1.0, curve: Curves.fastOutSlowIn),
@@ -138,7 +138,7 @@ class _S2TextErrorState extends State<S2TextError> {
       tween: Tween(begin: 0.0, end: 1.0),
       duration: const Duration(milliseconds: 600),
       onEnd: () {
-        controller.shake(false);
+        controller!.shake(false);
       },
       builder: (context, animation, child) {
         final Curve curve = Curves.elasticOut;
