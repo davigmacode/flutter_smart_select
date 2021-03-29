@@ -1203,7 +1203,9 @@ class S2SingleState<T> extends S2State<T> {
     super.didUpdateWidget(oldWidget);
     if (widget.singleValue != oldWidget.singleValue) {
       setState(() => value = widget.singleValue);
-      onChange?.call(this);
+      // I don't think it is needed here but if you need it,
+      // uncomment the following line to return state to onChange callback.
+      // onChange?.call(this);
     }
   }
 }
@@ -1360,7 +1362,9 @@ class S2MultiState<T> extends S2State<T> {
     super.didUpdateWidget(oldWidget);
     if (widget.multiValue != oldWidget.multiValue) {
       setState(() => value = widget.multiValue);
-      onChange?.call(this);
+      // I don't think it is needed here but if you need it,
+      // uncomment the following line to return state to onChange callback.
+      // onChange?.call(this);
     }
   }
 }
