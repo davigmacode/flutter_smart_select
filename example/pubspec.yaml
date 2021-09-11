@@ -1,4 +1,4 @@
-name: smartselect
+name: awesomeselect
 description: Few example for Smart Select package.
 
 # The following line prevents the package from being accidentally published to
@@ -23,7 +23,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  smart_select:
+  awesome_select:
     path: ../
   theme_patrol: ^0.0.1
   dio: ^3.0.7

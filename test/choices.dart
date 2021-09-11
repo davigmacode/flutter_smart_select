@@ -1,4 +1,4 @@
-import 'package:smart_select/smart_select.dart' show S2Choice;
+import 'package:awesome_select/awesome_select.dart' show S2Choice;
 
 List<S2Choice<String>> days = [
   S2Choice<String>(value: 'mon', title: 'Monday'),

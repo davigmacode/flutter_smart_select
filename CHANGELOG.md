@@ -1,3 +1,7 @@
+## [5.0.0-nullsafety] - 2021-09-11
+
+* Forked from [legacy code](https://github.com/davigmacode/flutter_smart_select.git), merged related PRs, updated with null safety. Reborn of Smart_select package
+
 ## [4.3.2] - 2020-10-09
 
 * Prevent poping the modal when changes value is not valid

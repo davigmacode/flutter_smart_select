@@ -80,7 +80,7 @@ class Features extends StatelessWidget {
           children: <Widget>[
             ListTile(
               title: Text(
-                'smart_select',
+                'awesome_select',
                 style: Theme.of(context).textTheme.headline5,
               ),
               subtitle: Text('by davigmacode'),

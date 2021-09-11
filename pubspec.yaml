@@ -1,7 +1,7 @@
-name: smart_select
+name: awesome_select
 description: Easily convert your usual single/multiple select or dropdown into page, dialog, or bottom sheet with various choice input such as radio, checkbox, switch, chips, or custom widget.
-homepage: https://github.com/davigmacode/flutter_smart_select
-version: 4.3.2
+homepage: https://github.com/akbarpulatov/flutter_smart_select
+version: 5.0.0-nullsafety
 
 environment:
   sdk: '>=2.12.0 <3.0.0'

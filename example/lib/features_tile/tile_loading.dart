@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:smart_select/smart_select.dart';
+import 'package:awesome_select/awesome_select.dart';
 import '../choices.dart' as choices;
 
 class FeaturesTileLoading extends StatefulWidget {

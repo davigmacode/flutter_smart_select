@@ -1,4 +1,4 @@
-library smart_select;
+library awesome_select;
 
 export 'src/widget.dart';
 export 'src/text.dart';
