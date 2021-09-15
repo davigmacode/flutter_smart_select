@@ -92,7 +92,8 @@ class S2ChipTheme extends StatelessWidget {
                 ? Colors.white
                 : secondaryColor.withAlpha(foregroundAlpha));
 
-    final ShapeBorder? chipShapeRaised = raised == true ? StadiumBorder() : null;
+    final ShapeBorder? chipShapeRaised =
+        raised == true ? StadiumBorder() : null;
     final ShapeBorder? chipShapeOutlined = outlined == true
         ? StadiumBorder(
             side: BorderSide(
@@ -114,7 +115,10 @@ class S2ChipTheme extends StatelessWidget {
         disabledColor: disabledColor,
         selectedColor: selectedColor,
         secondarySelectedColor: selectedColor,
-        shape: shape as OutlinedBorder? ?? chipShapeRaised as OutlinedBorder? ?? chipShapeOutlined as OutlinedBorder? ?? StadiumBorder(),
+        shape: shape as OutlinedBorder? ??
+            chipShapeRaised as OutlinedBorder? ??
+            chipShapeOutlined as OutlinedBorder? ??
+            StadiumBorder(),
         labelStyle: primaryLabelStyle,
         secondaryLabelStyle: selectedLabelStyle,
         elevation: raised == true ? elevation : 0,

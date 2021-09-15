@@ -1,10 +1,10 @@
-![Pub Version](https://img.shields.io/pub/v/smart_select) ![GitHub](https://img.shields.io/github/license/davigmacode/flutter_smart_select)
+![Pub Version](https://img.shields.io/pub/v/awesome_select) ![GitHub](https://img.shields.io/github/license/akbarpulatov/flutter_smart_select)
 
-<a href="https://www.buymeacoffee.com/davigmacode" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" width="195" height="55"></a>
+## About
 
 SmartSelect allows you to easily convert your usual form select or dropdown into dynamic page, popup dialog, or sliding bottom sheet with various choices input such as radio, checkbox, switch, chips, or even custom input. Supports single and multiple choice. Inspired by Smart Select component from [Framework7](https://framework7.io/).
 
-## What's New in Version 4.x.x
+## Features
 
 - Customizable every part on modal widget (header, footer, searchbar, confirm button, searchbar toggle) using style configuration or widget builder
 - Validate before confirm
@@ -1059,7 +1059,7 @@ SmartSelect<String>.multiple(
 # License
 
 ```
-Copyright (c) 2020 Irfan Vigma Taufik
+Copyright (c) 2021 Akbar Pulatov
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

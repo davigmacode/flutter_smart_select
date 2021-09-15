@@ -55,7 +55,8 @@ class S2Text extends StatelessWidget {
       }
       if (indexOfHighlight == start) {
         // start with highlight.
-        final highlightedText = text!.substring(start, start + highlight!.length);
+        final highlightedText =
+            text!.substring(start, start + highlight!.length);
         spans.add(_highlightSpan(highlightedText, textStyle));
         start += highlightedText.length;
       } else {

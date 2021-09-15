@@ -1,3 +1,11 @@
+## [5.0.2-nullsafety] - 2021-09-15
+
+* updated docs
+
+## [5.0.1-nullsafety] - 2021-09-14
+
+* Static analysis warning fixed
+
 ## [5.0.0-nullsafety] - 2021-09-11
 
 * Forked from [legacy code](https://github.com/davigmacode/flutter_smart_select.git), merged related PRs, updated with null safety. Reborn of Smart_select package
