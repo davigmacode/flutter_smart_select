@@ -12,10 +12,14 @@ import '../features_header.dart';
 import '../keep_alive.dart';
 
 class FeaturesModal extends StatelessWidget {
+  final scrollController = ScrollController();
+
   @override
   Widget build(BuildContext context) {
     return Scrollbar(
+      controller: scrollController,
       child: ListView(
+        controller: scrollController,
         addAutomaticKeepAlives: true,
         children: <Widget>[
           KeepAliveWidget(
