@@ -1043,12 +1043,16 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
 
   /// Returns the modal body widget
   Widget get modalBody {
+    final _modalHeader = modalHeader;
+    final _modalDivider = modalDivider;
+    final _modalFooter = modalFooter;
+
     final _widgets = <Widget>[];
-    if (modalConfig.isFullPage != true) {
-      _widgets.add(modalHeader!);
+    if (!modalConfig.isFullPage && _modalHeader != null) {
+      _widgets.add(_modalHeader);
     }
-    if (modalDivider != null) {
-      _widgets.add(modalDivider!);
+    if (_modalDivider != null) {
+      _widgets.add(_modalDivider);
     }
     _widgets.add(
       Flexible(
@@ -1056,11 +1060,11 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
         child: choiceList,
       ),
     );
-    if (modalDivider != null) {
-      _widgets.add(modalDivider!);
+    if (_modalDivider != null) {
+      _widgets.add(_modalDivider);
     }
-    if (modalFooter != null) {
-      _widgets.add(modalFooter!);
+    if (_modalFooter != null) {
+      _widgets.add(_modalFooter);
     }
     return Column(
       mainAxisSize: MainAxisSize.min,
