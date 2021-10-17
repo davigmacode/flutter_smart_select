@@ -42,6 +42,8 @@ class S2Choices<T> extends ChangeNotifier {
   /// Error message occurs while loading the choice items
   Error? error;
 
+  bool _disposed = false;
+
   /// Default constructor
   S2Choices({
     List<S2Choice<T>>? items,
@@ -193,5 +195,18 @@ class S2Choices<T> extends ChangeNotifier {
   /// Returns a list of group choice items
   List<S2Choice<T>> groupChoices(String key) {
     return items!.where((S2Choice<T> choice) => choice.group == key).toList();
+  }
+
+  @override
+  void dispose() {
+    _disposed = true;
+    super.dispose();
+  }
+
+  @override
+  void notifyListeners() {
+    if (!_disposed) {
+      super.notifyListeners();
+    }
   }
 }
