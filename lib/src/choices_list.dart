@@ -56,7 +56,7 @@ class S2ChoicesList<T> extends StatelessWidget {
             horizontal: 15.0,
           ),
       child: Align(
-        alignment: Alignment.topLeft,
+        alignment: AlignmentDirectional.topStart,
         child: Wrap(
           spacing: config.spacing ?? 12.0, // gap between adjacent chips
           runSpacing: config.runSpacing ?? 0.0, // gap between lines

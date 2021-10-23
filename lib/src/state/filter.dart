@@ -38,7 +38,8 @@ class S2Filter extends ChangeNotifier {
   /// Hide the filter and remove history from route
   void hide(BuildContext context) {
     // close the filter
-    stop();
+    // stop(); this is unnecessary which causes an extra rebuild since it's
+    // also called during pop using LocalHistoryEntry(onRemove: stop)
     // remove filter from route history
     Navigator.pop(context);
   }

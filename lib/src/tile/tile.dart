@@ -188,7 +188,7 @@ class S2Tile<T> extends StatelessWidget {
                   child: _valueWidget,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 5),
+                  padding: const EdgeInsetsDirectional.only(start: 5),
                   child: _trailingIconWidget,
                 ),
               ],

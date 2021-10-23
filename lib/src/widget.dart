@@ -1127,7 +1127,7 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
       ),
       textAlign: modalConfig.headerStyle.centerTitle == true
           ? TextAlign.center
-          : TextAlign.left,
+          : TextAlign.start,
       onSubmitted: modalConfig.filterAuto ? null : filter!.apply,
       onChanged: modalConfig.filterAuto
           ? (query) {
