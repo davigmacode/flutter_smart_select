@@ -1,3 +1,7 @@
+## [5.0.5] - 2021-10-23
+
+* Fixes: #8 Unhandled Exception: A S2Choices<Abc?> was used after being disposed
+
 ## [5.0.2-nullsafety] - 2021-09-15
 
 * updated docs
