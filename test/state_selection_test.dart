@@ -1,6 +1,6 @@
-import 'package:flutter_test/flutter_test.dart';
 import 'package:awesome_select/awesome_select.dart';
 import 'package:awesome_select/src/state/selection.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('Single Choice', () {
@@ -9,8 +9,7 @@ void main() {
     // the listener call counter
     late int counter;
     // choice to select
-    S2Choice<String> choiceToSelect =
-        S2Choice<String>(value: 'new-value', title: 'New Value');
+    S2Choice<String> choiceToSelect = S2Choice<String>(value: 'new-value', title: 'New Value');
 
     setUp(() {
       counter = 0;
@@ -103,7 +102,10 @@ void main() {
       model.select(choiceToSelect[1], selected: false); // ignored
       model.select(choiceToSelect[1], selected: true);
       model.select(choiceToSelect[2], selected: false); // removed
-      expect(model.choice, List.from(choiceToSelect)..removeAt(2));
+      expect(
+        model.choice,
+        List<S2Choice<int>>.from(choiceToSelect)..removeAt(2),
+      );
       expect(model.has(choiceToSelect[1]), true);
       expect(model.length, 2);
       expect(counter, 5);

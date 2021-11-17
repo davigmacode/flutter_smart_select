@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:awesome_select/awesome_select.dart';
+import 'package:flutter/material.dart';
 
 class ProgrammaticModal extends StatefulWidget {
   @override
@@ -13,16 +13,15 @@ class _ProgrammaticModalState extends State<ProgrammaticModal> {
     S2Choice<String>(value: 'mel', title: 'Melon'),
   ];
 
-  List<String> _value;
-  GlobalKey<S2MultiState<String>> _smartSelectKey =
-      GlobalKey<S2MultiState<String>>();
+  List<String>? _value;
+  GlobalKey<S2MultiState<String>> _smartSelectKey = GlobalKey<S2MultiState<String>>();
 
   @override
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _smartSelectKey.currentState.showModal();
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      _smartSelectKey.currentState?.showModal();
     });
   }
 
@@ -32,7 +31,7 @@ class _ProgrammaticModalState extends State<ProgrammaticModal> {
       key: _smartSelectKey,
       title: 'Fruit',
       selectedValue: _value,
-      onChange: (selected) => setState(() => _value = selected.value),
+      onChange: (selected) => setState(() => _value = selected?.value),
       choiceItems: _choices,
       tileBuilder: (context, state) {
         return Container();

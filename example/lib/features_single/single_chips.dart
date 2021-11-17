@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:awesome_select/awesome_select.dart';
+import 'package:flutter/material.dart';
+
 import '../choices.dart' as choices;
 
 class FeaturesSingleChips extends StatefulWidget {
@@ -8,32 +9,34 @@ class FeaturesSingleChips extends StatefulWidget {
 }
 
 class _FeaturesSingleChipsState extends State<FeaturesSingleChips> {
-  String _car = '';
-  String _category = '';
-  String _day = 'fri';
+  String? _car = '';
+  String? _category = '';
+  String? _day = 'fri';
 
   @override
   Widget build(BuildContext context) {
+    final test = S2Choice.listFrom<String, Map<String, String>>(
+      source: choices.cars,
+      value: (index, item) => item['value'] ?? '',
+      title: (index, item) => item['title'] ?? '',
+      group: (index, item) => item['brand'] ?? '',
+    );
+
     return Column(
       children: <Widget>[
         const SizedBox(height: 7),
-        SmartSelect<String>.single(
+        SmartSelect<String?>.single(
           selectedValue: _car,
-          choiceItems: S2Choice.listFrom<String, Map>(
-            source: choices.cars,
-            value: (index, item) => item['value'],
-            title: (index, item) => item['title'],
-            group: (index, item) => item['brand'],
-          ),
+          choiceItems: test,
           modalTitle: 'Cars Option',
           modalType: S2ModalType.bottomSheet,
           choiceType: S2ChoiceType.chips,
           choiceGrouped: true,
           choiceDirection: Axis.horizontal,
           onChange: (selected) => setState(() => _car = selected.value),
-          tileBuilder: (context, state) => S2Tile(
+          tileBuilder: (context, state) => S2Tile<dynamic>(
             title: const Text('Car'),
-            value: state.selected.toWidget(),
+            value: state.selected?.toWidget() ?? Container(),
             isTwoLine: true,
             leading: const CircleAvatar(
               backgroundImage: NetworkImage(
@@ -44,7 +47,7 @@ class _FeaturesSingleChipsState extends State<FeaturesSingleChips> {
           ),
         ),
         const Divider(indent: 20),
-        SmartSelect<String>.single(
+        SmartSelect<String?>.single(
           title: 'Category',
           selectedValue: _category,
           choiceItems: choices.categories,
@@ -63,7 +66,7 @@ class _FeaturesSingleChipsState extends State<FeaturesSingleChips> {
           ),
         ),
         const Divider(indent: 20),
-        SmartSelect<String>.single(
+        SmartSelect<String?>.single(
           title: 'Days',
           selectedValue: _day,
           choiceItems: choices.days,

@@ -4,8 +4,8 @@ class KeepAliveWidget extends StatefulWidget {
   final Widget child;
 
   KeepAliveWidget({
-    Key key,
-    @required this.child,
+    Key? key,
+    required this.child,
   }) : super(key: key);
 
   @override

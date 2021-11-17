@@ -72,7 +72,7 @@ class Features extends StatelessWidget {
   }
 
   void _about(BuildContext context) {
-    showDialog(
+    showDialog<void>(
       context: context,
       builder: (_) => Dialog(
         child: Column(
@@ -80,7 +80,7 @@ class Features extends StatelessWidget {
           children: <Widget>[
             ListTile(
               title: Text(
-                'awesome_select',
+                'flutter_awesome_select',
                 style: Theme.of(context).textTheme.headline5,
               ),
               subtitle: Text('by davigmacode'),

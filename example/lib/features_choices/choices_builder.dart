@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:awesome_select/awesome_select.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+
 import '../choices.dart' as choices;
 
 class FeaturesChoicesBuilder extends StatefulWidget {
@@ -9,9 +10,9 @@ class FeaturesChoicesBuilder extends StatefulWidget {
 }
 
 class _FeaturesChoicesBuilderState extends State<FeaturesChoicesBuilder> {
-  int _commute;
+  int? _commute;
 
-  List<String> _user;
+  List<String>? _user;
   List<S2Choice<String>> _users = [];
   bool _usersIsLoading = false;
 
@@ -22,18 +23,18 @@ class _FeaturesChoicesBuilderState extends State<FeaturesChoicesBuilder> {
     return Column(
       children: <Widget>[
         const SizedBox(height: 7),
-        SmartSelect<int>.single(
+        SmartSelect<int?>.single(
           title: 'Transportation',
           placeholder: 'Choose one',
           selectedValue: _commute,
           onChange: (selected) => setState(() => _commute = selected.value),
           modalType: S2ModalType.bottomSheet,
           modalHeader: false,
-          choiceItems: S2Choice.listFrom<int, Map<String, dynamic>>(
+          choiceItems: S2Choice.listFrom<int, Map<String, String>>(
             source: choices.transports,
             value: (index, item) => index,
-            title: (index, item) => item['title'],
-            subtitle: (index, item) => item['subtitle'],
+            title: (index, item) => item['title'] ?? '',
+            subtitle: (index, item) => item['subtitle'] ?? '',
             meta: (index, item) => item,
           ),
           choiceLayout: S2ChoiceLayout.wrap,
@@ -43,7 +44,7 @@ class _FeaturesChoicesBuilderState extends State<FeaturesChoicesBuilder> {
               margin: const EdgeInsets.fromLTRB(0, 5, 0, 5),
               color: choice.selected ? theme.primaryColor : theme.cardColor,
               child: InkWell(
-                onTap: () => choice.select(true),
+                onTap: () => choice.select?.call(true),
                 child: SizedBox(
                   width: 100,
                   height: 100,
@@ -62,7 +63,7 @@ class _FeaturesChoicesBuilderState extends State<FeaturesChoicesBuilder> {
                         ),
                         const SizedBox(height: 5),
                         Text(
-                          choice.title,
+                          choice.title ?? '',
                           style: TextStyle(
                             color: choice.selected ? Colors.white : null,
                           ),
@@ -90,7 +91,7 @@ class _FeaturesChoicesBuilderState extends State<FeaturesChoicesBuilder> {
         SmartSelect<String>.multiple(
           title: 'Passengers',
           selectedValue: _user,
-          onChange: (selected) => setState(() => _user = selected.value),
+          onChange: (selected) => setState(() => _user = selected?.value),
           modalFilter: true,
           choiceItems: _users,
           choiceGrouped: true,
@@ -104,7 +105,7 @@ class _FeaturesChoicesBuilderState extends State<FeaturesChoicesBuilder> {
             return Card(
               color: choice.selected ? theme.primaryColor : theme.cardColor,
               child: InkWell(
-                onTap: () => choice.select(!choice.selected),
+                onTap: () => choice.select?.call(!choice.selected),
                 child: Container(
                   padding: const EdgeInsets.all(7),
                   child: Column(
@@ -123,7 +124,7 @@ class _FeaturesChoicesBuilderState extends State<FeaturesChoicesBuilder> {
                       ),
                       const SizedBox(height: 5),
                       Text(
-                        choice.title,
+                        choice.title ?? '',
                         textAlign: TextAlign.center,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
@@ -146,22 +147,22 @@ class _FeaturesChoicesBuilderState extends State<FeaturesChoicesBuilder> {
               leading: CircleAvatar(
                 backgroundColor: theme.primaryColor,
                 child: Text(
-                  state.selected.value?.length?.toString() ?? '0',
+                  state.selected?.value?.length.toString() ?? '0',
                   style: TextStyle(color: Colors.white),
                 ),
               ),
               body: S2TileChips(
-                chipLength: state.selected.length,
+                chipLength: state.selected?.length ?? 0,
                 chipLabelBuilder: (context, i) {
-                  return Text(state.selected.choice[i].title);
+                  return Text(state.selected?.choice?[i].title ?? '');
                 },
                 chipAvatarBuilder: (context, i) => CircleAvatar(
                   backgroundImage: NetworkImage(
-                    state.selected.choice[i].meta['picture']['thumbnail'],
+                    state.selected?.choice?[i].meta['picture']['thumbnail'],
                   ),
                 ),
                 chipOnDelete: (i) {
-                  setState(() => _user.remove(state.selected.choice[i].value));
+                  setState(() => _user?.remove(state.selected?.choice?[i].value));
                 },
                 chipColor: Theme.of(context).primaryColor,
                 chipRaised: true,
@@ -185,15 +186,13 @@ class _FeaturesChoicesBuilderState extends State<FeaturesChoicesBuilder> {
   void _getUsers() async {
     try {
       setState(() => _usersIsLoading = true);
-      String url =
-          "https://randomuser.me/api/?inc=gender,name,nat,picture,email&results=25";
+      String url = "https://randomuser.me/api/?inc=gender,name,nat,picture,email&results=25";
       Response res = await Dio().get(url);
       setState(() {
         _users = S2Choice.listFrom<String, dynamic>(
           source: res.data['results'],
           value: (index, item) => item['email'],
-          title: (index, item) =>
-              item['name']['first'] + ' ' + item['name']['last'],
+          title: (index, item) => item['name']['first'] + ' ' + item['name']['last'],
           subtitle: (index, item) => item['email'],
           group: (index, item) => item['gender'],
           meta: (index, item) => item,

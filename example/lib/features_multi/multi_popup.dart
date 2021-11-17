@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:awesome_select/awesome_select.dart';
+import 'package:flutter/material.dart';
+
 import '../choices.dart' as choices;
 
 class FeaturesMultiPopup extends StatefulWidget {
@@ -8,8 +9,8 @@ class FeaturesMultiPopup extends StatefulWidget {
 }
 
 class _FeaturesMultiPopupState extends State<FeaturesMultiPopup> {
-  List<String> _fruit = ['mel'];
-  List<String> _framework = ['flu'];
+  List<String>? _fruit = ['mel'];
+  List<String>? _framework = ['flu'];
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,7 @@ class _FeaturesMultiPopupState extends State<FeaturesMultiPopup> {
         SmartSelect<String>.multiple(
           title: 'Fruit',
           selectedValue: _fruit,
-          onChange: (selected) => setState(() => _fruit = selected.value),
+          onChange: (selected) => setState(() => _fruit = selected?.value),
           choiceItems: choices.fruits,
           modalType: S2ModalType.popupDialog,
           tileBuilder: (context, state) {
@@ -39,13 +40,13 @@ class _FeaturesMultiPopupState extends State<FeaturesMultiPopup> {
           title: 'Frameworks',
           selectedValue: _framework,
           onChange: (selected) {
-            setState(() => _framework = selected.value);
+            setState(() => _framework = selected?.value);
           },
           choiceItems: choices.frameworks,
           modalType: S2ModalType.popupDialog,
           tileBuilder: (context, state) {
             return ListTile(
-              title: Text(state.title),
+              title: Text(state.title ?? ''),
               subtitle: Text(
                 state.selected.toString(),
                 style: const TextStyle(color: Colors.grey),
@@ -55,7 +56,7 @@ class _FeaturesMultiPopupState extends State<FeaturesMultiPopup> {
               leading: CircleAvatar(
                 backgroundColor: Theme.of(context).primaryColor,
                 child: Text(
-                  state.selected.length.toString(),
+                  (state.selected?.length ?? 0).toString(),
                   style: TextStyle(color: Colors.white),
                 ),
               ),

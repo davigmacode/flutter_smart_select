@@ -1,7 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:awesome_select/awesome_select.dart';
-import '../widgets/icon_badge.dart';
+import 'package:flutter/material.dart';
+
 import '../choices.dart' as choices;
+import '../widgets/icon_badge.dart';
 
 class FeaturesModalHeader extends StatefulWidget {
   @override
@@ -9,9 +10,9 @@ class FeaturesModalHeader extends StatefulWidget {
 }
 
 class _FeaturesModalHeaderState extends State<FeaturesModalHeader> {
-  List<String> _month = ['apr'];
-  String _framework = 'flu';
-  List<String> _hero = ['bat', 'spi'];
+  List<String>? _month = ['apr'];
+  String? _framework = 'flu';
+  List<String>? _hero = ['bat', 'spi'];
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,7 @@ class _FeaturesModalHeaderState extends State<FeaturesModalHeader> {
         SmartSelect<String>.multiple(
           title: 'Month',
           selectedValue: _month,
-          onChange: (selected) => setState(() => _month = selected.value),
+          onChange: (selected) => setState(() => _month = selected?.value),
           choiceItems: choices.months,
           choiceActiveStyle: const S2ChoiceStyle(color: Colors.red),
           modalFilter: true,
@@ -39,13 +40,13 @@ class _FeaturesModalHeaderState extends State<FeaturesModalHeader> {
               isTwoLine: true,
               leading: IconBadge(
                 icon: const Icon(Icons.calendar_today),
-                counter: state.selected.length,
+                counter: state.selected?.length ?? 0,
               ),
             );
           },
         ),
         const Divider(indent: 20),
-        SmartSelect<String>.single(
+        SmartSelect<String?>.single(
           title: 'Frameworks',
           selectedValue: _framework,
           onChange: (selected) {
@@ -78,7 +79,7 @@ class _FeaturesModalHeaderState extends State<FeaturesModalHeader> {
         SmartSelect<String>.multiple(
           title: 'Super Hero',
           selectedValue: _hero,
-          onChange: (selected) => setState(() => _hero = selected.value),
+          onChange: (selected) => setState(() => _hero = selected?.value),
           choiceItems: choices.heroes,
           modalType: S2ModalType.bottomSheet,
           modalStyle: S2ModalStyle(

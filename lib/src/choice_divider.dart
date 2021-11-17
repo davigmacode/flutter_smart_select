@@ -16,7 +16,7 @@ export 'package:flutter/material.dart' show Divider;
 
 //   /// Default constructor
 //   const S2Divider({
-//     Key key,
+//     Key? key,
 //     this.color,
 //     this.thickness,
 //     this.spacing,

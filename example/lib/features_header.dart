@@ -5,7 +5,7 @@ class FeaturesHeader extends StatelessWidget {
 
   const FeaturesHeader(
     this.title, {
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override

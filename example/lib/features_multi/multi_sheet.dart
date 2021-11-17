@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:awesome_select/awesome_select.dart';
+import 'package:flutter/material.dart';
+
 import '../choices.dart' as choices;
 
 class FeaturesMultiSheet extends StatefulWidget {
@@ -8,8 +9,8 @@ class FeaturesMultiSheet extends StatefulWidget {
 }
 
 class _FeaturesMultiSheetState extends State<FeaturesMultiSheet> {
-  List<String> _os = ['and', 'tux'];
-  List<String> _hero = ['bat', 'spi'];
+  List<String>? _os = ['and', 'tux'];
+  List<String>? _hero = ['bat', 'spi'];
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,7 @@ class _FeaturesMultiSheetState extends State<FeaturesMultiSheet> {
         SmartSelect<String>.multiple(
           title: 'OS',
           selectedValue: _os,
-          onChange: (selected) => setState(() => _os = selected.value),
+          onChange: (selected) => setState(() => _os = selected?.value),
           choiceItems: choices.os,
           modalType: S2ModalType.bottomSheet,
           tileBuilder: (context, state) {
@@ -38,7 +39,7 @@ class _FeaturesMultiSheetState extends State<FeaturesMultiSheet> {
         SmartSelect<String>.multiple(
           title: 'Super Hero',
           selectedValue: _hero,
-          onChange: (selected) => setState(() => _hero = selected.value),
+          onChange: (selected) => setState(() => _hero = selected?.value),
           choiceItems: choices.heroes,
           modalType: S2ModalType.bottomSheet,
           tileBuilder: (context, state) {

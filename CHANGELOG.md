@@ -1,3 +1,6 @@
+## [6.0.0]
+* Null safety proper migration.
+ 
 ## [5.0.5] - 2021-10-23
 
 * Fixes: #8 Unhandled Exception: A S2Choices<Abc?> was used after being disposed

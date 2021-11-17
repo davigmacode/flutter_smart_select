@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:awesome_select/awesome_select.dart';
+import 'package:flutter/material.dart';
 
 class FeaturesOptionHidden extends StatefulWidget {
   @override
@@ -7,9 +7,9 @@ class FeaturesOptionHidden extends StatefulWidget {
 }
 
 class _FeaturesOptionHiddenState extends State<FeaturesOptionHidden> {
-  List<int> _categories = [];
+  List<int>? _categories = [];
 
-  int _sort = 0;
+  int? _sort = 0;
 
   List<String> _categoriesOption = [
     'Electronics',
@@ -46,7 +46,7 @@ class _FeaturesOptionHiddenState extends State<FeaturesOptionHidden> {
                   title: 'Categories',
                   selectedValue: _categories,
                   onChange: (selected) {
-                    setState(() => _categories = selected.value);
+                    setState(() => _categories = selected?.value);
                   },
                   choiceItems: S2Choice.listFrom<int, String>(
                     source: _categoriesOption,
@@ -71,7 +71,7 @@ class _FeaturesOptionHiddenState extends State<FeaturesOptionHidden> {
                 child: VerticalDivider(),
               ),
               Expanded(
-                child: SmartSelect<int>.single(
+                child: SmartSelect<int?>.single(
                   title: 'Sort By',
                   selectedValue: _sort,
                   onChange: (selected) {
@@ -81,8 +81,7 @@ class _FeaturesOptionHiddenState extends State<FeaturesOptionHidden> {
                     source: _sortOption,
                     value: (index, item) => index,
                     title: (index, item) => item,
-                    hidden: (index, item) =>
-                        item.toLowerCase().contains('price'),
+                    hidden: (index, item) => item.toLowerCase().contains('price'),
                   ),
                   modalType: S2ModalType.popupDialog,
                   modalHeader: false,
