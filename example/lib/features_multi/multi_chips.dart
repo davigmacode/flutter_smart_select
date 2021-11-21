@@ -8,9 +8,9 @@ class FeaturesMultiChips extends StatefulWidget {
 }
 
 class _FeaturesMultiChipsState extends State<FeaturesMultiChips> {
-  List<String> _car = [];
-  List<String> _smartphone = [];
-  List<String> _day = ['fri'];
+  List<String>? _car = [];
+  List<String>? _smartphone = [];
+  List<String>? _day = ['fri'];
 
   @override
   Widget build(BuildContext context) {
@@ -20,12 +20,12 @@ class _FeaturesMultiChipsState extends State<FeaturesMultiChips> {
         SmartSelect<String>.multiple(
           title: 'Car',
           selectedValue: _car,
-          onChange: (selected) => setState(() => _car = selected.value),
-          choiceItems: S2Choice.listFrom<String, Map>(
+          onChange: (selected) => setState(() => _car = selected?.value),
+          choiceItems: S2Choice.listFrom<String, Map<String, String>>(
             source: choices.cars,
-            value: (index, item) => item['value'],
-            title: (index, item) => item['title'],
-            group: (index, item) => item['brand'],
+            value: (index, item) => item['value'] ?? '',
+            title: (index, item) => item['title'] ?? '',
+            group: (index, item) => item['brand'] ?? '',
           ),
           choiceType: S2ChoiceType.chips,
           choiceGrouped: true,
@@ -47,13 +47,13 @@ class _FeaturesMultiChipsState extends State<FeaturesMultiChips> {
           title: 'Smartphones',
           selectedValue: _smartphone,
           onChange: (selected) {
-            setState(() => _smartphone = selected.value);
+            setState(() => _smartphone = selected?.value);
           },
           choiceType: S2ChoiceType.chips,
-          choiceItems: S2Choice.listFrom<String, Map>(
+          choiceItems: S2Choice.listFrom<String, Map<String, String>>(
             source: choices.smartphones,
-            value: (index, item) => item['id'],
-            title: (index, item) => item['name'],
+            value: (index, item) => item['id'] ?? '',
+            title: (index, item) => item['name'] ?? '',
           ),
           choiceStyle: S2ChoiceStyle(outlined: true),
           choiceActiveStyle: S2ChoiceStyle(outlined: true),
@@ -78,7 +78,7 @@ class _FeaturesMultiChipsState extends State<FeaturesMultiChips> {
         SmartSelect<String>.multiple(
           title: 'Days',
           selectedValue: _day,
-          onChange: (selected) => setState(() => _day = selected.value),
+          onChange: (selected) => setState(() => _day = selected?.value),
           choiceItems: choices.days,
           choiceType: S2ChoiceType.chips,
           choiceStyle: S2ChoiceStyle(

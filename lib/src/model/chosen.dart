@@ -283,7 +283,7 @@ abstract class S2Selected<T> extends S2ChosenNotifier<T> {
 class S2SingleSelected<T> extends S2Selected<T> with S2SingleChosenData<T> {
   /// Default constructor
   S2SingleSelected({
-    T? value,
+    required T value,
     S2Choice<T>? choice,
     this.resolver,
     this.validation,
@@ -291,9 +291,9 @@ class S2SingleSelected<T> extends S2Selected<T> with S2SingleChosenData<T> {
   })  : _value = value,
         _choice = choice;
 
-  T? _value;
+  T _value;
 
-  S2Choice<T?>? _choice;
+  S2Choice<T>? _choice;
 
   /// a `String` to return in `toString` if the `title` is empty
   @override
@@ -311,11 +311,11 @@ class S2SingleSelected<T> extends S2Selected<T> with S2SingleChosenData<T> {
 
   /// Function to resolve [choice] from [value]
   @override
-  S2SingleSelectedResolver<T?>? resolver;
+  S2SingleSelectedResolver<T>? resolver;
 
   @override
   void resolve({
-    S2SingleSelectedResolver<T?>? defaultResolver,
+    S2SingleSelectedResolver<T>? defaultResolver,
   }) async {
     if (isResolved) return null;
 
@@ -334,14 +334,13 @@ class S2SingleSelected<T> extends S2Selected<T> with S2SingleChosenData<T> {
   }
 
   @override
-  set choice(S2Choice<T?>? val) {
+  set choice(S2Choice<T>? val) {
     _choice = val;
-    _value = null;
     validate();
   }
 
   @override
-  set value(T? val) {
+  set value(T val) {
     _value = val;
     _choice = null;
     resolve();
@@ -349,13 +348,13 @@ class S2SingleSelected<T> extends S2Selected<T> with S2SingleChosenData<T> {
 
   /// Returns a single selected [S2Choice]
   @override
-  S2Choice<T?>? get choice {
+  S2Choice<T>? get choice {
     return _choice;
   }
 
   /// Returns [choice.value]
   @override
-  T? get value {
+  T get value {
     return choice?.value ?? _value;
   }
 

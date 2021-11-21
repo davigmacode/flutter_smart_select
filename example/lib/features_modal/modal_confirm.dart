@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:awesome_select/awesome_select.dart';
+
 import '../choices.dart' as choices;
 
 class FeaturesModalConfirm extends StatefulWidget {
@@ -8,9 +9,9 @@ class FeaturesModalConfirm extends StatefulWidget {
 }
 
 class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
-  List<String> _day = ['fri'];
-  List<String> _fruit = ['mel'];
-  String _hero = 'iro';
+  List<String>? _day = ['fri'];
+  List<String>? _fruit = ['mel'];
+  String? _hero = 'iro';
 
   @override
   Widget build(BuildContext context) {
@@ -20,14 +21,14 @@ class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
         SmartSelect<String>.multiple(
           title: 'Days',
           selectedValue: _day,
-          onChange: (selected) => setState(() => _day = selected.value),
+          onChange: (selected) => setState(() => _day = selected?.value),
           choiceItems: choices.days,
           modalType: S2ModalType.fullPage,
           modalConfirm: true,
           tileBuilder: (context, state) {
-            return S2Tile(
+            return S2Tile<dynamic>(
               title: state.titleWidget,
-              value: state.selected.toWidget(),
+              value: state.selected?.toWidget() ?? Container(),
               onTap: state.showModal,
               isTwoLine: true,
               leading: const CircleAvatar(
@@ -42,12 +43,12 @@ class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
         SmartSelect<String>.multiple(
           title: 'Fruit',
           selectedValue: _fruit,
-          onChange: (selected) => setState(() => _fruit = selected.value),
+          onChange: (selected) => setState(() => _fruit = selected?.value),
           choiceItems: choices.fruits,
           modalType: S2ModalType.popupDialog,
           modalConfirm: true,
           modalValidation: (value) {
-            return value.length > 0 ? null : 'Select at least one';
+            return value.length > 0 ? '' : 'Select at least one';
           },
           modalHeaderStyle: S2ModalHeaderStyle(
             backgroundColor: Theme.of(context).cardColor,
@@ -84,10 +85,10 @@ class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
                   ),
                   const SizedBox(width: 5),
                   FlatButton(
-                    child: Text('OK (${state.selection.length})'),
+                    child: Text('OK (${state.selection?.length ?? 0})'),
                     color: Theme.of(context).primaryColor,
                     textColor: Colors.white,
-                    onPressed: state.selection.isValid
+                    onPressed: (state.selection?.isValid ?? true)
                         ? () => state.closeModal(confirmed: true)
                         : null,
                   ),
@@ -97,7 +98,7 @@ class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
           },
         ),
         const Divider(indent: 20),
-        SmartSelect<String>.single(
+        SmartSelect<String?>.single(
           title: 'Super Hero',
           selectedValue: _hero,
           onChange: (selected) => setState(() => _hero = selected.value),
@@ -107,7 +108,7 @@ class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
           modalValidation: (selected) {
             if (selected == null) return 'Select at least one';
             if (selected.value == 'iro') return 'Ironman is busy';
-            return null;
+            return '';
           },
           modalConfig: S2ModalConfig(
             useConfirm: true,
@@ -125,19 +126,19 @@ class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
               ),
             );
           },
-          // modalConfirmBuilder: (context, state) {
-          //   return Center(
-          //     child: Padding(
-          //       padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-          //       child: FlatButton(
-          //         child: const Text('Send'),
-          //         color: Colors.redAccent,
-          //         textColor: Colors.white,
-          //         onPressed: () => state.closeModal(confirmed: true),
-          //       ),
-          //     ),
-          //   );
-          // },
+          modalConfirmBuilder: (context, state) {
+            return Center(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                child: FlatButton(
+                  child: const Text('Send'),
+                  color: Colors.redAccent,
+                  textColor: Colors.white,
+                  onPressed: () => state.closeModal(confirmed: true),
+                ),
+              ),
+            );
+          },
         ),
         const SizedBox(height: 7),
       ],

@@ -168,14 +168,13 @@ class S2Choices<T> extends ChangeNotifier {
   List<S2Group<T>>? groupItems(S2GroupConfig config) {
     if (groupKeys.isEmpty == true) return null;
 
-    final List<S2Group<T>> groups = groupKeys
+    final groups = groupKeys
         .map((String groupKey) => S2Group<T>(
               name: groupKey,
               choices: groupChoices(groupKey),
               headerStyle: config.headerStyle,
             ))
-        .toList()
-        .cast<S2Group<T>>();
+        .toList();
 
     // sort the list when the comparator is provided
     if (config.sortBy != null) return groups..sort(config.sortBy!.compare);

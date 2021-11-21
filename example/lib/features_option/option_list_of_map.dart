@@ -3,12 +3,11 @@ import 'package:awesome_select/awesome_select.dart';
 
 class FeaturesOptionListOfMap extends StatefulWidget {
   @override
-  _FeaturesOptionListOfMapState createState() =>
-      _FeaturesOptionListOfMapState();
+  _FeaturesOptionListOfMapState createState() => _FeaturesOptionListOfMapState();
 }
 
 class _FeaturesOptionListOfMapState extends State<FeaturesOptionListOfMap> {
-  List<String> _day = ['fri'];
+  List<String>? _day = ['fri'];
   List<Map<String, String>> _days = [
     {'value': 'mon', 'title': 'Monday'},
     {'value': 'tue', 'title': 'Tuesday'},
@@ -27,11 +26,11 @@ class _FeaturesOptionListOfMapState extends State<FeaturesOptionListOfMap> {
         SmartSelect<String>.multiple(
           title: 'Days',
           selectedValue: _day,
-          onChange: (selected) => setState(() => _day = selected.value),
+          onChange: (selected) => setState(() => _day = selected?.value),
           choiceItems: S2Choice.listFrom<String, Map<String, String>>(
             source: _days,
-            value: (index, item) => item['value'],
-            title: (index, item) => item['title'],
+            value: (index, item) => item['value'] ?? '',
+            title: (index, item) => item['title'] ?? '',
           ),
           choiceType: S2ChoiceType.switches,
           modalType: S2ModalType.bottomSheet,

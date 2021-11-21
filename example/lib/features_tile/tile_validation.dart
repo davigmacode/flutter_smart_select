@@ -8,15 +8,15 @@ class FeaturesTileValidation extends StatefulWidget {
 }
 
 class _FeaturesTileValidationState extends State<FeaturesTileValidation> {
-  String _day;
-  List<String> _month;
+  String? _day;
+  List<String>? _month;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
         const SizedBox(height: 7),
-        SmartSelect<String>.single(
+        SmartSelect<String?>.single(
           title: 'Days',
           selectedValue: _day,
           choiceItems: choices.days,
@@ -25,7 +25,7 @@ class _FeaturesTileValidationState extends State<FeaturesTileValidation> {
           },
           validation: (chosen) {
             if (chosen.isEmpty) return 'Please select one or more';
-            return null;
+            return '';
           },
           tileBuilder: (context, state) {
             return S2Tile.fromState(
@@ -40,11 +40,11 @@ class _FeaturesTileValidationState extends State<FeaturesTileValidation> {
           selectedValue: _month,
           choiceItems: choices.months,
           onChange: (selected) {
-            setState(() => _month = selected.value);
+            setState(() => _month = selected?.value);
           },
           validation: (chosen) {
             if (chosen.isEmpty) return 'Please select one or more';
-            return null;
+            return '';
           },
           tileBuilder: (context, state) {
             return S2Tile.fromState(

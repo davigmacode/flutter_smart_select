@@ -8,15 +8,15 @@ class FeaturesSinglePopup extends StatefulWidget {
 }
 
 class _FeaturesSinglePopupState extends State<FeaturesSinglePopup> {
-  String _fruit = 'mel';
-  String _framework = 'flu';
+  String? _fruit = 'mel';
+  String? _framework = 'flu';
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
         const SizedBox(height: 7),
-        SmartSelect<String>.single(
+        SmartSelect<String?>.single(
           title: 'Fruit',
           selectedValue: _fruit,
           choiceItems: choices.fruits,
@@ -30,7 +30,7 @@ class _FeaturesSinglePopupState extends State<FeaturesSinglePopup> {
           },
         ),
         const Divider(indent: 20),
-        SmartSelect<String>.single(
+        SmartSelect<String?>.single(
           title: 'Frameworks',
           selectedValue: _framework,
           choiceItems: choices.frameworks,
@@ -40,7 +40,7 @@ class _FeaturesSinglePopupState extends State<FeaturesSinglePopup> {
           },
           tileBuilder: (context, state) {
             return ListTile(
-              title: Text(state.title),
+              title: Text(state.title ?? ''),
               subtitle: Text(
                 state.selected.toString(),
                 overflow: TextOverflow.ellipsis,

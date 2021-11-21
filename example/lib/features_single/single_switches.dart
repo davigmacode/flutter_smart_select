@@ -8,24 +8,24 @@ class FeaturesSingleSwitches extends StatefulWidget {
 }
 
 class _FeaturesSingleSwitchesState extends State<FeaturesSingleSwitches> {
-  String _car;
-  String _smartphone;
-  String _days;
+  String? _car;
+  String? _smartphone;
+  String? _days;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
         const SizedBox(height: 7),
-        SmartSelect<String>.single(
+        SmartSelect<String?>.single(
           title: 'Car',
           selectedValue: _car,
           onChange: (selected) => setState(() => _car = selected.value),
-          choiceItems: S2Choice.listFrom<String, Map>(
+          choiceItems: S2Choice.listFrom<String, Map<String, String>>(
             source: choices.cars,
-            value: (index, item) => item['value'],
-            title: (index, item) => item['title'],
-            group: (index, item) => item['brand'],
+            value: (index, item) => item['value'] ?? '',
+            title: (index, item) => item['title'] ?? '',
+            group: (index, item) => item['brand'] ?? '',
           ),
           choiceType: S2ChoiceType.switches,
           choiceGrouped: true,
@@ -43,17 +43,17 @@ class _FeaturesSingleSwitchesState extends State<FeaturesSingleSwitches> {
           },
         ),
         const Divider(indent: 20),
-        SmartSelect<String>.single(
+        SmartSelect<String?>.single(
           title: 'Smartphones',
           selectedValue: _smartphone,
           onChange: (selected) {
             setState(() => _smartphone = selected.value);
           },
           choiceType: S2ChoiceType.switches,
-          choiceItems: S2Choice.listFrom<String, Map>(
+          choiceItems: S2Choice.listFrom<String, Map<String, String>>(
             source: choices.smartphones,
-            value: (index, item) => item['id'],
-            title: (index, item) => item['name'],
+            value: (index, item) => item['id'] ?? '',
+            title: (index, item) => item['name'] ?? '',
           ),
           modalType: S2ModalType.bottomSheet,
           modalFilter: true,
@@ -70,7 +70,7 @@ class _FeaturesSingleSwitchesState extends State<FeaturesSingleSwitches> {
           },
         ),
         const Divider(indent: 20),
-        SmartSelect<String>.single(
+        SmartSelect<String?>.single(
           title: 'Days',
           selectedValue: _days,
           onChange: (selected) => setState(() => _days = selected.value),

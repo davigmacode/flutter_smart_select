@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:awesome_select/awesome_select.dart';
 import 'package:sticky_headers/sticky_headers.dart';
+
 import '../choices.dart' as choices;
 
 class FeaturesChoicesGrouped extends StatefulWidget {
@@ -9,8 +10,8 @@ class FeaturesChoicesGrouped extends StatefulWidget {
 }
 
 class _FeaturesChoicesGroupedState extends State<FeaturesChoicesGrouped> {
-  String _smartphone = '';
-  List<String> _car = [];
+  String? _smartphone;
+  List<String>? _car;
 
   Color get primaryColor => Theme.of(context).primaryColor;
 
@@ -19,26 +20,26 @@ class _FeaturesChoicesGroupedState extends State<FeaturesChoicesGrouped> {
     return Column(
       children: <Widget>[
         const SizedBox(height: 7),
-        SmartSelect<String>.single(
+        SmartSelect<String?>.single(
           title: 'Smartphones',
           placeholder: 'Choose one',
           selectedValue: _smartphone,
           onChange: (selected) {
             setState(() => _smartphone = selected.value);
           },
-          choiceItems: S2Choice.listFrom<String, Map>(
+          choiceItems: S2Choice.listFrom<String, Map<String, String>>(
             source: choices.smartphones,
-            value: (index, item) => item['id'],
-            title: (index, item) => item['name'],
-            group: (index, item) => item['brand'],
+            value: (index, item) => item['id'] ?? '',
+            title: (index, item) => item['name'] ?? '',
+            group: (index, item) => item['brand'] ?? '',
           ),
           groupEnabled: true,
           groupSortBy: S2GroupSort.byCountInDesc(),
           modalType: S2ModalType.bottomSheet,
           tileBuilder: (context, state) {
-            return S2Tile(
+            return S2Tile<dynamic>(
               title: state.titleWidget,
-              value: state.selected.toWidget(),
+              value: state.selected?.toWidget() ?? Container(),
               onTap: state.showModal,
               isTwoLine: true,
               leading: const CircleAvatar(
@@ -54,12 +55,12 @@ class _FeaturesChoicesGroupedState extends State<FeaturesChoicesGrouped> {
           title: 'Cars',
           placeholder: 'Choose one or more',
           selectedValue: _car,
-          onChange: (selected) => setState(() => _car = selected.value),
-          choiceItems: S2Choice.listFrom<String, Map>(
+          onChange: (selected) => setState(() => _car = selected?.value),
+          choiceItems: S2Choice.listFrom<String, Map<String, String>>(
             source: choices.cars,
-            value: (index, item) => item['value'],
-            title: (index, item) => item['title'],
-            group: (index, item) => item['body'],
+            value: (index, item) => item['value'] ?? '',
+            title: (index, item) => item['title'] ?? '',
+            group: (index, item) => item['body'] ?? '',
           ),
           choiceActiveStyle: const S2ChoiceStyle(color: Colors.redAccent),
           modalType: S2ModalType.bottomSheet,
@@ -80,7 +81,7 @@ class _FeaturesChoicesGroupedState extends State<FeaturesChoicesGrouped> {
               alignment: Alignment.centerLeft,
               child: S2Text(
                 text: group.name,
-                highlight: state.filter.value,
+                highlight: state.filter?.value,
                 highlightColor: Colors.teal,
                 style: const TextStyle(color: Colors.white),
               ),

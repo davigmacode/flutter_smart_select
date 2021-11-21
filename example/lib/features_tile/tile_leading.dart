@@ -9,10 +9,10 @@ class FeaturesTileLeading extends StatefulWidget {
 }
 
 class _FeaturesTileLeadingState extends State<FeaturesTileLeading> {
-  String _day = 'fri';
-  List<String> _month = ['apr'];
-  String _framework = 'flu';
-  List<String> _hero = ['bat', 'spi'];
+  String? _day = 'fri';
+  List<String>? _month = ['apr'];
+  String? _framework = 'flu';
+  List<String>? _hero = ['bat', 'spi'];
 
   Color get primaryColor => Theme.of(context).primaryColor;
 
@@ -21,7 +21,7 @@ class _FeaturesTileLeadingState extends State<FeaturesTileLeading> {
     return Column(
       children: <Widget>[
         const SizedBox(height: 7),
-        SmartSelect<String>.single(
+        SmartSelect<String?>.single(
           title: 'Days',
           selectedValue: _day,
           choiceItems: choices.days,
@@ -38,20 +38,20 @@ class _FeaturesTileLeadingState extends State<FeaturesTileLeading> {
           title: 'Month',
           selectedValue: _month,
           choiceItems: choices.months,
-          onChange: (selected) => setState(() => _month = selected.value),
+          onChange: (selected) => setState(() => _month = selected?.value),
           tileBuilder: (context, state) {
             return S2Tile.fromState(
               state,
               isTwoLine: true,
               leading: IconBadge(
                 icon: const Icon(Icons.calendar_today),
-                counter: _month.length,
+                counter: _month?.length ?? 0,
               ),
             );
           },
         ),
         const Divider(indent: 20),
-        SmartSelect<String>.single(
+        SmartSelect<String?>.single(
           title: 'Frameworks',
           selectedValue: _framework,
           choiceItems: choices.frameworks,
@@ -77,7 +77,7 @@ class _FeaturesTileLeadingState extends State<FeaturesTileLeading> {
           title: 'Super Hero',
           selectedValue: _hero,
           choiceItems: choices.heroes,
-          onChange: (selected) => setState(() => _hero = selected.value),
+          onChange: (selected) => setState(() => _hero = selected?.value),
           modalType: S2ModalType.bottomSheet,
           modalFilter: true,
           tileBuilder: (context, state) {

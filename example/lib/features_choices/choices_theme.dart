@@ -9,7 +9,7 @@ class FeaturesChoicesTheme extends StatefulWidget {
 }
 
 class _FeaturesChoicesThemeState extends State<FeaturesChoicesTheme> {
-  List<String> _smartphones = [];
+  List<String>? _smartphones = [];
 
   @override
   Widget build(BuildContext context) {
@@ -20,13 +20,13 @@ class _FeaturesChoicesThemeState extends State<FeaturesChoicesTheme> {
           title: 'Smartphones',
           selectedValue: _smartphones,
           onChange: (selected) {
-            setState(() => _smartphones = selected.value);
+            setState(() => _smartphones = selected?.value);
           },
-          choiceItems: S2Choice.listFrom<String, Map>(
+          choiceItems: S2Choice.listFrom<String, Map<String, String>>(
             source: choices.smartphones,
-            value: (index, item) => item['id'],
-            title: (index, item) => item['name'],
-            group: (index, item) => item['brand'],
+            value: (index, item) => item['id'] ?? '',
+            title: (index, item) => item['name'] ?? '',
+            group: (index, item) => item['brand'] ?? '',
           ),
           choiceConfig: S2ChoiceConfig(
             type: S2ChoiceType.switches,
@@ -78,7 +78,7 @@ class _FeaturesChoicesThemeState extends State<FeaturesChoicesTheme> {
               leading: IconBadge(
                 icon: const Icon(Icons.shopping_cart),
                 color: Theme.of(context).primaryColor,
-                counter: state.selected.length,
+                counter: state.selected?.length ?? 0,
               ),
             );
           },

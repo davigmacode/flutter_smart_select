@@ -8,7 +8,7 @@ class FeaturesTileBuilder extends StatefulWidget {
 }
 
 class _FeaturesTileBuilderState extends State<FeaturesTileBuilder> {
-  List<String> _cars = [
+  List<String>? _cars = [
     'bmw-x2',
     'bmw-x1',
     'honda-hrv',
@@ -16,8 +16,8 @@ class _FeaturesTileBuilderState extends State<FeaturesTileBuilder> {
     'hyundai-i10',
     'bmw-sgt'
   ];
-  List<String> _categories = [];
-  String _sort = 'popular';
+  List<String>? _categories = [];
+  String? _sort = 'popular';
 
   Color get primaryColor => Theme.of(context).primaryColor;
 
@@ -42,7 +42,7 @@ class _FeaturesTileBuilderState extends State<FeaturesTileBuilder> {
                     selectedValue: _categories,
                     choiceItems: choices.categories,
                     onChange: (selected) {
-                      setState(() => _categories = selected.value);
+                      setState(() => _categories = selected?.value);
                     },
                     modalType: S2ModalType.bottomSheet,
                     modalHeader: false,
@@ -60,7 +60,7 @@ class _FeaturesTileBuilderState extends State<FeaturesTileBuilder> {
                   child: VerticalDivider(),
                 ),
                 Expanded(
-                  child: SmartSelect<String>.single(
+                  child: SmartSelect<String?>.single(
                     title: 'Sort By',
                     selectedValue: _sort,
                     choiceItems: choices.sorts,
@@ -84,13 +84,13 @@ class _FeaturesTileBuilderState extends State<FeaturesTileBuilder> {
           SmartSelect<String>.multiple(
             title: 'Cars',
             selectedValue: _cars,
-            choiceItems: S2Choice.listFrom<String, Map>(
+            choiceItems: S2Choice.listFrom<String, Map<String, String>>(
               source: choices.cars,
-              value: (index, item) => item['value'],
-              title: (index, item) => item['title'],
-              group: (index, item) => item['body'],
+              value: (index, item) => item['value'] ?? '',
+              title: (index, item) => item['title'] ?? '',
+              group: (index, item) => item['body'] ?? '',
             ),
-            onChange: (selected) => setState(() => _cars = selected.value),
+            onChange: (selected) => setState(() => _cars = selected?.value),
             modalType: S2ModalType.bottomSheet,
             modalConfirm: true,
             modalFilter: true,
@@ -108,13 +108,13 @@ class _FeaturesTileBuilderState extends State<FeaturesTileBuilder> {
                   title: const Text('Cars'),
                   trailing: const Icon(Icons.add_circle_outline),
                   body: S2TileChips(
-                    chipLength: state.selected.length,
+                    chipLength: state.selected?.length ?? 0,
                     chipLabelBuilder: (context, i) {
-                      return Text(state.selected.choice[i].title);
+                      return Text(state.selected?.choice?[i].title ?? '');
                     },
                     chipOnDelete: (i) {
                       setState(() {
-                        _cars.remove(state.selected.choice[i].value);
+                        _cars?.remove(state.selected?.choice?[i].value);
                       });
                     },
                     chipColor: primaryColor,

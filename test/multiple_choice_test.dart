@@ -5,8 +5,7 @@ import 'choices.dart' as choices;
 
 void main() {
   testSmartSelect(
-    title:
-        'Full page modal, default tile and radio choices displayed correctly',
+    title: 'Full page modal, default tile and radio choices displayed correctly',
     initialChoice: [],
     choiceToSelect: [
       choices.days[3],
@@ -18,8 +17,7 @@ void main() {
   );
 
   testSmartSelect(
-    title:
-        'Bottomsheet modal, default tile and chips choices displayed correctly',
+    title: 'Bottomsheet modal, default tile and chips choices displayed correctly',
     placeholder: 'Pilih Salah Satu',
     initialChoice: [],
     choiceToSelect: [
@@ -32,7 +30,7 @@ void main() {
   );
 }
 
-testSmartSelect<T>({
+void testSmartSelect<T>({
   required String title,
   required List<S2Choice<T>> initialChoice,
   required List<S2Choice<T>> choiceToSelect,

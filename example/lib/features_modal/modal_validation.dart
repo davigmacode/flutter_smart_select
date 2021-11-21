@@ -4,39 +4,38 @@ import '../choices.dart' as choices;
 
 class FeaturesModalValidation extends StatefulWidget {
   @override
-  _FeaturesModalValidationState createState() =>
-      _FeaturesModalValidationState();
+  _FeaturesModalValidationState createState() => _FeaturesModalValidationState();
 }
 
 class _FeaturesModalValidationState extends State<FeaturesModalValidation> {
-  String _day;
-  List<String> _days = ['fri'];
-  List<String> _fruit;
+  String? _day;
+  List<String>? _days = ['fri'];
+  List<String>? _fruit;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
         const SizedBox(height: 7),
-        SmartSelect<String>.single(
+        SmartSelect<String?>.single(
           title: 'Days',
           selectedValue: _day,
           onChange: (selected) => setState(() => _day = selected.value),
           choiceItems: choices.days,
           modalType: S2ModalType.bottomSheet,
           modalValidation: (chosen) {
-            return chosen.isEmpty ? 'Select at least one' : null;
+            return chosen.isEmpty ? 'Select at least one' : '';
           },
         ),
         const Divider(indent: 20),
         SmartSelect<String>.multiple(
           title: 'Days',
           selectedValue: _days,
-          onChange: (selected) => setState(() => _days = selected.value),
+          onChange: (selected) => setState(() => _days = selected?.value),
           choiceItems: choices.days,
           modalType: S2ModalType.bottomSheet,
           modalValidation: (chosen) {
-            return chosen.isNotEmpty ? null : 'Select at least one';
+            return chosen.isNotEmpty ? '' : 'Select at least one';
           },
           modalConfirm: true,
           modalFilter: true,
@@ -46,14 +45,14 @@ class _FeaturesModalValidationState extends State<FeaturesModalValidation> {
               style: TextStyle(
                 color: choice.selected ? Theme.of(context).primaryColor : null,
               ),
-              highlight: state.filter.value,
+              highlight: state.filter?.value,
               highlightColor: Theme.of(context).primaryColor.withOpacity(.7),
             );
           },
           tileBuilder: (context, state) {
-            return S2Tile(
+            return S2Tile<dynamic>(
               title: state.titleWidget,
-              value: state.selected.toWidget(),
+              value: state.selected?.toWidget() ?? Container(),
               onTap: state.showModal,
               isTwoLine: true,
               leading: const CircleAvatar(
@@ -68,12 +67,12 @@ class _FeaturesModalValidationState extends State<FeaturesModalValidation> {
         SmartSelect<String>.multiple(
           title: 'Fruit',
           selectedValue: _fruit,
-          onChange: (selected) => setState(() => _fruit = selected.value),
+          onChange: (selected) => setState(() => _fruit = selected?.value),
           choiceItems: choices.fruits,
           modalType: S2ModalType.popupDialog,
           modalConfirm: true,
           modalValidation: (chosen) {
-            return chosen.length > 0 ? null : 'Select at least one';
+            return chosen.length > 0 ? '' : 'Select at least one';
           },
           tileBuilder: (context, state) {
             return S2Tile.fromState(
@@ -95,9 +94,9 @@ class _FeaturesModalValidationState extends State<FeaturesModalValidation> {
                   state.modalTitle,
                   const Spacer(),
                   Visibility(
-                    visible: !state.selection.isValid,
+                    visible: !(state.selection?.isValid ?? true),
                     child: Text(
-                      state.selection.error,
+                      state.selection?.error ?? '',
                       style: TextStyle(color: Colors.red),
                     ),
                   ),
@@ -124,10 +123,10 @@ class _FeaturesModalValidationState extends State<FeaturesModalValidation> {
                   const SizedBox(width: 5),
                   FlatButton.icon(
                     icon: Icon(Icons.check),
-                    label: Text('OK (${state.selection.length})'),
+                    label: Text('OK (${state.selection?.length ?? 0})'),
                     color: Theme.of(context).primaryColor,
                     textColor: Colors.white,
-                    onPressed: state.selection.isValid
+                    onPressed: (state.selection?.isValid ?? true)
                         ? () => state.closeModal(confirmed: true)
                         : null,
                   ),

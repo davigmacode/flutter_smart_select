@@ -129,8 +129,8 @@ class S2Tile<T> extends StatelessWidget {
   })  : title = title ?? state.titleWidget,
         value = value ?? Text(state.selected.toString()),
         onTap = onTap ?? state.showModal,
-        isLoading = isLoading ?? state.selected!.isResolving,
-        isError = isError ?? state.selected!.isNotValid,
+        isLoading = isLoading ?? state.selected?.isResolving ?? false,
+        isError = isError ?? state.selected?.isNotValid ?? false,
         super(key: key);
 
   /// Returns default trailing widget

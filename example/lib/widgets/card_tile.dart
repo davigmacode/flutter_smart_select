@@ -4,14 +4,14 @@ class CardTile extends StatelessWidget {
   final String title;
   final String value;
   final Image thumb;
-  final Function onTap;
+  final VoidCallback onTap;
 
   CardTile({
-    Key key,
-    @required this.title,
-    @required this.value,
-    @required this.thumb,
-    this.onTap,
+    Key? key,
+    required this.title,
+    required this.value,
+    required this.thumb,
+    required this.onTap,
   }) : super(key: key);
 
   @override
@@ -42,7 +42,7 @@ class CardTile extends StatelessWidget {
                       style: Theme.of(context)
                           .textTheme
                           .headline6
-                          .merge(TextStyle(color: Colors.black54)),
+                          ?.merge(TextStyle(color: Colors.black54)),
                     ),
                     Container(height: 5),
                     Text(
@@ -50,7 +50,7 @@ class CardTile extends StatelessWidget {
                       style: Theme.of(context)
                           .textTheme
                           .subtitle2
-                          .merge(TextStyle(color: Colors.black38)),
+                          ?.merge(TextStyle(color: Colors.black38)),
                     ),
                   ],
                 ),

@@ -239,10 +239,10 @@ SmartSelect<T>.single({
   String placeholder = 'Select one',
 
   // The current value of the single choice widget.
-  @required T value,
+  required T value,
 
   // Called when single choice value changed
-  @required ValueChanged<S2SingleState<T>> onChange,
+  required ValueChanged<S2SingleState<T>> onChange,
 
   // choice item list
   List<S2Choice<T>> choiceItems,
@@ -290,10 +290,10 @@ SmartSelect<T>.multiple({
   String placeholder = 'Select one',
 
   // The current value of the single choice widget.
-  @required List<T> value,
+  required List<T> value,
 
   // Called when single choice value changed
-  @required ValueChanged<S2MultiState<T>> onChange,
+  required ValueChanged<S2MultiState<T>> onChange,
 
   // choice item list
   List<S2Choice<T>> choiceItems,
@@ -945,7 +945,7 @@ SmartSelect<T>.single(
   ...,
   ...,
   tileBuilder: (context, state) {
-    return S2Tile(
+    return S2Tile<dynamic>(
       title: state.titleWidget,
       value: state.valueDisplay,
       onTap: state.showModal,

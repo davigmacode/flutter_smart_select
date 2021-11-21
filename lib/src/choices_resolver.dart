@@ -170,11 +170,11 @@ class S2ChoiceResolver<T> {
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: (<Widget?>[
+              children: [
                 secondaryBuilder(choice),
                 SizedBox(height: choice.effectiveStyle!.spacing ?? 10),
                 titleBuilder(choice),
-              ]..removeWhere((e) => e == null)) as List<Widget>,
+              ].whereType<Widget>().toList(),
             ),
           ),
         ),

@@ -8,22 +8,22 @@ class FeaturesSinglePage extends StatefulWidget {
 }
 
 class _FeaturesSinglePageState extends State<FeaturesSinglePage> {
-  String _day = 'fri';
-  String _month = 'apr';
+  String? _day = 'fri';
+  String? _month = 'apr';
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
         const SizedBox(height: 7),
-        SmartSelect<String>.single(
+        SmartSelect<String?>.single(
           title: 'Days',
           selectedValue: _day,
           choiceItems: choices.days,
           onChange: (selected) => setState(() => _day = selected.value),
         ),
         const Divider(indent: 20),
-        SmartSelect<String>.single(
+        SmartSelect<String?>.single(
           title: 'Month',
           selectedValue: _month,
           choiceItems: choices.months,

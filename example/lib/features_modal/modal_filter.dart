@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:awesome_select/awesome_select.dart';
+
 import '../choices.dart' as choices;
 
 class FeaturesModalFilter extends StatefulWidget {
@@ -8,24 +9,24 @@ class FeaturesModalFilter extends StatefulWidget {
 }
 
 class _FeaturesModalFilterState extends State<FeaturesModalFilter> {
-  String _car = '';
-  List<String> _smartphone = [];
+  String? _car = '';
+  List<String>? _smartphone = [];
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
         const SizedBox(height: 7),
-        SmartSelect<String>.single(
+        SmartSelect<String?>.single(
           title: 'Car',
           placeholder: 'Choose one',
           selectedValue: _car,
           onChange: (selected) => setState(() => _car = selected.value),
-          choiceItems: S2Choice.listFrom<String, Map>(
+          choiceItems: S2Choice.listFrom<String, Map<String, String>>(
             source: choices.cars,
-            value: (index, item) => item['value'],
-            title: (index, item) => item['title'],
-            group: (index, item) => item['brand'],
+            value: (index, item) => item['value'] ?? '',
+            title: (index, item) => item['title'] ?? '',
+            group: (index, item) => item['brand'] ?? '',
           ),
           choiceGrouped: true,
           modalFilter: true,
@@ -48,13 +49,13 @@ class _FeaturesModalFilterState extends State<FeaturesModalFilter> {
           placeholder: 'Choose one',
           selectedValue: _smartphone,
           onChange: (selected) {
-            setState(() => _smartphone = selected.value);
+            setState(() => _smartphone = selected?.value);
           },
-          choiceItems: S2Choice.listFrom<String, Map>(
+          choiceItems: S2Choice.listFrom<String, Map<String, String>>(
             source: choices.smartphones,
-            value: (index, item) => item['id'],
-            title: (index, item) => item['name'],
-            group: (index, item) => item['category'],
+            value: (index, item) => item['id'] ?? '',
+            title: (index, item) => item['name'] ?? '',
+            group: (index, item) => item['category'] ?? '',
           ),
           choiceGrouped: true,
           modalType: S2ModalType.bottomSheet,
