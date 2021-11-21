@@ -80,7 +80,8 @@ class _FeaturesOptionAsyncState extends State<FeaturesOptionAsync> {
                 return S2Tile.fromState(
                   state,
                   isTwoLine: true,
-                  isLoading: snapshot.connectionState == ConnectionState.waiting,
+                  isLoading:
+                      snapshot.connectionState == ConnectionState.waiting,
                   leading: const SizedBox(
                     width: 40,
                     height: 40,
@@ -219,7 +220,8 @@ class _FeaturesOptionAsyncState extends State<FeaturesOptionAsync> {
     return S2Choice.listFrom<String, dynamic>(
       source: res.data['results'],
       value: (index, item) => item['email'],
-      title: (index, item) => item['name']['first'] + ' ' + item['name']['last'],
+      title: (index, item) =>
+          item['name']['first'] + ' ' + item['name']['last'],
       subtitle: (index, item) => item['email'],
       group: (index, item) => item['gender'],
       meta: (index, item) => item,

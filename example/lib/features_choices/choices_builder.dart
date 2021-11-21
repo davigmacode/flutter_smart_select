@@ -162,7 +162,8 @@ class _FeaturesChoicesBuilderState extends State<FeaturesChoicesBuilder> {
                   ),
                 ),
                 chipOnDelete: (i) {
-                  setState(() => _user?.remove(state.selected?.choice?[i].value));
+                  setState(
+                      () => _user?.remove(state.selected?.choice?[i].value));
                 },
                 chipColor: Theme.of(context).primaryColor,
                 chipRaised: true,
@@ -186,13 +187,15 @@ class _FeaturesChoicesBuilderState extends State<FeaturesChoicesBuilder> {
   void _getUsers() async {
     try {
       setState(() => _usersIsLoading = true);
-      String url = "https://randomuser.me/api/?inc=gender,name,nat,picture,email&results=25";
+      String url =
+          "https://randomuser.me/api/?inc=gender,name,nat,picture,email&results=25";
       Response res = await Dio().get(url);
       setState(() {
         _users = S2Choice.listFrom<String, dynamic>(
           source: res.data['results'],
           value: (index, item) => item['email'],
-          title: (index, item) => item['name']['first'] + ' ' + item['name']['last'],
+          title: (index, item) =>
+              item['name']['first'] + ' ' + item['name']['last'],
           subtitle: (index, item) => item['email'],
           group: (index, item) => item['gender'],
           meta: (index, item) => item,

@@ -81,7 +81,8 @@ class _FeaturesOptionHiddenState extends State<FeaturesOptionHidden> {
                     source: _sortOption,
                     value: (index, item) => index,
                     title: (index, item) => item,
-                    hidden: (index, item) => item.toLowerCase().contains('price'),
+                    hidden: (index, item) =>
+                        item.toLowerCase().contains('price'),
                   ),
                   modalType: S2ModalType.popupDialog,
                   modalHeader: false,

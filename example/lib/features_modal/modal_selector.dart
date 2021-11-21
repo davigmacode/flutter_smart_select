@@ -117,7 +117,8 @@ class _FeaturesModalSelectorState extends State<FeaturesModalSelector> {
                     label: const Text('Low End'),
                     onTap: () {
                       state.selection?.choice = state.choices?.items
-                          ?.where((item) => item.meta['category'] == 'Budget Phone')
+                          ?.where(
+                              (item) => item.meta['category'] == 'Budget Phone')
                           .toList();
                     },
                   ),
@@ -125,7 +126,8 @@ class _FeaturesModalSelectorState extends State<FeaturesModalSelector> {
                     label: const Text('Mid End'),
                     onTap: () {
                       state.selection?.choice = state.choices?.items
-                          ?.where((item) => item.meta['category'] == 'Mid End Phone')
+                          ?.where((item) =>
+                              item.meta['category'] == 'Mid End Phone')
                           .toList();
                     },
                   ),
@@ -133,7 +135,8 @@ class _FeaturesModalSelectorState extends State<FeaturesModalSelector> {
                     label: const Text('High End'),
                     onTap: () {
                       state.selection?.choice = state.choices?.items
-                          ?.where((item) => item.meta['category'] == 'Flagship Phone')
+                          ?.where((item) =>
+                              item.meta['category'] == 'Flagship Phone')
                           .toList();
                     },
                   ),

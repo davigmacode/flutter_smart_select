@@ -3,7 +3,8 @@ import 'package:awesome_select/awesome_select.dart';
 
 class FeaturesOptionListOfList extends StatefulWidget {
   @override
-  _FeaturesOptionListOfListState createState() => _FeaturesOptionListOfListState();
+  _FeaturesOptionListOfListState createState() =>
+      _FeaturesOptionListOfListState();
 }
 
 class _FeaturesOptionListOfListState extends State<FeaturesOptionListOfList> {

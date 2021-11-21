@@ -14,7 +14,8 @@ class _ProgrammaticModalState extends State<ProgrammaticModal> {
   ];
 
   List<String>? _value;
-  GlobalKey<S2MultiState<String>> _smartSelectKey = GlobalKey<S2MultiState<String>>();
+  GlobalKey<S2MultiState<String>> _smartSelectKey =
+      GlobalKey<S2MultiState<String>>();
 
   @override
   void initState() {

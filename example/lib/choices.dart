@@ -114,7 +114,12 @@ List<Map<String, String>> cars = [
     'brand': 'Mercedes',
     'body': 'SUV'
   },
-  {'value': 'lr-ds', 'title': 'Land Rover Discovery Sport', 'brand': 'Land Rover', 'body': 'SUV'},
+  {
+    'value': 'lr-ds',
+    'title': 'Land Rover Discovery Sport',
+    'brand': 'Land Rover',
+    'body': 'SUV'
+  },
   {
     'value': 'lr-rre',
     'title': 'Land Rover Range Rover Evoque',
@@ -151,7 +156,12 @@ List<Map<String, String>> cars = [
     'brand': 'Hyundai',
     'body': 'Hatchback'
   },
-  {'value': 'hyundai-i10', 'title': 'Hyundai i10', 'brand': 'Hyundai', 'body': 'Hatchback'},
+  {
+    'value': 'hyundai-i10',
+    'title': 'Hyundai i10',
+    'brand': 'Hyundai',
+    'body': 'Hatchback'
+  },
   {'value': 'bmw-i3', 'title': 'BMW i3', 'brand': 'BMW', 'body': 'Hatchback'},
   {
     'value': 'bmw-sgc',

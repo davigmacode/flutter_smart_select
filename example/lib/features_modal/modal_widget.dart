@@ -34,7 +34,8 @@ class _FeaturesModalWidgetState extends State<FeaturesModalWidget> {
       children: <Widget>[
         const SizedBox(height: 7),
         SmartSelect<int?>.single(
-          title: 'Overall, how satisfied are you with flutter_awesome_select package?',
+          title:
+              'Overall, how satisfied are you with flutter_awesome_select package?',
           selectedValue: _question1,
           onChange: (selected) {
             setState(() => _question1 = selected.value);
@@ -70,8 +71,9 @@ class _FeaturesModalWidgetState extends State<FeaturesModalWidget> {
                   state,
                   hideValue: true,
                   leading: CircleAvatar(
-                    backgroundColor:
-                        _question1 == null ? Colors.grey : Theme.of(context).primaryColor,
+                    backgroundColor: _question1 == null
+                        ? Colors.grey
+                        : Theme.of(context).primaryColor,
                     child: const Text(
                       '1',
                       style: TextStyle(color: Colors.white),
@@ -89,7 +91,8 @@ class _FeaturesModalWidgetState extends State<FeaturesModalWidget> {
           },
         ),
         SmartSelect<int>.multiple(
-          title: 'Which of following words would you use to describe flutter_awesome_select?',
+          title:
+              'Which of following words would you use to describe flutter_awesome_select?',
           selectedValue: _question2,
           onChange: (selected) {
             setState(() => _question2 = selected?.value);
@@ -156,8 +159,9 @@ class _FeaturesModalWidgetState extends State<FeaturesModalWidget> {
                   state,
                   hideValue: true,
                   leading: CircleAvatar(
-                    backgroundColor:
-                        _question2 == null ? Colors.grey : Theme.of(context).primaryColor,
+                    backgroundColor: _question2 == null
+                        ? Colors.grey
+                        : Theme.of(context).primaryColor,
                     child: const Text(
                       '2',
                       style: TextStyle(color: Colors.white),

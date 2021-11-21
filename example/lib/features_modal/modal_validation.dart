@@ -4,7 +4,8 @@ import '../choices.dart' as choices;
 
 class FeaturesModalValidation extends StatefulWidget {
   @override
-  _FeaturesModalValidationState createState() => _FeaturesModalValidationState();
+  _FeaturesModalValidationState createState() =>
+      _FeaturesModalValidationState();
 }
 
 class _FeaturesModalValidationState extends State<FeaturesModalValidation> {
