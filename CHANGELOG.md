@@ -1,3 +1,6 @@
+## [5.2.0]
+* Merged PRs #25, #27, #30
+
 ## [5.1.0]
 * Null safety issues are fixed.
  
