@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
-import './group_style.dart';
+
 import './group_sort.dart';
+import './group_style.dart';
 
 /// Choices configuration
 @immutable

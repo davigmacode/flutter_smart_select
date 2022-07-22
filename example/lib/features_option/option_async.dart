@@ -1,7 +1,7 @@
+import 'package:async/async.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_select/smart_select.dart';
-import 'package:dio/dio.dart';
-import 'package:async/async.dart';
 
 class FeaturesOptionAsync extends StatefulWidget {
   @override
@@ -38,7 +38,8 @@ class _FeaturesOptionAsyncState extends State<FeaturesOptionAsync> {
           ),
           choiceActiveStyle: S2ChoiceStyle(
             raised: true,
-            highlightColor: Theme.of(context).accentColor.withOpacity(.4),
+            highlightColor:
+                Theme.of(context).colorScheme.secondary.withOpacity(.4),
           ),
           choiceSecondaryBuilder: (context, state, choice) => CircleAvatar(
             backgroundImage: NetworkImage(choice.meta['picture']['thumbnail']),
@@ -66,30 +67,34 @@ class _FeaturesOptionAsyncState extends State<FeaturesOptionAsync> {
           initialData: [],
           future: this._countriesMemoizer.runOnce(_getCountries),
           builder: (context, snapshot) {
-            return SmartSelect<String>.multiple(
-              title: 'Country',
-              selectedValue: _countries,
-              modalFilter: true,
-              choiceItems: snapshot.data,
-              choiceGrouped: true,
-              choiceType: S2ChoiceType.checkboxes,
-              onChange: (selected) {
-                setState(() => _countries = selected.value);
-              },
-              tileBuilder: (context, state) {
-                return S2Tile.fromState(
-                  state,
-                  isTwoLine: true,
-                  isLoading:
-                      snapshot.connectionState == ConnectionState.waiting,
-                  leading: const SizedBox(
-                    width: 40,
-                    height: 40,
-                    child: Icon(Icons.flag),
-                  ),
-                );
-              },
-            );
+            if (snapshot.hasData) {
+              return SmartSelect<String>.multiple(
+                title: 'Country',
+                selectedValue: _countries,
+                modalFilter: true,
+                choiceItems: snapshot.data,
+                choiceGrouped: true,
+                choiceType: S2ChoiceType.checkboxes,
+                onChange: (selected) {
+                  setState(() => _countries = selected.value);
+                },
+                tileBuilder: (context, state) {
+                  return S2Tile.fromState(
+                    state,
+                    isTwoLine: true,
+                    isLoading:
+                        snapshot.connectionState == ConnectionState.waiting,
+                    leading: const SizedBox(
+                      width: 40,
+                      height: 40,
+                      child: Icon(Icons.flag),
+                    ),
+                  );
+                },
+              );
+            } else {
+              return SizedBox();
+            }
           },
         ),
         const Divider(indent: 20),

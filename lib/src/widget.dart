@@ -1,31 +1,32 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'model/builder.dart';
-import 'model/modal_theme.dart';
-import 'model/modal_config.dart';
-import 'model/choice_theme.dart';
-import 'model/choice_config.dart';
-import 'model/choice_item.dart';
-import 'model/choice_loader.dart';
-import 'model/group_data.dart';
-import 'model/group_config.dart';
-import 'model/group_style.dart';
-import 'model/group_sort.dart';
-import 'model/chosen.dart';
-import 'state/choices.dart';
-import 'state/filter.dart';
+import 'package:flutter/services.dart';
+
+import 'choices_empty.dart';
+import 'choices_list.dart';
 // import 'state/selected.dart';
 // import 'state/selection.dart';
 import 'choices_resolver.dart';
-import 'tile/tile.dart';
-import 'utils/debouncer.dart';
 import 'group_header.dart';
-import 'choices_list.dart';
-import 'choices_empty.dart';
 import 'modal.dart';
+import 'model/builder.dart';
+import 'model/choice_config.dart';
+import 'model/choice_item.dart';
+import 'model/choice_loader.dart';
+import 'model/choice_theme.dart';
+import 'model/chosen.dart';
+import 'model/group_config.dart';
+import 'model/group_data.dart';
+import 'model/group_sort.dart';
+import 'model/group_style.dart';
+import 'model/modal_config.dart';
+import 'model/modal_theme.dart';
 import 'pagination.dart';
+import 'state/choices.dart';
+import 'state/filter.dart';
 import 'text.dart';
 import 'text_error.dart';
+import 'tile/tile.dart';
+import 'utils/debouncer.dart';
 
 /// Callback for event modal will close
 typedef Future<bool> S2ModalWillClose<T>(T state);
@@ -979,7 +980,7 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
           fontSize: 13.5,
           fontWeight: FontWeight.w500,
           color: widget.modalConfig?.isFullPage == true
-              ? (theme.primaryColorBrightness == Brightness.dark
+              ? (theme.brightness == Brightness.dark
                   ? Colors.white
                   : theme.errorColor)
               : theme.errorColor,
@@ -1103,7 +1104,9 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
       autofocus: true,
       controller: filter.ctrl,
       style: modalHeaderStyle.textStyle,
-      cursorColor: modalConfig.isFullPage ? Colors.white : theme.cursorColor,
+      cursorColor: modalConfig.isFullPage
+          ? Colors.white
+          : theme.textSelectionTheme.cursorColor,
       textInputAction: TextInputAction.search,
       decoration: InputDecoration.collapsed(
         hintText: modalConfig.filterHint ?? 'Search on $title',
@@ -1166,14 +1169,17 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
           child: Padding(
             padding: modalConfig.confirmMargin ??
                 const EdgeInsets.fromLTRB(0, 0, 10, 0),
-            child: FlatButton.icon(
+            child: TextButton.icon(
+              style: ButtonStyle(
+                  textStyle: MaterialStateProperty.all(TextStyle(
+                      color: modalConfig.confirmIsLight
+                          ? modalConfig.confirmColor
+                          : Colors.white)),
+                  backgroundColor: MaterialStateProperty.all(
+                    modalConfig.confirmIsDark ? modalConfig.confirmColor : null,
+                  )),
               icon: modalConfig.confirmIcon,
               label: modalConfig.confirmLabel,
-              color:
-                  modalConfig.confirmIsDark ? modalConfig.confirmColor : null,
-              textColor: modalConfig.confirmIsLight
-                  ? modalConfig.confirmColor
-                  : Colors.white,
               onPressed: onPressed,
             ),
           ),
@@ -1183,14 +1189,19 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
           child: Padding(
             padding: modalConfig.confirmMargin ??
                 const EdgeInsets.fromLTRB(0, 0, 10, 0),
-            child: FlatButton(
+            child: TextButton(
               child: modalConfig.confirmLabel,
-              color: modalConfig.confirmIsDark
-                  ? modalConfig.confirmColor ?? Colors.blueGrey
-                  : null,
-              textColor: modalConfig.confirmIsLight
-                  ? modalConfig.confirmColor
-                  : Colors.white,
+              style: ButtonStyle(
+                  textStyle: MaterialStateProperty.all(TextStyle(
+                    color: modalConfig.confirmIsLight
+                        ? modalConfig.confirmColor
+                        : Colors.white,
+                  )),
+                  backgroundColor: MaterialStateProperty.all(
+                    modalConfig.confirmIsDark
+                        ? modalConfig.confirmColor ?? Colors.blueGrey
+                        : null,
+                  )),
               onPressed: onPressed,
             ),
           ),
@@ -1225,8 +1236,11 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
     return AppBar(
       primary: true,
       shape: modalHeaderStyle.shape,
+      systemOverlayStyle: modalHeaderStyle.brightness != null &&
+              modalHeaderStyle.brightness == Brightness.light
+          ? SystemUiOverlayStyle.light
+          : SystemUiOverlayStyle.dark,
       elevation: modalHeaderStyle.elevation,
-      brightness: modalHeaderStyle.brightness,
       backgroundColor: modalHeaderStyle.backgroundColor,
       actionsIconTheme: modalHeaderStyle.actionsIconTheme,
       iconTheme: modalHeaderStyle.iconTheme,
