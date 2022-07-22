@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_select/smart_select.dart';
+
 import '../choices.dart' as choices;
 
 class FeaturesModalConfirm extends StatefulWidget {
@@ -78,15 +79,20 @@ class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
               child: Row(
                 children: <Widget>[
                   const Spacer(),
-                  FlatButton(
+                  TextButton(
                     child: const Text('Cancel'),
                     onPressed: () => state.closeModal(confirmed: false),
                   ),
                   const SizedBox(width: 5),
-                  FlatButton(
+                  TextButton(
+                    style: ButtonStyle(
+                        textStyle: MaterialStateProperty.all(TextStyle(
+                          color: Colors.white,
+                        )),
+                        backgroundColor: MaterialStateProperty.all(
+                          Theme.of(context).primaryColor,
+                        )),
                     child: Text('OK (${state.selection.length})'),
-                    color: Theme.of(context).primaryColor,
-                    textColor: Colors.white,
                     onPressed: state.selection.isValid
                         ? () => state.closeModal(confirmed: true)
                         : null,

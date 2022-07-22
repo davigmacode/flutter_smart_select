@@ -83,24 +83,34 @@ class S2ChipTheme extends StatelessWidget {
             : primaryColor.withAlpha(foregroundAlpha);
 
     final TextStyle defaultLabelStyle = ChipTheme.of(context).labelStyle;
-    final TextStyle primaryLabelStyle =
-        defaultLabelStyle.merge(labelStyle).copyWith(color: foregroundColor);
-    final TextStyle selectedLabelStyle = defaultLabelStyle
-        .merge(labelStyle)
-        .copyWith(
+    final TextStyle primaryLabelStyle = defaultLabelStyle != null
+        ? defaultLabelStyle.merge(labelStyle).copyWith(color: foregroundColor)
+        : labelStyle != null
+            ? labelStyle.copyWith(color: foregroundColor)
+            : TextStyle(color: foregroundColor);
+    final TextStyle selectedLabelStyle = defaultLabelStyle != null
+        ? defaultLabelStyle.merge(labelStyle).copyWith(
             color: raised == true
                 ? Colors.white
-                : secondaryColor.withAlpha(foregroundAlpha));
+                : secondaryColor.withAlpha(foregroundAlpha))
+        : labelStyle != null
+            ? labelStyle.copyWith(
+                color: raised == true
+                    ? Colors.white
+                    : secondaryColor.withAlpha(foregroundAlpha))
+            : TextStyle(
+                color: raised == true
+                    ? Colors.white
+                    : secondaryColor.withAlpha(foregroundAlpha));
 
     final ShapeBorder chipShapeRaised = raised == true ? StadiumBorder() : null;
     final ShapeBorder chipShapeOutlined = outlined == true
         ? StadiumBorder(
             side: BorderSide(
-              color: selected == true
-                  ? secondaryColor.withOpacity(opacity ?? borderAlpha)
-                  : primaryColor.withOpacity(opacity ?? borderAlpha),
-            ),
-          )
+            color: selected == true
+                ? secondaryColor.withOpacity(opacity ?? borderAlpha)
+                : primaryColor.withOpacity(opacity ?? borderAlpha),
+          ))
         : null;
 
     return ChipTheme(

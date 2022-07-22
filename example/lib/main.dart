@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:smartselect/features.dart';
 import 'package:theme_patrol/theme_patrol.dart';
-import 'features.dart';
 
 void main() => runApp(MyApp());
 
@@ -11,20 +11,20 @@ class MyApp extends StatelessWidget {
     return ThemePatrol(
       light: ThemeData(
         brightness: Brightness.light,
-        primarySwatch: Colors.red,
         primaryColor: Colors.red,
-        accentColor: Colors.red,
         visualDensity: VisualDensity.adaptivePlatformDensity,
-        useTextSelectionTheme: true,
+        colorScheme: ColorScheme.fromSwatch(
+                primarySwatch: Colors.red, brightness: Brightness.light)
+            .copyWith(secondary: Colors.red),
       ),
       dark: ThemeData(
         brightness: Brightness.dark,
-        primarySwatch: Colors.red,
         primaryColor: Colors.red,
-        accentColor: Colors.red,
         toggleableActiveColor: Colors.red,
         visualDensity: VisualDensity.adaptivePlatformDensity,
-        useTextSelectionTheme: true,
+        colorScheme: ColorScheme.fromSwatch(
+                primarySwatch: Colors.red, brightness: Brightness.dark)
+            .copyWith(secondary: Colors.red),
       ),
       mode: ThemeMode.system,
       builder: (context, theme) {
@@ -34,6 +34,9 @@ class MyApp extends StatelessWidget {
           darkTheme: theme.dark,
           themeMode: theme.mode,
           home: Features(),
+          // Scaffold(
+          //   body: Container(),
+          // ),
         );
       },
     );
