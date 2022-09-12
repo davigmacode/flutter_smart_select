@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
         primaryColor: Colors.red,
         accentColor: Colors.red,
         visualDensity: VisualDensity.adaptivePlatformDensity,
-        useTextSelectionTheme: true,
+        textSelectionTheme: TextSelectionThemeData(),
       ),
       dark: ThemeData(
         brightness: Brightness.dark,
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         accentColor: Colors.red,
         toggleableActiveColor: Colors.red,
         visualDensity: VisualDensity.adaptivePlatformDensity,
-        useTextSelectionTheme: true,
+        textSelectionTheme: TextSelectionThemeData(),
       ),
       mode: ThemeMode.system,
       builder: (context, theme) {
