@@ -83,7 +83,8 @@ class S2ChipTheme extends StatelessWidget {
             ? secondaryColor.withAlpha(foregroundAlpha)
             : primaryColor.withAlpha(foregroundAlpha);
 
-    final TextStyle defaultLabelStyle = ChipTheme.of(context).labelStyle!;
+    final TextStyle defaultLabelStyle =
+        ChipTheme.of(context).labelStyle ?? TextStyle();
     final TextStyle primaryLabelStyle =
         defaultLabelStyle.merge(labelStyle).copyWith(color: foregroundColor);
     final TextStyle selectedLabelStyle = defaultLabelStyle
