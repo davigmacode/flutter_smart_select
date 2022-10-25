@@ -7,7 +7,7 @@ class FeaturesOptionHidden extends StatefulWidget {
 }
 
 class _FeaturesOptionHiddenState extends State<FeaturesOptionHidden> {
-  List<int>? _categories = [];
+  List<int> _categories = [];
 
   int? _sort = 0;
 
@@ -46,7 +46,7 @@ class _FeaturesOptionHiddenState extends State<FeaturesOptionHidden> {
                   title: 'Categories',
                   selectedValue: _categories,
                   onChange: (selected) {
-                    setState(() => _categories = selected?.value);
+                    setState(() => _categories = selected.value);
                   },
                   choiceItems: S2Choice.listFrom<int, String>(
                     source: _categoriesOption,

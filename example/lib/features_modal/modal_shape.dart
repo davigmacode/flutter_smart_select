@@ -9,7 +9,7 @@ class FeaturesModalShape extends StatefulWidget {
 
 class _FeaturesModalShapeState extends State<FeaturesModalShape> {
   String? _framework = 'flu';
-  List<String>? _hero = ['bat', 'spi'];
+  List<String> _hero = ['bat', 'spi'];
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +51,7 @@ class _FeaturesModalShapeState extends State<FeaturesModalShape> {
         SmartSelect<String>.multiple(
           title: 'Super Hero',
           selectedValue: _hero,
-          onChange: (selected) => setState(() => _hero = selected?.value),
+          onChange: (selected) => setState(() => _hero = selected.value),
           choiceItems: choices.heroes,
           choiceType: S2ChoiceType.switches,
           modalType: S2ModalType.bottomSheet,

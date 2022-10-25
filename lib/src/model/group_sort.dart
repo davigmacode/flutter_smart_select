@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'group_data.dart';
 
 /// Comparator function to use in [List.sort]
-typedef int S2SortComparator<E>(E a, E b);
+typedef S2SortComparator<E> = int Function(E a, E b);
 
 /// Comparator function to sort the choice group enhanced with predefined function
 @immutable

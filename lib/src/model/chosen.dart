@@ -1,11 +1,13 @@
 import 'package:flutter/widgets.dart';
+
 import 'choice_item.dart';
 
 /// Function to return a single [S2Choice] from a single `value`
-typedef Future<S2Choice<T>?> S2SingleSelectedResolver<T>(T value);
+typedef S2SingleSelectedResolver<T> = Future<S2Choice<T>?> Function(T value);
 
 /// Function to return a `List` of [S2Choice] from a `List` of `value`
-typedef Future<List<S2Choice<T>>?> S2MultiSelectedResolver<T>(List<T>? value);
+typedef S2MultiSelectedResolver<T> = Future<List<S2Choice<T>>?> Function(
+    List<T>? value);
 
 /// Chosen data class
 abstract class S2ChosenData<T> {
@@ -45,6 +47,7 @@ abstract class S2ChosenData<T> {
   /// Returns a string that can be used as display,
   /// returns title if is valid and is not empty,
   /// returns placeholder if is valid and is empty.
+  @override
   String toString();
 
   /// Return a [Text] widget from [toString]
@@ -55,7 +58,7 @@ abstract class S2ChosenData<T> {
 mixin S2SingleChosenData<T> on S2ChosenData<T> {
   /// Returns [choice.value]
   @override
-  T? get value {
+  T get value {
     return choice?.value;
   }
 
@@ -167,11 +170,13 @@ mixin S2MultiChosenData<T> on S2ChosenData<T> {
   }
 
   /// Returns `true` if the selection has any of the supplied values
+  @override
   bool hasAny(List<S2Choice<T>> choices) {
     return choices.any((e) => has(e));
   }
 
   /// Returns `true if the selection has every of the supplied values
+  @override
   bool hasAll(List<S2Choice<T>> choices) {
     return choices.every((e) => has(e));
   }
@@ -301,7 +306,7 @@ class S2SingleSelected<T> extends S2Selected<T> with S2SingleChosenData<T> {
 
   /// A function used to validate the selection
   @override
-  final S2Validation<S2SingleChosen<T?>>? validation;
+  final S2Validation<S2SingleChosen<T>>? validation;
 
   @override
   void validate() {
@@ -326,7 +331,7 @@ class S2SingleSelected<T> extends S2Selected<T> with S2SingleChosenData<T> {
     try {
       _choice = await resolver?.call(_value);
     } catch (e) {
-      throw e;
+      rethrow;
     } finally {
       isResolving = false;
       validate();
@@ -371,15 +376,15 @@ class S2SingleSelected<T> extends S2Selected<T> with S2SingleChosenData<T> {
 class S2MultiSelected<T> extends S2Selected<T> with S2MultiChosenData<T> {
   /// Default Constructor
   S2MultiSelected({
-    List<T>? value,
+    List<T> value = const [],
     List<S2Choice<T>>? choice,
     this.resolver,
     this.validation,
     this.placeholder,
-  })  : _value = List<T>.from(value ?? []),
+  })  : _value = List<T>.from(value),
         _choice = choice != null ? List<S2Choice<T>>.from(choice) : null;
 
-  List<T>? _value;
+  List<T> _value;
 
   List<S2Choice<T>>? _choice;
 
@@ -388,6 +393,7 @@ class S2MultiSelected<T> extends S2Selected<T> with S2MultiChosenData<T> {
   final String? placeholder;
 
   /// A function used to validate the selection
+  @override
   final S2Validation<S2MultiChosen<T>>? validation;
 
   @override
@@ -413,7 +419,7 @@ class S2MultiSelected<T> extends S2Selected<T> with S2MultiChosenData<T> {
     try {
       _choice = await resolver?.call(_value);
     } catch (e) {
-      throw e;
+      rethrow;
     } finally {
       isResolving = false;
       validate();
@@ -423,7 +429,7 @@ class S2MultiSelected<T> extends S2Selected<T> with S2MultiChosenData<T> {
   @override
   set choice(List<S2Choice<T>>? choices) {
     _choice = List<S2Choice<T>>.from(choices ?? []);
-    _value = null;
+    _value = [];
     validate();
   }
 
@@ -442,7 +448,7 @@ class S2MultiSelected<T> extends S2Selected<T> with S2MultiChosenData<T> {
 
   /// return an array of `value` of the selected [choice]
   @override
-  List<T>? get value {
+  List<T> get value {
     return isNotEmpty
         ? choice!.map((S2Choice<T> item) => item.value).toList()
         : _value;
@@ -536,6 +542,7 @@ class S2MultiSelection<T> extends S2Selection<T> with S2MultiChosenData<T> {
   final List<S2Choice<T>> initial;
 
   /// A function used to validate the selection
+  @override
   final S2Validation<S2MultiChosen<T>>? validation;
 
   /// Default constructor
@@ -608,10 +615,11 @@ class S2MultiSelection<T> extends S2Selection<T> with S2MultiChosenData<T> {
     } else if (pull == false) {
       merge(choices);
     } else {
-      if (hasAny(choices))
+      if (hasAny(choices)) {
         omit(choices);
-      else
+      } else {
         merge(choices);
+      }
     }
   }
 }

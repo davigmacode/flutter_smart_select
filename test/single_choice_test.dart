@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:awesome_select/awesome_select.dart';
-
 import 'choices.dart' as choices;
 
 void main() {
@@ -75,12 +74,12 @@ void testSmartSelect<T>({
 
     final s2State = tester.state<S2SingleState<T>>(s2Finder);
     expect(
-      s2State.selected!.choice,
+      s2State.selected.choice,
       initialChoice,
       reason: 'Initial choice is correct',
     );
     expect(
-      s2State.selected!.value,
+      s2State.selected.value,
       initialChoice?.value,
       reason: 'Initial value is correct',
     );
@@ -116,12 +115,13 @@ void testSmartSelect<T>({
     await tester.pumpAndSettle();
 
     final modalFinder = find.byWidgetPredicate((widget) {
-      if (modalType == S2ModalType.popupDialog)
+      if (modalType == S2ModalType.popupDialog) {
         return widget is Dialog;
-      else if (modalType == S2ModalType.bottomSheet)
+      } else if (modalType == S2ModalType.bottomSheet) {
         return widget is BottomSheet;
-      else
+      } else {
         return widget is Scaffold;
+      }
     });
     expect(
       modalFinder,
@@ -130,10 +130,11 @@ void testSmartSelect<T>({
     );
 
     final choiceWrapperFinder = find.byWidgetPredicate((widget) {
-      if (choiceType == S2ChoiceType.chips)
+      if (choiceType == S2ChoiceType.chips) {
         return widget is Wrap;
-      else
+      } else {
         return widget is ListView;
+      }
     });
     expect(
       choiceWrapperFinder,
@@ -142,21 +143,22 @@ void testSmartSelect<T>({
     );
 
     final choiceItemsFinder = find.byWidgetPredicate((widget) {
-      if (choiceType == S2ChoiceType.radios)
+      if (choiceType == S2ChoiceType.radios) {
         return widget is RadioListTile;
-      else if (choiceType == S2ChoiceType.chips)
+      } else if (choiceType == S2ChoiceType.chips) {
         return widget is RawChip;
-      else if (choiceType == S2ChoiceType.switches)
+      } else if (choiceType == S2ChoiceType.switches) {
         return widget is SwitchListTile;
-      else
+      } else {
         return widget is Card;
+      }
     });
     expect(
       choiceItemsFinder,
       findsNWidgets(choiceItems.length),
       reason: 'List of choice items displayed',
     );
-    print(choiceToSelect.value);
+    debugPrint(choiceToSelect.value.toString());
     final choiceToSelectFinder = find.byKey(ValueKey<T>(choiceToSelect.value));
     expect(
       choiceToSelectFinder,
@@ -170,7 +172,7 @@ void testSmartSelect<T>({
     await tester.pumpAndSettle();
 
     expect(
-      s2State.selected!.choice,
+      s2State.selected.choice,
       choiceToSelect,
       reason: 'New selected choice to internal choice is correct',
     );
@@ -181,7 +183,7 @@ void testSmartSelect<T>({
     );
 
     expect(
-      s2State.selected!.value,
+      s2State.selected.value,
       choiceToSelect.value,
       reason: 'New selected value to internal value is correct',
     );

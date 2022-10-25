@@ -9,7 +9,7 @@ class FeaturesOptionListOfString extends StatefulWidget {
 
 class _FeaturesOptionListOfStringState
     extends State<FeaturesOptionListOfString> {
-  List<int>? _categories = [];
+  List<int> _categories = [];
 
   int? _sort = 3;
 
@@ -48,7 +48,7 @@ class _FeaturesOptionListOfStringState
                   title: 'Categories',
                   selectedValue: _categories,
                   onChange: (selected) {
-                    setState(() => _categories = selected?.value);
+                    setState(() => _categories = selected.value);
                   },
                   choiceItems: S2Choice.listFrom<int, String>(
                     source: _categoriesOption,

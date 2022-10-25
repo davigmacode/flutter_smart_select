@@ -8,7 +8,7 @@ class S2Choices<T> {
   final List<S2Choice<T>> items;
 
   /// current filter query
-  final String query;
+  final String? query;
 
   /// configuration of group widget
   final S2GroupConfig groupConfig;
@@ -22,9 +22,10 @@ class S2Choices<T> {
 
   /// return a filtered list of options
   List<S2Choice<T>> get filteredItems {
-    return query != null
+    final _query = query;
+    return _query != null
         ? nonHiddenItems
-            .where((S2Choice<T> item) => item.contains(query))
+            .where((S2Choice<T> item) => item.contains(_query))
             .toList()
             .cast<S2Choice<T>>()
         : nonHiddenItems;

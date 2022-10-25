@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:awesome_select/awesome_select.dart';
-
 import '../choices.dart' as choices;
 
 class FeaturesModalFilter extends StatefulWidget {
@@ -10,7 +9,7 @@ class FeaturesModalFilter extends StatefulWidget {
 
 class _FeaturesModalFilterState extends State<FeaturesModalFilter> {
   String? _car = '';
-  List<String>? _smartphone = [];
+  List<String> _smartphone = [];
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +48,7 @@ class _FeaturesModalFilterState extends State<FeaturesModalFilter> {
           placeholder: 'Choose one',
           selectedValue: _smartphone,
           onChange: (selected) {
-            setState(() => _smartphone = selected?.value);
+            setState(() => _smartphone = selected.value);
           },
           choiceItems: S2Choice.listFrom<String, Map<String, String>>(
             source: choices.smartphones,

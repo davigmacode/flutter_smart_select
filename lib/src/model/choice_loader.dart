@@ -1,7 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'choice_item.dart';
 
-typedef Future<List<S2Choice<T>>> S2ChoiceLoader<T>(S2ChoiceLoaderInfo<T> info);
+typedef S2ChoiceLoader<T> = Future<List<S2Choice<T>>> Function(
+    S2ChoiceLoaderInfo<T> info);
 
 @immutable
 class S2ChoiceLoaderInfo<T> with Diagnosticable {

@@ -1,8 +1,9 @@
 import 'package:flutter/foundation.dart';
+
 import '../model/choice_item.dart';
 import '../model/choice_loader.dart';
-import '../model/group_data.dart';
 import '../model/group_config.dart';
+import '../model/group_data.dart';
 
 /// Type of what the choice state can do
 enum S2ChoicesTask {
@@ -50,7 +51,7 @@ class S2Choices<T> extends ChangeNotifier {
     this.loader,
     this.delay,
     this.limit,
-  }) : this.preload = items;
+  }) : preload = items;
 
   /// Returns values of the choice items
   List<T>? get values {

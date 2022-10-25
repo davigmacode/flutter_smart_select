@@ -72,7 +72,7 @@ class Features extends StatelessWidget {
   }
 
   void _about(BuildContext context) {
-    showDialog(
+    showDialog<void>(
       context: context,
       builder: (_) => Dialog(
         child: Column(

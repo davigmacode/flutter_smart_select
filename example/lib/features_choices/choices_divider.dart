@@ -1,6 +1,5 @@
-import 'package:awesome_select/awesome_select.dart';
 import 'package:flutter/material.dart';
-
+import 'package:awesome_select/awesome_select.dart';
 import '../choices.dart' as choices;
 
 class FeaturesChoicesDivider extends StatefulWidget {
@@ -10,7 +9,7 @@ class FeaturesChoicesDivider extends StatefulWidget {
 
 class _FeaturesChoicesDividerState extends State<FeaturesChoicesDivider> {
   String? _car;
-  List<String>? _smartphone = [];
+  List<String> _smartphone = [];
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +47,7 @@ class _FeaturesChoicesDividerState extends State<FeaturesChoicesDivider> {
           placeholder: 'Choose one',
           selectedValue: _smartphone,
           onChange: (selected) {
-            setState(() => _smartphone = selected?.value);
+            setState(() => _smartphone = selected.value);
           },
           choiceItems: S2Choice.listFrom<String, Map<String, String>>(
             source: choices.smartphones,

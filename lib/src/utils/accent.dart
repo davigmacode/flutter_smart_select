@@ -14,13 +14,11 @@ String _removeDiacritics(String str) {
     }
   }
   return str.replaceAllMapped(diacriticsRegExp, (a) {
-    return diacriticsMap[a.group(0)] != null
-        ? diacriticsMap[a.group(0)]
-        : a.group(0)!;
+    return diacriticsMap[a.group(0)] ?? a.group(0)!;
   });
 }
 
-final diacriticsRegExp = new RegExp('[^\u0000-\u007E]', multiLine: true);
+final diacriticsRegExp = RegExp('[^\u0000-\u007E]', multiLine: true);
 
 final defaultDiacriticsRemovalap = [
   {

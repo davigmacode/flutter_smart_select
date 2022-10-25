@@ -8,9 +8,9 @@ class FeaturesMultiSwitches extends StatefulWidget {
 }
 
 class _FeaturesMultiSwitchesState extends State<FeaturesMultiSwitches> {
-  List<String>? _car = [];
-  List<String>? _smartphone = [];
-  List<String>? _days = [];
+  List<String> _car = [];
+  List<String> _smartphone = [];
+  List<String> _days = [];
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class _FeaturesMultiSwitchesState extends State<FeaturesMultiSwitches> {
         SmartSelect<String>.multiple(
           title: 'Car',
           selectedValue: _car,
-          onChange: (selected) => setState(() => _car = selected?.value),
+          onChange: (selected) => setState(() => _car = selected.value),
           choiceItems: S2Choice.listFrom<String, Map<String, String>>(
             source: choices.cars,
             value: (index, item) => item['value'] ?? '',
@@ -47,7 +47,7 @@ class _FeaturesMultiSwitchesState extends State<FeaturesMultiSwitches> {
           title: 'Smartphones',
           selectedValue: _smartphone,
           onChange: (selected) {
-            setState(() => _smartphone = selected?.value);
+            setState(() => _smartphone = selected.value);
           },
           choiceType: S2ChoiceType.switches,
           choiceItems: S2Choice.listFrom<String, Map<String, String>>(
@@ -73,7 +73,7 @@ class _FeaturesMultiSwitchesState extends State<FeaturesMultiSwitches> {
         SmartSelect<String>.multiple(
           title: 'Days',
           selectedValue: _days,
-          onChange: (selected) => setState(() => _days = selected?.value),
+          onChange: (selected) => setState(() => _days = selected.value),
           choiceItems: choices.days,
           choiceType: S2ChoiceType.switches,
           modalType: S2ModalType.popupDialog,

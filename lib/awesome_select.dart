@@ -1,6 +1,10 @@
 library awesome_select;
 
-export 'src/widget.dart';
+export 'src/widget/s2_multiple_state.dart';
+export 'src/widget/s2_single_state.dart';
+export 'src/widget/smart_select.dart';
+export 'src/widget/s2_state.dart';
+export 'src/widget/typedefs.dart';
 export 'src/text.dart';
 export 'src/group_header.dart';
 export 'src/model/builder.dart';
@@ -13,5 +17,7 @@ export 'src/model/group_config.dart';
 export 'src/model/group_data.dart';
 export 'src/model/group_style.dart';
 export 'src/model/group_sort.dart';
+export 'src/model/chosen.dart';
+export 'src/model/choice_loader.dart';
 export 'src/tile/tile.dart';
 export 'src/tile/tile_chips.dart';

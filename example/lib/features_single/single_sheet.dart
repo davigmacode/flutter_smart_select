@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:awesome_select/awesome_select.dart';
+import 'package:flutter/material.dart';
 
 import '../choices.dart' as choices;
 

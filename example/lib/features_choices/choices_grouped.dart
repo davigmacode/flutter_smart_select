@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:awesome_select/awesome_select.dart';
 import 'package:sticky_headers/sticky_headers.dart';
-
 import '../choices.dart' as choices;
 
 class FeaturesChoicesGrouped extends StatefulWidget {
@@ -11,7 +10,7 @@ class FeaturesChoicesGrouped extends StatefulWidget {
 
 class _FeaturesChoicesGroupedState extends State<FeaturesChoicesGrouped> {
   String? _smartphone;
-  List<String>? _car;
+  List<String> _car = [];
 
   Color get primaryColor => Theme.of(context).primaryColor;
 
@@ -39,7 +38,7 @@ class _FeaturesChoicesGroupedState extends State<FeaturesChoicesGrouped> {
           tileBuilder: (context, state) {
             return S2Tile<dynamic>(
               title: state.titleWidget,
-              value: state.selected?.toWidget() ?? Container(),
+              value: state.selected.toWidget(),
               onTap: state.showModal,
               isTwoLine: true,
               leading: const CircleAvatar(
@@ -55,7 +54,7 @@ class _FeaturesChoicesGroupedState extends State<FeaturesChoicesGrouped> {
           title: 'Cars',
           placeholder: 'Choose one or more',
           selectedValue: _car,
-          onChange: (selected) => setState(() => _car = selected?.value),
+          onChange: (selected) => setState(() => _car = selected.value),
           choiceItems: S2Choice.listFrom<String, Map<String, String>>(
             source: choices.cars,
             value: (index, item) => item['value'] ?? '',

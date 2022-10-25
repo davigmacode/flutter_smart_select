@@ -8,9 +8,9 @@ class FeaturesModalSelector extends StatefulWidget {
 }
 
 class _FeaturesModalSelectorState extends State<FeaturesModalSelector> {
-  List<String>? _fruit = ['mel'];
-  List<String>? _smartphone = [];
-  List<String>? _car = [];
+  List<String> _fruit = ['mel'];
+  List<String> _smartphone = [];
+  List<String> _car = [];
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class _FeaturesModalSelectorState extends State<FeaturesModalSelector> {
           title: 'Fruit',
           selectedValue: _fruit,
           onChange: (selected) {
-            setState(() => _fruit = selected?.value);
+            setState(() => _fruit = selected.value);
           },
           choiceItems: choices.fruits,
           modalType: S2ModalType.popupDialog,
@@ -63,15 +63,19 @@ class _FeaturesModalSelectorState extends State<FeaturesModalSelector> {
               child: Row(
                 children: <Widget>[
                   const Spacer(),
-                  FlatButton(
+                  TextButton(
                     child: const Text('Cancel'),
                     onPressed: () => state.closeModal(confirmed: false),
                   ),
                   const SizedBox(width: 5),
-                  FlatButton(
+                  TextButton(
                     child: Text('OK (${state.selection?.length ?? 0})'),
-                    color: Theme.of(context).primaryColor,
-                    textColor: Colors.white,
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          Theme.of(context).primaryColor),
+                      textStyle: MaterialStateProperty.all<TextStyle>(
+                          TextStyle(color: Colors.white)),
+                    ),
                     onPressed: (state.selection?.isValid ?? true)
                         ? () => state.closeModal(confirmed: true)
                         : null,
@@ -87,7 +91,7 @@ class _FeaturesModalSelectorState extends State<FeaturesModalSelector> {
           placeholder: 'Choose one',
           selectedValue: _smartphone,
           onChange: (selected) {
-            setState(() => _smartphone = selected?.value);
+            setState(() => _smartphone = selected.value);
           },
           choiceItems: S2Choice.listFrom<String, Map<String, String>>(
             source: choices.smartphones,
@@ -156,13 +160,13 @@ class _FeaturesModalSelectorState extends State<FeaturesModalSelector> {
               ),
               body: S2TileChips(
                 chipColor: Theme.of(context).primaryColor,
-                chipLength: state.selected?.length ?? 0,
+                chipLength: state.selected.length,
                 chipLabelBuilder: (context, i) {
-                  return Text(state.selected?.choice?[i].title ?? '');
+                  return Text(state.selected.choice?[i].title ?? '');
                 },
                 chipOnDelete: (i) {
                   setState(() {
-                    _smartphone?.remove(state.selected?.choice?[i].value);
+                    _smartphone.remove(state.selected.choice?[i].value);
                   });
                 },
                 // placeholder: Container(),
@@ -174,7 +178,7 @@ class _FeaturesModalSelectorState extends State<FeaturesModalSelector> {
         SmartSelect<String>.multiple(
           title: 'Car',
           selectedValue: _car,
-          onChange: (selected) => setState(() => _car = selected?.value),
+          onChange: (selected) => setState(() => _car = selected.value),
           choiceItems: S2Choice.listFrom<String, Map<String, String>>(
             source: choices.cars,
             value: (index, item) => item['value'] ?? '',
@@ -241,10 +245,14 @@ class ActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FlatButton(
+    return TextButton(
       child: label,
-      color: Theme.of(context).primaryColor,
-      textColor: Colors.white,
+      style: ButtonStyle(
+        backgroundColor:
+            MaterialStateProperty.all<Color>(Theme.of(context).primaryColor),
+        textStyle: MaterialStateProperty.all<TextStyle>(
+            TextStyle(color: Colors.white)),
+      ),
       onPressed: onTap,
     );
   }

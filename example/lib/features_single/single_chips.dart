@@ -35,7 +35,7 @@ class _FeaturesSingleChipsState extends State<FeaturesSingleChips> {
           onChange: (selected) => setState(() => _car = selected.value),
           tileBuilder: (context, state) => S2Tile<dynamic>(
             title: const Text('Car'),
-            value: state.selected?.toWidget() ?? Container(),
+            value: state.selected.toWidget(),
             isTwoLine: true,
             leading: const CircleAvatar(
               backgroundImage: NetworkImage(

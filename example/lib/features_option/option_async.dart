@@ -1,7 +1,7 @@
 import 'package:async/async.dart';
-import 'package:flutter/material.dart';
 import 'package:awesome_select/awesome_select.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 
 class FeaturesOptionAsync extends StatefulWidget {
   @override
@@ -13,11 +13,11 @@ class _FeaturesOptionAsyncState extends State<FeaturesOptionAsync> {
   List<S2Choice<String>> _users = [];
   bool? _usersIsLoading;
 
-  List<String>? _countries;
+  List<String> _countries = [];
   final _countriesMemoizer = AsyncMemoizer<List<S2Choice<String>>>();
 
-  List<String>? _invitations;
-  List<String>? _breeds;
+  List<String> _invitations = [];
+  List<String> _breeds = [];
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,7 @@ class _FeaturesOptionAsyncState extends State<FeaturesOptionAsync> {
           ),
           choiceActiveStyle: S2ChoiceStyle(
             raised: true,
-            highlightColor: Theme.of(context).accentColor.withOpacity(.4),
+            highlightColor: Theme.of(context).colorScheme.secondary.withOpacity(.4),
           ),
           choiceSecondaryBuilder: (context, state, choice) => CircleAvatar(
             backgroundImage: NetworkImage(choice.meta['picture']['thumbnail']),
@@ -50,8 +50,8 @@ class _FeaturesOptionAsyncState extends State<FeaturesOptionAsync> {
               isLoading: _usersIsLoading,
               leading: Builder(
                 builder: (context) {
-                  String avatarUrl = state.selected?.choice != null
-                      ? state.selected?.choice?.meta['picture']['thumbnail']
+                  String avatarUrl = state.selected.choice != null
+                      ? state.selected.choice?.meta['picture']['thumbnail']
                       : 'https://source.unsplash.com/8I-ht65iRww/100x100';
                   return CircleAvatar(
                     backgroundImage: NetworkImage(avatarUrl),
@@ -74,14 +74,13 @@ class _FeaturesOptionAsyncState extends State<FeaturesOptionAsync> {
               choiceGrouped: true,
               choiceType: S2ChoiceType.checkboxes,
               onChange: (selected) {
-                setState(() => _countries = selected?.value);
+                setState(() => _countries = selected.value);
               },
               tileBuilder: (context, state) {
                 return S2Tile.fromState(
                   state,
                   isTwoLine: true,
-                  isLoading:
-                      snapshot.connectionState == ConnectionState.waiting,
+                  isLoading: snapshot.connectionState == ConnectionState.waiting,
                   leading: const SizedBox(
                     width: 40,
                     height: 40,
@@ -123,13 +122,13 @@ class _FeaturesOptionAsyncState extends State<FeaturesOptionAsync> {
             );
           },
           onChange: (selected) {
-            setState(() => _invitations = selected?.value);
+            setState(() => _invitations = selected.value);
           },
           tileBuilder: (context, state) {
             return S2Tile.fromState(
               state,
               isTwoLine: true,
-              isLoading: state.selected?.isResolving,
+              isLoading: state.selected.isResolving,
               leading: const SizedBox(
                 width: 40,
                 height: 40,
@@ -166,16 +165,16 @@ class _FeaturesOptionAsyncState extends State<FeaturesOptionAsync> {
             );
           },
           onChange: (selected) {
-            setState(() => _invitations = selected?.value);
+            setState(() => _invitations = selected.value);
           },
           tileBuilder: (context, state) {
             return S2Tile.fromState(
               state,
               isTwoLine: true,
-              isLoading: state.selected?.isResolving,
+              isLoading: state.selected.isResolving,
               leading: CircleAvatar(
                 backgroundColor: state.theme.primaryColor,
-                child: Text((state.selected?.length ?? 0).toString()),
+                child: Text((state.selected.length).toString()),
               ),
             );
           },
@@ -220,8 +219,7 @@ class _FeaturesOptionAsyncState extends State<FeaturesOptionAsync> {
     return S2Choice.listFrom<String, dynamic>(
       source: res.data['results'],
       value: (index, item) => item['email'],
-      title: (index, item) =>
-          item['name']['first'] + ' ' + item['name']['last'],
+      title: (index, item) => item['name']['first'] + ' ' + item['name']['last'],
       subtitle: (index, item) => item['email'],
       group: (index, item) => item['gender'],
       meta: (index, item) => item,
@@ -229,9 +227,6 @@ class _FeaturesOptionAsyncState extends State<FeaturesOptionAsync> {
   }
 
   Future<List<S2Choice<String>>> _getCountries([String? query]) async {
-    final Map<String, dynamic> params = {
-      'fields': 'name;capital;region;subregion',
-    };
     final String path = query == null ? 'all' : 'name/$query';
     final String url = "https://restcountries.com/v3.1/$path";
     final Response res = await Dio().get(url /*, queryParameters: params*/);

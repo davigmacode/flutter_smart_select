@@ -13,7 +13,7 @@ class S2GroupHeader extends StatelessWidget {
   final S2GroupHeaderStyle? style;
 
   /// Default constructor
-  S2GroupHeader({
+  const S2GroupHeader({
     Key? key,
     required this.title,
     this.trailing,

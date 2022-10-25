@@ -1,3 +1,6 @@
+## [6.0.0]
+* Update to Flutter 3
+
 ## [5.2.0]
 * Merged PRs #25, #27, #30
 

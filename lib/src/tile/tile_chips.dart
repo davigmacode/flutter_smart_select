@@ -59,7 +59,7 @@ class S2TileChips extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
 
   /// Create a chips tile/trigger widget
-  S2TileChips({
+  const S2TileChips({
     Key? key,
     required this.chipLength,
     required this.chipLabelBuilder,

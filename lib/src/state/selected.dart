@@ -1,11 +1,13 @@
 import 'package:flutter/widgets.dart';
+
 import '../model/choice_item.dart';
 
 /// Function to return a single [S2Choice] from a single `value`
-typedef Future<S2Choice<T>> S2SingleSelectedResolver<T>(T value);
+typedef S2SingleSelectedResolver<T> = Future<S2Choice<T>> Function(T value);
 
 /// Function to return a `List` of [S2Choice] from a `List` of `value`
-typedef Future<List<S2Choice<T>>> S2MultiSelectedResolver<T>(List<T>? value);
+typedef S2MultiSelectedResolver<T> = Future<List<S2Choice<T>>> Function(
+    List<T>? value);
 
 /// State of the selected choice
 abstract class S2Selected<T> extends ChangeNotifier {
@@ -83,6 +85,7 @@ abstract class S2Selected<T> extends ChangeNotifier {
   /// returns error message if is not valid,
   /// returns title if is valid and is not empty,
   /// returns placeholder if is valid and is empty.
+  @override
   String toString();
 
   /// Return a [Text] widget from [toString]
@@ -93,7 +96,7 @@ abstract class S2Selected<T> extends ChangeNotifier {
 class S2SingleSelected<T> extends S2Selected<T> {
   /// Default constructor
   S2SingleSelected({
-    T? value,
+    required T value,
     S2Choice<T>? choice,
     this.resolver,
     this.validation,
@@ -101,13 +104,13 @@ class S2SingleSelected<T> extends S2Selected<T> {
   })  : _value = value,
         _choice = choice;
 
-  T? _value;
+  T _value;
 
-  S2Choice<T?>? _choice;
+  S2Choice<T>? _choice;
 
   /// Function to resolve [choice] from [value]
   @override
-  S2SingleSelectedResolver<T?>? resolver;
+  S2SingleSelectedResolver<T>? resolver;
 
   /// A function used to validate the selection
   @override
@@ -128,7 +131,7 @@ class S2SingleSelected<T> extends S2Selected<T> {
 
   @override
   void resolve({
-    S2SingleSelectedResolver<T?>? defaultResolver,
+    S2SingleSelectedResolver<T>? defaultResolver,
   }) async {
     if (isResolved) return null;
 
@@ -139,7 +142,7 @@ class S2SingleSelected<T> extends S2Selected<T> {
     try {
       _choice = await resolver?.call(_value);
     } catch (e) {
-      throw e;
+      rethrow;
     } finally {
       isResolving = false;
       validate();
@@ -147,14 +150,13 @@ class S2SingleSelected<T> extends S2Selected<T> {
   }
 
   @override
-  set choice(S2Choice<T?>? val) {
+  set choice(S2Choice<T>? val) {
     _choice = val;
-    _value = null;
     validate();
   }
 
   @override
-  set value(T? val) {
+  set value(T val) {
     _value = val;
     _choice = null;
     resolve();
@@ -162,13 +164,13 @@ class S2SingleSelected<T> extends S2Selected<T> {
 
   /// return a single selected [S2Choice]
   @override
-  S2Choice<T?>? get choice {
+  S2Choice<T>? get choice {
     return _choice;
   }
 
   /// return [choice.value]
   @override
-  T? get value {
+  T get value {
     return choice?.value ?? _value;
   }
 
@@ -212,7 +214,7 @@ class S2MultiSelected<T> extends S2Selected<T> {
   })  : _value = List<T>.from(value ?? []),
         _choice = choice != null ? List<S2Choice<T>>.from(choice) : null;
 
-  List<T>? _value;
+  List<T> _value;
 
   List<S2Choice<T>>? _choice;
 
@@ -221,6 +223,7 @@ class S2MultiSelected<T> extends S2Selected<T> {
   S2MultiSelectedResolver<T>? resolver;
 
   /// A function used to validate the selection
+  @override
   final S2Validation<List<S2Choice<T>>>? validation;
 
   /// a `String` to return in `toString` if the `title` is empty
@@ -249,7 +252,7 @@ class S2MultiSelected<T> extends S2Selected<T> {
     try {
       _choice = await resolver?.call(_value);
     } catch (e) {
-      throw e;
+      rethrow;
     } finally {
       isResolving = false;
       validate();
@@ -259,13 +262,13 @@ class S2MultiSelected<T> extends S2Selected<T> {
   @override
   set choice(List<S2Choice<T>>? choices) {
     _choice = List<S2Choice<T>>.from(choices ?? []);
-    _value = null;
+    _value = [];
     validate();
   }
 
   @override
-  set value(List<T>? val) {
-    _value = List<T>.from(val ?? []);
+  set value(List<T> val) {
+    _value = List<T>.from(val);
     _choice = null;
     resolve();
   }
@@ -278,7 +281,7 @@ class S2MultiSelected<T> extends S2Selected<T> {
 
   /// return an array of `value` of the selected [choice]
   @override
-  List<T>? get value {
+  List<T> get value {
     return isNotEmpty
         ? choice!.map((S2Choice<T> item) => item.value).toList()
         : _value;

@@ -3,7 +3,7 @@ import 'package:awesome_select/src/utils/accent.dart';
 import 'choice_theme.dart';
 
 /// Validation callback
-typedef String S2Validation<T>(T value);
+typedef S2Validation<T> = String Function(T value);
 
 /// Choice data configuration
 @immutable
@@ -59,15 +59,15 @@ class S2Choice<T> with Diagnosticable {
   /// Helper to create option list from any list
   static List<S2Choice<R>> listFrom<R, E>({
     required List<E> source,
-    required _S2OptionProp<E, R> value,
-    required _S2OptionProp<E, String> title,
-    _S2OptionProp<E, String>? subtitle,
-    _S2OptionProp<E, String>? group,
-    _S2OptionProp<E, bool>? disabled,
-    _S2OptionProp<E, bool>? hidden,
-    _S2OptionProp<E, dynamic>? meta,
-    _S2OptionProp<E, S2ChoiceStyle>? style,
-    _S2OptionProp<E, S2ChoiceStyle>? activeStyle,
+    required S2OptionProp<E, R> value,
+    required S2OptionProp<E, String> title,
+    S2OptionProp<E, String>? subtitle,
+    S2OptionProp<E, String>? group,
+    S2OptionProp<E, bool>? disabled,
+    S2OptionProp<E, bool>? hidden,
+    S2OptionProp<E, dynamic>? meta,
+    S2OptionProp<E, S2ChoiceStyle>? style,
+    S2OptionProp<E, S2ChoiceStyle>? activeStyle,
   }) =>
       source
           .asMap()
@@ -161,4 +161,4 @@ class S2Choice<T> with Diagnosticable {
   }
 }
 
-typedef R _S2OptionProp<E, R>(int index, E item);
+typedef S2OptionProp<E, R> = R Function(int index, E item);

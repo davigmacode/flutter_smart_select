@@ -9,7 +9,7 @@ class FeaturesTileTwoLine extends StatefulWidget {
 
 class _FeaturesTileTwoLineState extends State<FeaturesTileTwoLine> {
   String? _day = 'fri';
-  List<String>? _month = ['apr'];
+  List<String> _month = ['apr'];
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class _FeaturesTileTwoLineState extends State<FeaturesTileTwoLine> {
           title: 'Month',
           selectedValue: _month,
           choiceItems: choices.months,
-          onChange: (selected) => setState(() => _month = selected?.value),
+          onChange: (selected) => setState(() => _month = selected.value),
           tileBuilder: (context, state) {
             return S2Tile.fromState(
               state,

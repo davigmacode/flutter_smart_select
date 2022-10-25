@@ -1,31 +1,28 @@
+import 'package:awesome_select/awesome_select.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
-// import '../state/filter.dart';
-import '../widget.dart';
-import 'choice_item.dart';
-import 'group_data.dart';
 
 /// A common widget builder
-typedef Widget S2WidgetBuilder<T>(
+typedef S2WidgetBuilder<T> = Widget Function(
   BuildContext context,
   T value,
 );
 
 /// A common list of widget builder
-typedef List<Widget> S2ListWidgetBuilder<T>(
+typedef S2ListWidgetBuilder<T> = List<Widget> Function(
   BuildContext context,
   T value,
 );
 
 /// A complex builder
-typedef Widget S2ComplexWidgetBuilder<A, B>(
+typedef S2ComplexWidgetBuilder<A, B> = Widget Function(
   BuildContext context,
   A value,
   B anotherValue,
 );
 
 /// A builder for choice list item widget
-typedef Widget? S2ChoiceListBuilder<T>(S2Choice<T> choice);
+typedef S2ChoiceListBuilder<T> = Widget? Function(S2Choice<T> choice);
 
 /// collection of builder
 @immutable

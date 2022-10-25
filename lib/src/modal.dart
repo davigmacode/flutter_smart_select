@@ -24,10 +24,10 @@ class S2Modal extends StatefulWidget {
   final VoidCallback onReady;
 
   @override
-  _S2ModalState createState() => _S2ModalState();
+  S2ModalState createState() => S2ModalState();
 }
 
-class _S2ModalState extends State<S2Modal> {
+class S2ModalState extends State<S2Modal> {
   @override
   void setState(fn) {
     if (mounted) {
@@ -38,7 +38,7 @@ class _S2ModalState extends State<S2Modal> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((_) => widget.onReady.call());
+    WidgetsBinding.instance.addPostFrameCallback((_) => widget.onReady.call());
   }
 
   @override

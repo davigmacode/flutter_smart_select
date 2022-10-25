@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:awesome_select/awesome_select.dart';
-
 import '../choices.dart' as choices;
 
 class FeaturesModalConfirm extends StatefulWidget {
@@ -9,8 +8,8 @@ class FeaturesModalConfirm extends StatefulWidget {
 }
 
 class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
-  List<String>? _day = ['fri'];
-  List<String>? _fruit = ['mel'];
+  List<String> _day = ['fri'];
+  List<String> _fruit = ['mel'];
   String? _hero = 'iro';
 
   @override
@@ -21,14 +20,14 @@ class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
         SmartSelect<String>.multiple(
           title: 'Days',
           selectedValue: _day,
-          onChange: (selected) => setState(() => _day = selected?.value),
+          onChange: (selected) => setState(() => _day = selected.value),
           choiceItems: choices.days,
           modalType: S2ModalType.fullPage,
           modalConfirm: true,
           tileBuilder: (context, state) {
             return S2Tile<dynamic>(
               title: state.titleWidget,
-              value: state.selected?.toWidget() ?? Container(),
+              value: state.selected.toWidget(),
               onTap: state.showModal,
               isTwoLine: true,
               leading: const CircleAvatar(
@@ -43,7 +42,7 @@ class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
         SmartSelect<String>.multiple(
           title: 'Fruit',
           selectedValue: _fruit,
-          onChange: (selected) => setState(() => _fruit = selected?.value),
+          onChange: (selected) => setState(() => _fruit = selected.value),
           choiceItems: choices.fruits,
           modalType: S2ModalType.popupDialog,
           modalConfirm: true,
@@ -79,15 +78,19 @@ class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
               child: Row(
                 children: <Widget>[
                   const Spacer(),
-                  FlatButton(
+                  TextButton(
                     child: const Text('Cancel'),
                     onPressed: () => state.closeModal(confirmed: false),
                   ),
                   const SizedBox(width: 5),
-                  FlatButton(
+                  TextButton(
                     child: Text('OK (${state.selection?.length ?? 0})'),
-                    color: Theme.of(context).primaryColor,
-                    textColor: Colors.white,
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          Theme.of(context).primaryColor),
+                      textStyle: MaterialStateProperty.all<TextStyle>(
+                          TextStyle(color: Colors.white)),
+                    ),
                     onPressed: (state.selection?.isValid ?? true)
                         ? () => state.closeModal(confirmed: true)
                         : null,
@@ -130,10 +133,14 @@ class _FeaturesModalConfirmState extends State<FeaturesModalConfirm> {
             return Center(
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-                child: FlatButton(
+                child: TextButton(
                   child: const Text('Send'),
-                  color: Colors.redAccent,
-                  textColor: Colors.white,
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Colors.redAccent),
+                    textStyle: MaterialStateProperty.all<TextStyle>(
+                        TextStyle(color: Colors.white)),
+                  ),
                   onPressed: () => state.closeModal(confirmed: true),
                 ),
               ),

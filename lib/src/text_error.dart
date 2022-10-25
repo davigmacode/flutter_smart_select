@@ -52,7 +52,7 @@ class S2TextError extends StatefulWidget {
   final S2TextErrorController? controller;
 
   /// Default constructor
-  S2TextError({
+  const S2TextError({
     Key? key,
     this.child,
     this.visibled,
@@ -60,10 +60,10 @@ class S2TextError extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _S2TextErrorState createState() => _S2TextErrorState();
+  S2TextErrorState createState() => S2TextErrorState();
 }
 
-class _S2TextErrorState extends State<S2TextError> {
+class S2TextErrorState extends State<S2TextError> {
   /// Listenable that control the flow of [S2TextError] widget
   S2TextErrorController? controller;
 
@@ -96,7 +96,7 @@ class _S2TextErrorState extends State<S2TextError> {
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       initController(widget.controller);
     });
   }
@@ -119,7 +119,7 @@ class _S2TextErrorState extends State<S2TextError> {
   @override
   Widget build(BuildContext context) {
     return AnimatedCrossFade(
-      firstChild: Container(height: 0.0, width: 0.0),
+      firstChild: const SizedBox(height: 0.0, width: 0.0),
       secondChild: controller?.shaked == true ? shakedChild : widget.child!,
       duration: const Duration(milliseconds: 300),
       firstCurve: const Interval(0.0, 0.6, curve: Curves.fastOutSlowIn),
@@ -134,21 +134,21 @@ class _S2TextErrorState extends State<S2TextError> {
   /// Returns the shaked child widget
   Widget get shakedChild {
     return TweenAnimationBuilder<double>(
-      child: widget.child,
       tween: Tween(begin: 0.0, end: 1.0),
       duration: const Duration(milliseconds: 600),
       onEnd: () {
         controller!.shake(false);
       },
       builder: (context, animation, child) {
-        final Curve curve = Curves.elasticOut;
-        final double delta = 15;
-        final double pos = 2 * (0.5 - (0.5 - curve.transform(animation)).abs());
+        const curve = Curves.elasticOut;
+        const delta = 15;
+        final pos = 2 * (0.5 - (0.5 - curve.transform(animation)).abs());
         return Transform.translate(
           offset: Offset(delta * pos, 0),
           child: child,
         );
       },
+      child: widget.child,
     );
   }
 }

@@ -78,18 +78,8 @@ List<Map<String, String>> cars = [
   {'value': 'bmw-x7', 'title': 'BMW X7', 'brand': 'BMW', 'body': 'SUV'},
   {'value': 'bmw-x2', 'title': 'BMW X2', 'brand': 'BMW', 'body': 'SUV'},
   {'value': 'bmw-x4', 'title': 'BMW X4', 'brand': 'BMW', 'body': 'SUV'},
-  {
-    'value': 'honda-crv',
-    'title': 'Honda C-RV',
-    'brand': 'Honda',
-    'body': 'SUV'
-  },
-  {
-    'value': 'honda-hrv',
-    'title': 'Honda H-RV',
-    'brand': 'Honda',
-    'body': 'SUV'
-  },
+  {'value': 'honda-crv', 'title': 'Honda C-RV', 'brand': 'Honda', 'body': 'SUV'},
+  {'value': 'honda-hrv', 'title': 'Honda H-RV', 'brand': 'Honda', 'body': 'SUV'},
   {
     'value': 'mercedes-gcl',
     'title': 'Mercedes-Benz G-class',
@@ -126,18 +116,8 @@ List<Map<String, String>> cars = [
     'brand': 'Land Rover',
     'body': 'SUV'
   },
-  {
-    'value': 'honda-jazz',
-    'title': 'Honda Jazz',
-    'brand': 'Honda',
-    'body': 'Hatchback'
-  },
-  {
-    'value': 'honda-civic',
-    'title': 'Honda Civic',
-    'brand': 'Honda',
-    'body': 'Hatchback'
-  },
+  {'value': 'honda-jazz', 'title': 'Honda Jazz', 'brand': 'Honda', 'body': 'Hatchback'},
+  {'value': 'honda-civic', 'title': 'Honda Civic', 'brand': 'Honda', 'body': 'Hatchback'},
   {
     'value': 'mercedes-ac',
     'title': 'Mercedes-Benz A-class',
@@ -169,12 +149,7 @@ List<Map<String, String>> cars = [
     'brand': 'BMW',
     'body': 'Hatchback'
   },
-  {
-    'value': 'bmw-sgt',
-    'title': 'BMW 6-serie GT',
-    'brand': 'BMW',
-    'body': 'Hatchback'
-  },
+  {'value': 'bmw-sgt', 'title': 'BMW 6-serie GT', 'brand': 'BMW', 'body': 'Hatchback'},
   {
     'value': 'audi-a5s',
     'title': 'Audi A5 Sportback',
@@ -187,18 +162,8 @@ List<Map<String, String>> cars = [
     'brand': 'Audi',
     'body': 'Hatchback'
   },
-  {
-    'value': 'audi-ttc',
-    'title': 'Audi TT Coupe',
-    'brand': 'Audi',
-    'body': 'Coupe'
-  },
-  {
-    'value': 'audi-r8c',
-    'title': 'Audi R8 Coupe',
-    'brand': 'Audi',
-    'body': 'Coupe'
-  },
+  {'value': 'audi-ttc', 'title': 'Audi TT Coupe', 'brand': 'Audi', 'body': 'Coupe'},
+  {'value': 'audi-r8c', 'title': 'Audi R8 Coupe', 'brand': 'Audi', 'body': 'Coupe'},
   {
     'value': 'mclaren-570gt',
     'title': 'Mclaren 570GT',
@@ -211,12 +176,7 @@ List<Map<String, String>> cars = [
     'brand': 'Mclaren',
     'body': 'Coupe'
   },
-  {
-    'value': 'mclaren-720s',
-    'title': 'Mclaren 720S',
-    'brand': 'Mclaren',
-    'body': 'Coupe'
-  },
+  {'value': 'mclaren-720s', 'title': 'Mclaren 720S', 'brand': 'Mclaren', 'body': 'Coupe'},
 ];
 
 List<Map<String, String>> smartphones = [
@@ -226,96 +186,26 @@ List<Map<String, String>> smartphones = [
     'brand': 'Samsung',
     'category': 'Budget Phone'
   },
-  {
-    'id': 'n106',
-    'name': 'Nokia 106',
-    'brand': 'Nokia',
-    'category': 'Budget Phone'
-  },
-  {
-    'id': 'n150',
-    'name': 'Nokia 150',
-    'brand': 'Nokia',
-    'category': 'Budget Phone'
-  },
-  {
-    'id': 'r7a',
-    'name': 'Redmi 7A',
-    'brand': 'Xiaomi',
-    'category': 'Mid End Phone'
-  },
-  {
-    'id': 'ga10s',
-    'name': 'Galaxy A10s',
-    'brand': 'Samsung',
-    'category': 'Mid End Phone'
-  },
-  {
-    'id': 'rn7',
-    'name': 'Redmi Note 7',
-    'brand': 'Xiaomi',
-    'category': 'Mid End Phone'
-  },
-  {
-    'id': 'ga20s',
-    'name': 'Galaxy A20s',
-    'brand': 'Samsung',
-    'category': 'Mid End Phone'
-  },
-  {
-    'id': 'mc9',
-    'name': 'Meizu C9',
-    'brand': 'Meizu',
-    'category': 'Mid End Phone'
-  },
-  {
-    'id': 'm6',
-    'name': 'Meizu M6',
-    'brand': 'Meizu',
-    'category': 'Mid End Phone'
-  },
+  {'id': 'n106', 'name': 'Nokia 106', 'brand': 'Nokia', 'category': 'Budget Phone'},
+  {'id': 'n150', 'name': 'Nokia 150', 'brand': 'Nokia', 'category': 'Budget Phone'},
+  {'id': 'r7a', 'name': 'Redmi 7A', 'brand': 'Xiaomi', 'category': 'Mid End Phone'},
+  {'id': 'ga10s', 'name': 'Galaxy A10s', 'brand': 'Samsung', 'category': 'Mid End Phone'},
+  {'id': 'rn7', 'name': 'Redmi Note 7', 'brand': 'Xiaomi', 'category': 'Mid End Phone'},
+  {'id': 'ga20s', 'name': 'Galaxy A20s', 'brand': 'Samsung', 'category': 'Mid End Phone'},
+  {'id': 'mc9', 'name': 'Meizu C9', 'brand': 'Meizu', 'category': 'Mid End Phone'},
+  {'id': 'm6', 'name': 'Meizu M6', 'brand': 'Meizu', 'category': 'Mid End Phone'},
   {
     'id': 'ga2c',
     'name': 'Galaxy A2 Core',
     'brand': 'Samsung',
     'category': 'Mid End Phone'
   },
-  {
-    'id': 'r6a',
-    'name': 'Redmi 6A',
-    'brand': 'Xiaomi',
-    'category': 'Mid End Phone'
-  },
-  {
-    'id': 'r5p',
-    'name': 'Redmi 5 Plus',
-    'brand': 'Xiaomi',
-    'category': 'Mid End Phone'
-  },
-  {
-    'id': 'ga70',
-    'name': 'Galaxy A70',
-    'brand': 'Samsung',
-    'category': 'Mid End Phone'
-  },
-  {
-    'id': 'ai11',
-    'name': 'iPhone 11 Pro',
-    'brand': 'Apple',
-    'category': 'Flagship Phone'
-  },
-  {
-    'id': 'aixr',
-    'name': 'iPhone XR',
-    'brand': 'Apple',
-    'category': 'Flagship Phone'
-  },
-  {
-    'id': 'aixs',
-    'name': 'iPhone XS',
-    'brand': 'Apple',
-    'category': 'Flagship Phone'
-  },
+  {'id': 'r6a', 'name': 'Redmi 6A', 'brand': 'Xiaomi', 'category': 'Mid End Phone'},
+  {'id': 'r5p', 'name': 'Redmi 5 Plus', 'brand': 'Xiaomi', 'category': 'Mid End Phone'},
+  {'id': 'ga70', 'name': 'Galaxy A70', 'brand': 'Samsung', 'category': 'Mid End Phone'},
+  {'id': 'ai11', 'name': 'iPhone 11 Pro', 'brand': 'Apple', 'category': 'Flagship Phone'},
+  {'id': 'aixr', 'name': 'iPhone XR', 'brand': 'Apple', 'category': 'Flagship Phone'},
+  {'id': 'aixs', 'name': 'iPhone XS', 'brand': 'Apple', 'category': 'Flagship Phone'},
   {
     'id': 'aixsm',
     'name': 'iPhone XS Max',
@@ -328,18 +218,8 @@ List<Map<String, String>> smartphones = [
     'brand': 'Huawei',
     'category': 'Flagship Phone'
   },
-  {
-    'id': 'ofx',
-    'name': 'Oppo Find X',
-    'brand': 'Oppo',
-    'category': 'Flagship Phone'
-  },
-  {
-    'id': 'gs10',
-    'name': 'Galaxy S10+',
-    'brand': 'Samsung',
-    'category': 'Flagship Phone'
-  },
+  {'id': 'ofx', 'name': 'Oppo Find X', 'brand': 'Oppo', 'category': 'Flagship Phone'},
+  {'id': 'gs10', 'name': 'Galaxy S10+', 'brand': 'Samsung', 'category': 'Flagship Phone'},
 ];
 
 List<Map<String, String>> transports = [

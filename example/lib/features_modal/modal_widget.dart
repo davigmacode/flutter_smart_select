@@ -8,7 +8,7 @@ class FeaturesModalWidget extends StatefulWidget {
 
 class _FeaturesModalWidgetState extends State<FeaturesModalWidget> {
   int? _question1;
-  List<int>? _question2;
+  List<int> _question2 = [];
 
   List<String> _options1 = [
     'Very Satisfied',
@@ -35,7 +35,7 @@ class _FeaturesModalWidgetState extends State<FeaturesModalWidget> {
         const SizedBox(height: 7),
         SmartSelect<int?>.single(
           title:
-              'Overall, how satisfied are you with flutter_awesome_select package?',
+              'Overall, how satisfied are you with awesome_select package?',
           selectedValue: _question1,
           onChange: (selected) {
             setState(() => _question1 = selected.value);
@@ -92,10 +92,10 @@ class _FeaturesModalWidgetState extends State<FeaturesModalWidget> {
         ),
         SmartSelect<int>.multiple(
           title:
-              'Which of following words would you use to describe flutter_awesome_select?',
+              'Which of following words would you use to describe awesome_select?',
           selectedValue: _question2,
           onChange: (selected) {
-            setState(() => _question2 = selected?.value);
+            setState(() => _question2 = selected.value);
           },
           choiceItems: S2Choice.listFrom<int, String>(
             source: _options2,
@@ -132,10 +132,14 @@ class _FeaturesModalWidgetState extends State<FeaturesModalWidget> {
               padding: const EdgeInsets.fromLTRB(25, 5, 25, 15),
               child: ButtonTheme(
                 minWidth: double.infinity,
-                child: FlatButton(
+                child: TextButton(
                   child: Text('Submit (${state.selection?.length})'),
-                  color: Theme.of(context).primaryColor,
-                  textColor: Colors.white,
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                        Theme.of(context).primaryColor),
+                    textStyle: MaterialStateProperty.all<TextStyle>(
+                        TextStyle(color: Colors.white)),
+                  ),
                   onPressed: (state.selection?.isValid ?? true)
                       ? () => state.closeModal(confirmed: true)
                       : null,
@@ -168,9 +172,9 @@ class _FeaturesModalWidgetState extends State<FeaturesModalWidget> {
                     ),
                   ),
                   body: S2TileChips(
-                    chipLength: state.selected?.length ?? 0,
+                    chipLength: state.selected.length,
                     chipLabelBuilder: (context, i) {
-                      return Text(state.selected?.choice?[i].title ?? '');
+                      return Text(state.selected.choice?[i].title ?? '');
                     },
                     chipColor: Theme.of(context).primaryColor,
                     chipRaised: true,

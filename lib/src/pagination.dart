@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 /// Widget that wraps the child with refresher and/or pagination
 class S2Pagination extends StatelessWidget {
   /// Default constructor
-  S2Pagination({
+  const S2Pagination({
     Key? key,
     this.child,
     this.onReload,

@@ -18,7 +18,7 @@ class S2ChoicesList<T> extends StatelessWidget {
   final S2ChoiceConfig config;
 
   /// Default constructor
-  S2ChoicesList({
+  const S2ChoicesList({
     Key? key,
     required this.itemLength,
     required this.itemBuilder,
