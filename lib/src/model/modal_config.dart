@@ -21,6 +21,9 @@ class S2ModalConfig with Diagnosticable {
   /// Modal type to display choices
   final S2ModalType type;
 
+  /// set optional width and height constraints on size of pop up form
+  final BoxConstraints? popupConstraints;
+
   /// Use different title with the trigger widget title
   final String? title;
 
@@ -100,6 +103,7 @@ class S2ModalConfig with Diagnosticable {
     this.barrierColor,
     this.style = const S2ModalStyle(),
     this.headerStyle = const S2ModalHeaderStyle(),
+    this.popupConstraints,
   }) : assert(maxHeightFactor > 0 && maxHeightFactor <= 1);
 
   /// Returns true if the modal type is full page
@@ -139,6 +143,7 @@ class S2ModalConfig with Diagnosticable {
     Color? barrierColor,
     S2ModalStyle? style,
     S2ModalHeaderStyle? headerStyle,
+    BoxConstraints? popupConstraints,
   }) {
     return S2ModalConfig(
       type: type ?? this.type,
@@ -159,6 +164,7 @@ class S2ModalConfig with Diagnosticable {
       barrierDismissible: barrierDismissible ?? this.barrierDismissible,
       barrierColor: barrierColor ?? this.barrierColor,
       style: style == null ? this.style : this.style.merge(style),
+      popupConstraints: popupConstraints ?? this.popupConstraints,
       headerStyle: headerStyle == null
           ? this.headerStyle
           : this.headerStyle.merge(headerStyle),
@@ -191,6 +197,7 @@ class S2ModalConfig with Diagnosticable {
       barrierColor: other.barrierColor,
       style: other.style,
       headerStyle: other.headerStyle,
+      popupConstraints: other.popupConstraints,
     );
   }
 }

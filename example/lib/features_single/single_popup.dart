@@ -31,6 +31,21 @@ class _FeaturesSinglePopupState extends State<FeaturesSinglePopup> {
         ),
         const Divider(indent: 20),
         SmartSelect<String?>.single(
+          title: 'Fruit with constrained size',
+          selectedValue: _fruit,
+          choiceItems: choices.fruits,
+          onChange: (selected) => setState(() => _fruit = selected.value),
+          modalConfig: S2ModalConfig(popupConstraints: BoxConstraints(maxWidth: 200.0)),
+          modalType: S2ModalType.popupDialog,
+          tileBuilder: (context, state) {
+            return S2Tile.fromState(
+              state,
+              leading: const Icon(Icons.shopping_cart),
+            );
+          },
+        ),
+        const Divider(indent: 20),
+        SmartSelect<String?>.single(
           title: 'Frameworks',
           selectedValue: _framework,
           choiceItems: choices.frameworks,

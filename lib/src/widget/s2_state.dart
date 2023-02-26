@@ -749,7 +749,7 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
             clipBehavior: modalStyle.clipBehavior ?? Clip.antiAlias,
             backgroundColor: modalStyle.backgroundColor,
             elevation: modalStyle.elevation,
-            child: modal,
+            child: modalConfig.popupConstraints != null ? ConstrainedBox(constraints: modalConfig.popupConstraints!, child: modal) : modal,
           ),
         ));
         break;
