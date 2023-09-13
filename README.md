@@ -2,6 +2,18 @@
 
 <a href="https://www.buymeacoffee.com/davigmacode" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" width="195" height="55"></a>
 
+> [!IMPORTANT]
+>
+> Hi everyone,
+>
+> I'm sorry to announce that I'm no longer maintaining the [smart_select](https://pub.dev/packages/smart_select) package. It's been a great project, but it's become too difficult to maintain.
+>
+> In its place, I've released a new package called [choice](https://pub.dev/packages/choice). The combination to [smart_select](https://pub.dev/packages/smart_select) and [chips_choice](https://pub.dev/packages/chips_choice) with cleaner, more flexible, and composable API for creating inline or prompted choice widgets with single or multiple selection.
+>
+> I hope you'll check out [choice](https://pub.dev/packages/choice). I think you'll find it to be a great replacement for [smart_select](https://pub.dev/packages/smart_select).
+>
+> Thanks for your understanding.
+
 SmartSelect allows you to easily convert your usual form select or dropdown into dynamic page, popup dialog, or sliding bottom sheet with various choices input such as radio, checkbox, switch, chips, or even custom input. Supports single and multiple choice. Inspired by Smart Select component from [Framework7](https://framework7.io/).
 
 ## What's New in Version 4.x.x
