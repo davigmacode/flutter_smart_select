@@ -22,7 +22,7 @@ class S2ModalConfig with Diagnosticable {
   final S2ModalType type;
 
   /// Use different title with the trigger widget title
-  final String title;
+  final String? title;
 
   /// Whether the options list modal use header or not
   final bool useHeader;
@@ -32,16 +32,16 @@ class S2ModalConfig with Diagnosticable {
   final bool useConfirm;
 
   /// custom confirmation icon
-  final Icon confirmIcon;
+  final Icon? confirmIcon;
 
   /// custom confirmation label
-  final Widget confirmLabel;
+  final Widget? confirmLabel;
 
   /// custom confirmation color
-  final Color confirmColor;
+  final Color? confirmColor;
 
   /// custom confirmation padding
-  final EdgeInsetsGeometry confirmMargin;
+  final EdgeInsetsGeometry? confirmMargin;
 
   /// custom confirmation brightness
   final Brightness confirmBrightness;
@@ -50,7 +50,7 @@ class S2ModalConfig with Diagnosticable {
   final bool useFilter;
 
   /// Custom searchbar hint
-  final String filterHint;
+  final String? filterHint;
 
   /// Whether the filter is autocomplete or need confirmation
   final bool filterAuto;
@@ -71,7 +71,7 @@ class S2ModalConfig with Diagnosticable {
   /// The [barrierColor] argument is used to specify the color of the modal
   /// barrier that darkens everything the dialog. If `null` the default color
   /// `Colors.black54` is used.
-  final Color barrierColor;
+  final Color? barrierColor;
 
   /// Configure modal style
   final S2ModalStyle style;
@@ -130,25 +130,25 @@ class S2ModalConfig with Diagnosticable {
   /// Creates a copy of this [S2ModalConfig] but with
   /// the given fields replaced with the new values.
   S2ModalConfig copyWith({
-    S2ModalType type,
-    String title,
-    bool useHeader,
-    bool useConfirm,
-    Icon confirmIcon,
-    Widget confirmLabel,
-    Color confirmColor,
-    EdgeInsetsGeometry confirmMargin,
-    Brightness confirmBrightness,
-    bool useFilter,
-    bool filterAuto,
-    Duration filterDelay,
-    String filterHint,
-    double maxHeightFactor,
-    bool enableDrag,
-    bool barrierDismissible,
-    Color barrierColor,
-    S2ModalStyle style,
-    S2ModalHeaderStyle headerStyle,
+    S2ModalType? type,
+    String? title,
+    bool? useHeader,
+    bool? useConfirm,
+    Icon? confirmIcon,
+    Widget? confirmLabel,
+    Color? confirmColor,
+    EdgeInsetsGeometry? confirmMargin,
+    Brightness? confirmBrightness,
+    bool? useFilter,
+    bool? filterAuto,
+    Duration? filterDelay,
+    String? filterHint,
+    double? maxHeightFactor,
+    bool? enableDrag,
+    bool? barrierDismissible,
+    Color? barrierColor,
+    S2ModalStyle? style,
+    S2ModalHeaderStyle? headerStyle,
   }) {
     return S2ModalConfig(
       type: type ?? this.type,
@@ -168,14 +168,14 @@ class S2ModalConfig with Diagnosticable {
       enableDrag: enableDrag ?? this.enableDrag,
       barrierDismissible: barrierDismissible ?? this.barrierDismissible,
       barrierColor: barrierColor ?? this.barrierColor,
-      style: this.style?.merge(style) ?? style,
-      headerStyle: this.headerStyle?.merge(headerStyle) ?? headerStyle,
+      style: this.style?.merge(style) ?? style!,
+      headerStyle: this.headerStyle?.merge(headerStyle) ?? headerStyle!,
     );
   }
 
   /// Returns a new [S2ModalConfig] that is
   /// a combination of this object and the given [other] style.
-  S2ModalConfig merge(S2ModalConfig other) {
+  S2ModalConfig merge(S2ModalConfig? other) {
     // if null return current object
     if (other == null) return this;
 

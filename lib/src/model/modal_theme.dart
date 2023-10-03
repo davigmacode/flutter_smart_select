@@ -7,17 +7,17 @@ import 'dart:ui';
 class S2ModalStyle with Diagnosticable {
   /// Modal border shape
   /// used in popup dialog and bottom sheet
-  final ShapeBorder shape;
+  final ShapeBorder? shape;
 
   /// Modal elevation
   /// used in popup dialog and bottom sheet
-  final double elevation;
+  final double? elevation;
 
   /// Modal background color
-  final Color backgroundColor;
+  final Color? backgroundColor;
 
   /// Modal clip behavior
-  final Clip clipBehavior;
+  final Clip? clipBehavior;
 
   /// Create a configuration of modal style
   const S2ModalStyle({
@@ -30,10 +30,10 @@ class S2ModalStyle with Diagnosticable {
   /// Creates a copy of this [S2ModalStyle] but with
   /// the given fields replaced with the new values.
   S2ModalStyle copyWith({
-    ShapeBorder shape,
-    double elevation,
-    Color backgroundColor,
-    Clip clipBehavior,
+    ShapeBorder? shape,
+    double? elevation,
+    Color? backgroundColor,
+    Clip? clipBehavior,
   }) {
     return S2ModalStyle(
       shape: shape ?? this.shape,
@@ -45,7 +45,7 @@ class S2ModalStyle with Diagnosticable {
 
   /// Returns a new [S2ModalStyle] that is
   /// a combination of this object and the given [other] style.
-  S2ModalStyle merge(S2ModalStyle other) {
+  S2ModalStyle merge(S2ModalStyle? other) {
     // if null return current object
     if (other == null) return this;
 
@@ -62,35 +62,35 @@ class S2ModalStyle with Diagnosticable {
 @immutable
 class S2ModalHeaderStyle with Diagnosticable {
   /// Header border shape
-  final ShapeBorder shape;
+  final ShapeBorder? shape;
 
   /// Header elevation
   final double elevation;
 
   /// Header background color
-  final Color backgroundColor;
+  final Color? backgroundColor;
 
   /// Header brightness
-  final Brightness brightness;
+  final Brightness? brightness;
 
   /// Whether the header title is centered
   final bool centerTitle;
 
   /// Whether the [automaticallyImplyLeading] is [true] or [false]
-  final bool useLeading;
+  final bool? useLeading;
 
   /// Header text style
   /// used by title and search field
-  final TextStyle textStyle;
+  final TextStyle? textStyle;
 
   /// Error text style
-  final TextStyle errorStyle;
+  final TextStyle? errorStyle;
 
   /// Header icon theme
-  final IconThemeData iconTheme;
+  final IconThemeData? iconTheme;
 
   /// Header actions icon theme
-  final IconThemeData actionsIconTheme;
+  final IconThemeData? actionsIconTheme;
 
   /// Create a configuration of modal option header style
   const S2ModalHeaderStyle({
@@ -110,16 +110,16 @@ class S2ModalHeaderStyle with Diagnosticable {
   /// Creates a copy of this [S2ModalHeaderStyle] but with
   /// the given fields replaced with the new values.
   S2ModalHeaderStyle copyWith({
-    ShapeBorder shape,
-    double elevation,
-    Color backgroundColor,
-    Brightness brightness,
-    bool useLeading,
-    bool centerTitle,
-    TextStyle textStyle,
-    TextStyle errorStyle,
-    IconThemeData iconTheme,
-    IconThemeData actionsIconTheme,
+    ShapeBorder? shape,
+    double? elevation,
+    Color? backgroundColor,
+    Brightness? brightness,
+    bool? useLeading,
+    bool? centerTitle,
+    TextStyle? textStyle,
+    TextStyle? errorStyle,
+    IconThemeData? iconTheme,
+    IconThemeData? actionsIconTheme,
   }) {
     return S2ModalHeaderStyle(
       shape: shape ?? this.shape,
@@ -138,7 +138,7 @@ class S2ModalHeaderStyle with Diagnosticable {
 
   /// Returns a new [S2ModalHeaderStyle] that is
   /// a combination of this object and the given [other] style.
-  S2ModalHeaderStyle merge(S2ModalHeaderStyle other) {
+  S2ModalHeaderStyle merge(S2ModalHeaderStyle? other) {
     // if null return current object
     if (other == null) return this;
 

@@ -4,15 +4,15 @@ import 'package:flutter/material.dart';
 class S2ChipTheme extends StatelessWidget {
   /// Default constructor
   S2ChipTheme({
-    Key key,
-    @required this.child,
+    Key? key,
+    required this.child,
     this.color,
     this.outlined = false,
     this.raised = false,
     this.elevation = 1,
     this.opacity,
     this.shape,
-    this.labelStyle,
+    required this.labelStyle,
     this.selected = false,
   }) : super(key: key);
 
@@ -20,24 +20,24 @@ class S2ChipTheme extends StatelessWidget {
   final Widget child;
 
   /// The primary color of the chip item
-  final Color color;
+  final Color? color;
 
   /// Whether the chip is outlined or not
-  final bool outlined;
+  final bool? outlined;
 
   /// Whether the chip is raised or not
-  final bool raised;
+  final bool? raised;
 
   /// If [raised] is [true], define the elevation of the raised chip widget
-  final double elevation;
+  final double? elevation;
 
   /// If [outlined] is [true] this value becomes the border opacity, defaults to `0.3`
   ///
   /// If [outlined] is [false] this value becomes the background opacity, defaults to `0.12`
-  final double opacity;
+  final double? opacity;
 
   /// Shape of the chip widget
-  final ShapeBorder shape;
+  final ShapeBorder? shape;
 
   /// The [TextStyle] of the chip label
   final TextStyle labelStyle;
@@ -58,16 +58,14 @@ class S2ChipTheme extends StatelessWidget {
     final Brightness brightness = Theme.of(context).brightness;
     final bool isDark = brightness == Brightness.dark;
 
-    final Color primaryColor = color ??
-        (!isDark
-            ? Theme.of(context).unselectedWidgetColor
-            : ChipTheme.of(context).backgroundColor);
-    final Color backgroundColor = raised == true
+    final Color? primaryColor =
+        color ?? (!isDark ? Theme.of(context).unselectedWidgetColor : ChipTheme.of(context).backgroundColor);
+    final Color? backgroundColor = raised == true
         ? primaryColor
         : outlined == true
             ? Colors.transparent
-            : primaryColor.withOpacity(opacity ?? backgroundAlpha);
-    final Color disabledColor = primaryColor.withAlpha(disabledAlpha);
+            : primaryColor?.withOpacity(opacity ?? backgroundAlpha);
+    final Color disabledColor = primaryColor!.withAlpha(disabledAlpha);
 
     final Color secondaryColor = color ?? Theme.of(context).primaryColor;
     final Color selectedColor = raised == true
@@ -82,18 +80,28 @@ class S2ChipTheme extends StatelessWidget {
             ? secondaryColor.withAlpha(foregroundAlpha)
             : primaryColor.withAlpha(foregroundAlpha);
 
-    final TextStyle defaultLabelStyle = ChipTheme.of(context).labelStyle;
-    final TextStyle primaryLabelStyle =
-        defaultLabelStyle.merge(labelStyle).copyWith(color: foregroundColor);
+    //final TextStyle defaultLabelStyle = ChipTheme.of(context).labelStyle;
+    //final TextStyle primaryLabelStyle = defaultLabelStyle.merge(labelStyle).copyWith(color: foregroundColor);
+    final TextStyle defaultLabelStyle = TextStyle(
+      fontFamily: 'Helvetica Neue',
+      fontStyle: FontStyle.normal,
+      fontWeight: FontWeight.w400,
+      color: Colors.black,
+      fontSize: 14,
+    );
+    final TextStyle primaryLabelStyle = TextStyle(
+      fontFamily: 'Helvetica Neue',
+      fontStyle: FontStyle.normal,
+      fontWeight: FontWeight.w400,
+      color: Colors.black,
+      fontSize: 14,
+    );
     final TextStyle selectedLabelStyle = defaultLabelStyle
         .merge(labelStyle)
-        .copyWith(
-            color: raised == true
-                ? Colors.white
-                : secondaryColor.withAlpha(foregroundAlpha));
+        .copyWith(color: raised == true ? Colors.white : secondaryColor.withAlpha(foregroundAlpha));
 
-    final ShapeBorder chipShapeRaised = raised == true ? StadiumBorder() : null;
-    final ShapeBorder chipShapeOutlined = outlined == true
+    final ShapeBorder? chipShapeRaised = raised == true ? StadiumBorder() : null;
+    final ShapeBorder? chipShapeOutlined = outlined == true
         ? StadiumBorder(
             side: BorderSide(
               color: selected == true
@@ -114,7 +122,10 @@ class S2ChipTheme extends StatelessWidget {
         disabledColor: disabledColor,
         selectedColor: selectedColor,
         secondarySelectedColor: selectedColor,
-        shape: shape ?? chipShapeRaised ?? chipShapeOutlined ?? StadiumBorder(),
+        shape: shape as OutlinedBorder? ??
+            chipShapeRaised as OutlinedBorder? ??
+            chipShapeOutlined as OutlinedBorder? ??
+            StadiumBorder(),
         labelStyle: primaryLabelStyle,
         secondaryLabelStyle: selectedLabelStyle,
         elevation: raised == true ? elevation : 0,

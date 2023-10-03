@@ -5,11 +5,11 @@ typedef Future<List<S2Choice<T>>> S2ChoiceLoader<T>(S2ChoiceLoaderInfo<T> info);
 
 @immutable
 class S2ChoiceLoaderInfo<T> with Diagnosticable {
-  final List<T> values;
-  final String query;
-  final int page;
-  final int skip;
-  final int limit;
+  final List<T>? values;
+  final String? query;
+  final int? page;
+  final int? skip;
+  final int? limit;
 
   S2ChoiceLoaderInfo({
     this.values,
@@ -22,11 +22,11 @@ class S2ChoiceLoaderInfo<T> with Diagnosticable {
   /// Creates a copy of this [S2ChoiceLoaderInfo] but with
   /// the given fields replaced with the new values.
   S2ChoiceLoaderInfo<T> copyWith({
-    List<T> values,
-    String query,
-    int page,
-    int skip,
-    int limit,
+    List<T>? values,
+    String? query,
+    int? page,
+    int? skip,
+    int? limit,
   }) {
     return S2ChoiceLoaderInfo<T>(
       values: values ?? this.values,

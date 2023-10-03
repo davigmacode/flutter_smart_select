@@ -7,25 +7,25 @@ import 'dart:ui';
 @immutable
 class S2GroupHeaderStyle with Diagnosticable {
   /// Group header background color
-  final Color backgroundColor;
+  final Color? backgroundColor;
 
   /// Highlight color
-  final Color highlightColor;
+  final Color? highlightColor;
 
   /// Group header text style
-  final TextStyle textStyle;
+  final TextStyle? textStyle;
 
   /// Group header padding
-  final EdgeInsetsGeometry padding;
+  final EdgeInsetsGeometry? padding;
 
   /// Group header height
   final double height;
 
   /// Group header cross axis alignment
-  final CrossAxisAlignment crossAxisAlignment;
+  final CrossAxisAlignment? crossAxisAlignment;
 
   /// Group header main axis alignment
-  final MainAxisAlignment mainAxisAlignment;
+  final MainAxisAlignment? mainAxisAlignment;
 
   /// Create a configuration of choices group header style
   const S2GroupHeaderStyle({
@@ -41,13 +41,13 @@ class S2GroupHeaderStyle with Diagnosticable {
   /// Creates a copy of this [S2GroupHeaderStyle] but with
   /// the given fields replaced with the new values.
   S2GroupHeaderStyle copyWith({
-    Color backgroundColor,
-    Color highlightColor,
-    TextStyle textStyle,
-    EdgeInsetsGeometry padding,
-    double height,
-    CrossAxisAlignment crossAxisAlignment,
-    MainAxisAlignment mainAxisAlignment,
+    Color? backgroundColor,
+    Color? highlightColor,
+    TextStyle? textStyle,
+    EdgeInsetsGeometry? padding,
+    double? height,
+    CrossAxisAlignment? crossAxisAlignment,
+    MainAxisAlignment? mainAxisAlignment,
   }) {
     return S2GroupHeaderStyle(
       backgroundColor: backgroundColor ?? this.backgroundColor,
@@ -62,7 +62,7 @@ class S2GroupHeaderStyle with Diagnosticable {
 
   /// Returns a new [S2GroupHeaderStyle] that is
   /// a combination of this object and the given [other] style.
-  S2GroupHeaderStyle merge(S2GroupHeaderStyle other) {
+  S2GroupHeaderStyle merge(S2GroupHeaderStyle? other) {
     // if null return current object
     if (other == null) return this;
 

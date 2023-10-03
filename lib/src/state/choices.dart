@@ -19,39 +19,38 @@ enum S2ChoicesTask {
 /// State of the choices data
 class S2Choices<T> extends ChangeNotifier {
   /// A function used to load choice items
-  final S2ChoiceLoader<T> loader;
+  final S2ChoiceLoader<T>? loader;
 
   /// The initial choice items
-  final List<S2Choice<T>> preload;
+  final List<S2Choice<T>>? preload;
 
   /// Delay
-  final Duration delay;
+  final Duration? delay;
 
   /// The choice items limit per page
-  final int limit;
+  final int? limit;
 
   /// Current page number
   int page = 1;
 
   /// Current choice items
-  List<S2Choice<T>> items;
+  List<S2Choice<T>>? items;
 
   /// Current status of this
-  S2ChoicesTask task;
+  S2ChoicesTask? task;
 
   /// Error message occurs while loading the choice items
-  Error error;
 
   /// Default constructor
   S2Choices({
-    List<S2Choice<T>> items,
+    List<S2Choice<T>>? items,
     this.loader,
     this.delay,
     this.limit,
   }) : this.preload = items;
 
   /// Returns values of the choice items
-  List<T> get values {
+  List<T>? get values {
     return items?.map((S2Choice<T> choice) => choice.value)?.toList();
   }
 
@@ -94,17 +93,17 @@ class S2Choices<T> extends ChangeNotifier {
   }
 
   /// Function to refresh the choice items
-  void reload({String query}) {
+  void reload({String? query}) {
     load(S2ChoicesTask.reload, query: query);
   }
 
   /// Function to add more items to choice items
-  void append({String query}) {
+  void append({String? query}) {
     load(S2ChoicesTask.append, query: query);
   }
 
   /// Function to load choice items
-  void load(S2ChoicesTask _task, {String query}) async {
+  void load(S2ChoicesTask _task, {String? query}) async {
     assert(_task != null);
 
     // skip the loader if the status busy
@@ -127,13 +126,12 @@ class S2Choices<T> extends ChangeNotifier {
         query: query,
       ));
       if (isAppending) {
-        items.addAll(choices);
+        items!.addAll(choices);
       } else {
         items = List.from(choices);
       }
     } catch (e) {
       if (isAppending) page--;
-      error = e;
     } finally {
       await Future.delayed(delay ?? const Duration(milliseconds: 300), () {
         task = null;
@@ -144,18 +142,13 @@ class S2Choices<T> extends ChangeNotifier {
 
   /// Returns a list of options
   Future<List<S2Choice<T>>> find(S2ChoiceLoaderInfo<T> info) async {
-    return isAsync
-        ? hide(await loader(info))
-        : filter(hide(preload), info.query);
+    return isAsync ? hide(await loader!(info)) : filter(hide(preload!), info.query);
   }
 
   /// Filter choice items by search text
-  List<S2Choice<T>> filter(List<S2Choice<T>> choices, String query) {
+  List<S2Choice<T>> filter(List<S2Choice<T>> choices, String? query) {
     return query != null
-        ? choices
-            .where((S2Choice<T> choice) => choice.contains(query))
-            .toList()
-            .cast<S2Choice<T>>()
+        ? choices.where((S2Choice<T> choice) => choice.contains(query)).toList().cast<S2Choice<T>>()
         : choices;
   }
 
@@ -165,7 +158,7 @@ class S2Choices<T> extends ChangeNotifier {
   }
 
   /// Returns a list of group
-  List<S2Group<T>> groupItems(S2GroupConfig config) {
+  List<S2Group<T>>? groupItems(S2GroupConfig config) {
     if (groupKeys?.isEmpty == true) return null;
 
     final List<S2Group<T>> groups = groupKeys
@@ -178,22 +171,18 @@ class S2Choices<T> extends ChangeNotifier {
         .cast<S2Group<T>>();
 
     // sort the list when the comparator is provided
-    if (config.sortBy != null) return groups..sort(config.sortBy.compare);
+    if (config.sortBy != null) return groups..sort(config.sortBy!.compare);
 
     return groups;
   }
 
   /// Returns a unique list of group keys
   List<String> get groupKeys {
-    return items
-        .map((S2Choice<T> choice) => choice.group)
-        .toSet()
-        .toList()
-        .cast<String>();
+    return items!.map((S2Choice<T> choice) => choice.group).toSet().toList().cast<String>();
   }
 
   /// Returns a list of group choice items
   List<S2Choice<T>> groupChoices(String key) {
-    return items.where((S2Choice<T> choice) => choice.group == key).toList();
+    return items!.where((S2Choice<T> choice) => choice.group == key).toList();
   }
 }

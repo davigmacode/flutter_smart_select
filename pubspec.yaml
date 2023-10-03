@@ -4,12 +4,13 @@ homepage: https://github.com/davigmacode/flutter_smart_select
 version: 4.3.2
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: '>=3.0.0 <4.0.0'
   flutter: ^1.17.1
 
 dependencies:
   flutter:
     sdk: flutter
+  collection: ^1.15.0-nullsafety.4
 
 dev_dependencies:
   flutter_test:

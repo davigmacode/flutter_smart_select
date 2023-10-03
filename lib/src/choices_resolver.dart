@@ -11,28 +11,28 @@ class S2ChoiceResolver<T> {
   final bool isMultiChoice;
 
   /// The choice type
-  final S2ChoiceType type;
+  final S2ChoiceType? type;
 
   /// Function to build the title widget
   final Widget Function(S2Choice<T>) titleBuilder;
 
   /// Function to build the subtitle widget
-  final Widget Function(S2Choice<T>) subtitleBuilder;
+  final Widget? Function(S2Choice<T>) subtitleBuilder;
 
   /// Function to build the secondary widget
-  final Widget Function(S2Choice<T>) secondaryBuilder;
+  final Widget? Function(S2Choice<T>) secondaryBuilder;
 
   /// Default constructor
   S2ChoiceResolver({
-    @required this.isMultiChoice,
-    @required this.type,
-    @required this.titleBuilder,
-    @required this.secondaryBuilder,
-    @required this.subtitleBuilder,
+    required this.isMultiChoice,
+    required this.type,
+    required this.titleBuilder,
+    required this.secondaryBuilder,
+    required this.subtitleBuilder,
   });
 
   /// Returns the correct builder based on choice type
-  S2WidgetBuilder<S2Choice<T>> get choiceBuilder {
+  S2WidgetBuilder<S2Choice<T>>? get choiceBuilder {
     return type == S2ChoiceType.checkboxes
         ? checkboxBuilder
         : type == S2ChoiceType.switches
@@ -48,7 +48,7 @@ class S2ChoiceResolver<T> {
 
   /// Returns the radio choice widget
   Widget radioBuilder(
-    BuildContext context,
+    BuildContext? context,
     S2Choice<T> choice,
   ) =>
       RadioListTile<T>(
@@ -56,18 +56,16 @@ class S2ChoiceResolver<T> {
         title: titleBuilder(choice),
         subtitle: subtitleBuilder(choice),
         secondary: secondaryBuilder(choice),
-        activeColor: choice.activeStyle.color,
-        controlAffinity: ListTileControlAffinity
-            .values[choice.effectiveStyle.control?.index ?? 2],
-        onChanged:
-            choice.disabled != true ? (val) => choice.select(true) : null,
+        activeColor: choice.activeStyle!.color,
+        controlAffinity: ListTileControlAffinity.values[choice.effectiveStyle!.control?.index ?? 2],
+        onChanged: choice.disabled != true ? (val) => choice.select!(true) : null,
         groupValue: choice.selected == true ? choice.value : null,
         value: choice.value,
       );
 
   /// Returns the switch choice widget
   Widget switchBuilder(
-    BuildContext context,
+    BuildContext? context,
     S2Choice<T> choice,
   ) =>
       SwitchListTile(
@@ -75,22 +73,19 @@ class S2ChoiceResolver<T> {
         title: titleBuilder(choice),
         subtitle: subtitleBuilder(choice),
         secondary: secondaryBuilder(choice),
-        activeColor: choice.activeStyle.accentColor ?? choice.activeStyle.color,
-        activeTrackColor: choice.activeStyle.color?.withAlpha(0x80),
-        inactiveThumbColor: choice.style.accentColor,
-        inactiveTrackColor: choice.style.color?.withAlpha(0x80),
-        contentPadding: choice.effectiveStyle.padding,
-        controlAffinity: ListTileControlAffinity
-            .values[choice.effectiveStyle.control?.index ?? 2],
-        onChanged: choice.disabled != true
-            ? (selected) => choice.select(selected)
-            : null,
+        activeColor: choice.activeStyle!.accentColor ?? choice.activeStyle!.color,
+        activeTrackColor: choice.activeStyle!.color?.withAlpha(0x80),
+        inactiveThumbColor: choice.style!.accentColor,
+        inactiveTrackColor: choice.style!.color?.withAlpha(0x80),
+        contentPadding: choice.effectiveStyle!.padding,
+        controlAffinity: ListTileControlAffinity.values[choice.effectiveStyle!.control?.index ?? 2],
+        onChanged: choice.disabled != true ? (selected) => choice.select!(selected) : null,
         value: choice.selected,
       );
 
   /// Returns the checkbox choice widget
   Widget checkboxBuilder(
-    BuildContext context,
+    BuildContext? context,
     S2Choice<T> choice,
   ) =>
       CheckboxListTile(
@@ -98,22 +93,19 @@ class S2ChoiceResolver<T> {
         title: titleBuilder(choice),
         subtitle: subtitleBuilder(choice),
         secondary: secondaryBuilder(choice),
-        activeColor: choice.activeStyle.color,
-        contentPadding: choice.effectiveStyle.padding,
-        controlAffinity: ListTileControlAffinity
-            .values[choice.effectiveStyle.control?.index ?? 2],
-        onChanged: choice.disabled != true
-            ? (selected) => choice.select(selected)
-            : null,
+        activeColor: choice.activeStyle!.color,
+        contentPadding: choice.effectiveStyle!.padding,
+        controlAffinity: ListTileControlAffinity.values[choice.effectiveStyle!.control?.index ?? 2],
+        onChanged: choice.disabled != true ? (selected) => choice.select!(selected) : null,
         value: choice.selected,
       );
 
   /// Returns the chip choice widget
   Widget chipBuilder(
-    BuildContext context,
+    BuildContext? context,
     S2Choice<T> choice,
   ) {
-    final S2ChoiceStyle effectiveStyle = choice.effectiveStyle;
+    final S2ChoiceStyle effectiveStyle = choice.effectiveStyle!;
 
     return S2ChipTheme(
       color: effectiveStyle.color,
@@ -122,19 +114,19 @@ class S2ChoiceResolver<T> {
       elevation: effectiveStyle.elevation,
       opacity: effectiveStyle.elevation,
       shape: effectiveStyle.shape,
-      labelStyle: effectiveStyle.titleStyle,
+      labelStyle: effectiveStyle.titleStyle!,
       selected: choice.selected,
       child: Padding(
-        padding: effectiveStyle?.margin ?? const EdgeInsets.all(0),
+        padding: effectiveStyle.margin ?? const EdgeInsets.all(0),
         child: RawChip(
           key: ValueKey(choice.value),
-          padding: effectiveStyle?.padding ?? const EdgeInsets.all(4),
+          padding: effectiveStyle.padding ?? const EdgeInsets.all(4),
           label: titleBuilder(choice),
           avatar: secondaryBuilder(choice),
-          clipBehavior: effectiveStyle?.clipBehavior ?? Clip.none,
-          showCheckmark: effectiveStyle?.showCheckmark ?? isMultiChoice,
+          clipBehavior: effectiveStyle.clipBehavior ?? Clip.none,
+          showCheckmark: effectiveStyle.showCheckmark ?? isMultiChoice,
           isEnabled: choice.disabled != true,
-          onSelected: (selected) => choice.select(selected),
+          onSelected: (selected) => choice.select!(selected),
           selected: choice.selected,
         ),
       ),
@@ -143,25 +135,23 @@ class S2ChoiceResolver<T> {
 
   /// Returns the card choice widget
   Widget cardBuilder(
-    BuildContext context,
+    BuildContext? context,
     S2Choice<T> choice,
   ) {
     final Color backgroundColor = choice.selected
-        ? choice.activeStyle.color ?? Theme.of(context).primaryColor
-        : choice.style.color ?? Theme.of(context).cardColor;
-    final Brightness backgroundBrightness =
-        ThemeData.estimateBrightnessForColor(backgroundColor);
-    final Color defaultTextColor =
-        backgroundBrightness == Brightness.dark ? Colors.white : Colors.black;
+        ? choice.activeStyle!.color ?? Theme.of(context!).primaryColor
+        : choice.style!.color ?? Theme.of(context!).cardColor;
+    final Brightness backgroundBrightness = ThemeData.estimateBrightnessForColor(backgroundColor);
+    final Color defaultTextColor = backgroundBrightness == Brightness.dark ? Colors.white : Colors.black;
 
     return Card(
-      elevation: choice.effectiveStyle.elevation,
-      margin: choice.effectiveStyle.margin ?? const EdgeInsets.all(5),
+      elevation: choice.effectiveStyle!.elevation,
+      margin: choice.effectiveStyle!.margin ?? const EdgeInsets.all(5),
       color: backgroundColor,
       child: InkWell(
-        onTap: () => choice.select(!choice.selected),
+        onTap: () => choice.select!(!choice.selected),
         child: Padding(
-          padding: choice.effectiveStyle.padding ?? const EdgeInsets.all(10),
+          padding: choice.effectiveStyle!.padding ?? const EdgeInsets.all(10),
           child: DefaultTextStyle.merge(
             textAlign: TextAlign.center,
             style: TextStyle(color: defaultTextColor),
@@ -169,11 +159,11 @@ class S2ChoiceResolver<T> {
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
+              children: (<Widget?>[
                 secondaryBuilder(choice),
-                SizedBox(height: choice.effectiveStyle.spacing ?? 10),
+                SizedBox(height: choice.effectiveStyle!.spacing ?? 10),
                 titleBuilder(choice),
-              ]..removeWhere((e) => e == null),
+              ]..removeWhere((e) => e == null)) as List<Widget>,
             ),
           ),
         ),
